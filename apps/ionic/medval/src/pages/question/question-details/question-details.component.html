@@ -1,0 +1,5 @@
+<h1 style="text-align: center;"> {{question?.text}}</h1>
+
+<p style="text-align: center;font-size: xx-large;" *ngIf="question.type == 'Rating'">
+  <rating [ratingValue]="question.answer" (ratingValueChange)="onSelection($event);" [max]="5"></rating>
+</p>

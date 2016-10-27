@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Account Setting</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-item *ngIf="message">
+      <ion-label text-center danger>{{message}}</ion-label>
+    </ion-item>
+    <ion-item>
+        <ion-label color="primary" floating>Company Name</ion-label>
+        <ion-input  [(ngModel)]="account.properties.customerName"></ion-input>
+    </ion-item>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col width-90>
+                <ion-label>Company Logo</ion-label>
+                <ion-card>
+                    <img class="logo" style="margin-left:20%"
+
+                      src="{{account.properties.logo}}">
+                    <ion-icon name="camera" style="margin-left:45%;height:25px" (click)="collectUrl()" > &nbsp; Edit</ion-icon>
+                </ion-card>
+                 <button icon-left block (click)="save();">Save</button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+</ion-content>

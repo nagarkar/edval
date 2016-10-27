@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Account</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="outer-content">
+    <ion-list>
+        <button ion-item (click)="openNavAccountPage()" icon-left>
+          <ion-icon  item-left></ion-icon>
+          Account Settings
+        </button>
+        <button ion-item (click)="gotoStaffPage()" icon-left>
+          <ion-icon  item-left></ion-icon>
+          Producer Information
+        </button>
+        <button ion-item (click)="openNavTermsPage()" icon-left>
+          <ion-icon  item-left></ion-icon>
+          Terms Of Use
+        </button>
+        <button ion-item (click)="openNavPrivacyPage()" icon-left>
+          <ion-icon  item-left></ion-icon>
+          Privacy Policy
+        </button>
+    </ion-list>
+   <button ion-button full outline (click)="logout()" >SignOut</button>
+</ion-content>

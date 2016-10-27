@@ -1,0 +1,25 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title style="float:left;">Questions</ion-title>
+		<ion-icon name="settings" style="float:right;width:40px;padding:5px" (click)="gotoLogin()"></ion-icon>
+	</ion-navbar>
+</ion-header>
+<ion-content>
+	<ion-grid>
+		<ion-row>
+			<ion-col>
+				<prodocuer-profile [imgUrl]="selectedProducer?.imgUrl">
+				</prodocuer-profile>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col>
+				<question *ngFor="let ques of slicedQuestions;" [question]="ques" (onAnswerSelection)="onAnswerSelection($event);"></question>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<br />
+	<br />
+	<progress id="progressbar" style="width:100%" max="100" value="{{progressBarValue}}">
+	</progress>
+</ion-content>

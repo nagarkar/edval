@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title style="float:left;">Login</ion-title>
+     <ion-icon name="home" style="float:right;width:40px;padding:5px" (click)="gotoHome()"></ion-icon>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col width-33></ion-col>
+      <ion-col width-33 text-center>
+        <img class="logo" src="http://www.elmastudio.de/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png" alt="">
+      </ion-col>
+      <ion-col width-33></ion-col>
+    </ion-row>
+  </ion-grid>
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <ion-item *ngIf="errorMessage">
+      <ion-label text-center danger>{{errorMessage}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Username</ion-label>
+      <ion-input type="text" formControlName="username"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+    <div padding>
+      <button ion-button color="primary" block type="submit" [disabled]="!loginForm.valid">Sign In 
+  </button>
+    </div>
+  </form>
+</ion-content>
