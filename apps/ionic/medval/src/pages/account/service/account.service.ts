@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 
 import { Account } from '../account';
-import {AWSConfig} from "../../../shared/aws/config";
+import {Config} from "../../../shared/aws/config";
 import {MockAccountService} from "./mock.account.service";
 import {LiveAccountService} from "./live.account.service";
 import {InterfaceAccountService} from "./interface.account.service";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class AccountService implements InterfaceAccountService {
@@ -15,7 +16,7 @@ export class AccountService implements InterfaceAccountService {
     private mockService: MockAccountService,
     private liveService: LiveAccountService) {
 
-    if (AWSConfig.isMockData()) {
+    if (Config.isMockData()) {
       this.delegate = mockService;
     } else {
       this.delegate = liveService;

@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title style="float:left;">Start</ion-title>
+     <ion-icon name="settings" style="float:right;width:40px;padding:5px" (click)="gotoLogin()"></ion-icon>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+
+  <div *ngIf="showNoThanks == false">
+    <h1  style="text-align: center;">Thanks for taking a minute of your time to help us improve our service!</h1>
+    <br/>
+    <button ion-button full clear (click)="startSurvey();">Yes! Let's do this!</button>
+    <button ion-button full clear (click)="noThanks();">No, I'll pass!</button>
+    <br/>
+    <br/>
+  </div>
+  <div *ngIf="showNoThanks == true">
+    <br/>
+    <br/>
+    <h1  style="text-align: center;">Ok, No problem.</h1>
+  </div>
+</ion-content>

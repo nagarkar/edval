@@ -3,5 +3,8 @@ export interface Account {
   properties : {
     customerName: string,
     logo: string
+  },
+  configuration?: {
+    [key: string] : string
   }
 }

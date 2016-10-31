@@ -1,85 +1,113 @@
-import {Logger} from "../logger.service";
-import {AccessTokenProvider, AuthResult} from "../aws/access.token.service";
+import {Utils} from "./utils";
+import {AccessTokenService, AuthResult} from "../aws/access.token.service";
 import {Http, Response, RequestOptionsArgs, Headers} from "@angular/http";
 import {Observable} from "rxjs";
 import {ErrorType} from "./error.types";
 import {Injectable} from "@angular/core";
 
 @Injectable()
-export class HttpClient<T> {
+export class HttpClient {
 
-  private static BASE_URL: string = "https://testapi.healthcaretech.io";
-  private static PING_URL: string = "https://testapi.healthcaretech.io/api/ping";
+  private baseUrl: string = "https://testapi.healthcaretech.io";
+  private pingUrl: string = "https://testapi.healthcaretech.io/api/ping";
+  //private baseUrl: string = "http://192.168.57.1:8090";
+  //private pingUrl: string = "http://192.168.57.1:8090/api/ping";
 
-  constructor(private logger: Logger, private tokenProvider: AccessTokenProvider, private http: Http) { }
+  constructor(
+    private utils: Utils,
+    private tokenProvider: AccessTokenService,
+    private http: Http) {
 
+    this.setupDefaultUrls();
+  }
+
+  /**
+   * Pings the backend service.
+   * Usage:
+   *   this.httpClient.ping().then(
+   *     res => alert(res),
+   *     error => {
+   *       this.errorMessage = <any>error;
+   *       alert(error);
+   *     }
+   *   );
+   * @returns {Promise<ErrorObservable|ErrorObservable>|Promise<TResult>}
+   */
   public ping() : Promise<string>{
-    return this.http.get(HttpClient.PING_URL, this.createRequestOptionsArgs("GET"))
+    return this.http.get(this.pingUrl, this.createRequestOptionsArgs())
+      .toPromise()
+      .then<string>(this.extractData)
+      .catch<string>(this.handleError);
+  }
+
+  public list<T>(path : string | '') : Promise<T[]> {
+    return this.http.get(this.baseUrl + path, this.createRequestOptionsArgs())
       .toPromise()
       .then(this.extractData)
       .catch(this.handleError);
   }
 
-  public list(url : string | '') : Promise<T[]> {
-    return this.http.get(url, this.createRequestOptionsArgs("GET"))
+  public get<T>(path : string, id: string | '') : Promise<T> {
+    return  this.http.get(this.baseUrl + path + "/" + id, this.createRequestOptionsArgs())
       .toPromise()
       .then(this.extractData)
       .catch(this.handleError);
+    /*
+      .map((res: Response) => res.json())
+      .catch((error) =>{
+        this.utils.error(JSON.stringify(error));
+        return Observable.throw(error);
+      });
+      */
   }
 
-  public get(path : string, id: string | '') : Promise<T> {
-    return this.http.get(HttpClient.BASE_URL + path + id, this.createRequestOptionsArgs("GET"))
-      .toPromise()
-      .then(this.extractData)
-      .catch(this.handleError);
+  public put<T>(path : string, id: string | '', body: T) : Promise<T> {
+    let response: Observable<Response> = this.http.put(this.baseUrl + path + "/" + id, JSON.stringify(body),
+      this.createRequestOptionsArgs());
+    let responsePromise : Promise<Response> = response.toPromise();
+    return responsePromise
+      .then<T>(this.extractData)
+      .catch<T>(this.handleError);
   }
 
-  public post(path : string, body: any) : Promise<T> {
-    return this.http.post(HttpClient.BASE_URL + path + JSON.stringify(body),
-      this.createRequestOptionsArgs("POST"))
+  public post<T>(path : string, body: T) : Promise<T> {
+    return this.http.post(this.baseUrl + path, JSON.stringify(body),
+      this.createRequestOptionsArgs())
         .toPromise()
         .then(this.extractData)
         .catch(this.handleError);
   }
 
-  public put(path : string, id: string | '', body: any) : Promise<T> {
-    return this.http.put(HttpClient.BASE_URL + path + id, JSON.stringify(body),
-      this.createRequestOptionsArgs("PUT"))
-      .toPromise()
-      .then(this.extractData)
-      .catch(this.handleError);
-  }
-
   public delete(path : string, id: string | '') : Promise<boolean> {
-    return this.http.put(HttpClient.BASE_URL + path + id,
-      this.createRequestOptionsArgs("DELETE"))
+    return this.http.delete(this.baseUrl + path + "/" + id,
+      this.createRequestOptionsArgs())
       .toPromise()
       .then(this.extractData)
       .catch(this.handleError);
   }
 
-  private extractData(res: Response) {
+  private extractData<T>(res: Response) : T {
     // Workaround for the fact the content type may be wrong
+    console.log('in extract data' + JSON.stringify(res));
+    let body: T;
     if (res.headers.get('content-type') == "application/json") {
+      console.log("Extracted data res.json: " + JSON.stringify(res.json()));
+      let json;
       try {
-        let body = res.json();
-        return body || {};
-      } catch (error) {
-        // TODO Fix this on server side.
-        // Workaround for the fact that server is returning 'application/json' content type for textual ping response
-        let body = res.text();
-        return body || 'null text';
+        json = res.json();
+      } catch(error) {
+        json = res.text();
       }
-    } else if (res.headers.get('content-type') == "text") {
-      let body = res.text();
-      return body || {};
+      body = json;
     }
-    throw Observable.throw("Invalid Content-TYpe; Only application/json or text is supported")
+    return body;
+    //throw Promise.throw("Invalid Content-TYpe; Only application/json or subject is supported")
   }
 
-  private handleError (error: Response | any) {
+  private handleError<T> (error: Response | any) : T {
     // In a real world app, we might use a remote logging infrastructure
     let errMsg: string;
+    console.log('in handle error' + JSON.stringify(error));
     if (error instanceof Response) {
       const body = error.json() || '';
       const err = body.error || JSON.stringify(body);
@@ -88,10 +116,11 @@ export class HttpClient<T> {
       errMsg = error.message ? error.message : error.toString();
     }
     console.error(errMsg);
-    return Observable.throw(errMsg);
+    return null;
+    //return Promise.throw(errMsg);
   }
 
-  private createRequestOptionsArgs(method: string, contentType? : string) : RequestOptionsArgs {
+  private createRequestOptionsArgs() : RequestOptionsArgs {
     if (!this.tokenProvider.getAuthResult()) {
       return Observable.throw(ErrorType.NotLoggedIn);
     }
@@ -100,11 +129,21 @@ export class HttpClient<T> {
       headers: new Headers({
         'X-AccessToken': result.accessToken,
         'X-IdToken': result.idToken,
-        'Content-Type': contentType ? contentType : "application/json",
-        'Accept': contentType ? contentType: 'application/json',
+        'Content-Type': "application/json",
+        'Accept': 'application/json'
         //'Access-Control-Request-Headers': 'X-AccessToken, X-IdToken, Content-Type',
         //'Access-Control-Request-Method': method
       })
+    }
+  }
+
+  private setupDefaultUrls() {
+    if (this.utils.isDesktop()) {
+      this.baseUrl = "http://localhost:8090";
+      this.pingUrl = "http://localhost:8090/api/ping";
+    } else if (this.utils.isAndroid()) {
+      this.baseUrl = "http://192.168.57.1:8090";
+      this.pingUrl = "http://192.168.57.1:8090/api/ping";
     }
   }
 }

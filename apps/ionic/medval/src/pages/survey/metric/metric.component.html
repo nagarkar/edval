@@ -1,0 +1,5 @@
+<h1 style="text-align: center;"> {{currentMetric?.properties.metricName}}</h1>
+
+<p style="text-align: center;font-size: xx-large;" *ngIf="isMetricNpsType">
+  <rating (ratingValueChange)="onSelection($event);" [ratingMax]="5" [ratingValue]="0"></rating>
+</p>

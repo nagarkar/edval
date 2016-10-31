@@ -1,17 +1,11 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import {Logger} from "../../shared/logger.service";
-import {AccessTokenProvider, AuthResult} from "../../shared/aws/access.token.service";
+import {Utils} from "../../shared/stuff/utils";
+import {AccessTokenService, AuthResult} from "../../shared/aws/access.token.service";
 import {DashboardComponent} from "../dashboard/dashboard.component";
-import {NavController, Nav, App} from "ionic-angular";
+import {NavController} from "ionic-angular";
 import {HttpClient} from "../../shared/stuff/http.client";
-
-//import { UserComponent } from "../user/user.component";
-//import { CognitoService } from "../../shared/aws";
-
-//import { LoggedInCallback } from "../../shared/aws/cognito.service";
-//import { StartComponent } from "../start";
 
 @Component({
   templateUrl: 'login.component.html'
@@ -19,18 +13,15 @@ import {HttpClient} from "../../shared/stuff/http.client";
 
 export class LoginComponent implements OnInit {
 
-  //@ViewChild(Nav) nav;
-
-  public errorMessage: string;
   public loginForm: FormGroup;
   private authResult: AuthResult;
 
   constructor(
     public navCtrl: NavController,
-    private httpClient: HttpClient<string>,
+    private httpClient: HttpClient,
     private fb: FormBuilder,
-    @Inject(AccessTokenProvider) private authProvider,
-    @Inject(Logger) private logger) {
+    private authProvider: AccessTokenService,
+    private utils: Utils) {
 
   }
 
@@ -47,7 +38,6 @@ export class LoginComponent implements OnInit {
   }
 
   public login() {
-    this.errorMessage = '';
 
     let username: string = this.loginForm.controls[ 'username' ].value.trim();
     let password: string = this.loginForm.controls[ 'password' ].value.trim();
@@ -79,22 +69,12 @@ export class LoginComponent implements OnInit {
 
   private processToken(tokens: AuthResult) {
     this.authResult = tokens;
-    this.errorMessage = null;
-
-    this.httpClient.ping()
-      .then(
-        res => alert(res),
-        error => {
-          this.errorMessage = <any>error;
-          alert(error);
-        }
-      );
-    this.logger.log("Login component got accessTokey \n" + this.authResult);
+    this.utils.log("Login component got accessTokey \n" + this.authResult);
   }
 
   private processError(err) : void {
     this.authResult = null;
-    this.errorMessage = err;
-    this.logger.log("Error \n" + this.errorMessage);
+    this.utils.presentTopToast(err);
+    this.utils.log("Error \n" + err);
   }
 }

@@ -1,6 +1,4 @@
-import { Component, Type } from '@angular/core';
-
-import { NavController } from 'ionic-angular';
+import { Component } from '@angular/core';
 
 @Component({
     templateUrl: './policy.component.html'

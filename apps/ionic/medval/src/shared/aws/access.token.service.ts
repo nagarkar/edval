@@ -2,16 +2,16 @@ declare let AWS:any;
 declare let AWSCognito:any;
 
 
-import { Injectable, Inject }     from "@angular/core";
+import { Injectable}     from "@angular/core";
 import { Observable, Observer }   from "rxjs";
-import { Logger }                 from "../logger.service";
-import { AWSConfig }              from "./config";
+import { Utils }                 from "../stuff/utils";
+import { Config }              from "./config";
 
 @Injectable()
-export class AccessTokenProvider {
+export class AccessTokenService {
 
   private _cognitoUser : any = null;
-  private username : string = null;
+  private _username : string = null;
   private authenticationDetails: any = null;
   private authResult: AuthResult = null;
   private error: Error = null;
@@ -19,7 +19,7 @@ export class AccessTokenProvider {
   private _tokenObservable: Observable<AuthResult>;
   private authenticatingIntervalTimer : any;
 
-  constructor(@Inject(Logger) private logger) {
+  constructor(private utils: Utils) {
     this._tokenObservable = Observable.create((observer: Observer<AuthResult>) => {
       var intervalTimer = setInterval(() => {
         if (this.hasError()) {
@@ -27,7 +27,7 @@ export class AccessTokenProvider {
         } else if (this.authResult != null) {
           observer.next(this.authResult);
         }
-      }, AWSConfig.REFRESH_ACCESS_TOKEN);
+      }, Config.REFRESH_ACCESS_TOKEN);
 
       // Note that this is optional, you do not have to return this if you require no cleanup
       return () => {
@@ -39,6 +39,10 @@ export class AccessTokenProvider {
 
   public getAuthResult() : AuthResult {
     return this.authResult;
+  }
+
+  public getUserName() : string {
+    return this._username;
   }
 
   public logout() : void {
@@ -53,9 +57,9 @@ export class AccessTokenProvider {
     return this._cognitoUser !== null;
   }
 
-  public startNewSession(username : string, password : string): Promise<string> {
+  public startNewSession(username : string, password : string): Promise<AuthResult> {
 
-    this.username = username;
+    this._username = username;
     var authenticationData = {
       Username : username,
       Password : password,
@@ -65,7 +69,7 @@ export class AccessTokenProvider {
       new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
 
     const userPool =
-      new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(AWSConfig.POOL_DATA);
+      new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(Config.POOL_DATA);
 
     const userData = {
       Username : username,
@@ -86,25 +90,63 @@ export class AccessTokenProvider {
 
   private startAuthenticatingUserAtIntervals() : Promise<AuthResult> {
     const promise : Promise<AuthResult> = this.startAuthenticatingUser();
-    this.startAuthenticatingIntervalTimer(AWSConfig.REFRESH_ACCESS_TOKEN);
+    this.startAuthenticatingIntervalTimer(Config.REFRESH_ACCESS_TOKEN);
     return promise;
   }
 
   private startAuthenticatingUser() : Promise<AuthResult> {
     return new Promise((resolve, reject) => {
+      var me = this;
       this._cognitoUser.authenticateUser(this.authenticationDetails, {
         onSuccess: (session) => {
           this.authResult = new AuthResult(
             session.getAccessToken().getJwtToken(),
             session.getIdToken().getJwtToken());
-          this.logger.log("AccessToken:" + session.getAccessToken().getJwtToken());
-          this.logger.log("IdToken:" + session.getIdToken().getJwtToken());
+          this.utils.log("AccessToken:" + session.getAccessToken().getJwtToken());
+          this.utils.log("IdToken:" + session.getIdToken().getJwtToken());
           resolve(this.authResult);  // fulfilled successfully
-          this.logger.log("Finished Logging in :" + this.username);
+          this.utils.log("Finished Logging in :" + this._username);
         },
-        onError: (err) => {
+        onFailure: (err) => {
           this.error = err;
           reject(err);
+        },
+        newPasswordRequired: function(userAttributes, requiredAttributes) {
+          // User was signed up by an admin and must provide new
+          // password and required attributes, if any, to complete
+          // authentication.
+
+          // Get these details and call
+          this.utils.presentAlertPrompt(
+            (data) => {
+              me._cognitoUser.completeNewPasswordChallenge(data.password, {"email": data.email}, this);
+            },
+            "Please choose a new password",
+            [
+              {
+                name: 'password',
+                placeholder: 'New Password:'
+              },
+              {
+                name: 'email',
+                placeholder: 'Your Email Address:'
+              }
+            ]);
+        },
+        mfaRequired: function(codeDeliveryDetails) {
+          // MFA is required to complete user authentication.
+          // Get the code from user and call
+          this.utils.presentAlertPrompt(
+            (data) => {
+              me._cognitoUser.sendMFACode(data.value, this)
+            },
+            "Provide MFA",
+            [
+              {
+                name: 'value',
+                placeholder: 'Provide an MFA code:'
+              }
+            ]);
         }
       });
     });

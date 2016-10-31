@@ -7,58 +7,27 @@
 	<ion-list>
     <ion-item *ngFor="let item of staffList">
 			<ion-card>
-				<img src="{{item.imageUrl}}" style="width:20%;"/>
+        <img src="{{item.properties.photoUrl}}" style="margin-left:5%;width:10%;"/>
 				<ion-card-content>
 					<ion-card-title>
-						{{item?.name}}
+						{{[item.properties.title, item.properties.firstName, item.properties.lastName].join(' ')}}
 					</ion-card-title>
 					<p>
-						{{item?.email}}
+						&nbsp;Email: {{item?.properties.email}}
 					</p>
 					<p>
-						{{item?.role}}
+            &nbsp;Role : {{item?.role}}
 					</p>
+          <p>
+            &nbsp;Phone: {{item?.properties.phoneNumber}}
+          </p>
 				</ion-card-content>
 			</ion-card>
-			<button icon-left clear (click)="focusOn(addedit); edit(item);">Edit</button>
-      <button icon-left clear (click)="delete(item);">Delete</button>
+			<button icon-left clear (click)="edit(item)">Edit</button>
+      <button icon-left clear (click)="delete(item)">Delete</button>
 		</ion-item>
 	</ion-list>
 
-  <ion-label>Add/Edit</ion-label>
-  <ion-item *ngIf="message">
-    <ion-label text-center danger>{{message}}</ion-label>
-  </ion-item>
-  <ion-item>
-    <ion-label color="primary" floating>Name</ion-label>
-    <ion-input [(ngModel)]="staffMember.name"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label color="primary" floating>Email</ion-label>
-    <ion-input #addedit [(ngModel)]="staffMember.email"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label>Role</ion-label>
-    <ion-select [(ngModel)]="staffMember.role">
-      <ion-option value="Admin" selected="true">Admin</ion-option>
-      <ion-option value="Temp">Temp</ion-option>
-    </ion-select>
-  </ion-item>
-
-  <ion-grid>
-    <ion-row>
-      <ion-col width-50>
-        <ion-label>Profile Photo</ion-label>
-        <ion-card>
-          <img class="logo" style="width:20%; margin-left:20%"
-               src="{{staffMember.imageUrl ? staffMember.imageUrl : 'http://www.elmastudio.de/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png'}}"
-               alt="{{staffMember.name}}">
-          <ion-icon name="camera" (click)="collectUrl()" style="margin-left:45%;height:25px"></ion-icon>
-        </ion-card>
-        <button icon-left block (click)="add();">Add/Edit</button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <button ion-button color="primary" block (click)="add()" >Add New Staff Member</button>
+  <button ion-button color="secondary" block (click)="navCtrl.pop()">Cancel</button>
 </ion-content>

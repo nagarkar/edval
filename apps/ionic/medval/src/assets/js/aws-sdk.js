@@ -12008,7 +12008,7 @@ module.exports={
     "Sr": {
       "type": "structure",
       "required": [
-        "id",
+        "metricId",
         "inputArtifactDetails",
         "outputArtifactDetails"
       ],
@@ -12152,7 +12152,7 @@ module.exports={
     "S11": {
       "type": "structure",
       "required": [
-        "id",
+        "metricId",
         "type"
       ],
       "members": {
@@ -15423,8 +15423,8 @@ module.exports={
     "endpointPrefix": "config",
     "jsonVersion": "1.1",
     "protocol": "json",
-    "serviceAbbreviation": "AWSConfig Service",
-    "serviceFullName": "AWS AWSConfig",
+    "serviceAbbreviation": "Config Service",
+    "serviceFullName": "AWS Config",
     "signatureVersion": "v4",
     "targetPrefix": "StarlingDoveService"
   },
@@ -29721,7 +29721,7 @@ module.exports={
           "type": "long"
         },
         "Id": {
-          "locationName": "id"
+          "locationName": "metricId"
         }
       }
     },
@@ -30222,7 +30222,7 @@ module.exports={
                     "locationName": "arn"
                   },
                   "Id": {
-                    "locationName": "id"
+                    "locationName": "metricId"
                   }
                 }
               },
@@ -47714,7 +47714,7 @@ module.exports={
               "endpoint",
               "index",
               "type",
-              "id"
+              "metricId"
             ],
             "members": {
               "roleArn": {},
@@ -70222,7 +70222,7 @@ module.exports={
         "members": {
           "HostedZoneId": {
             "location": "querystring",
-            "locationName": "id"
+            "locationName": "metricId"
           },
           "TrafficPolicyInstanceNameMarker": {
             "location": "querystring",
@@ -70272,7 +70272,7 @@ module.exports={
         "members": {
           "TrafficPolicyId": {
             "location": "querystring",
-            "locationName": "id"
+            "locationName": "metricId"
           },
           "TrafficPolicyVersion": {
             "location": "querystring",
@@ -71980,12 +71980,12 @@ module.exports={
           },
           "VersionId": {
             "location": "header",
-            "locationName": "x-amz-version-id"
+            "locationName": "x-amz-version-metricId"
           },
           "SSEKMSKeyId": {
             "shape": "Sj",
             "location": "header",
-            "locationName": "x-amz-server-side-encryption-aws-kms-key-id"
+            "locationName": "x-amz-server-side-encryption-aws-kms-key-metricId"
           },
           "RequestCharged": {
             "location": "header",
@@ -72119,7 +72119,7 @@ module.exports={
           "SSEKMSKeyId": {
             "shape": "Sj",
             "location": "header",
-            "locationName": "x-amz-server-side-encryption-aws-kms-key-id"
+            "locationName": "x-amz-server-side-encryption-aws-kms-key-metricId"
           },
           "CopySourceSSECustomerAlgorithm": {
             "location": "header",
@@ -72158,11 +72158,11 @@ module.exports={
           },
           "CopySourceVersionId": {
             "location": "header",
-            "locationName": "x-amz-copy-source-version-id"
+            "locationName": "x-amz-copy-source-version-metricId"
           },
           "VersionId": {
             "location": "header",
-            "locationName": "x-amz-version-id"
+            "locationName": "x-amz-version-metricId"
           },
           "ServerSideEncryption": {
             "location": "header",
@@ -72179,7 +72179,7 @@ module.exports={
           "SSEKMSKeyId": {
             "shape": "Sj",
             "location": "header",
-            "locationName": "x-amz-server-side-encryption-aws-kms-key-id"
+            "locationName": "x-amz-server-side-encryption-aws-kms-key-metricId"
           },
           "RequestCharged": {
             "location": "header",
@@ -72350,7 +72350,7 @@ module.exports={
           "SSEKMSKeyId": {
             "shape": "Sj",
             "location": "header",
-            "locationName": "x-amz-server-side-encryption-aws-kms-key-id"
+            "locationName": "x-amz-server-side-encryption-aws-kms-key-metricId"
           },
           "RequestPayer": {
             "location": "header",
@@ -72368,7 +72368,7 @@ module.exports={
           },
           "AbortRuleId": {
             "location": "header",
-            "locationName": "x-amz-abort-rule-id"
+            "locationName": "x-amz-abort-rule-metricId"
           },
           "Bucket": {
             "locationName": "Bucket"
@@ -72390,7 +72390,7 @@ module.exports={
           "SSEKMSKeyId": {
             "shape": "Sj",
             "location": "header",
-            "locationName": "x-amz-server-side-encryption-aws-kms-key-id"
+            "locationName": "x-amz-server-side-encryption-aws-kms-key-metricId"
           },
           "RequestCharged": {
             "location": "header",
@@ -72570,7 +72570,7 @@ module.exports={
           },
           "VersionId": {
             "location": "header",
-            "locationName": "x-amz-version-id"
+            "locationName": "x-amz-version-metricId"
           },
           "RequestCharged": {
             "location": "header",
@@ -73193,7 +73193,7 @@ module.exports={
           },
           "VersionId": {
             "location": "header",
-            "locationName": "x-amz-version-id"
+            "locationName": "x-amz-version-metricId"
           },
           "CacheControl": {
             "location": "header",
@@ -73248,7 +73248,7 @@ module.exports={
           "SSEKMSKeyId": {
             "shape": "Sj",
             "location": "header",
-            "locationName": "x-amz-server-side-encryption-aws-kms-key-id"
+            "locationName": "x-amz-server-side-encryption-aws-kms-key-metricId"
           },
           "StorageClass": {
             "location": "header",
@@ -73488,7 +73488,7 @@ module.exports={
           },
           "VersionId": {
             "location": "header",
-            "locationName": "x-amz-version-id"
+            "locationName": "x-amz-version-metricId"
           },
           "CacheControl": {
             "location": "header",
@@ -73539,7 +73539,7 @@ module.exports={
           "SSEKMSKeyId": {
             "shape": "Sj",
             "location": "header",
-            "locationName": "x-amz-server-side-encryption-aws-kms-key-id"
+            "locationName": "x-amz-server-side-encryption-aws-kms-key-metricId"
           },
           "StorageClass": {
             "location": "header",
@@ -73626,7 +73626,7 @@ module.exports={
           },
           "UploadIdMarker": {
             "location": "querystring",
-            "locationName": "upload-id-marker"
+            "locationName": "upload-metricId-marker"
           }
         }
       },
@@ -73713,7 +73713,7 @@ module.exports={
           },
           "VersionIdMarker": {
             "location": "querystring",
-            "locationName": "version-id-marker"
+            "locationName": "version-metricId-marker"
           }
         }
       },
@@ -73985,7 +73985,7 @@ module.exports={
           },
           "AbortRuleId": {
             "location": "header",
-            "locationName": "x-amz-abort-rule-id"
+            "locationName": "x-amz-abort-rule-metricId"
           },
           "Bucket": {},
           "Key": {},
@@ -74659,7 +74659,7 @@ module.exports={
           "SSEKMSKeyId": {
             "shape": "Sj",
             "location": "header",
-            "locationName": "x-amz-server-side-encryption-aws-kms-key-id"
+            "locationName": "x-amz-server-side-encryption-aws-kms-key-metricId"
           },
           "RequestPayer": {
             "location": "header",
@@ -74685,7 +74685,7 @@ module.exports={
           },
           "VersionId": {
             "location": "header",
-            "locationName": "x-amz-version-id"
+            "locationName": "x-amz-version-metricId"
           },
           "SSECustomerAlgorithm": {
             "location": "header",
@@ -74698,7 +74698,7 @@ module.exports={
           "SSEKMSKeyId": {
             "shape": "Sj",
             "location": "header",
-            "locationName": "x-amz-server-side-encryption-aws-kms-key-id"
+            "locationName": "x-amz-server-side-encryption-aws-kms-key-metricId"
           },
           "RequestCharged": {
             "location": "header",
@@ -74925,7 +74925,7 @@ module.exports={
           "SSEKMSKeyId": {
             "shape": "Sj",
             "location": "header",
-            "locationName": "x-amz-server-side-encryption-aws-kms-key-id"
+            "locationName": "x-amz-server-side-encryption-aws-kms-key-metricId"
           },
           "RequestCharged": {
             "location": "header",
@@ -75029,7 +75029,7 @@ module.exports={
         "members": {
           "CopySourceVersionId": {
             "location": "header",
-            "locationName": "x-amz-copy-source-version-id"
+            "locationName": "x-amz-copy-source-version-metricId"
           },
           "CopyPartResult": {
             "type": "structure",
@@ -75055,7 +75055,7 @@ module.exports={
           "SSEKMSKeyId": {
             "shape": "Sj",
             "location": "header",
-            "locationName": "x-amz-server-side-encryption-aws-kms-key-id"
+            "locationName": "x-amz-server-side-encryption-aws-kms-key-metricId"
           },
           "RequestCharged": {
             "location": "header",
@@ -83607,7 +83607,7 @@ var STS = require('../../clients/sts');
 AWS.CognitoIdentityCredentials = AWS.util.inherit(AWS.Credentials, {
 
   localStorageKey: {
-    id: 'aws.cognito.identity-id.',
+    id: 'aws.cognito.identity-metricId.',
     providers: 'aws.cognito.identity-providers.'
   },
 
@@ -83762,7 +83762,7 @@ AWS.CognitoIdentityCredentials = AWS.util.inherit(AWS.Credentials, {
     this.params.IdentityId = this.identityId;
 
     if (AWS.util.isBrowser()) {
-      this.setStorage('id', data.IdentityId);
+      this.setStorage('metricId', data.IdentityId);
 
       if (this.params.Logins) {
         this.setStorage('providers', Object.keys(this.params.Logins).join(','));
@@ -89023,8 +89023,8 @@ AWS.util.update(AWS.S3.prototype, {
 
 
   extractRequestIds: function extractRequestIds(resp) {
-    var extendedRequestId = resp.httpResponse.headers ? resp.httpResponse.headers['x-amz-id-2'] : null;
-    var cfId = resp.httpResponse.headers ? resp.httpResponse.headers['x-amz-cf-id'] : null;
+    var extendedRequestId = resp.httpResponse.headers ? resp.httpResponse.headers['x-amz-metricId-2'] : null;
+    var cfId = resp.httpResponse.headers ? resp.httpResponse.headers['x-amz-cf-metricId'] : null;
     resp.extendedRequestId = extendedRequestId;
     resp.cfId = cfId;
 
@@ -90610,7 +90610,7 @@ var util = {
 
 
   extractRequestId: function extractRequestId(resp) {
-    var requestId = resp.httpResponse.headers['x-amz-request-id'] ||
+    var requestId = resp.httpResponse.headers['x-amz-request-metricId'] ||
                      resp.httpResponse.headers['x-amzn-requestid'];
 
     if (!requestId && resp.data && resp.data.ResponseMetadata) {
@@ -90733,7 +90733,7 @@ DomXmlParser.prototype.parse = function(xml, shape) {
     if (window.DOMParser) {
       try {
         var parser = new DOMParser();
-        result = parser.parseFromString(xml, 'text/xml');
+        result = parser.parseFromString(xml, 'subject/xml');
       } catch (syntaxError) {
         throw util.error(new Error('Parse error in document'),
           {
@@ -97197,7 +97197,7 @@ function isNullOrUndefined(arg) {
     function XMLCData(parent, text) {
       XMLCData.__super__.constructor.call(this, parent);
       if (text == null) {
-        throw new Error("Missing CDATA text");
+        throw new Error("Missing CDATA subject");
       }
       this.text = this.stringify.cdata(text);
     }
@@ -97247,7 +97247,7 @@ function isNullOrUndefined(arg) {
     function XMLComment(parent, text) {
       XMLComment.__super__.constructor.call(this, parent);
       if (text == null) {
-        throw new Error("Missing comment text");
+        throw new Error("Missing comment subject");
       }
       this.text = this.stringify.comment(text);
     }
@@ -98442,7 +98442,7 @@ function isNullOrUndefined(arg) {
     function XMLRaw(parent, text) {
       XMLRaw.__super__.constructor.call(this, parent);
       if (text == null) {
-        throw new Error("Missing raw text");
+        throw new Error("Missing raw subject");
       }
       this.value = this.stringify.raw(text);
     }
@@ -98508,7 +98508,7 @@ function isNullOrUndefined(arg) {
     XMLStringifier.prototype.cdata = function(val) {
       val = '' + val || '';
       if (val.match(/]]>/)) {
-        throw new Error("Invalid CDATA text: " + val);
+        throw new Error("Invalid CDATA subject: " + val);
       }
       return this.assertLegalChar(val);
     };
@@ -98516,7 +98516,7 @@ function isNullOrUndefined(arg) {
     XMLStringifier.prototype.comment = function(val) {
       val = '' + val || '';
       if (val.match(/--/)) {
-        throw new Error("Comment text cannot contain double-hypen: " + val);
+        throw new Error("Comment subject cannot contain double-hypen: " + val);
       }
       return this.assertLegalChar(val);
     };
@@ -98606,7 +98606,7 @@ function isNullOrUndefined(arg) {
 
     XMLStringifier.prototype.convertPIKey = '?';
 
-    XMLStringifier.prototype.convertTextKey = '#text';
+    XMLStringifier.prototype.convertTextKey = '#subject';
 
     XMLStringifier.prototype.convertCDataKey = '#cdata';
 
@@ -98660,7 +98660,7 @@ function isNullOrUndefined(arg) {
     function XMLText(parent, text) {
       XMLText.__super__.constructor.call(this, parent);
       if (text == null) {
-        throw new Error("Missing element text");
+        throw new Error("Missing element subject");
       }
       this.value = this.stringify.eleText(text);
     }

@@ -8,3 +8,4 @@ src/*.d.ts
 src/*.js
 .tmp
 plugins
+platforms

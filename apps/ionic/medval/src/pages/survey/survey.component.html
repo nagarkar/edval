@@ -6,15 +6,16 @@
 </ion-header>
 <ion-content>
 	<ion-grid>
-		<ion-row>
+		<!--ion-row>
 			<ion-col>
 				<prodocuer-profile [imgUrl]="selectedProducer?.imgUrl">
 				</prodocuer-profile>
 			</ion-col>
-		</ion-row>
+		</ion-row-->
 		<ion-row>
 			<ion-col>
-				<question *ngFor="let ques of slicedQuestions;" [question]="ques" (onAnswerSelection)="onAnswerSelection($event);"></question>
+				<survey-metric [currentMetric]="currentMetric" (onAnswerSelection)="onAnswerSelection($event);">
+        </survey-metric>
 			</ion-col>
 		</ion-row>
 	</ion-grid>

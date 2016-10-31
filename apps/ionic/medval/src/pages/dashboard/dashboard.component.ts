@@ -1,23 +1,14 @@
 import {Component, Inject} from '@angular/core';
 
-import { NavController, Tab } from 'ionic-angular';
+import { NavController} from 'ionic-angular';
 
-import { Observable } from 'rxjs/Observable';
-
-/*
-import { StaffComponent } from '../../staff-info'
-
-import { AccountSettingsComponent } from '../../account-settings'
-
-*/
-
-import {App} from 'ionic-angular';
 import {AccountComponent} from "../account/account.component";
-import {AccessTokenProvider} from "../../shared/aws/access.token.service";
+import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {LoginComponent} from "../login/login.component";
 import {TermComponent} from "./terms/term.component";
 import {PolicyComponent} from "./policy/policy.component";
 import {StaffComponent} from "../staff/staff.component";
+import {StartComponent} from "../survey/start/start.component";
 
 @Component({
   templateUrl: 'dashboard.component.html'
@@ -26,8 +17,7 @@ import {StaffComponent} from "../staff/staff.component";
 export class DashboardComponent {
 
   constructor(private navCtrl: NavController,
-    @Inject(AccessTokenProvider) private accessTokenProvider) {
-
+    @Inject(AccessTokenService) private accessTokenProvider) {
   }
 
   openNavAccountPage() {
@@ -36,6 +26,10 @@ export class DashboardComponent {
 
   gotoStaffPage() {
     this.goto(StaffComponent);
+  }
+
+  gotoSurveyPage() {
+    this.goto(StartComponent);
   }
 
   openNavGetHelpPage() {

@@ -5,6 +5,7 @@
 </ion-header>
 <ion-content class="outer-content">
     <ion-list>
+      <!-- (click)="openNavAccountPage() -->
         <button ion-item (click)="openNavAccountPage()" icon-left>
           <ion-icon  item-left></ion-icon>
           Account Settings
@@ -12,6 +13,10 @@
         <button ion-item (click)="gotoStaffPage()" icon-left>
           <ion-icon  item-left></ion-icon>
           Producer Information
+        </button>
+        <button ion-item (click)="gotoSurveyPage()" icon-left>
+          <ion-icon  item-left></ion-icon>
+          Survey
         </button>
         <button ion-item (click)="openNavTermsPage()" icon-left>
           <ion-icon  item-left></ion-icon>
@@ -22,5 +27,5 @@
           Privacy Policy
         </button>
     </ion-list>
-   <button ion-button full outline (click)="logout()" >SignOut</button>
+   <button ion-button color="primary" block (click)="logout()" >Sign Out</button>
 </ion-content>
