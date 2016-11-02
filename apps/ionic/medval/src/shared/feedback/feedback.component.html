@@ -1,7 +1,7 @@
-<ion-grid style="height:50%;padding-left:10%">
-  <ion-row>
+<ion-grid style="padding:0 0 0 15%">
+  <ion-row center wrap>
     <ion-col width-80>
-      <ion-textarea style="border:solid 1px orange;" [(ngModel)]="textValue"></ion-textarea>
+      <ion-textarea class="feedback" style="border:solid 1px orange;" [(ngModel)]="textValue"></ion-textarea>
     </ion-col>
     <ion-col>
       <button ion-button icon-left (click)="saveFeedback()">

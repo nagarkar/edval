@@ -32,6 +32,10 @@ import {MockSessionService} from "../services/session/mock";
 import {SessionService} from "../services/session/delegator";
 import {FeedbackComponent} from "../shared/feedback/feedback.component";
 
+//import {enableProdMode} from '@angular/core';
+
+//enableProdMode();
+
 @NgModule({
   declarations: [
     MyApp,

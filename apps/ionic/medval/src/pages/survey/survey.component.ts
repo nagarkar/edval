@@ -49,10 +49,10 @@ export class SurveyComponent extends MedvalComponent {
   onAnswerSelection(metricValue: MetricValue) {
     // setting up answer value to survey object.
     //this.utils.showLoading();
-    //setTimeout(() => {
+    setTimeout(() => {
       this.addMetricValue(metricValue);
       this.goToNextMetricOrEndSession();
-    //}, 1000);
+    }, 1000);
   }
 
   /** Returns true if there is a next metric, otherwise false. */

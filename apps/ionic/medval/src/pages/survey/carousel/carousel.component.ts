@@ -8,10 +8,10 @@ import {Utils} from "../../../shared/stuff/utils";
 })
 export class CarouselComponent {
 
-  private currentDeg: number = 0;
-  private items: Array<SlideItem> = [];
-  private containerWidth: number = 250;
-  private tz: number;
+  currentDeg: number = 0;
+  containerWidth: number = 250;
+  tz: number;
+  items: Array<SlideItem> = [];
 
   @Output()
   selectSlide = new EventEmitter();

@@ -172,7 +172,7 @@ export const METRICS: Metric[] = [
     entityStatus: "ACTIVE",
     subject   : "control",
     properties: {
-      metricName: 'Please rate this application and how you felt about providing a review!',
+      metricName: 'Please tell us how you felt about providing a review!',
       definition: {
         npsType: {}
       }

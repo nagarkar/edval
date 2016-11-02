@@ -5,12 +5,14 @@ import {Utils} from "../../shared/stuff/utils";
 
 export class MetricIterator implements Iterator<Metric> {
 
-  private static readonly MAX_DRILLDOWNS = 2;
+  private static readonly MAX_DRILLDOWNS = 4;
   private static readonly ROLES : string[] = new Array<string>("MD", "PA", "ADMIN");
 
-  private prevValue: MetricValue;
-  private prev: Metric;
-  private inDrilldownMode: number = 0;
+  private lastRootValue: MetricValue;
+  private lastRoot: Metric;
+  private lastValue: MetricValue;
+  private lastMetric: Metric;
+  //private mode: number = 0;
 
   private userRootIterator: Iterator<Metric>;
   private roleRootIterator: Iterator<Metric>;
@@ -28,46 +30,56 @@ export class MetricIterator implements Iterator<Metric> {
 
   next(value?: MetricValue): IteratorResult<Metric> {
 
-    this.utils.log("In metricIterator.next, with prev {0}, preValue: {1}", this.prev, this.prevValue);
-    if (this.inDrilldownMode == Number.MAX_VALUE) {
-      return this.doneResult();
-    }
+    this.utils.log("In metricIterator.next, with lastRoot {0}, lastRootValue: {1}, lastMetric: {2}, lastValue: {3}",
+      this.lastRoot, this.lastRootValue, this.lastMetric, this.lastValue);
 
     let result: IteratorResult<Metric>;
 
-    if (this.inDrilldownMode == 0) {
-      result = this.getNextRootMetric();
-
-      if (!result.done) {
-        this.inDrilldownMode++;
-        return this.saveAsPrevious(result);
-      } else {
-        return this.saveAsPrevious(this.textMetric());
-      }
-
-    } else if (this.prev.isRoot() && this.prev.isInMiddle(this.prevValue)) {
-
-      result = this.drilldownIteratorLookup.get(this.prev).next();
-      if (!result.done) {
-        return this.saveAsPrevious(result);
-      }
-      this.inDrilldownMode = 0;
-      return this.next();
-
-    } else if (this.prev.isRoot() && this.prev.isLow(this.prevValue)) {
-
-      return this.textMetric();
-
-    } else if (this.prev.isRoot() && this.prev.isHigh(this.prevValue)) {
-
-      return this.textMetric();
+    if (!this.lastRoot) {
+      return this.saveAndReturn(this.getNextIteratorResultOrDone(
+        this.userRootIterator,
+        this.roleRootIterator
+      ))
     }
-    this.inDrilldownMode = 0;
-    return this.next();
+    if (this.lastRoot && this.lastRoot.isLow(this.lastRootValue)) {
+      return this.saveAndReturn(this.getNextIteratorResultOrDone(
+        this.drilldownIteratorLookup.get(this.lastRoot),
+        this.userRootIterator,
+        this.roleRootIterator,
+        this.freeFormTextIterator,
+        this.controlIterator
+      ));
+    }
+    if (this.lastRoot && this.lastRoot.isHigh(this.lastRootValue)) {
+      return this.saveAndReturn(this.getNextIteratorResultOrDone(
+        this.freeFormTextIterator,
+        this.controlIterator
+      ));
+    }
+    return this.saveAndReturn(this.getNextIteratorResultOrDone(
+      this.userRootIterator,
+      this.roleRootIterator,
+      this.freeFormTextIterator,
+      this.controlIterator
+    ));
   }
 
   updateAnswer(value: MetricValue) {
-    this.prevValue = value;
+    this.lastValue = value;
+    if (this.lastMetric == this.lastRoot) {
+      this.lastRootValue = value;
+    }
+  }
+
+  private saveAndReturn(result: IteratorResult<Metric>): IteratorResult<Metric> {
+    if (result.done) {
+      return result;
+    }
+    this.lastMetric = result.value;
+    if (this.lastMetric.isRoot()) {
+      this.lastRoot = result.value;
+    }
+    return result;
   }
 
   private processQuestions() : void {
@@ -95,7 +107,7 @@ export class MetricIterator implements Iterator<Metric> {
     let iteratorLookup = new Map<Metric, Iterator<Metric>>();
 
     let roots = metrics.filter((metric: Metric) => {
-      return !metric.parentMetricId
+      return !metric.parentMetricId && metric.isNpsType();
     });
     roots.forEach((root: Metric) => {
       let drilldowns = metrics.filter((metric: Metric) => {
@@ -112,7 +124,8 @@ export class MetricIterator implements Iterator<Metric> {
     subjectValues.forEach((subjectValue: string) => {
       let rootMetrics: Metric[] = metrics.filter((metric: Metric) => {
         return metric.subject === (subjectPrefix + ":" + subjectValue)
-          && !metric.parentMetricId;
+          && !metric.parentMetricId
+          && metric.isNpsType();
       });
       /*
       if (rootMetrics.length == 0) {
@@ -135,42 +148,19 @@ export class MetricIterator implements Iterator<Metric> {
     }).values();
   }
 
-  private getNextRootMetric() : IteratorResult<Metric> {
-    let result = this.userRootIterator.next();
-    if (!result.done) {
-      return result;
+  private getNextIteratorResultOrDone(...iterators: Iterator<Metric>[]) : IteratorResult<Metric> {
+    let result : IteratorResult<Metric>;
+    for (let i = 0; i < iterators.length; i++){
+      result = iterators[i].next();
+      if (!result.done) {
+        break;
+      }
     }
-    result = this.roleRootIterator.next();
-    if (!result.done) {
-      return result;
-    }
-    result = this.controlIterator.next();
-    if (!result.done) {
-      return result;
-    }
-  }
-
-  private saveAsPrevious(result: IteratorResult<Metric>): IteratorResult<Metric> {
-    this.prev = result.value;
     return result;
   }
-
-  private doneResult(): IteratorResult<Metric> {
-    this.inDrilldownMode = Number.MAX_VALUE;
-    return {
-      done : true,
-      value: null,
-    }
-  }
-
 
   private selectDrilldownMetrics(drilldowns: Metric[]) {
     return this.utils.shuffle(drilldowns)
       .slice(0, Math.min(drilldowns.length, MetricIterator.MAX_DRILLDOWNS));
-  }
-
-  private textMetric() {
-    this.inDrilldownMode = Number.MAX_VALUE;
-    return this.freeFormTextIterator.next();
   }
 }

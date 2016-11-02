@@ -20,11 +20,11 @@ export class FeedbackComponent extends MedvalComponent {
               utils: Utils) {
 
     super(tokenProvider, navCtrl, utils);
-    alert("In save feedback const");
+    //alert("In save feedback const");
   }
 
   saveFeedback() {
-    alert("In save feedback");
+    //alert("In save feedback");
     this.textValueChange.emit(this.textValue);
   }
 }

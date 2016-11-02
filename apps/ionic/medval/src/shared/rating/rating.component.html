@@ -1,6 +1,6 @@
 <span tabindex="0" role="slider">
   <span *ngFor=" let rating of ratingRange; let idx = index;" class="active">
-    <ion-icon class="fa" (click)="setRating(idx + 1)"
+    <ion-icon large class="fa" (click)="setRating(idx + 1)"
       [ngClass]="idx < ratingValue ? onState : offState">
     </ion-icon>
   </span>
