@@ -1,14 +1,15 @@
 import {Component } from '@angular/core';
 
 import {NavController} from 'ionic-angular';
-import {Account} from "./account";
-import { AccountService } from "./service/account.service";
+import {Account} from "../../services/account/schema";
+import { AccountService } from "../../services/account/delegator";
 import {LoginComponent} from "../login/login.component";
 import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
-import {MockAccountService} from "./service/mock.account.service";
-import {LiveAccountService} from "./service/live.account.service";
+import {MockAccountService} from "../../services/account/mock";
+import {LiveAccountService} from "../../services/account/live";
 import {MedvalComponent} from "../../shared/stuff/medval.component";
+import {Config} from "../../shared/aws/config";
 
 @Component({
   templateUrl: './account.component.html',
@@ -36,27 +37,15 @@ export class AccountComponent extends MedvalComponent {
 
   ngOnInit(): void {
     super.ngOnInit();
-    this.utils.log("Calling account service to get account");
-    this.accountSvc.getAccount()
+    this.utils.log("Calling account account to get account");
+    this.accountSvc.get(Config.CUSTOMERID)
       .then((account: Account) => {
         this.account = account;
       })
       .catch(err => {
-        this.utils.presentTopToast(err);
+        this.utils.presentTopToast(err || "Could not retrieve Account");
         this.utils.log(err)
       });
-    /*this.accountSvc.getAccount().subscribe(
-      (company : any) => {
-        this.utils.log("Got account: " + JSON.stringify(company));
-        this.account = Object.assign<Account, any>(this.account, company);
-      },
-      (err) => {
-        this.utils.presentTopToast(err);
-        setTimeout(() => {
-          this.navCtrl.setRoot(LoginComponent);
-        }, 1000)
-      });
-      */
   }
 
   public collectUrl() {
@@ -66,13 +55,12 @@ export class AccountComponent extends MedvalComponent {
   }
 
   public save() {
-
-    this.accountSvc.saveAccount(this.account)
+    this.accountSvc.update(this.account)
       .then((res) => {
         this.utils.presentTopToast('Information saved successfully!.');
       })
       .catch((errResp) => {
-        this.utils.presentTopToast(errResp);
+        this.utils.presentTopToast(errResp || "Could not save Account");
       })
   }
 }

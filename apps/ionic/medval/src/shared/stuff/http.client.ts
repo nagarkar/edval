@@ -22,7 +22,7 @@ export class HttpClient {
   }
 
   /**
-   * Pings the backend service.
+   * Pings the backend account.
    * Usage:
    *   this.httpClient.ping().then(
    *     res => alert(res),
@@ -91,7 +91,7 @@ export class HttpClient {
     console.log('in extract data' + JSON.stringify(res));
     let body: T;
     if (res.headers.get('content-type') == "application/json") {
-      console.log("Extracted data res.json: " + JSON.stringify(res.json()));
+      //console.log("Extracted data res.json: " + JSON.stringify(res.json()));
       let json;
       try {
         json = res.json();

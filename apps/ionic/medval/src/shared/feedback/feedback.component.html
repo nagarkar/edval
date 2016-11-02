@@ -1,0 +1,12 @@
+<ion-grid style="height:50%;padding-left:10%">
+  <ion-row>
+    <ion-col width-80>
+      <ion-textarea style="border:solid 1px orange;" [(ngModel)]="textValue"></ion-textarea>
+    </ion-col>
+    <ion-col>
+      <button ion-button icon-left (click)="saveFeedback()">
+        <ion-icon name="fastforward"></ion-icon>
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-grid>

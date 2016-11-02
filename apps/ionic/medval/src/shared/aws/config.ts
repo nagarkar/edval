@@ -21,6 +21,7 @@ export class Config {
     return Config.MOCK_DATA;
   }
 
+
   public static useMockData() : void {
     Config.MOCK_DATA = true;
   }

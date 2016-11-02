@@ -9,6 +9,7 @@ import {TermComponent} from "./terms/term.component";
 import {PolicyComponent} from "./policy/policy.component";
 import {StaffComponent} from "../staff/staff.component";
 import {StartComponent} from "../survey/start/start.component";
+import {Utils} from "../../shared/stuff/utils";
 
 @Component({
   templateUrl: 'dashboard.component.html'
@@ -17,7 +18,8 @@ import {StartComponent} from "../survey/start/start.component";
 export class DashboardComponent {
 
   constructor(private navCtrl: NavController,
-    @Inject(AccessTokenService) private accessTokenProvider) {
+    private accessTokenProvider: AccessTokenService,
+    private utils: Utils) {
   }
 
   openNavAccountPage() {
@@ -46,11 +48,11 @@ export class DashboardComponent {
 
   logout(){
     this.accessTokenProvider.logout();
-    this.navCtrl.setRoot(LoginComponent);
+    this.utils.setRoot(this.navCtrl, LoginComponent);
   }
 
   private goto(component: any) : void {
-    this.navCtrl.push(component);
+    this.utils.push(this.navCtrl, component);
   }
 }
 

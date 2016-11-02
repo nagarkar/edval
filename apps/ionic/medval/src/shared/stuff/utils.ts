@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   ActionSheetController, AlertController, LoadingController, Alert, ToastController,
-  ModalController, Modal, Platform
+  ModalController, Modal, Platform, NavController
 } from "ionic-angular";
 import {CameraOptions, Camera, SpinnerDialog} from "ionic-native";
 
@@ -21,17 +21,19 @@ export class Utils {
   logs: string[] = []; // capture logs for testing
   errors: string[] = []; // capture logs for testing
 
-  public log(message: string) : void {
-    this.logs.push(message);
+  public log(message: string, ...args) : void {
+    let fmsg = this.format(message, args);
+    this.logs.push(fmsg);
     if (console) {
-      console.log(message);
+      console.log(fmsg);
     }
   }
 
-  public error(message: string) : void {
-    this.errors.push(message);
+  public error(message: string, ...args) : void {
+    let fmsg = this.format(message, args);
+    this.errors.push(fmsg);
     if (console) {
-      console.error(message);
+      console.error(fmsg);
     }
   }
 
@@ -48,10 +50,11 @@ export class Utils {
       position: 'top'
     });
 
+    /*
     toast.onDidDismiss(() => {
       this.log('Dismissed toast');
     });
-
+    */
     toast.present();
   }
 
@@ -217,5 +220,70 @@ export class Utils {
 
   public isIos() : boolean {
     return this.platform.is("ios");
+  }
+
+  public forwardAnimation() {
+    return {
+      animate: true,
+      direction: 'forward',
+      animation: this.isAndroid()? "md-transition" : "ios-transition",
+      duration: 500
+    }
+  }
+
+  public push(navCtrl: NavController, component: any, params?: any) {
+    navCtrl.push(component, params || {}, this.forwardAnimation());
+  }
+
+  public setRoot(navCtrl: NavController, component: any, params?: any) {
+    navCtrl.setRoot(component, params || {}, this.forwardAnimation());
+  }
+
+  public pop(navCtrl: NavController) {
+    navCtrl.pop(this.forwardAnimation());
+  }
+
+  /**
+   * http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format
+   * @param format
+   * @returns {string}
+   */
+  format(format: string, ...args) {
+    return format.replace(/{(\d+)}/g, function(match, number) {
+      return typeof args[number] != 'undefined'
+        ? args[number]
+        : match
+        ;
+    });
+  };
+
+  /**
+   *
+   * @param message, something like "Hello ${item.displayName()}!"
+   * @param item
+   */
+  formatTemplate(message: string, item: {displayName: ()=> string}): string {
+    const func = this.itemFunction(message);
+    const result = func(item);
+    this.log("Calculated result:" + result);
+    return result;
+  }
+
+  private itemFunction(message: string) {
+    return new Function('item', 'return \`' + message + "\`");
+  }
+
+  public shuffle<T>(array: Array<T>): Array<T> {
+    let length = array.length, t, i;
+    // While there remain elements to shuffle…
+    while (length) {
+      // Pick a remaining element…
+      i = Math.floor(Math.random() * length--);
+      // And swap it with the current element.
+      t = array[length];
+      array[length] = array[i];
+      array[i] = t;
+    }
+    return array;
   }
 }

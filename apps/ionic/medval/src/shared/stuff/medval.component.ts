@@ -9,7 +9,7 @@ import {Utils} from "./utils";
 
 
 /**
- * Subclasses should implement ngOnInit() and call super.ngOnInit() before calling the service to load
+ * Subclasses should implement ngOnInit() and call super.ngOnInit() before calling the account to load
  * data.
  */
 export abstract class MedvalComponent implements OnInit {
@@ -20,9 +20,12 @@ export abstract class MedvalComponent implements OnInit {
 
   ngOnInit() {
     if(!this.tokenProvider.getAuthResult()) {
-      setTimeout(() => this.navCtrl.setRoot(LoginComponent), 2000);
+      this.gotoLogin();
     }
-    this.utils.showLoading();
+  }
+
+  gotoLogin() {
+    this.utils.setRoot(this.navCtrl, LoginComponent)
   }
 
 }

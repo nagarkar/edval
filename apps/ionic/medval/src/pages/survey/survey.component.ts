@@ -2,12 +2,15 @@ import { Component} from '@angular/core';
 
 import {NavController, NavParams, LoadingController} from'ionic-angular';
 
-import {MetricService} from "./metric.service";
-import {Metric, MetricValue} from "./metric.schema";
-import {MetricIterator} from "./metric.iterator";
+import {MetricService} from "../../services/metric/metric.service";
+import {Metric, MetricValue} from "../../services/metric/schema";
+import {MetricIterator} from "../../services/metric/metric.iterator";
 import {ThanksComponent} from "./thanks/thanks.component";
 import {Utils} from "../../shared/stuff/utils";
 import {LoginComponent} from "../login/login.component";
+import {SessionService} from "../../services/session/delegator";
+import {MedvalComponent} from "../../shared/stuff/medval.component";
+import {AccessTokenService} from "../../shared/aws/access.token.service";
 
 
 @Component({
@@ -18,7 +21,7 @@ import {LoginComponent} from "../login/login.component";
   ]
 })
 
-export class SurveyComponent {
+export class SurveyComponent extends MedvalComponent {
 
   private static maxMetrics : number = 5;
   private metricCount: number = 0;
@@ -29,28 +32,27 @@ export class SurveyComponent {
   public currentMetric: Metric;
 
   constructor(
-    private loadingCtrl: LoadingController,
     private metricService: MetricService,
-    private navController: NavController,
-    private navParams: NavParams,
-    private utils: Utils
+    private sessionService: SessionService,
+    tokenProvider: AccessTokenService,
+    navController: NavController,
+    utils: Utils
   ) {
-    this.resetMetrics();
+    super(tokenProvider, navController, utils)
   }
 
-  ngOnInit() { }
-
-  gotoLogin() {
-    this.navController.setRoot(LoginComponent);
+  ngOnInit() {
+    super.ngOnInit();
+    this.resetMetrics();
   }
 
   onAnswerSelection(metricValue: MetricValue) {
     // setting up answer value to survey object.
-    this.utils.showLoading();
-    setTimeout(() => {
-      this.addMetricValueToSession(metricValue);
+    //this.utils.showLoading();
+    //setTimeout(() => {
+      this.addMetricValue(metricValue);
       this.goToNextMetricOrEndSession();
-    }, 1000);
+    //}, 1000);
   }
 
   /** Returns true if there is a next metric, otherwise false. */
@@ -69,12 +71,14 @@ export class SurveyComponent {
 
   private resetSurveyAndThankUser() {
     this.resetMetrics();
-    this.navController.setRoot(ThanksComponent);
+    this.utils.setRoot(this.navCtrl, ThanksComponent);
     return;
   }
 
-  private addMetricValueToSession(metricValue: MetricValue) {
-
+  private addMetricValue(metricValue: MetricValue) {
+    //TODO Uncomment this once we fix sessions.
+    //this.sessionService.addToCurrentSession(metricValue);
+    this.metricIterator.updateAnswer(metricValue);
   }
 
   private calculateProgressBarValue() {
@@ -85,7 +89,9 @@ export class SurveyComponent {
   }
 
   private resetMetrics() {
-    this.metricIterator = new MetricIterator(this.metricService);
+    // TODO: Make sure we actually get usernames here and pass them.
+    //let usernames : Array<string> = this.sessionService.getCurrentSession().properties.selectedStaffUserNames;
+    this.metricIterator = new MetricIterator(this.utils, this.metricService, ['adelg']);
     this.nextMetric();
   }
 

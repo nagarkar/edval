@@ -1,18 +1,16 @@
 import {Component} from '@angular/core';
 
 import {NavController} from 'ionic-angular';
-import {Staff } from "./staff";
+import {Staff } from "../../services/staff/schema";
 import {Utils} from "../../shared/stuff/utils";
-import {StaffService} from "./service/staff.service";
-import {MockStaffService} from "./service/mock.staff.service";
-import {LiveStaffService} from "./service/live.staff.service";
+import {StaffService} from "../../services/staff/delegator";
 import {MedvalComponent} from "../../shared/stuff/medval.component";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {StaffEditComponent} from "./staff.edit.component";
 
 @Component({
   templateUrl: 'staff.component.html',
-  providers: [ StaffService, MockStaffService, LiveStaffService]
+  providers: [ ]
 })
 export class StaffComponent extends MedvalComponent  {
 
@@ -35,7 +33,7 @@ export class StaffComponent extends MedvalComponent  {
   }
 
   public cancel() {
-    this.navCtrl.pop();
+    this.utils.pop(this.navCtrl);
   }
 
   public add() {
@@ -60,7 +58,7 @@ export class StaffComponent extends MedvalComponent  {
       return;
     }
     this.utils.showLoadingBar();
-    this.staffSvc.deleteStaff(staffMember)
+    this.staffSvc.delete(staffMember)
       .then((deleted: boolean) : void => {
         if (deleted) {
           this.staffList = this.staffList.filter((el: Staff) => {
@@ -69,7 +67,7 @@ export class StaffComponent extends MedvalComponent  {
           this.utils.presentTopToast("Deleted", 3000)
         }
       })
-      .catch((err) => this.utils.presentTopToast(err, 3000))
+      .catch((err) => this.utils.presentTopToast(err || "Could not delete staff member", 3000))
   }
 
   //TODO Fix this.
@@ -91,12 +89,12 @@ export class StaffComponent extends MedvalComponent  {
   }
 
   private getStaffList() {
-    this.staffSvc.listStaff()
+    this.staffSvc.list()
       .then((staffMap: Staff[]) =>
         this.staffList = staffMap
       )
       .catch(err => {
-        this.utils.presentTopToast(err);
+        this.utils.presentTopToast(err || "Could not get staff list!");
         this.utils.log(err)
       });
   }

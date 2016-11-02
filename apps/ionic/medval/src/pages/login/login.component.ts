@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
 
 
   private navigateToDashboardPage() {
-    this.navCtrl.setRoot(DashboardComponent)
+    this.utils.setRoot(this.navCtrl, DashboardComponent);
   }
 
   public gotoHome() {
@@ -74,7 +74,6 @@ export class LoginComponent implements OnInit {
 
   private processError(err) : void {
     this.authResult = null;
-    this.utils.presentTopToast(err);
-    this.utils.log("Error \n" + err);
+    this.utils.error("Error \n" + err);
   }
 }

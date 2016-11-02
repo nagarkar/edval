@@ -1,11 +1,11 @@
 import {Component} from "@angular/core";
 import {Utils} from "../../shared/stuff/utils";
-import {Staff} from "./staff";
-import {StaffService} from "./service/staff.service";
+import {Staff} from "../../services/staff/schema";
+import {StaffService} from "../../services/staff/delegator";
 import {NavParams, NavController} from "ionic-angular";
 import {final} from "../../app/app.module";
-import {MockStaffService} from "./service/mock.staff.service";
-import {LiveStaffService} from "./service/live.staff.service";
+import {MockStaffService} from "../../services/staff/mock";
+import {LiveStaffService} from "../../services/staff/live";
 
 @Component({
   templateUrl: "staff.edit.component.html",
@@ -41,7 +41,7 @@ export class StaffEditComponent {
   }
 
   public cancel() {
-    this.navCtrl.pop();
+    this.utils.pop(this.navCtrl);
   }
 
   public add() {
@@ -50,18 +50,18 @@ export class StaffEditComponent {
     }
     let resultPromise : Promise<Staff>;
     if (this.isEdit) {
-      resultPromise = this.staffSvc.updateStaff(this.staffMember)
+      resultPromise = this.staffSvc.update(this.staffMember)
     } else {
       this.staffMember.entityStatus =  "ACTIVE";
-      resultPromise = this.staffSvc.createStaff(this.staffMember)
+      resultPromise = this.staffSvc.create(this.staffMember)
     };
     resultPromise
       .then(() => {
-        this.navCtrl.pop();
+        this.utils.pop(this.navCtrl);
       })
       .catch((reason) => {
-        this.utils.presentTopToast(reason, 3000);
-        this.navCtrl.pop();
+        this.utils.presentTopToast(reason || "Could not update Staff Member", 3000);
+        this.utils.pop(this.navCtrl);
       });
   }
 

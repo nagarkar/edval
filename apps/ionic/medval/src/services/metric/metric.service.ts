@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { METRICS } from './mock.metric.data';
-import {Metric} from "./metric.schema";
+import { METRICS } from './mock';
+import {Metric} from "./schema";
 
 @Injectable()
 export class MetricService {

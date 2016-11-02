@@ -19,6 +19,18 @@ import {MetricComponent} from "../pages/survey/metric/metric.component";
 import {ThanksComponent} from "../pages/survey/thanks/thanks.component";
 import {StartComponent} from "../pages/survey/start/start.component";
 import {StaffEditComponent} from "../pages/staff/staff.edit.component";
+import {CarouselComponent} from "../pages/survey/carousel/carousel.component";
+import {PickStaffComponent} from "../pages/survey/pickstaff/pickstaff.component";
+import {LiveStaffService} from "../services/staff/live";
+import {MockStaffService} from "../services/staff/mock";
+import {StaffService} from "../services/staff/delegator";
+import {LiveAccountService} from "../services/account/live";
+import {MockAccountService} from "../services/account/mock";
+import {AccountService} from "../services/account/delegator";
+import {LiveSessionService} from "../services/session/live";
+import {MockSessionService} from "../services/session/mock";
+import {SessionService} from "../services/session/delegator";
+import {FeedbackComponent} from "../shared/feedback/feedback.component";
 
 @NgModule({
   declarations: [
@@ -34,7 +46,10 @@ import {StaffEditComponent} from "../pages/staff/staff.edit.component";
     MetricComponent,
     ThanksComponent,
     StartComponent,
-    StaffEditComponent
+    StaffEditComponent,
+    CarouselComponent,
+    PickStaffComponent,
+    FeedbackComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -55,13 +70,19 @@ import {StaffEditComponent} from "../pages/staff/staff.edit.component";
     MetricComponent,
     ThanksComponent,
     StartComponent,
-    StaffEditComponent
+    StaffEditComponent,
+    CarouselComponent,
+    PickStaffComponent,
+    FeedbackComponent
   ],
   providers: [
     { provide: Config, useClass: Config},
     { provide: HttpClient, useClass: HttpClient},
     { provide: Utils, useClass: Utils },
-    { provide: AccessTokenService, useClass: AccessTokenService}
+    { provide: AccessTokenService, useClass: AccessTokenService},
+    StaffService, MockStaffService, LiveStaffService,
+    AccountService, MockAccountService, LiveAccountService,
+    LiveSessionService, MockSessionService, SessionService
   ]
 })
 export class AppModule {}

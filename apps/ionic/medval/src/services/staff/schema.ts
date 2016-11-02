@@ -9,8 +9,7 @@ export class Staff {
   username: string;
   role: string;
   entityStatus:string;
-
-  public properties: {
+  properties: {
     title?: string;
     firstName?: string;
     lastName?: string;
@@ -19,20 +18,24 @@ export class Staff {
     phoneNumber?: string;
   }
 
+  toString() {
+    return JSON.stringify(this);
+  }
+
   public static newStaffMember() {
-  return Object.assign(new Staff(), {
-    customerId: Config.CUSTOMERID,
-    username: "",
-    entityStatus: "",
-    role: "",
-    properties: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      photoUrl: ""
-    }
-  });
-}
+    return Object.assign(new Staff(), {
+      customerId: Config.CUSTOMERID,
+      username: "",
+      entityStatus: "",
+      role: "",
+      properties: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        photoUrl: ""
+      }
+    });
+  }
 }
 
 export interface StaffMap {[s: string]: Staff};

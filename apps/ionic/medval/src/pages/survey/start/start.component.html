@@ -2,6 +2,7 @@
   <ion-navbar>
     <ion-title style="float:left;">Start</ion-title>
      <ion-icon name="settings" style="float:right;width:40px;padding:5px" (click)="gotoLogin()"></ion-icon>
+    <ion-icon name="footer" style="float:right;width:40px;padding:5px" (click)="showFooter = !showFooter"></ion-icon>
   </ion-navbar>
 </ion-header>
 <ion-content padding>
@@ -17,6 +18,6 @@
   <div *ngIf="showNoThanks == true">
     <br/>
     <br/>
-    <h1  style="text-align: center;">Ok, No problem.</h1>
+    <h1  style="text-align: center;">Thanks You!</h1>
   </div>
 </ion-content>
