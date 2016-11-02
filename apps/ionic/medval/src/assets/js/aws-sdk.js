@@ -81851,7 +81851,7 @@ module.exports={
 },{}],127:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['acm'] = {};
@@ -81871,7 +81871,7 @@ module.exports = AWS.ACM;
 },{"../apis/acm-2015-12-08.min.json":1,"../apis/acm-2015-12-08.paginators.json":2,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],128:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['apigateway'] = {};
@@ -81892,7 +81892,7 @@ module.exports = AWS.APIGateway;
 },{"../apis/apigateway-2015-07-09.min.json":3,"../apis/apigateway-2015-07-09.paginators.json":4,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225,"../lib/services/apigateway":226}],129:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['applicationautoscaling'] = {};
@@ -81912,7 +81912,7 @@ module.exports = AWS.ApplicationAutoScaling;
 },{"../apis/application-autoscaling-2016-02-06.min.json":5,"../apis/application-autoscaling-2016-02-06.paginators.json":6,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],130:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['autoscaling'] = {};
@@ -81994,7 +81994,7 @@ module.exports = {
 },{"../lib/core":188,"../lib/node_loader":185,"./acm":127,"./apigateway":128,"./applicationautoscaling":129,"./autoscaling":130,"./cloudformation":132,"./cloudfront":133,"./cloudhsm":134,"./cloudtrail":135,"./cloudwatch":136,"./cloudwatchevents":137,"./cloudwatchlogs":138,"./codecommit":139,"./codedeploy":140,"./codepipeline":141,"./cognitoidentity":142,"./cognitoidentityserviceprovider":143,"./cognitosync":144,"./configservice":145,"./devicefarm":146,"./directconnect":147,"./dynamodb":148,"./dynamodbstreams":149,"./ec2":150,"./ecr":151,"./ecs":152,"./elasticache":153,"./elasticbeanstalk":154,"./elastictranscoder":155,"./elb":156,"./elbv2":157,"./emr":158,"./firehose":159,"./gamelift":160,"./inspector":161,"./iot":162,"./iotdata":163,"./kinesis":164,"./kms":165,"./lambda":166,"./machinelearning":167,"./marketplacecommerceanalytics":168,"./mobileanalytics":169,"./opsworks":170,"./rds":171,"./redshift":172,"./route53":173,"./route53domains":174,"./s3":175,"./servicecatalog":176,"./ses":177,"./sns":178,"./sqs":179,"./ssm":180,"./storagegateway":181,"./sts":182,"./waf":183}],132:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['cloudformation'] = {};
@@ -82015,7 +82015,7 @@ module.exports = AWS.CloudFormation;
 },{"../apis/cloudformation-2010-05-15.min.json":9,"../apis/cloudformation-2010-05-15.paginators.json":10,"../apis/cloudformation-2010-05-15.waiters2.json":11,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],133:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['cloudfront'] = {};
@@ -82037,7 +82037,7 @@ module.exports = AWS.CloudFront;
 },{"../apis/cloudfront-2016-09-29.min.json":12,"../apis/cloudfront-2016-09-29.paginators.json":13,"../apis/cloudfront-2016-09-29.waiters2.json":14,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225,"../lib/services/cloudfront":227}],134:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['cloudhsm'] = {};
@@ -82056,7 +82056,7 @@ module.exports = AWS.CloudHSM;
 },{"../apis/cloudhsm-2014-05-30.min.json":15,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],135:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['cloudtrail'] = {};
@@ -82076,7 +82076,7 @@ module.exports = AWS.CloudTrail;
 },{"../apis/cloudtrail-2013-11-01.min.json":16,"../apis/cloudtrail-2013-11-01.paginators.json":17,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],136:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['cloudwatch'] = {};
@@ -82097,7 +82097,7 @@ module.exports = AWS.CloudWatch;
 },{"../apis/monitoring-2010-08-01.min.json":88,"../apis/monitoring-2010-08-01.paginators.json":89,"../apis/monitoring-2010-08-01.waiters2.json":90,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],137:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['cloudwatchevents'] = {};
@@ -82116,7 +82116,7 @@ module.exports = AWS.CloudWatchEvents;
 },{"../apis/events-2015-10-07.min.json":65,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],138:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['cloudwatchlogs'] = {};
@@ -82136,7 +82136,7 @@ module.exports = AWS.CloudWatchLogs;
 },{"../apis/logs-2014-03-28.min.json":80,"../apis/logs-2014-03-28.paginators.json":81,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],139:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['codecommit'] = {};
@@ -82156,7 +82156,7 @@ module.exports = AWS.CodeCommit;
 },{"../apis/codecommit-2015-04-13.min.json":18,"../apis/codecommit-2015-04-13.paginators.json":19,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],140:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['codedeploy'] = {};
@@ -82177,7 +82177,7 @@ module.exports = AWS.CodeDeploy;
 },{"../apis/codedeploy-2014-10-06.min.json":20,"../apis/codedeploy-2014-10-06.paginators.json":21,"../apis/codedeploy-2014-10-06.waiters2.json":22,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],141:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['codepipeline'] = {};
@@ -82196,7 +82196,7 @@ module.exports = AWS.CodePipeline;
 },{"../apis/codepipeline-2015-07-09.min.json":23,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],142:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['cognitoidentity'] = {};
@@ -82216,7 +82216,7 @@ module.exports = AWS.CognitoIdentity;
 },{"../apis/cognito-identity-2014-06-30.min.json":24,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225,"../lib/services/cognitoidentity":228}],143:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['cognitoidentityserviceprovider'] = {};
@@ -82235,7 +82235,7 @@ module.exports = AWS.CognitoIdentityServiceProvider;
 },{"../apis/cognito-idp-2016-04-18.min.json":25,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],144:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['cognitosync'] = {};
@@ -82254,7 +82254,7 @@ module.exports = AWS.CognitoSync;
 },{"../apis/cognito-sync-2014-06-30.min.json":26,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],145:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['configservice'] = {};
@@ -82274,7 +82274,7 @@ module.exports = AWS.ConfigService;
 },{"../apis/config-2014-11-12.min.json":27,"../apis/config-2014-11-12.paginators.json":28,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],146:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['devicefarm'] = {};
@@ -82294,7 +82294,7 @@ module.exports = AWS.DeviceFarm;
 },{"../apis/devicefarm-2015-06-23.min.json":29,"../apis/devicefarm-2015-06-23.paginators.json":30,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],147:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['directconnect'] = {};
@@ -82314,7 +82314,7 @@ module.exports = AWS.DirectConnect;
 },{"../apis/directconnect-2012-10-25.min.json":31,"../apis/directconnect-2012-10-25.paginators.json":32,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],148:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['dynamodb'] = {};
@@ -82346,7 +82346,7 @@ module.exports = AWS.DynamoDB;
 },{"../apis/dynamodb-2011-12-05.min.json":33,"../apis/dynamodb-2011-12-05.paginators.json":34,"../apis/dynamodb-2011-12-05.waiters2.json":35,"../apis/dynamodb-2012-08-10.min.json":36,"../apis/dynamodb-2012-08-10.paginators.json":37,"../apis/dynamodb-2012-08-10.waiters2.json":38,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225,"../lib/services/dynamodb":229}],149:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['dynamodbstreams'] = {};
@@ -82365,7 +82365,7 @@ module.exports = AWS.DynamoDBStreams;
 },{"../apis/streams.dynamodb-2012-08-10.min.json":124,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],150:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['ec2'] = {};
@@ -82387,7 +82387,7 @@ module.exports = AWS.EC2;
 },{"../apis/ec2-2016-09-15.min.json":39,"../apis/ec2-2016-09-15.paginators.json":40,"../apis/ec2-2016-09-15.waiters2.json":41,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225,"../lib/services/ec2":230}],151:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['ecr'] = {};
@@ -82406,7 +82406,7 @@ module.exports = AWS.ECR;
 },{"../apis/ecr-2015-09-21.min.json":42,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],152:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['ecs'] = {};
@@ -82427,7 +82427,7 @@ module.exports = AWS.ECS;
 },{"../apis/ecs-2014-11-13.min.json":43,"../apis/ecs-2014-11-13.paginators.json":44,"../apis/ecs-2014-11-13.waiters2.json":45,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],153:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['elasticache'] = {};
@@ -82448,7 +82448,7 @@ module.exports = AWS.ElastiCache;
 },{"../apis/elasticache-2015-02-02.min.json":46,"../apis/elasticache-2015-02-02.paginators.json":47,"../apis/elasticache-2015-02-02.waiters2.json":48,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],154:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['elasticbeanstalk'] = {};
@@ -82468,7 +82468,7 @@ module.exports = AWS.ElasticBeanstalk;
 },{"../apis/elasticbeanstalk-2010-12-01.min.json":49,"../apis/elasticbeanstalk-2010-12-01.paginators.json":50,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],155:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['elastictranscoder'] = {};
@@ -82489,7 +82489,7 @@ module.exports = AWS.ElasticTranscoder;
 },{"../apis/elastictranscoder-2012-09-25.min.json":59,"../apis/elastictranscoder-2012-09-25.paginators.json":60,"../apis/elastictranscoder-2012-09-25.waiters2.json":61,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],156:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['elb'] = {};
@@ -82510,7 +82510,7 @@ module.exports = AWS.ELB;
 },{"../apis/elasticloadbalancing-2012-06-01.min.json":51,"../apis/elasticloadbalancing-2012-06-01.paginators.json":52,"../apis/elasticloadbalancing-2012-06-01.waiters2.json":53,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],157:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['elbv2'] = {};
@@ -82530,7 +82530,7 @@ module.exports = AWS.ELBv2;
 },{"../apis/elasticloadbalancingv2-2015-12-01.min.json":54,"../apis/elasticloadbalancingv2-2015-12-01.paginators.json":55,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],158:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['emr'] = {};
@@ -82551,7 +82551,7 @@ module.exports = AWS.EMR;
 },{"../apis/elasticmapreduce-2009-03-31.min.json":56,"../apis/elasticmapreduce-2009-03-31.paginators.json":57,"../apis/elasticmapreduce-2009-03-31.waiters2.json":58,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],159:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['firehose'] = {};
@@ -82570,7 +82570,7 @@ module.exports = AWS.Firehose;
 },{"../apis/firehose-2015-08-04.min.json":66,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],160:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['gamelift'] = {};
@@ -82589,7 +82589,7 @@ module.exports = AWS.GameLift;
 },{"../apis/gamelift-2015-10-01.min.json":67,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],161:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['inspector'] = {};
@@ -82608,7 +82608,7 @@ module.exports = AWS.Inspector;
 },{"../apis/inspector-2016-02-16.min.json":68,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],162:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['iot'] = {};
@@ -82627,7 +82627,7 @@ module.exports = AWS.Iot;
 },{"../apis/iot-2015-05-28.min.json":69,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],163:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['iotdata'] = {};
@@ -82647,7 +82647,7 @@ module.exports = AWS.IotData;
 },{"../apis/iot-data-2015-05-28.min.json":70,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225,"../lib/services/iotdata":231}],164:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['kinesis'] = {};
@@ -82668,7 +82668,7 @@ module.exports = AWS.Kinesis;
 },{"../apis/kinesis-2013-12-02.min.json":71,"../apis/kinesis-2013-12-02.paginators.json":72,"../apis/kinesis-2013-12-02.waiters2.json":73,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],165:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['kms'] = {};
@@ -82688,7 +82688,7 @@ module.exports = AWS.KMS;
 },{"../apis/kms-2014-11-01.min.json":74,"../apis/kms-2014-11-01.paginators.json":75,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],166:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['lambda'] = {};
@@ -82717,7 +82717,7 @@ module.exports = AWS.Lambda;
 },{"../apis/lambda-2014-11-11.min.json":76,"../apis/lambda-2014-11-11.paginators.json":77,"../apis/lambda-2015-03-31.min.json":78,"../apis/lambda-2015-03-31.paginators.json":79,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],167:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['machinelearning'] = {};
@@ -82739,7 +82739,7 @@ module.exports = AWS.MachineLearning;
 },{"../apis/machinelearning-2014-12-12.min.json":82,"../apis/machinelearning-2014-12-12.paginators.json":83,"../apis/machinelearning-2014-12-12.waiters2.json":84,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225,"../lib/services/machinelearning":232}],168:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['marketplacecommerceanalytics'] = {};
@@ -82758,7 +82758,7 @@ module.exports = AWS.MarketplaceCommerceAnalytics;
 },{"../apis/marketplacecommerceanalytics-2015-07-01.min.json":85,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],169:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['mobileanalytics'] = {};
@@ -82777,7 +82777,7 @@ module.exports = AWS.MobileAnalytics;
 },{"../apis/mobileanalytics-2014-06-05.min.json":87,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],170:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['opsworks'] = {};
@@ -82798,7 +82798,7 @@ module.exports = AWS.OpsWorks;
 },{"../apis/opsworks-2013-02-18.min.json":91,"../apis/opsworks-2013-02-18.paginators.json":92,"../apis/opsworks-2013-02-18.waiters2.json":93,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],171:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['rds'] = {};
@@ -82847,7 +82847,7 @@ module.exports = AWS.RDS;
 },{"../apis/rds-2013-01-10.min.json":94,"../apis/rds-2013-01-10.paginators.json":95,"../apis/rds-2013-02-12.min.json":96,"../apis/rds-2013-02-12.paginators.json":97,"../apis/rds-2013-09-09.min.json":98,"../apis/rds-2013-09-09.paginators.json":99,"../apis/rds-2013-09-09.waiters2.json":100,"../apis/rds-2014-10-31.min.json":101,"../apis/rds-2014-10-31.paginators.json":102,"../apis/rds-2014-10-31.waiters2.json":103,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],172:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['redshift'] = {};
@@ -82868,7 +82868,7 @@ module.exports = AWS.Redshift;
 },{"../apis/redshift-2012-12-01.min.json":104,"../apis/redshift-2012-12-01.paginators.json":105,"../apis/redshift-2012-12-01.waiters2.json":106,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],173:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['route53'] = {};
@@ -82890,7 +82890,7 @@ module.exports = AWS.Route53;
 },{"../apis/route53-2013-04-01.min.json":107,"../apis/route53-2013-04-01.paginators.json":108,"../apis/route53-2013-04-01.waiters2.json":109,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225,"../lib/services/route53":233}],174:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['route53domains'] = {};
@@ -82910,7 +82910,7 @@ module.exports = AWS.Route53Domains;
 },{"../apis/route53domains-2014-05-15.min.json":110,"../apis/route53domains-2014-05-15.paginators.json":111,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],175:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['s3'] = {};
@@ -82932,7 +82932,7 @@ module.exports = AWS.S3;
 },{"../apis/s3-2006-03-01.min.json":112,"../apis/s3-2006-03-01.paginators.json":113,"../apis/s3-2006-03-01.waiters2.json":114,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225,"../lib/services/s3":234}],176:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['servicecatalog'] = {};
@@ -82951,7 +82951,7 @@ module.exports = AWS.ServiceCatalog;
 },{"../apis/servicecatalog-2015-12-10.min.json":115,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],177:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['ses'] = {};
@@ -82972,7 +82972,7 @@ module.exports = AWS.SES;
 },{"../apis/email-2010-12-01.min.json":62,"../apis/email-2010-12-01.paginators.json":63,"../apis/email-2010-12-01.waiters2.json":64,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],178:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['sns'] = {};
@@ -82992,7 +82992,7 @@ module.exports = AWS.SNS;
 },{"../apis/sns-2010-03-31.min.json":116,"../apis/sns-2010-03-31.paginators.json":117,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],179:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['sqs'] = {};
@@ -83013,7 +83013,7 @@ module.exports = AWS.SQS;
 },{"../apis/sqs-2012-11-05.min.json":118,"../apis/sqs-2012-11-05.paginators.json":119,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225,"../lib/services/sqs":235}],180:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['ssm'] = {};
@@ -83033,7 +83033,7 @@ module.exports = AWS.SSM;
 },{"../apis/ssm-2014-11-06.min.json":120,"../apis/ssm-2014-11-06.paginators.json":121,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],181:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['storagegateway'] = {};
@@ -83053,7 +83053,7 @@ module.exports = AWS.StorageGateway;
 },{"../apis/storagegateway-2013-06-30.min.json":122,"../apis/storagegateway-2013-06-30.paginators.json":123,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225}],182:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['sts'] = {};
@@ -83073,7 +83073,7 @@ module.exports = AWS.STS;
 },{"../apis/sts-2011-06-15.min.json":125,"../lib/api_loader":184,"../lib/core":188,"../lib/node_loader":185,"../lib/service":225,"../lib/services/sts":236}],183:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
-var Service = require('../lib/account');
+var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['waf'] = {};
@@ -83518,7 +83518,7 @@ AWS.util.update(AWS, {
   apiLoader: function() { throw new Error('No API loader set'); }
 });
 
-require('./account');
+require('./service');
 
 require('./credentials');
 require('./credentials/credential_provider_chain');
@@ -84795,7 +84795,7 @@ AWS.EventListeners = {
     add('ENOTFOUND_ERROR', 'httpError', function ENOTFOUND_ERROR(err) {
       if (err.code === 'NetworkingError' && err.errno === 'ENOTFOUND') {
         var message = 'Inaccessible host: `' + err.hostname +
-          '\'. This account may not be available in the `' + err.region +
+          '\'. This service may not be available in the `' + err.region +
           '\' region.';
         this.response.error = AWS.util.error(new Error(message), {
           code: 'UnknownEndpoint',
@@ -86513,29 +86513,29 @@ module.exports = QueryParamSerializer;
 module.exports={
   "rules": {
     "*/*": {
-      "endpoint": "{account}.{region}.amazonaws.com"
+      "endpoint": "{service}.{region}.amazonaws.com"
     },
     "cn-*/*": {
-      "endpoint": "{account}.{region}.amazonaws.com.cn"
+      "endpoint": "{service}.{region}.amazonaws.com.cn"
     },
     "*/budgets": "globalSSL",
     "*/cloudfront": "globalSSL",
     "*/iam": "globalSSL",
     "*/sts": "globalSSL",
     "*/importexport": {
-      "endpoint": "{account}.amazonaws.com",
+      "endpoint": "{service}.amazonaws.com",
       "signatureVersion": "v2",
       "globalEndpoint": true
     },
     "*/route53": {
-      "endpoint": "https://{account}.amazonaws.com",
+      "endpoint": "https://{service}.amazonaws.com",
       "signatureVersion": "v3https",
       "globalEndpoint": true
     },
     "*/waf": "globalSSL",
     "us-gov-*/iam": "globalGovCloud",
     "us-gov-*/sts": {
-      "endpoint": "{account}.{region}.amazonaws.com"
+      "endpoint": "{service}.{region}.amazonaws.com"
     },
     "us-gov-west-1/s3": "s3dash",
     "us-west-1/s3": "s3dash",
@@ -86546,29 +86546,29 @@ module.exports={
     "ap-northeast-1/s3": "s3dash",
     "sa-east-1/s3": "s3dash",
     "us-east-1/s3": {
-      "endpoint": "{account}.amazonaws.com",
+      "endpoint": "{service}.amazonaws.com",
       "signatureVersion": "s3"
     },
     "us-east-1/sdb": {
-      "endpoint": "{account}.amazonaws.com",
+      "endpoint": "{service}.amazonaws.com",
       "signatureVersion": "v2"
     },
     "*/sdb": {
-      "endpoint": "{account}.{region}.amazonaws.com",
+      "endpoint": "{service}.{region}.amazonaws.com",
       "signatureVersion": "v2"
     }
   },
 
   "patterns": {
     "globalSSL": {
-      "endpoint": "https://{account}.amazonaws.com",
+      "endpoint": "https://{service}.amazonaws.com",
       "globalEndpoint": true
     },
     "globalGovCloud": {
-      "endpoint": "{account}.us-gov.amazonaws.com"
+      "endpoint": "{service}.us-gov.amazonaws.com"
     },
     "s3dash": {
-      "endpoint": "{account}-{region}.amazonaws.com",
+      "endpoint": "{service}-{region}.amazonaws.com",
       "signatureVersion": "s3"
     }
   }
@@ -86626,7 +86626,7 @@ function configureEndpoint(service) {
 
       if (service.config.useDualstack && util.isDualstackAvailable(service)) {
         config = util.copy(config);
-        config.endpoint = '{account}.dualstack.{region}.amazonaws.com';
+        config.endpoint = '{service}.dualstack.{region}.amazonaws.com';
       }
 
       service.isGlobalEndpoint = !!config.globalEndpoint;
@@ -88026,7 +88026,7 @@ AWS.Service = inherit({
       case 'rest-xml': return AWS.EventListeners.RestXml;
     }
     if (this.api.protocol) {
-      throw new Error('Invalid account `protocol\' ' +
+      throw new Error('Invalid service `protocol\' ' +
         this.api.protocol + ' in API config');
     }
   },
