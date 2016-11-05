@@ -15,9 +15,12 @@ export class MockSessionService extends AbstractMockService<Session> {
     accessProvider: AccessTokenService) {
 
     super(utils, accessProvider);
-    this.utils.log("created staff account)");
+    Utils.log("created staff account)");
   }
 
+  setId(member: Session, id: string): string {
+    return member.sessionId = id;
+  }
 
   getId(member: Session) {
     return member.sessionId;

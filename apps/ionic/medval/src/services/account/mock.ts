@@ -16,7 +16,7 @@ export class MockAccountService extends AbstractMockService<Account> {
     accessProvider: AccessTokenService) {
 
     super(utils, accessProvider);
-    utils.log("created account account");
+    Utils.log("created account account");
   }
 
   mockData(): Map<string, Account> {
@@ -26,6 +26,11 @@ export class MockAccountService extends AbstractMockService<Account> {
   getId(member: Account): string {
     return member.customerId;
   }
+
+  setId(member: Account, id: string): string {
+    return member.customerId = id;
+  }
+
 
   private static mockMap() : Map<string, Account> {
     let map : Map < string, Account > = new Map<string, Account>();

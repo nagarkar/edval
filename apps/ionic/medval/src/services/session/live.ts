@@ -18,7 +18,7 @@ export class LiveSessionService extends AbstractService<Session> {
     accessProvider: AccessTokenService) {
 
     super(utils, httpClient, accessProvider);
-    this.utils.log("Created LiveSessionService: " + typeof this);
+    Utils.log("Created LiveSessionService: " + typeof this);
   }
 
   getPath(): string {

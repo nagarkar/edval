@@ -95,7 +95,7 @@ export class StaffComponent extends MedvalComponent  {
       )
       .catch(err => {
         this.utils.presentTopToast(err || "Could not get staff list!");
-        this.utils.log(err)
+        Utils.log(err)
       });
   }
 

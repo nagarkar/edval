@@ -1,7 +1,11 @@
-<h1 class="metricHeading"> {{currentMetric.properties.metricName}}</h1>
+<h1 class="metricHeading" [@metricName]="currentMetric?.properties?.metricName">
+  {{metricDisplayName}}
+</h1>
 
 <p style="text-align: center;font-size: xx-large;" *ngIf="currentMetric.isNpsType()">
-  <rating (ratingValueChange)="onSelection($event);" [ratingMax]="11" [ratingValue]="0"></rating>
+  <rating (ratingValueChange)="onSelection($event);"
+    [ratingMax]="currentMetric.properties.definition.npsType.range"
+    [ratingValue]="1"></rating>
 </p>
 <p style="text-align: center;" *ngIf="currentMetric.isTextType()">
   <textFeedback (textValueChange)="onSelection($event);" ></textFeedback>

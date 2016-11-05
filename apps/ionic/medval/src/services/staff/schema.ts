@@ -1,4 +1,5 @@
 import {Config} from "../../shared/aws/config";
+import {Utils} from "../../shared/stuff/utils";
 export class Staff {
 
   constructor () {
@@ -19,7 +20,11 @@ export class Staff {
   }
 
   toString() {
-    return JSON.stringify(this);
+    return Utils.stringify(this);
+  }
+
+  get displayName(): string {
+    return [this.properties.title, this.properties.firstName, this.properties.lastName].join(' ');
   }
 
   public static newStaffMember() {

@@ -16,7 +16,7 @@ export class LiveAccountService extends AbstractService<Account> {
     accessProvider: AccessTokenService) {
 
     super(utils, httpClient, accessProvider);
-    this.utils.log("created account account");
+    Utils.log("created account account");
   }
 
   getPath(): string {

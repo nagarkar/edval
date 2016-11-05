@@ -11,26 +11,10 @@
 
     <ion-item>
       <ion-card>
-        <img src="{{account['properties']['logo']}}" style="width:20%"/>
+        <img src="{{account['properties']['logo']}}" style="width:40%"/>
         <ion-icon name="camera" style="margin-left:45%;height:25px" (click)="collectUrl()" ></ion-icon>
       </ion-card>
     </ion-item>
     <button ion-button color="primary" block (click)="save();">Save</button>
     <button ion-button color="secondary" block (click)="navCtrl.pop()">Cancel</button>
-        <!--
-    <ion-grid>
-        <ion-row>
-            <ion-col width-90>
-                <ion-label>Company Logo</ion-label>
-                <ion-card>
-                    <img class="logo" style="margin-left:20%;width:20%"
-
-                      src="{{account.properties.logo}}">
-                    <ion-icon name="camera" style="margin-left:45%;height:25px" (click)="collectUrl()" > &nbsp; Edit</ion-icon>
-                </ion-card>
-                 <button icon-left block (click)="save();">Save</button>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-  -->
 </ion-content>

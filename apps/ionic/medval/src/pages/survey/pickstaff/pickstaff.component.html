@@ -1,9 +1,4 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title style="float:left;">Tell us who you worked with!</ion-title>
-    <ion-icon name="settings" style="float:right;width:40px;padding:5px" (click)="gotoLogin()"></ion-icon>
-  </ion-navbar>
-</ion-header>
+<mdval-header></mdval-header>
 <ion-content>
-  <carousel [slides]="slides" (selectSlide)="selectProducer($event);" (done)="startSurvey()"></carousel>
+  <carousel [slides]="slides" (selectSlide)="selectStaff($event);" (done)="startSurvey()"></carousel>
 </ion-content>

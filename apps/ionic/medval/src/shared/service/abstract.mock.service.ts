@@ -10,6 +10,7 @@ export abstract class AbstractMockService<T> implements ServiceInterface<T> {
 
   abstract mockData() : Map<string, T>;
   abstract getId(member: T) : string;
+  abstract setId(member: T, id: string): string;
 
   onCreate: EventEmitter<T> = new EventEmitter<T>();
   onUpdate: EventEmitter<T> = new EventEmitter<T>();
@@ -30,12 +31,17 @@ export abstract class AbstractMockService<T> implements ServiceInterface<T> {
   update(member: T) : Promise<T> {
     //TODO Add assertion (npm install check-preconditions)
     this.updateCache(member);
-    return Promise.resolve(JSON.parse(JSON.stringify(member))); // copy the member to a new object.
+    return Promise.resolve(member);
   }
 
   create(member: T): Promise<T> {
+    if (!this.getId(member)) {
+      this.setId(member, "id-"+Math.ceil(Math.random()*10e10));
+    }
     this.updateCache(member);
     this.onCreate.emit(member);
+    // We use JSON.stringify to copy instead of Utils.stringify because we expect
+    // there are no circular references.
     return Promise.resolve(JSON.parse(JSON.stringify(member)));
   }
 

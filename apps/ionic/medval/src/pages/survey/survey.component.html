@@ -1,12 +1,33 @@
-<ion-header>
-	<ion-navbar>
-		<ion-title style="float:left;">Help us improve our service!</ion-title>
-		<ion-icon name="settings" style="float:right;width:40px;padding:5px" (click)="gotoLogin()"></ion-icon>
-	</ion-navbar>
-</ion-header>
+<mdval-header></mdval-header>
 <ion-content>
-  <survey-metric [currentMetric]="currentMetric" (onAnswerSelection)="onAnswerSelection($event);">
+  <survey-metric
+    [@metricsPresented]="state()"
+    [currentMetric]="currentMetric"
+    (onAnswerSelection)="onAnswerSelection($event);">
   </survey-metric>
-	<progress id="progressbar" style="width:100%" max="100" value="{{progressBarValue}}">
-	</progress>
+  <div style="text-align:center">
+    <ion-label style="width: 50%;position: fixed;bottom: 10%;left: 25%;">
+      {{metricCount}} out of {{maxMetrics}} done!
+    </ion-label>
+    <!--ion-label small>{{progressBarValue}}% Done!</ion-label-->
+    <progress style="height:35px;width:50%;position: fixed;bottom: 5%;left: 25%;" max="100" value="{{progressBarValue}}"></progress>
+    <span style="position: fixed;bottom: 1.5%;left: 25%;">0%</span>
+    <span style="position: fixed;bottom: 1.5%;left: 72%;">100%</span>
+  </div>
+  <!--div style="text-align:center;height:35px;width:100%">
+    <progress max="100" value="{{progressBarValue}}"></progress>
+  </div-->
+  <!--div style="text-align:center;height:35px">
+    <ion-label>{{metricCount}} out of {{maxMetrics}}</ion-label>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <progress max="100" value="{{progressBarValue}}"></progress>
+        </ion-col>
+        <ion-col>
+          <ion-label style="width: 80%;">{{progressBarValue}}% Done!</ion-label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div-->
 </ion-content>

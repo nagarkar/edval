@@ -17,6 +17,7 @@ export class StartComponent {
     tokenProvider: AccessTokenService
 
   ) {
+    //TODO remove this.
     tokenProvider.startNewSession("celeron", "passWord@1");
   }
 

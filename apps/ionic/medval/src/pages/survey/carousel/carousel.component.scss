@@ -14,14 +14,18 @@
   transition: transform 1s;
 }
 .carousel-slide-item {
-  display: block;
+  /* display: block; */
   position: absolute;
-  background:#000;
-  width: 250px;
-  height: 275px;
-  font-size: large;
+  /* background: #fff; */
+  /* border-width: thin; */
+  width: 200px;
+  /* height: 275px; */
+  /* font-size: large; */
   text-align: center;
-  color: #FFF;
-  opacity: 0.95;
-  border-radius: 10px;
+  /* color: #FFF; */
+  /* opacity: 0.95; */
+  border-radius: 20px;
+  /* border-color: gray; */
+  /* border: black; */
+  border-style: groove;
 }

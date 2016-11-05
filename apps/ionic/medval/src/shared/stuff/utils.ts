@@ -4,6 +4,7 @@ import {
   ModalController, Modal, Platform, NavController
 } from "ionic-angular";
 import {CameraOptions, Camera, SpinnerDialog} from "ionic-native";
+import {ErrorType} from "./error.types";
 
 @Injectable()
 export class Utils {
@@ -18,19 +19,19 @@ export class Utils {
   )
   { }
 
-  logs: string[] = []; // capture logs for testing
-  errors: string[] = []; // capture logs for testing
+  static logs: string[] = []; // capture logs for testing
+  static errors: string[] = []; // capture logs for testing
 
-  public log(message: string, ...args) : void {
-    let fmsg = this.format(message, args);
+  public static log(message: string, ...args) : void {
+    let fmsg = Utils.format(message, args);
     this.logs.push(fmsg);
     if (console) {
       console.log(fmsg);
     }
   }
 
-  public error(message: string, ...args) : void {
-    let fmsg = this.format(message, args);
+  public static error(message: string, ...args) : void {
+    let fmsg = Utils.format(message, args);
     this.errors.push(fmsg);
     if (console) {
       console.error(fmsg);
@@ -243,12 +244,22 @@ export class Utils {
     navCtrl.pop(this.forwardAnimation());
   }
 
+  /** @param message, something like "Hello ${item.displayName()}!" */
+  static formatTemplate(message: string, item: {displayName: string}): string {
+    if (!message || !item) {
+      return "";
+    }
+    const func = Utils.itemFunction(message);
+    const result = func(item);
+    return result;
+  }
+
   /**
    * http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format
    * @param format
    * @returns {string}
    */
-  format(format: string, ...args) {
+  static format(format: string, ...args) {
     return format.replace(/{(\d+)}/g, function(match, number) {
       return typeof args[number] != 'undefined'
         ? args[number]
@@ -257,23 +268,11 @@ export class Utils {
     });
   };
 
-  /**
-   *
-   * @param message, something like "Hello ${item.displayName()}!"
-   * @param item
-   */
-  formatTemplate(message: string, item: {displayName: ()=> string}): string {
-    const func = this.itemFunction(message);
-    const result = func(item);
-    this.log("Calculated result:" + result);
-    return result;
-  }
-
-  private itemFunction(message: string) {
+  private static itemFunction(message: string) {
     return new Function('item', 'return \`' + message + "\`");
   }
 
-  public shuffle<T>(array: Array<T>): Array<T> {
+  static shuffle<T>(array: Array<T>): Array<T> {
     let length = array.length, t, i;
     // While there remain elements to shuffle…
     while (length) {
@@ -285,5 +284,44 @@ export class Utils {
       array[i] = t;
     }
     return array;
+  }
+
+  static throwIfNull(value: any, format?:string, ...args) {
+    if (value == null) {
+      throw ErrorType.NullNotAllowed(this.format(format, args));
+    }
+  }
+
+  static throwIfAnyNull(values: any[], format?:string, ...args) {
+    values.forEach((value: any)=>{
+      if (!value) {
+        throw ErrorType.NullNotAllowed(this.format(format, args));
+      }
+    })
+  }
+
+  public static stringify(obj, replacer?, spaces?, cycleReplacer?) {
+    return JSON.stringify(obj, Utils.serializer(replacer, cycleReplacer), spaces)
+  }
+
+  private static serializer(replacer, cycleReplacer) {
+    var stack = [], keys = []
+
+    if (cycleReplacer == null) cycleReplacer = function (key, value) {
+      if (stack[0] === value) return "[Circular ~]"
+      return "[Circular ~." + keys.slice(0, stack.indexOf(value)).join(".") + "]"
+    }
+
+    return function (key, value) {
+      if (stack.length > 0) {
+        var thisPos = stack.indexOf(this)
+        ~thisPos ? stack.splice(thisPos + 1) : stack.push(this)
+        ~thisPos ? keys.splice(thisPos, Infinity, key) : keys.push(key)
+        if (~stack.indexOf(value)) value = cycleReplacer.call(this, key, value)
+      }
+      else stack.push(value)
+
+      return replacer == null ? value : replacer.call(this, key, value)
+    }
   }
 }

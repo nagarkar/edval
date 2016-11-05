@@ -9,7 +9,7 @@ export class MetricService {
   private static data : Metric[] = METRICS;
   constructor() { }
 
-  getQuestions() : Metric[] {
+  getMetrics() : Metric[] {
     return MetricService.data;
   }
 

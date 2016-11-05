@@ -9,11 +9,13 @@ export const METRICS: Metric[] = [
     metricId: '62861045b4984805ae213df729dad97b',
     parentMetricId: null,
     entityStatus: "ACTIVE",
-    subject   : "staff:adelg",
+    subject   : "role:MD",
     properties: {
-      metricName: 'Would you recommend Dr. El Ghazzawi to friends and family?',
+      metricName: 'Would you recommend {0} to friends and family?',
       definition: {
-        npsType: {}
+        npsType: {
+          range: 11
+        }
       }
     }
   }),
@@ -23,11 +25,13 @@ export const METRICS: Metric[] = [
     metricId: '2861045b4984805ae23df729dad97b',
     parentMetricId: '62861045b4984805ae213df729dad97b',
     entityStatus: "ACTIVE",
-    subject   : "staff:adelg",
+    subject   : "role:MD",
     properties: {
       metricName: 'Was your doctor friendly and courteous?',
       definition: {
-        npsType: {}
+        npsType: {
+          range: 11
+        }
       }
     }
   }),
@@ -36,11 +40,13 @@ export const METRICS: Metric[] = [
     metricId: '861045b4984805ae213df729dad97b',
     parentMetricId: '62861045b4984805ae213df729dad97b',
     entityStatus: "ACTIVE",
-    subject   : "staff:adelg",
+    subject   : "role:MD",
     properties: {
       metricName: 'Were you satisfied with the outcome of your treatment?',
       definition: {
-        npsType: {}
+        npsType: {
+          range: 11
+        }
       }
     }
   }),
@@ -49,11 +55,13 @@ export const METRICS: Metric[] = [
     metricId: '1045b4984805ae213df729dad97b',
     parentMetricId: '62861045b4984805ae213df729dad97b',
     entityStatus: "ACTIVE",
-    subject   : "staff:adelg",
+    subject   : "role:MD",
     properties: {
       metricName: 'Did you have a clear understanding of the plan going forward?',
       definition: {
-        npsType: {}
+        npsType: {
+          range: 11
+        }
       }
     }
   }),
@@ -62,11 +70,13 @@ export const METRICS: Metric[] = [
     metricId: '045b4984805ae213df729dad97b',
     parentMetricId: '62861045b4984805ae213df729dad97b',
     entityStatus: "ACTIVE",
-    subject   : "staff:adelg",
+    subject   : "role:MD",
     properties: {
       metricName: 'Did Dr. El-Ghazzawi address your concerns and questions?',
       definition: {
-        npsType: {}
+        npsType: {
+          range: 11
+        }
       }
     }
   }),
@@ -75,11 +85,13 @@ export const METRICS: Metric[] = [
     metricId: '5b4984805ae213df729dad97b',
     parentMetricId: '62861045b4984805ae213df729dad97b',
     entityStatus: "ACTIVE",
-    subject   : "staff:adelg",
+    subject   : "role:MD",
     properties: {
       metricName: 'Do you feel the treatment plan was properly explained to you?',
       definition: {
-        npsType: {}
+        npsType: {
+          range: 11
+        }
       }
     }
   }),
@@ -94,7 +106,9 @@ export const METRICS: Metric[] = [
     properties: {
       metricName: 'How do you rate the office and support staff?',
       definition: {
-        npsType: {}
+        npsType: {
+          range: 11
+        }
       }
     }
   }),
@@ -108,7 +122,9 @@ export const METRICS: Metric[] = [
     properties: {
       metricName: 'Was the office staff professional and helpful?',
       definition: {
-        npsType: {}
+        npsType: {
+          range: 11
+        }
       }
     }
   }),
@@ -121,7 +137,9 @@ export const METRICS: Metric[] = [
     properties: {
       metricName: 'Was it easy and convenient to book an appointment?',
       definition: {
-        npsType: {}
+        npsType: {
+          range: 11
+        }
       }
     }
   }),
@@ -134,7 +152,9 @@ export const METRICS: Metric[] = [
     properties: {
       metricName: 'Did the office staff respect your privacy?',
       definition: {
-        npsType: {}
+        npsType: {
+          range: 11
+        }
       }
     }
   }),
@@ -147,7 +167,9 @@ export const METRICS: Metric[] = [
     properties: {
       metricName: 'Once you arrived, did you see your doctor on time?',
       definition: {
-        npsType: {}
+        npsType: {
+          range: 11
+        }
       }
     }
   }),
@@ -160,7 +182,9 @@ export const METRICS: Metric[] = [
     properties: {
       metricName: 'Was the office staff helpful with insurance and billing questions?',
       definition: {
-        npsType: {}
+        npsType: {
+          range: 11
+        }
       }
     }
   }),
@@ -172,9 +196,11 @@ export const METRICS: Metric[] = [
     entityStatus: "ACTIVE",
     subject   : "control",
     properties: {
-      metricName: 'Please tell us how you felt about providing a review!',
+      metricName: 'Did you mind providing this quick, anonymous review?',
       definition: {
-        npsType: {}
+        npsType: {
+          range: 11
+        }
       }
     }
   }),
@@ -186,7 +212,7 @@ export const METRICS: Metric[] = [
     entityStatus: "ACTIVE",
     subject   : "freeform",
     properties: {
-      metricName: 'Please provide us with some details about your experience!',
+      metricName: 'Would you care to add anything else?',
       definition: {
         textType: {}
       }

@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-navbar>
+    <!--ion-title style="float:left;">Help us improve our service!</ion-title-->
+    <div style="text-align:center">
+      <img src="{{account?.properties?.logo}}" style="height:80%;display:inline-block;" onerror="this.style.display='none'"/>
+      <ion-icon name="settings" style="float:right;width:40px;padding:5px" (click)="gotoLogin()"></ion-icon>
+    </div>
+  </ion-navbar>
+</ion-header>
+<ion-content *ngIf="showImage">
+  <div style="text-align:center;">
+    <img style="height:200px; padding: 8% 5px 5px 0;" src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRXmBMTGe8sndkTmNG-w761QefwGDVG9H1xT306tTmNbSmOzeCQ3g"/>
+  </div>
+</ion-content>

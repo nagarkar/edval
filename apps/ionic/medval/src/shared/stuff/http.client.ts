@@ -52,17 +52,10 @@ export class HttpClient {
       .toPromise()
       .then(this.extractData)
       .catch(this.handleError);
-    /*
-      .map((res: Response) => res.json())
-      .catch((error) =>{
-        this.utils.error(JSON.stringify(error));
-        return Observable.throw(error);
-      });
-      */
   }
 
   public put<T>(path : string, id: string | '', body: T) : Promise<T> {
-    let response: Observable<Response> = this.http.put(this.baseUrl + path + "/" + id, JSON.stringify(body),
+    let response: Observable<Response> = this.http.put(this.baseUrl + path + "/" + id, Utils.stringify(body),
       this.createRequestOptionsArgs());
     let responsePromise : Promise<Response> = response.toPromise();
     return responsePromise
@@ -71,7 +64,7 @@ export class HttpClient {
   }
 
   public post<T>(path : string, body: T) : Promise<T> {
-    return this.http.post(this.baseUrl + path, JSON.stringify(body),
+    return this.http.post(this.baseUrl + path, Utils.stringify(body),
       this.createRequestOptionsArgs())
         .toPromise()
         .then(this.extractData)
@@ -88,10 +81,10 @@ export class HttpClient {
 
   private extractData<T>(res: Response) : T {
     // Workaround for the fact the content type may be wrong
-    console.log('in extract data' + JSON.stringify(res));
+    Utils.log('in extract data' + Utils.stringify(res));
     let body: T;
     if (res.headers.get('content-type') == "application/json") {
-      //console.log("Extracted data res.json: " + JSON.stringify(res.json()));
+      //this.utils.log("Extracted data res.json: " + Utils.stringify(res.json()));
       let json;
       try {
         json = res.json();
@@ -107,15 +100,15 @@ export class HttpClient {
   private handleError<T> (error: Response | any) : T {
     // In a real world app, we might use a remote logging infrastructure
     let errMsg: string;
-    console.log('in handle error' + JSON.stringify(error));
+    Utils.log('in handle error' + Utils.stringify(error));
     if (error instanceof Response) {
       const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
+      const err = body.error || Utils.stringify(body);
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
     } else {
       errMsg = error.message ? error.message : error.toString();
     }
-    console.error(errMsg);
+    Utils.error(errMsg);
     return null;
     //return Promise.throw(errMsg);
   }

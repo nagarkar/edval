@@ -1,18 +1,15 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title style="float:left;">Start</ion-title>
-     <ion-icon name="settings" style="float:right;width:40px;padding:5px" (click)="gotoLogin()"></ion-icon>
-  </ion-navbar>
-</ion-header>
-<ion-content padding>
+<mdval-header [showImage]="false"></mdval-header>
 
-  <div *ngIf="showNoThanks == false">
+<ion-content stlyle="padding:30% 0 0 0">
+  <div *ngIf="showNoThanks == false" style="text-align:center">
     <h1 class="metricHeading">
-      Thanks for taking a minute of your time to help us improve our service!
+      <!--Thanks for taking a minute of your time to help us improve our service!-->
+      Welcome! Please help us improve your patient experience by providing a brief, completely anonymous review.
     </h1>
     <br/>
-    <button ion-button full clear (click)="startSurvey();">Yes! Let's do this!</button>
-    <button ion-button full clear (click)="noThanks();">No, I'll pass!</button>
+    <button ion-button small (click)="startSurvey();">Let's Start</button>
+    <br/>
+    <button ion-button small clear (click)="noThanks();">No Thanks</button>
     <br/>
     <br/>
   </div>

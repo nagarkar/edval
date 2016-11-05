@@ -32,9 +32,10 @@ import {MockSessionService} from "../services/session/mock";
 import {SessionService} from "../services/session/delegator";
 import {FeedbackComponent} from "../shared/feedback/feedback.component";
 
-//import {enableProdMode} from '@angular/core';
+import {enableProdMode} from '@angular/core';
+import {HeaderComponent} from "../shared/header/header.component";
 
-//enableProdMode();
+enableProdMode();
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import {FeedbackComponent} from "../shared/feedback/feedback.component";
     StaffEditComponent,
     CarouselComponent,
     PickStaffComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    HeaderComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -77,7 +79,8 @@ import {FeedbackComponent} from "../shared/feedback/feedback.component";
     StaffEditComponent,
     CarouselComponent,
     PickStaffComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    HeaderComponent
   ],
   providers: [
     { provide: Config, useClass: Config},

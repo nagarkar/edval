@@ -19,6 +19,10 @@ export class PickStaffComponent implements OnInit {
   @ViewChild(CarouselComponent) carousel: CarouselComponent;
 
   slides: SlideItem[] = [];
+  slideToStaffMap: Map<number, Staff> = new Map<number, Staff>();
+
+  selectedStaff: Set<Staff> = new Set<Staff>();
+
   constructor(
     private utils: Utils,
     private staffSvc: StaffService,
@@ -33,29 +37,40 @@ export class PickStaffComponent implements OnInit {
     this.utils.setRoot(this.navCtrl, LoginComponent);
   }
 
-  selectProducer(producer: any) {
-    if (this.staffSelected() > 1) {
-      this.utils.setRoot(this.navCtrl, SurveyComponent);
+  selectStaff(slideitem: SlideItem) {
+    const staff: Staff = this.slideToStaffMap.get(slideitem.idx);
+    Utils.log("In Pickstaff.selectStaff with item {0}\n {1}\n",
+      Utils.stringify(slideitem),
+      Utils.stringify(staff))
+    if (slideitem.isSelected) {
+      this.selectedStaff.add(staff);
+    } else {
+      this.selectedStaff.delete(staff);
     }
-    this.utils.log(JSON.stringify(producer));
-    this.carousel.onSwipeLeft();
+    Utils.log("Selected staff {0} in pickstaff.", staff.username);
   }
 
   private setupSlides() {
     this.staffSvc.list()
       .then((staffList: Staff[]) => {
-        //this.utils.log("got staff for carousel " + JSON.stringify(staffList));
-        this.slides = staffList.map<SlideItem>((value: Staff, idx, arr): SlideItem => {
-          return <SlideItem>{
-            idx: idx,
-            username: value.username,
-            description: [value.properties.title, value.properties.firstName, value.properties.lastName].join(' '),
-            imgUrl: value.properties.photoUrl,
-            isSelected: false,
-            currentPlacement: idx*(360/arr.length),
-            color:"#000000"
-          };
-        })
+        this.slideToStaffMap = new Map<number, Staff>();
+        let count = 0;
+        //this.utils.log("got staff for carousel " + Utils.stringify(staffList));
+        this.slides = staffList
+          .filter((staff: Staff) => {
+            return staff.role != "ADMIN"
+          })
+          .map<SlideItem>((staff: Staff): SlideItem => {
+            this.slideToStaffMap.set(count, staff);
+            Utils.log("In setup slides, wtih staff: {0}", staff);
+            return <SlideItem>{
+              idx: count++,
+              heading: staff.displayName,
+              subheading: staff.role,
+              imgUrl: staff.properties.photoUrl,
+              isSelected: false,
+            };
+          })
       });
 
     //setTimeout(() =>{
@@ -64,7 +79,8 @@ export class PickStaffComponent implements OnInit {
   }
 
   startSurvey(){
-    this.utils.setRoot(this.navCtrl, SurveyComponent, {directPage: true});
+
+    this.utils.setRoot(this.navCtrl, SurveyComponent, {directPage: true, staff: this.selectedStaff});
     /* TODO: Actually save the session
     this.sessionSvc.create(new Session()).then(
       (session: Session) => {
@@ -72,13 +88,5 @@ export class PickStaffComponent implements OnInit {
       }
     )
     */
-  }
-
-  private staffSelected() : number {
-    let count = 0;
-    this.slides.forEach((value: SlideItem)=>{
-      if (value.isSelected) count ++;
-    })
-    return count;
   }
 }

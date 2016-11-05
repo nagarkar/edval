@@ -26,25 +26,18 @@ export class AccountComponent extends MedvalComponent {
     super(tokenProvider, navCtrl, utils);
   }
 
-  public account: Account = {
-    customerId: '',
-    properties: {
-      customerName : "",
-      logo: ""
-    },
-    configuration: { }
-  };
+  public account: Account = new Account();
 
   ngOnInit(): void {
     super.ngOnInit();
-    this.utils.log("Calling account account to get account");
+    Utils.log("Calling account account to get account");
     this.accountSvc.get(Config.CUSTOMERID)
       .then((account: Account) => {
         this.account = account;
       })
       .catch(err => {
         this.utils.presentTopToast(err || "Could not retrieve Account");
-        this.utils.log(err)
+        Utils.log(err)
       });
   }
 

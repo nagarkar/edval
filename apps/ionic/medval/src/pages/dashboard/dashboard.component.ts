@@ -31,7 +31,7 @@ export class DashboardComponent {
   }
 
   gotoSurveyPage() {
-    this.goto(StartComponent);
+    this.utils.setRoot(this.navCtrl, StartComponent);
   }
 
   openNavGetHelpPage() {

@@ -69,11 +69,11 @@ export class LoginComponent implements OnInit {
 
   private processToken(tokens: AuthResult) {
     this.authResult = tokens;
-    this.utils.log("Login component got accessTokey \n" + this.authResult);
+    Utils.log("Login component got accessTokey \n" + this.authResult);
   }
 
   private processError(err) : void {
     this.authResult = null;
-    this.utils.error("Error \n" + err);
+    Utils.error("Error \n" + err);
   }
 }

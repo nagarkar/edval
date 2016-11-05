@@ -102,10 +102,10 @@ export class AccessTokenService {
           this.authResult = new AuthResult(
             session.getAccessToken().getJwtToken(),
             session.getIdToken().getJwtToken());
-          //this.utils.log("AccessToken:" + session.getAccessToken().getJwtToken());
-          //this.utils.log("IdToken:" + session.getIdToken().getJwtToken());
+          //Utils.log("AccessToken:" + session.getAccessToken().getJwtToken());
+          //Utils.log("IdToken:" + session.getIdToken().getJwtToken());
           resolve(this.authResult);  // fulfilled successfully
-          //this.utils.log("Finished Logging in :" + this._username);
+          //Utils.log("Finished Logging in :" + this._username);
         },
         onFailure: (err) => {
           this.error = err;

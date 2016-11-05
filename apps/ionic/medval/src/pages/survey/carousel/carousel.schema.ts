@@ -1,15 +1,14 @@
-export interface CarouselItem {
-  description: string;
-  imgUrl?: string;
-  color?: string
-}
-
-export interface SlideItem {
-  idx: number;
+import {Utils} from "../../../shared/stuff/utils";
+export class SlideItem {
+  idx?: number;
   username?: string;
-  description: string;
-  isSelected: boolean;
+  heading: string;
+  subheading: string;
+  isSelected?: boolean;
   imgUrl: string;
-  color?: string;
   currentPlacement?: number
+
+  toString() {
+    return Utils.stringify(this);
+  }
 }

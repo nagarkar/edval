@@ -1,7 +1,21 @@
+<!--[@ratingPicked]="popped ? ((idx < ratingValue) ? 'activePopped' : 'inactivePopped') : ((idx < ratingValue) ? 'activeNormal' : 'inactiveNormal')" -->
+
 <span tabindex="0" role="slider">
   <span *ngFor=" let rating of ratingRange; let idx = index;" class="active">
-    <ion-icon large class="fa" (click)="setRating(idx + 1)"
+    <ion-icon #icon large [@ratingPicked]="state(idx, icon)"
+      class="fa" (click)="setRating(idx + 1, icon)"
       [ngClass]="idx < ratingValue ? onState : offState">
     </ion-icon>
   </span>
 </span>
+
+<!--
+<span tabindex="0" role="slider">
+  <span *ngFor=" let rating of ratingRange; let idx = index;">
+    <ion-icon [@ratingPicked]="isActiveIcon()" large class="fa" (click)="setRating(idx + 1)"
+      [ngClass]="iconClass(idx)" [ngStyle]="iconStyle(idx)">
+    </ion-icon>
+  </span>
+</span>
+
+-->

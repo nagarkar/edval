@@ -15,12 +15,16 @@ export class MockStaffService extends AbstractMockService<Staff> {
     accessProvider: AccessTokenService) {
 
     super(utils, accessProvider);
-    this.utils.log("created staff account)");
+    Utils.log("created staff account)");
   }
 
 
   getId(member: Staff) {
     return member.username;
+  }
+
+  setId(member: Staff, id: string): string {
+    return member.username = id;
   }
 
   public mockData() : Map<string, Staff> {

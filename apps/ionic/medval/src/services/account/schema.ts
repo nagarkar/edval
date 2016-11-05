@@ -1,4 +1,6 @@
+import {Utils} from "../../shared/stuff/utils";
 export class Account {
+
   customerId: string;
   properties : {
     customerName: string,
@@ -8,7 +10,15 @@ export class Account {
     [key: string] : string
   }
 
+  constructor() {
+    this.properties = {
+      customerName: "",
+      logo: ''
+    };
+    this.configuration = {};
+  }
+
   toString() {
-    return JSON.stringify(this);
+    return Utils.stringify(this);
   }
 }
