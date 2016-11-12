@@ -27,6 +27,14 @@ export class Staff {
     return [this.properties.title, this.properties.firstName, this.properties.lastName].join(' ');
   }
 
+  public static getUsernames(staffSet: Set<Staff>): string[] {
+    let usernames: string[] = [];
+    staffSet.forEach((value: Staff)=>{
+      usernames.push(value.username);
+    })
+    return usernames;
+  }
+
   public static newStaffMember() {
     return Object.assign(new Staff(), {
       customerId: Config.CUSTOMERID,

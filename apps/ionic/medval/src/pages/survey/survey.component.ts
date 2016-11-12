@@ -9,7 +9,6 @@ import {
 
 import {NavController, NavParams, LoadingController} from'ionic-angular';
 
-import {MetricService} from "../../services/metric/metric.service";
 import {Metric, MetricValue} from "../../services/metric/schema";
 import {MetricIterator} from "../../services/metric/metric.iterator";
 import {ThanksComponent} from "./thanks/thanks.component";
@@ -22,14 +21,12 @@ import {AccountService} from "../../services/account/delegator";
 import {Config} from "../../shared/aws/config";
 import {Account} from "../../services/account/schema";
 import {Staff} from "../../services/staff/schema";
+import {MetricService} from "../../services/metric/delegator";
 
 
 @Component({
   selector: 'survey',
   templateUrl: 'survey.component.html',
-  providers: [
-    MetricService
-  ],
   animations: [
     trigger('metricsPresented', [
       state('gtZero', style({opacity: 1, transform: 'translateX(0)'})),
@@ -124,8 +121,11 @@ export class SurveyComponent extends MedvalComponent {
 
   private addMetricValue(metricValue: MetricValue) {
     //TODO Uncomment this once we fix sessions.
-    //this.sessionService.addToCurrentSession(metricValue);
-    this.metricIterator.updateAnswer(metricValue);
+    this.metricService.get(metricValue.metricId)
+      .then((metric: Metric) => {
+        this.sessionService.addToCurrentSession(metric.subject, metricValue);
+        this.metricIterator.updateAnswer(metricValue);
+      });
   }
 
   private calculateProgressBarValue() {
@@ -137,10 +137,9 @@ export class SurveyComponent extends MedvalComponent {
 
   private resetMetrics() {
     // TODO: Make sure we actually get usernames here and pass them.
-    //let usernames : Array<string> = this.sessionService.getCurrentSession().properties.selectedStaffUserNames;
+    // let usernames : Array<string> = this.sessionService.getCurrentSession().properties.selectedStaffUserNames;
     this.metricIterator = new MetricIterator(
       this.maxMetrics,
-      this.utils,
       this.metricService,
       this.selectedStaff,
       new Set<string>() /* Roles */);

@@ -3,6 +3,7 @@
  simpler, since JSON doesn't allow you to specify the type explicitly.
  */
 import {Utils} from "../../shared/stuff/utils";
+import {Config} from "../../shared/aws/config";
 export class Type {}
 
 export class NPSType extends Type {
@@ -14,7 +15,7 @@ export class TextType extends Type {
 }
 
 export class MetricValue {
-  constructor (public metricId: string, public parentMetricId: string, public metricValue: string) { };
+  constructor (public metricId: string, public metricValue: string) { };
 
   toString() {
     return Utils.stringify(this);
@@ -33,6 +34,7 @@ export class Metric {
 
   private static readonly rolePattern = /^role:(.*)/i;
   private static readonly staffPattern = /^staff:(.*)/i;
+  private static readonly orgPattern = /(^org$)|(^org:(.+)$)/i;
 
   customerId: string;
   metricId     : string;
@@ -41,8 +43,30 @@ export class Metric {
   entityStatus: string;
   properties: MetricProperties;
 
+
+  constructor(type?: NPSType | TextType, id?:string, subject?:string) {
+    if (!id) {
+      id = Utils.guid("m" /* prefix */);
+    }
+    // TODO: The following line can be safely removed from here since server will populate customerid if it's in url path.
+    this.customerId = Config.CUSTOMERID;
+    this.metricId = id;
+    this.subject = subject;
+    this.properties = {
+      metricName:'',
+      definition: {
+        npsType: type instanceof NPSType ? type : null,
+        textType: type instanceof TextType ? type : null
+      }
+    };
+  }
+
   toString() {
     return Utils.stringify(this);
+  }
+
+  public isRoot() {
+    return this.parentMetricId == null;
   }
 
   public isLow(value: MetricValue) {
@@ -75,8 +99,20 @@ export class Metric {
     return +(value.metricValue)/this.properties.definition.npsType.range >= 0.727272727;
   }
 
-  hasRoleSubject() {
+  hasRoleSubject(): boolean {
     return Metric.rolePattern.test(this.subject);
+  }
+
+  static isRoleSubject(subject: string): boolean {
+    return Metric.rolePattern.test(subject);
+  }
+
+  static isStaffSubject(subject: string): boolean {
+    return Metric.staffPattern.test(subject);
+  }
+
+  static isOrgSubject(subject: string): boolean {
+    return Metric.orgPattern.test(subject);
   }
 
   hasStaffSubject() {
@@ -99,5 +135,9 @@ export class Metric {
 
   setStaffSubject(username: string) {
     this.subject = "staff:" + username;
+  }
+
+  static createRoleSubject(role: string) {
+    return "role:" + role;
   }
 }

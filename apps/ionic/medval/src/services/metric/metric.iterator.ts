@@ -1,12 +1,10 @@
-import {MetricService} from "./metric.service";
 import {Metric, MetricValue, TextType} from "./schema";
 import {Utils} from "../../shared/stuff/utils";
 import {Staff} from "../staff/schema";
+import {MetricService} from "./delegator";
 
 
 export class MetricIterator implements Iterator<Metric> {
-
-  private static readonly ROLES : string[] = new Array<string>("MD", "PA", "ADMIN");
 
   // Calculated on startup based on maxMetrics@constructor.
   private maxDrilldowns;
@@ -24,20 +22,19 @@ export class MetricIterator implements Iterator<Metric> {
   // All iterators; computed anew for each survey, but may be cached in the future.
   private userRootIterator: Iterator<Metric>;
   private roleRootIterator: Iterator<Metric>;
-  private controlIterator: Iterator<Metric>;
+  private orgRootIterator: Iterator<Metric>
   private drilldownIteratorLookup: Map<Metric, Iterator<Metric>>;
-  private freeFormTextIterator: Iterator<Metric>;
 
   constructor(
     private maxMetrics: number,
-    private utils: Utils,
-    private questionSvc : MetricService,
+    private metricService : MetricService,
     private staffSet: Set<Staff>,
     private roles: Set<string>) {
 
     Utils.log("IN METRIC ITERATOR with staff: {0}, roles: {1}", Utils.stringify(staffSet), roles);
     this.maxDrilldowns = this.computeMaxDrilldowns();
-    this.expandAndSetupMetricIterators();
+    let metrics: Metric[] = this.metricService.listCached();
+    this.expandAndSetupMetricIterators(metrics);
   }
 
   next(value?: MetricValue): IteratorResult<Metric> {
@@ -51,14 +48,12 @@ export class MetricIterator implements Iterator<Metric> {
       return this.saveAndReturn(this.getNextIteratorResultOrDone(
         this.userRootIterator,
         this.roleRootIterator,
-        this.controlIterator,
-        this.freeFormTextIterator
+        this.orgRootIterator
       ))
     }
     if (this.lastRoot && this.lastRoot.isHigh(this.lastRootValue)) {
       return this.saveAndReturn(this.getNextIteratorResultOrDone(
-        this.freeFormTextIterator,
-        this.controlIterator
+        this.orgRootIterator
       ));
     }
     if (this.lastRoot /*&& this.lastRoot.isLow(this.lastRootValue) */) {
@@ -66,15 +61,13 @@ export class MetricIterator implements Iterator<Metric> {
         this.drilldownIteratorLookup.get(this.lastRoot),
         this.userRootIterator,
         this.roleRootIterator,
-        this.controlIterator,
-        this.freeFormTextIterator
+        this.orgRootIterator
       ));
     }
     return this.saveAndReturn(this.getNextIteratorResultOrDone(
       this.userRootIterator,
       this.roleRootIterator,
-      this.controlIterator,
-      this.freeFormTextIterator
+      this.orgRootIterator
     ));
   }
 
@@ -96,16 +89,13 @@ export class MetricIterator implements Iterator<Metric> {
     return result;
   }
 
-  private expandAndSetupMetricIterators() : void {
-    const metrics = this.expandMetrics(this.questionSvc.getMetrics());
+  private expandAndSetupMetricIterators(retrievedMetrics: Metric[]) : void {
+    const metrics = this.expandMetrics(retrievedMetrics);
     this.userRootIterator = this.getRootQuestionForUsers(metrics);
     this.roleRootIterator = this.getRootQuestionsForRoles(metrics);
-    this.controlIterator = this.getControlIterator(metrics);
+    this.orgRootIterator = this.getRootQuestionsForOrgs(metrics);
     this.drilldownIteratorLookup = this.getDrilldownIteratorLookup(metrics);
     // Assume a single freeform text question.
-    this.freeFormTextIterator = metrics.filter((value: Metric) => {
-      return value.properties.definition.textType;
-    }).values();
   }
 
   private getRootQuestionForUsers(metrics: Metric[]): Iterator<Metric> {
@@ -116,15 +106,21 @@ export class MetricIterator implements Iterator<Metric> {
     return this.getRootIterators(metrics, "role", Array.from(this.roles));
   }
 
+  private getRootQuestionsForOrgs(metrics: Metric[]) {
+    return this.getRootIterators(metrics, "org", ['control']);
+  }
+
   private getDrilldownIteratorLookup(metrics: Metric[]): Map<Metric, Iterator<Metric>> {
     let iteratorLookup = new Map<Metric, Iterator<Metric>>();
 
     let roots = metrics.filter((metric: Metric) => {
-      return !metric.parentMetricId && metric.isNpsType();
+      return !metric.parentMetricId;
     });
     roots.forEach((root: Metric) => {
       let drilldowns = metrics.filter((metric: Metric) => {
         return metric.parentMetricId == root.metricId
+          // TODO: When we support a ROLE root metric with a customized drilldown for specific staff, need to chang
+          // next line and other similar in this class.
           && metric.subject == root.subject;
       });
       drilldowns = this.selectDrilldownMetrics(drilldowns);
@@ -139,11 +135,17 @@ export class MetricIterator implements Iterator<Metric> {
     metrics: Metric[], subjectPrefix: string, subjectValues: string[]) : Iterator<Metric> {
 
     let allRootMetrics = Array<Metric>();
+    allRootMetrics.concat(metrics.filter((metric: Metric) => {
+      return metric.subject === subjectPrefix && !metric.parentMetricId
+    }));
+
+    if (!subjectValues) {
+      return;
+    }
+
     subjectValues.forEach((subjectValue: string) => {
       let rootMetrics: Metric[] = metrics.filter((metric: Metric) => {
-        return metric.subject === (subjectPrefix + ":" + subjectValue)
-          && !metric.parentMetricId
-          && metric.isNpsType();
+        return metric.subject === (subjectPrefix + ":" + subjectValue) && !metric.parentMetricId
       });
       allRootMetrics = allRootMetrics.concat(rootMetrics);
     })
@@ -200,4 +202,5 @@ export class MetricIterator implements Iterator<Metric> {
     mustHaveMetricsCount += npsRootMetrics + 1 /* Control Question */;
     return Math.ceil((this.maxMetrics - mustHaveMetricsCount)/npsRootMetrics);
   }
+
 }

@@ -102,9 +102,20 @@ export class AccessTokenService {
           this.authResult = new AuthResult(
             session.getAccessToken().getJwtToken(),
             session.getIdToken().getJwtToken());
-          //Utils.log("AccessToken:" + session.getAccessToken().getJwtToken());
-          //Utils.log("IdToken:" + session.getIdToken().getJwtToken());
-          resolve(this.authResult);  // fulfilled successfully
+
+          me._cognitoUser.getUserAttributes((err, result) => {
+            if (err) {
+              Utils.log("Error while trying to get cognito user attributes for user {0}", this.authenticationDetails);
+              return;
+            }
+            for (let i = 0; i < result.length; i++) {
+              Utils.log('attribute {0}  has value {1}', result[i].getName(), result[i].getValue());
+              if (result[i].getName() == "custom:organizationName") {
+                Config.CUSTOMERID = result[i].getValue();
+              }
+            }
+            resolve(this.authResult);  // fulfilled successfully
+          });
           //Utils.log("Finished Logging in :" + this._username);
         },
         onFailure: (err) => {
@@ -117,7 +128,7 @@ export class AccessTokenService {
           // authentication.
 
           // Get these details and call
-          this.utils.presentAlertPrompt(
+          me.utils.presentAlertPrompt(
             (data) => {
               me._cognitoUser.completeNewPasswordChallenge(data.password, {"email": data.email}, this);
             },
@@ -136,7 +147,7 @@ export class AccessTokenService {
         mfaRequired: function(codeDeliveryDetails) {
           // MFA is required to complete user authentication.
           // Get the code from user and call
-          this.utils.presentAlertPrompt(
+          me.utils.presentAlertPrompt(
             (data) => {
               me._cognitoUser.sendMFACode(data.value, this)
             },

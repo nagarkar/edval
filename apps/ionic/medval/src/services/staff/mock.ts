@@ -18,6 +18,9 @@ export class MockStaffService extends AbstractMockService<Staff> {
     Utils.log("created staff account)");
   }
 
+  reset() {
+    MockStaffService.staffMap = MockStaffService.mockMap();
+  }
 
   getId(member: Staff) {
     return member.username;

@@ -49,7 +49,7 @@ export class MetricComponent {
 
   public onSelection(data) {
     this.onAnswerSelection.emit(new MetricValue(
-      this._currentMetric.metricId, this._currentMetric.parentMetricId, data));
+      this._currentMetric.metricId, data));
   }
 
   @Input()
@@ -75,7 +75,11 @@ export class MetricComponent {
     }
     const metricName = this.currentMetric.properties.metricName;
     if (this._currentStaff) {
-      return Utils.format(metricName, this._currentStaff.displayName);
+      let ctx: Map<string, any> = new Map();
+      ctx.set("staff", this._currentStaff);
+      ctx.set("metric", this.currentMetric);
+      return Utils.formatTemplate(metricName, ctx);
+      //return Utils.format(metricName, this._currentStaff.displayName);
     } else {
       return metricName;
     }

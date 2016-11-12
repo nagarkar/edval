@@ -9,19 +9,21 @@ import {ErrorType} from "./error.types";
 @Injectable()
 export class Utils {
 
-  constructor(
-    private actionSheetCtrl: ActionSheetController,
-    private alertCtrl: AlertController,
-    private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController,
-    private modalCtrl: ModalController,
-    private platform: Platform
-  )
-  { }
+  constructor(private actionSheetCtrl: ActionSheetController,
+              private alertCtrl: AlertController,
+              private loadingCtrl: LoadingController,
+              private toastCtrl: ToastController,
+              private modalCtrl: ModalController,
+              private platform: Platform) {
+  }
 
+  static date = new Date();
   static logs: string[] = []; // capture logs for testing
   static errors: string[] = []; // capture logs for testing
 
+  public static getTime() {
+    return Utils.date.getTime();
+  }
   public static log(message: string, ...args) : void {
     let fmsg = Utils.format(message, args);
     this.logs.push(fmsg);
@@ -44,7 +46,18 @@ export class Utils {
     return profileModal;
   }
 
-  presentTopToast(message: string, delay?: number) {
+  public static guid(prefix?: string) {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+
+    return (prefix ? prefix: "") + s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+      s4() + '-' + s4() + s4() + s4();
+  }
+
+  public presentTopToast(message: string, delay?: number) {
     let toast = this.toastCtrl.create({
       message: message || 'Success!',
       duration: delay || 3000,
@@ -124,11 +137,34 @@ export class Utils {
     actionSheet.present();
   }
 
-  public presentInvalidEntryAlert(message: string) {
+  public presentInvalidEntryAlert(message: string, ...args) {
     let alert : Alert = this.alertCtrl.create({
-      title: 'Invalid Entry',
-      subTitle: message,
+      title: 'Are you sure?',
+      subTitle: Utils.format(message, args),
       buttons: ['Dismiss']
+    });
+    alert.present();
+  }
+
+  public presentProceedCancelPrompt(
+    onselect: (result: string | any) => void,
+    subtitle: string
+  ) {
+    let alert = this.alertCtrl.create({
+      title: 'Are you sure?',
+      subTitle: subtitle,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Proceed',
+          handler: data => {
+            onselect(data);
+          }
+        }
+      ]
     });
     alert.present();
   }
@@ -245,7 +281,7 @@ export class Utils {
   }
 
   /** @param message, something like "Hello ${item.displayName()}!" */
-  static formatTemplate(message: string, item: {displayName: string}): string {
+  static formatTemplate(message: string, item: Map<string, any>): string {
     if (!message || !item) {
       return "";
     }
@@ -295,7 +331,7 @@ export class Utils {
   static throwIfAnyNull(values: any[], format?:string, ...args) {
     values.forEach((value: any)=>{
       if (!value) {
-        throw ErrorType.NullNotAllowed(this.format(format, args));
+        throw ErrorType.NullNotAllowed(this.format(format || "Null Not Allowed", args));
       }
     })
   }

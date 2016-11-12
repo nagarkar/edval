@@ -4,21 +4,16 @@ import {Http, Response, RequestOptionsArgs, Headers} from "@angular/http";
 import {Observable} from "rxjs";
 import {ErrorType} from "./error.types";
 import {Injectable} from "@angular/core";
+import {Config} from "../aws/config";
 
 @Injectable()
-export class HttpClient {
-
-  private baseUrl: string = "https://testapi.healthcaretech.io";
-  private pingUrl: string = "https://testapi.healthcaretech.io/api/ping";
-  //private baseUrl: string = "http://192.168.57.1:8090";
-  //private pingUrl: string = "http://192.168.57.1:8090/api/ping";
+export class HttpClient<T> {
 
   constructor(
     private utils: Utils,
     private tokenProvider: AccessTokenService,
-    private http: Http) {
-
-    this.setupDefaultUrls();
+    private http: Http,
+    private instance: T) {
   }
 
   /**
@@ -34,28 +29,28 @@ export class HttpClient {
    * @returns {Promise<ErrorObservable|ErrorObservable>|Promise<TResult>}
    */
   public ping() : Promise<string>{
-    return this.http.get(this.pingUrl, this.createRequestOptionsArgs())
+    return this.http.get(Config.pingUrl, this.createRequestOptionsArgs())
       .toPromise()
       .then<string>(this.extractData)
       .catch<string>(this.handleError);
   }
 
-  public list<T>(path : string | '') : Promise<T[]> {
-    return this.http.get(this.baseUrl + path, this.createRequestOptionsArgs())
+  public list<T>(path : string | '') : Promise<Array<T>> {
+    return this.http.get(Config.baseUrl + path, this.createRequestOptionsArgs())
       .toPromise()
       .then(this.extractData)
       .catch(this.handleError);
   }
 
   public get<T>(path : string, id: string | '') : Promise<T> {
-    return  this.http.get(this.baseUrl + path + "/" + id, this.createRequestOptionsArgs())
+    return  this.http.get(Config.baseUrl + path + "/" + id, this.createRequestOptionsArgs())
       .toPromise()
       .then(this.extractData)
       .catch(this.handleError);
   }
 
   public put<T>(path : string, id: string | '', body: T) : Promise<T> {
-    let response: Observable<Response> = this.http.put(this.baseUrl + path + "/" + id, Utils.stringify(body),
+    let response: Observable<Response> = this.http.put(Config.baseUrl + path + "/" + id, Utils.stringify(body),
       this.createRequestOptionsArgs());
     let responsePromise : Promise<Response> = response.toPromise();
     return responsePromise
@@ -64,7 +59,7 @@ export class HttpClient {
   }
 
   public post<T>(path : string, body: T) : Promise<T> {
-    return this.http.post(this.baseUrl + path, Utils.stringify(body),
+    return this.http.post(Config.baseUrl + path, Utils.stringify(body),
       this.createRequestOptionsArgs())
         .toPromise()
         .then(this.extractData)
@@ -72,32 +67,39 @@ export class HttpClient {
   }
 
   public delete(path : string, id: string | '') : Promise<boolean> {
-    return this.http.delete(this.baseUrl + path + "/" + id,
+    return this.http.delete(Config.baseUrl + path + "/" + id,
       this.createRequestOptionsArgs())
       .toPromise()
       .then(this.extractData)
       .catch(this.handleError);
   }
 
-  private extractData<T>(res: Response) : T {
+  private extractData = (res: Response): any => {
     // Workaround for the fact the content type may be wrong
     Utils.log('in extract data' + Utils.stringify(res));
-    let body: T;
+    let body: any;
     if (res.headers.get('content-type') == "application/json") {
       //this.utils.log("Extracted data res.json: " + Utils.stringify(res.json()));
-      let json;
       try {
-        json = res.json();
+        body = res.json();
+        if (Array.isArray(body)) {
+          body = (body as Array<any>).map((value: any) =>{
+            return Object.assign<T, any>(this.newInstance(), value);
+          });
+        } else {
+          body = Object.assign<T, any>(this.newInstance(), body);
+        }
       } catch(error) {
-        json = res.text();
+        body = res.text();
+        Utils.log('in extract data, error {0} occurred' + error);
+        Utils.log('in extract data, response was: {0}, with text {1}' + res, res.text());
       }
-      body = json;
     }
     return body;
     //throw Promise.throw("Invalid Content-TYpe; Only application/json or subject is supported")
   }
 
-  private handleError<T> (error: Response | any) : T {
+  private handleError  = (error: Response | any): any => {
     // In a real world app, we might use a remote logging infrastructure
     let errMsg: string;
     Utils.log('in handle error' + Utils.stringify(error));
@@ -130,13 +132,7 @@ export class HttpClient {
     }
   }
 
-  private setupDefaultUrls() {
-    if (this.utils.isDesktop()) {
-      this.baseUrl = "http://localhost:8090";
-      this.pingUrl = "http://localhost:8090/api/ping";
-    } else if (this.utils.isAndroid()) {
-      this.baseUrl = "http://192.168.57.1:8090";
-      this.pingUrl = "http://192.168.57.1:8090/api/ping";
-    }
+  private newInstance(): T {
+    return Object.create(Object.getPrototypeOf(this.instance));
   }
 }

@@ -5,6 +5,8 @@ import {LoginComponent} from "../../login/login.component";
 import {PickStaffComponent} from "../pickstaff/pickstaff.component";
 import {Utils} from "../../../shared/stuff/utils";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
+import {MetricService} from "../../../services/metric/delegator";
+import {SessionService} from "../../../services/session/delegator";
 
 @Component({
   templateUrl: 'start.component.html'
@@ -14,7 +16,8 @@ export class StartComponent {
   constructor(
     private navCtrl: NavController,
     private utils: Utils,
-    tokenProvider: AccessTokenService
+    tokenProvider: AccessTokenService,
+    private sessionSvc: SessionService
 
   ) {
     //TODO remove this.
@@ -33,6 +36,7 @@ export class StartComponent {
   }
 
   startSurvey(){
+    this.sessionSvc.newCurrentSession();
     this.utils.setRoot(this.navCtrl, PickStaffComponent, {directPage: true});
   }
 }

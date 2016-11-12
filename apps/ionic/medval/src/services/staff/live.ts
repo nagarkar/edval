@@ -6,16 +6,17 @@ import {HttpClient} from "../../shared/stuff/http.client";
 import {AbstractService} from "../../shared/service/abstract.service";
 import {Config} from "../../shared/aws/config";
 import {Staff} from "./schema";
+import {Http} from "@angular/http";
 
 @Injectable()
 export class LiveStaffService extends AbstractService<Staff> {
 
   constructor(
     utils : Utils,
-    httpClient: HttpClient,
+    http: Http,
     accessProvider: AccessTokenService) {
 
-    super(utils, httpClient, accessProvider);
+    super(utils, accessProvider, http, new Staff());
     Utils.log("created account account");
   }
 
@@ -27,4 +28,8 @@ export class LiveStaffService extends AbstractService<Staff> {
     return "/api/customers" + "/" + Config.CUSTOMERID + "/staff";
   }
 
+  reset() {
+    super.reset();
+    this.list();
+  }
 }

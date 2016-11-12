@@ -34,6 +34,17 @@ import {FeedbackComponent} from "../shared/feedback/feedback.component";
 
 import {enableProdMode} from '@angular/core';
 import {HeaderComponent} from "../shared/header/header.component";
+import {MetricService} from "../services/metric/delegator";
+import {MockMetricService} from "../services/metric/mock";
+import {LiveMetricService} from "../services/metric/live";
+import {Session} from "../services/session/schema";
+import {NpsTrendComponent} from "../pages/charts/nps.trend.component";
+import {RevvolveMetricsComponent} from "../pages/charts/revvolve.metrics.component";
+import {AllTrendsComponent} from "../pages/charts/all.trends";
+import {SettingsComponent} from "../pages/settings/settings.component";
+import {MetricSummaryComponent} from "../pages/metricsetup/metric.summary.component";
+import {MetricDetailComponent} from "../pages/metricsetup/metric.detail.component";
+import {ServiceFactory} from "../services/service.factory";
 
 enableProdMode();
 
@@ -55,7 +66,13 @@ enableProdMode();
     CarouselComponent,
     PickStaffComponent,
     FeedbackComponent,
-    HeaderComponent
+    HeaderComponent,
+    NpsTrendComponent,
+    RevvolveMetricsComponent,
+    AllTrendsComponent,
+    SettingsComponent,
+    MetricSummaryComponent,
+    MetricDetailComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -80,18 +97,27 @@ enableProdMode();
     CarouselComponent,
     PickStaffComponent,
     FeedbackComponent,
-    HeaderComponent
+    HeaderComponent,
+    NpsTrendComponent,
+    RevvolveMetricsComponent,
+    AllTrendsComponent,
+    SettingsComponent,
+    MetricSummaryComponent,
+    MetricDetailComponent
+
   ],
   providers: [
     { provide: Config, useClass: Config},
-    { provide: HttpClient, useClass: HttpClient},
     { provide: Utils, useClass: Utils },
     { provide: AccessTokenService, useClass: AccessTokenService},
     StaffService, MockStaffService, LiveStaffService,
     AccountService, MockAccountService, LiveAccountService,
-    LiveSessionService, MockSessionService, SessionService
+    LiveSessionService, MockSessionService, SessionService,
+    LiveMetricService, MockMetricService, MetricService,
+    ServiceFactory
   ]
 })
+
 export class AppModule {}
 
 export function final(target: any, propertyKey: string) {

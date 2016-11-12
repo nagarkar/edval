@@ -8,6 +8,9 @@ import {Config} from "../aws/config";
 import {LoginComponent} from "../../pages/login/login.component";
 import {AccessTokenService} from "../aws/access.token.service";
 
+/**
+ * Shows the header, including the account logo. If not logged in, logo is not shown.
+ */
 @Component({
   templateUrl: 'header.component.html',
   selector: 'mdval-header'
@@ -39,5 +42,8 @@ export class HeaderComponent implements OnInit {
       .then((account: Account) => {
         this.account = account;
       })
+      .catch(error => {
+        // no op; don't show the image
+      });
   }
 }

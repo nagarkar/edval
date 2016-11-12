@@ -10,6 +10,8 @@ import {PolicyComponent} from "./policy/policy.component";
 import {StaffComponent} from "../staff/staff.component";
 import {StartComponent} from "../survey/start/start.component";
 import {Utils} from "../../shared/stuff/utils";
+import {AllTrendsComponent} from "../charts/all.trends";
+import {MetricSummaryComponent} from "../metricsetup/metric.summary.component";
 
 @Component({
   templateUrl: 'dashboard.component.html'
@@ -28,6 +30,14 @@ export class DashboardComponent {
 
   gotoStaffPage() {
     this.goto(StaffComponent);
+  }
+
+  gotoMetricsPage() {
+    this.goto(MetricSummaryComponent);
+  }
+
+  gotoBusinessHealthPage() {
+    this.goto(AllTrendsComponent);
   }
 
   gotoSurveyPage() {

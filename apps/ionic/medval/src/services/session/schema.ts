@@ -1,13 +1,14 @@
-import {MetricValue} from "../metric/schema";
+import {MetricValue, Metric} from "../metric/schema";
+import {Utils} from "../../shared/stuff/utils";
 
 export class SessionProperties {
   selectedStaffUserNames: Array<string> = [];
   selectedRoles: Array<string> = []
-  staffMetricValues:Map<string, MetricValue> = new Map<string, MetricValue>();
-  roleMetricValues:Map<string, MetricValue> = new Map<string, MetricValue>();
+  staffMetricValues:Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
+  roleMetricValues:Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
   orgMetricValues: Array<MetricValue> = [];
   endTime: number;
-  aggregationsProcessed: boolean;
+  aggregationProcessed: boolean;
 }
 
 export class Session {
@@ -19,10 +20,16 @@ export class Session {
   entityStatus: string;
   properties: SessionProperties = new SessionProperties();
 
+  constructor() {
+    this.sessionId = Utils.guid("s");
+    this.patientId = Utils.guid("p");
+    this.timestamp = Utils.getTime();
+  }
+
   close() {
     this.entityStatus = "ACTIVE";
-    this.properties.endTime = new Date().getTime();
-    this.properties.aggregationsProcessed = false;
+    this.properties.endTime = Utils.getTime();
+    this.properties.aggregationProcessed = false;
   }
 
   equals(other: Session) {
@@ -35,12 +42,28 @@ export class Session {
     return false;
   }
 
-  addMetricValue(value: MetricValue) {
-    //TODO Uncomment this once we fix sessions.
-    //this.properties.orgMetricValues.push(value);
+  public addMetricValue(subject: string, value: MetricValue) {
+    if(Metric.isRoleSubject(subject)) {
+      this.addMetricValueHelper(this.properties.roleMetricValues, subject, value);
+    }
+    if (Metric.isStaffSubject(subject)) {
+      this.addMetricValueHelper(this.properties.staffMetricValues, subject, value);
+    }
+    if (Metric.isOrgSubject(subject)) {
+      this.addMetricValueHelper(this.properties.staffMetricValues, subject, value);
+    }
   }
 
-  addMetricValueForStaff(value: MetricValue, username: string) {
-    this.properties.staffMetricValues.set("subject:" + username, value);
+  setStaffUsernames(usernames: string[]) {
+    this.properties.selectedStaffUserNames = usernames;
+  }
+
+  private addMetricValueHelper(subjectMetricValueMap: Map<string, MetricValue[]>, subject: string, value: MetricValue) {
+    let values: MetricValue[] = subjectMetricValueMap.get(subject);
+    if (!values) {
+      values = [];
+    }
+    values.push(value);
+    subjectMetricValueMap.set(subject, values);
   }
 }

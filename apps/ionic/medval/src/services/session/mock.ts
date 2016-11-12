@@ -8,14 +8,16 @@ import {AbstractMockService} from "../../shared/service/abstract.mock.service";
 @Injectable()
 export class MockSessionService extends AbstractMockService<Session> {
 
-  private static staffMap: Map<string, Session> = MockSessionService.mockMap();
-
   constructor(
     utils: Utils,
     accessProvider: AccessTokenService) {
 
     super(utils, accessProvider);
     Utils.log("created staff account)");
+  }
+
+  reset() {
+    // no op
   }
 
   setId(member: Session, id: string): string {
@@ -27,17 +29,6 @@ export class MockSessionService extends AbstractMockService<Session> {
   }
 
   public mockData() : Map<string, Session> {
-    return MockSessionService.staffMap;
-  }
-
-
-  private static mockMap() : Map<string, Session> {
-    let map : Map<string, Session> = new Map<string, Session>();
-    map.set("1234", Object.assign(new Session(), {
-        sessionId:"1234",
-        patientId:"sdf",
-
-    }));
-    return map;
+    return new Map<string, Session>();
   }
 }

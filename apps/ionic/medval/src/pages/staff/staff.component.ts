@@ -58,7 +58,7 @@ export class StaffComponent extends MedvalComponent  {
       return;
     }
     this.utils.showLoadingBar();
-    this.staffSvc.delete(staffMember)
+    this.staffSvc.delete(staffMember.username)
       .then((deleted: boolean) : void => {
         if (deleted) {
           this.staffList = this.staffList.filter((el: Staff) => {

@@ -6,6 +6,12 @@ import {AccessTokenService, AuthResult} from "../../shared/aws/access.token.serv
 import {DashboardComponent} from "../dashboard/dashboard.component";
 import {NavController} from "ionic-angular";
 import {HttpClient} from "../../shared/stuff/http.client";
+import {AccountService} from "../../services/account/delegator";
+import {MetricService} from "../../services/metric/delegator";
+import {StaffService} from "../../services/staff/delegator";
+import {Config} from "../../shared/aws/config";
+import {SettingsComponent} from "../settings/settings.component";
+import {ServiceFactory} from "../../services/service.factory";
 
 @Component({
   templateUrl: 'login.component.html'
@@ -18,9 +24,9 @@ export class LoginComponent implements OnInit {
 
   constructor(
     public navCtrl: NavController,
-    private httpClient: HttpClient,
     private fb: FormBuilder,
     private authProvider: AccessTokenService,
+    private serviceFactory: ServiceFactory,
     private utils: Utils) {
 
   }
@@ -45,6 +51,7 @@ export class LoginComponent implements OnInit {
     this.authProvider.startNewSession(username, password).then(
       (token) => {
         this.processToken(token);
+        this.serviceFactory.resetRegisteredServices();
         this.navigateToDashboardPage();
       },
       (err) => this.processError(err));
@@ -56,7 +63,11 @@ export class LoginComponent implements OnInit {
   }
 
   public gotoHome() {
-    //this.navCtrl.setRoot(StartComponent);
+    this.navCtrl.setRoot(LoginComponent);
+  }
+
+  public gotoSettings() {
+    this.navCtrl.push(SettingsComponent);
   }
 
   private initSubscriptions() {

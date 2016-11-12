@@ -79,14 +79,14 @@ export class PickStaffComponent implements OnInit {
   }
 
   startSurvey(){
-
-    this.utils.setRoot(this.navCtrl, SurveyComponent, {directPage: true, staff: this.selectedStaff});
-    /* TODO: Actually save the session
-    this.sessionSvc.create(new Session()).then(
-      (session: Session) => {
-        this.utils.setRoot(this.navCtrl, SurveyComponent, {directPage: true});
-      }
-    )
-    */
+    this.sessionSvc.getCurrentSession().setStaffUsernames(Staff.getUsernames(this.selectedStaff));
+    if (this.selectedStaff.size > 0) {
+      this.utils.setRoot(this.navCtrl, SurveyComponent, {directPage: true, staff: this.selectedStaff});
+      return;
+    }
+    this.utils.presentProceedCancelPrompt(()=>{
+      this.utils.setRoot(this.navCtrl, SurveyComponent, {directPage: true, staff: this.selectedStaff});
+    }, `If you forgot to tell us (using the carousel checkboxes) who you worked with today, 
+        just click Cancel and try again. If you Proceed, you can still give us a text review.`);
   }
 }

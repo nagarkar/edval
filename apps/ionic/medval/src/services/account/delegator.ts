@@ -28,7 +28,7 @@ export class AccountService extends DelegatingService<Account> {
     return Promise.reject(ErrorType.UnsupportedOperation("create"));
   }
 
-  delete(TMember: Account): Promise<boolean> {
+  delete(id: string): Promise<boolean> {
     return Promise.reject(ErrorType.UnsupportedOperation("delete"));
   }
 }

@@ -4,13 +4,15 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 
 import {LoginComponent} from "../pages/login/login.component";
 import {StartComponent} from "../pages/survey/start/start.component";
+import {NpsTrendComponent} from "../pages/charts/nps.trend.component";
+import {AllTrendsComponent} from "../pages/charts/all.trends";
 
 
 @Component({
   template: `<ion-nav [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
-  rootPage = StartComponent;
+  rootPage = LoginComponent;
 
   constructor(platform: Platform) {
     platform.ready().then(() => {

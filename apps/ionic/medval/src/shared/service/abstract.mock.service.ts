@@ -9,16 +9,19 @@ import {ServiceInterface} from "./interface.service";
 export abstract class AbstractMockService<T> implements ServiceInterface<T> {
 
   abstract mockData() : Map<string, T>;
+  abstract reset();
   abstract getId(member: T) : string;
   abstract setId(member: T, id: string): string;
 
   onCreate: EventEmitter<T> = new EventEmitter<T>();
   onUpdate: EventEmitter<T> = new EventEmitter<T>();
-  onDelete: EventEmitter<T> = new EventEmitter<T>();
+  onDelete: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(
     protected utils : Utils,
-    protected accessProvider: AccessTokenService) { }
+    protected accessProvider: AccessTokenService) {
+
+  }
 
   get(id: string) : Promise<T[]> {
     return Promise.resolve(this.mockData().get(id));
@@ -26,6 +29,14 @@ export abstract class AbstractMockService<T> implements ServiceInterface<T> {
 
   list() : Promise<T[]> {
     return Promise.resolve(Array.from(this.mockData().values()));
+  }
+
+  listCached() : T[] {
+    return Array.from(this.mockData().values());
+  }
+
+  getCached(id: string) : T {
+    return this.mockData().get(id);
   }
 
   update(member: T) : Promise<T> {
@@ -45,17 +56,17 @@ export abstract class AbstractMockService<T> implements ServiceInterface<T> {
     return Promise.resolve(JSON.parse(JSON.stringify(member)));
   }
 
-  public delete(staffMember: T) : Promise<boolean> {
+  public delete(id: string) : Promise<boolean> {
     //TODO Add assertion (npm install check-preconditions)
-    this.deleteFromCache(staffMember);
-    this.onDelete.emit(staffMember);
+    this.deleteFromCache(id);
+    this.onDelete.emit(id);
     return Promise.resolve(true);
     //return this.delete(staffMember);
   }
 
 
-  private deleteFromCache(member: T) : void {
-    this.mockData().delete(this.getId(member));
+  private deleteFromCache(id: string) : void {
+    this.mockData().delete(id);
   }
 
   private updateCache(member: T) : void {

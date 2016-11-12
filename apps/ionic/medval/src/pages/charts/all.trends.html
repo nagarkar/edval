@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Your Business Metrics!</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="graph">
+      <ion-segment-button value="revvolve">Revvolve Metrics</ion-segment-button>
+      <ion-segment-button value="nps">General Surgeon Details</ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+  <div [ngSwitch]="graph" style="width:75%">
+    <div *ngSwitchCase="'nps'" style="height:50%;text-align:center">
+      <nps-trend></nps-trend>
+    </div>
+    <div *ngSwitchCase="'revvolve'" style="height:50%;text-align:center">
+      <revvolve-trend style="height:50%;text-align:center"></revvolve-trend>
+    </div>
+  </div>
+</ion-content>

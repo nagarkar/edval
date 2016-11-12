@@ -6,16 +6,18 @@ import {AccessTokenService, AuthResult} from "../../shared/aws/access.token.serv
 import {HttpClient} from "../../shared/stuff/http.client";
 import {AbstractService} from "../../shared/service/abstract.service";
 import {ErrorType} from "../../shared/stuff/error.types";
+import {Http} from "@angular/http";
+import {Config} from "../../shared/aws/config";
 
 @Injectable()
 export class LiveAccountService extends AbstractService<Account> {
 
   constructor(
     utils : Utils,
-    httpClient: HttpClient,
+    http: Http,
     accessProvider: AccessTokenService) {
 
-    super(utils, httpClient, accessProvider);
+    super(utils, accessProvider, http, new Account());
     Utils.log("created account account");
   }
 
@@ -26,4 +28,10 @@ export class LiveAccountService extends AbstractService<Account> {
   getId(member: Account): string {
     return member.customerId;
   }
+
+  reset() {
+    super.reset();
+    this.get(Config.CUSTOMERID);
+  }
+
 }

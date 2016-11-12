@@ -16,7 +16,11 @@ export class MockAccountService extends AbstractMockService<Account> {
     accessProvider: AccessTokenService) {
 
     super(utils, accessProvider);
-    Utils.log("created account account");
+    Utils.log("created " + typeof this);
+  }
+
+  reset() {
+    MockAccountService.MOCK_DATA = MockAccountService.mockMap();
   }
 
   mockData(): Map<string, Account> {
@@ -34,7 +38,7 @@ export class MockAccountService extends AbstractMockService<Account> {
 
   private static mockMap() : Map<string, Account> {
     let map : Map < string, Account > = new Map<string, Account>();
-    map.set("celeron", Object.assign(new Account(), {
+    map.set(Config.CUSTOMERID, Object.assign(new Account(), {
       customerId: Config.CUSTOMERID,
       properties: {
         logo: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTUobvzZgwqeFcJ9Y2d_Q58AL8n_FHMB1J49yjnpYFdxtDt1Xyf",

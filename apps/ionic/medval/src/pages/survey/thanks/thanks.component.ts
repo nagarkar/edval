@@ -16,21 +16,20 @@ export class ThanksComponent extends MedvalComponent implements AfterViewInit {
   constructor(
     tokenProvider: AccessTokenService,
     private sessionService: SessionService,
-    private config: Config,
     navCtrl: NavController,
     utils: Utils
     ) {
     super(tokenProvider, navCtrl, utils);
+    sessionService.closeCurrentSession();
   }
 
   public restartSurvey() {
-    this.sessionService.closeCurrentSession();
     this.utils.push(this.navCtrl, StartComponent);
   }
 
   public ngAfterViewInit() {
     setTimeout(()=> {
       this.restartSurvey();
-    }, this.config.timeOutAfterThanks)
+    }, Config.TIME_OUT_AFTER_SURVEY)
   }
 }

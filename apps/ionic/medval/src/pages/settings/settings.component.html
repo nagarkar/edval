@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title style="float:left;">Login</ion-title>
+    <ion-icon name="home" style="float:right;width:40px;padding:5px" (click)="gotoHome()"></ion-icon>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-title>Mock State</ion-title>
+  <ion-item>
+    <ion-label>Session</ion-label>
+    <ion-checkbox color="dark" [(ngModel)]="sessionIsMock"></ion-checkbox>
+  </ion-item>
+  <ion-item>
+    <ion-label>Staff</ion-label>
+    <ion-checkbox color="dark" [(ngModel)]="staffIsMock"></ion-checkbox>
+  </ion-item>
+  <ion-item>
+    <ion-label>Metric</ion-label>
+    <ion-checkbox color="dark" [(ngModel)]="metricIsMock"></ion-checkbox>
+  </ion-item>
+  <ion-item>
+    <ion-label>Account</ion-label>
+    <ion-checkbox color="dark" [(ngModel)]="accountIsMock"></ion-checkbox>
+  </ion-item>
+  <ion-title>CORS</ion-title>
+  <ion-item>
+    <ion-label>Service URL</ion-label>
+    <ion-input [(ngModel)]="serviceUrl"></ion-input>
+  </ion-item>
+</ion-content>

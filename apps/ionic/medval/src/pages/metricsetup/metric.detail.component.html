@@ -1,0 +1,31 @@
+  <ion-item (click)="toggleVisibility()">
+    <ion-icon [name]="metricBush.isShown ? 'ion-minus' : 'ion-plus'"></ion-icon>
+    &nbsp;
+    Metrics for: {{metricBush.subject}}
+  </ion-item>
+  <div *ngIf="metricBush.isShown">
+    <div *ngIf="!metricBush.rootMetric">
+      <ion-label stacked>There are no metrics in this category</ion-label>
+      <button ion-button color="primary" (click)="addRootMetric()" >Start by adding a net promoter score metric!</button>
+    </div>
+
+    <div *ngIf="metricBush.rootMetric">
+      <ion-item>
+        <ion-label stacked>The top level net promoter score for this category</ion-label>
+        <ion-input [(ngModel)]="metricBush.rootMetric.properties.metricName" style="font-style:italic"></ion-input>
+      </ion-item>
+      <button ion-button color="primary" (click)="removeRootMetric()" *ngIf="metricBush.drilldownMetrics.length == 0">Delete root</button>
+
+      <ion-list>
+        <ion-item>
+          <ion-title stacked>Drill Down Metrics</ion-title>
+        </ion-item>
+        <ion-item *ngFor="let metric of metricBush.drilldownMetrics">
+          <ion-label floating>Metric Prompt</ion-label>
+          <ion-icon style="float:left" class="fa" class="ion-ios-minus ion-android-minus" (click)="deleteDrilldown(index)"></ion-icon>
+          <ion-input [(ngModel)]="metric.properties.metricName" style="font-style:italic"></ion-input>
+        </ion-item>
+        <button ion-button color="primary" (click)="addDrilldownMetric()" >Add</button>
+      </ion-list>
+    </div>
+</div>
