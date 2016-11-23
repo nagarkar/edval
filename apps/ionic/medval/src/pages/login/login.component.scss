@@ -1,5 +1,18 @@
-.logo {
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
+.login-page {
+  background-color: #ecf0f1;
+}
+.login-page .logo-r {
+  padding: 15px 0;
+  text-align: center;
+}
+.login-page .logo-r img {
+  max-height: 75px;
+}
+.login-page .form-container {
+  max-width: 500px; 
+  margin: auto;
+  padding: 0 16px;
+}
+.padding-top {
+  padding-top: 16px;
 }
