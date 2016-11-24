@@ -1,35 +1,33 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="revvolve">
     <ion-title style="float:left;">Login</ion-title>
     <ion-icon name="home" style="float:right;width:40px;padding:5px" (click)="gotoHome()"></ion-icon>
     <ion-icon name="remove" style="float:right;width:40px;padding:5px" (click)="gotoSettings()"></ion-icon>
   </ion-navbar>
 </ion-header>
-<ion-content padding>
-  <ion-grid>
-    <ion-row>
-      <ion-col width-33></ion-col>
-      <ion-col width-33 text-center>
-        <img class="logo" src="http://uploads.webflow.com/5514fc714fc50b7b5d7d34d0/55835ce9b63ba5054325d368_Product_Icon_App%20Analytics.png" alt="">
-      </ion-col>
-      <ion-col width-33></ion-col>
-    </ion-row>
-  </ion-grid>
-  <form [formGroup]="loginForm" (ngSubmit)="login()">
-    <ion-item>
-      <ion-label color="primary" fixed>Username</ion-label>
-      <ion-input type="text" formControlName="username"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" fixed>Password</ion-label>
-      <ion-input type="password" formControlName="password"></ion-input>
-    </ion-item>
-    <div padding>
-      <!--
-      TODO: Add back the disabled condition (doesn't seem to work for some reason)
-      button ion-button color="primary" block type="submit" [disabled]="!loginForm.valid">Sign In -->
-      <button ion-button color="primary" block type="submit">Sign In
-      </button>
-    </div>
-  </form>
+<ion-content padding class="login-page">
+  
+     <div class="revvolve-logo" text-center> 
+      <img src="assets/img/logo.png" alt="">
+     </div> 
+   
+  <div class="form-container">
+	  <form [formGroup]="loginForm" (ngSubmit)="login()">
+		<ion-item>
+		  <ion-label color="darkgrey" fixed>Username</ion-label>
+		  <ion-input type="text" formControlName="username"></ion-input>
+		</ion-item>
+		<ion-item>
+		  <ion-label color="darkgrey" fixed>Password</ion-label>
+		  <ion-input type="password" formControlName="password"></ion-input>
+		</ion-item>
+		<div padding>
+		  <!--
+		  TODO: Add back the disabled condition (doesn't seem to work for some reason)
+		  button ion-button color="primary" block type="submit" [disabled]="!loginForm.valid">Sign In -->
+		  <button ion-button color="revvolve" block type="submit">Sign In
+		  </button>
+		</div>
+	  </form>
+  </div>
 </ion-content>
