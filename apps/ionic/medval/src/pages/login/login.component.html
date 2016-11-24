@@ -7,18 +7,18 @@
 </ion-header>
 <ion-content padding class="login-page">
   
-     <div class="logo-r" text-center> 
+     <div class="revvolve-logo" text-center> 
       <img src="assets/img/logo.png" alt="">
      </div> 
    
   <div class="form-container">
 	  <form [formGroup]="loginForm" (ngSubmit)="login()">
 		<ion-item>
-		  <ion-label color="caption" fixed>Username</ion-label>
+		  <ion-label color="darkgrey" fixed>Username</ion-label>
 		  <ion-input type="text" formControlName="username"></ion-input>
 		</ion-item>
 		<ion-item>
-		  <ion-label color="caption" fixed>Password</ion-label>
+		  <ion-label color="darkgrey" fixed>Password</ion-label>
 		  <ion-input type="password" formControlName="password"></ion-input>
 		</ion-item>
 		<div padding>
