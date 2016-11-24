@@ -1,39 +1,145 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>Dashboard</ion-title>
+    <ion-navbar color="revvolve" class="header">
+        
+		<ion-grid>
+		  <ion-row>
+			<ion-col width-20><ion-title class="full-height">Dashboard</ion-title></ion-col>
+			<ion-col width-50 text-center class="wrap-h-logo">
+				<img src="assets/img/header-logo.jpg" />
+				
+			</ion-col>
+			<ion-col width-10 class="wrap-icon">
+				<img src="assets/img/i1.jpg" />
+				<span class="wrap-notification-icon"><img src="assets/img/i2.jpg" /><span class="super">3</span></span>
+			
+			</ion-col>
+			<ion-col width-20 class="user-info">
+				
+					
+					<img src="assets/img/i3.jpg" class="avatar">
+					<span class="fullname">Jonathon Doe</span>
+					
+			</ion-col>
+		  </ion-row>
+		</ion-grid>
     </ion-navbar>
 </ion-header>
 <ion-content class="outer-content">
-    <ion-list>
-      <!-- (click)="openNavAccountPage() -->
-        <button ion-item (click)="openNavAccountPage()" icon-left>
-          <ion-icon  item-left></ion-icon>
-          Account Settings
-        </button>
-        <button ion-item (click)="gotoStaffPage()" icon-left>
-          <ion-icon  item-left></ion-icon>
-          Enrolled Staff
-        </button>
-        <button ion-item (click)="gotoMetricsPage()" icon-left>
-          <ion-icon  item-left></ion-icon>
-          Metrics
-        </button>
-        <button ion-item (click)="gotoBusinessHealthPage()" icon-left>
-          <ion-icon  item-left></ion-icon>
-          Business Health
-        </button>
-        <button ion-item (click)="gotoSurveyPage()" icon-left>
-          <ion-icon  item-left></ion-icon>
-          Go to Survey Mode
-        </button>
-        <button ion-item (click)="openNavTermsPage()" icon-left>
-          <ion-icon  item-left></ion-icon>
-          Terms Of Use
-        </button>
-        <button ion-item (click)="openNavPrivacyPage()" icon-left>
-          <ion-icon  item-left></ion-icon>
-          Privacy Policy
-        </button>
-    </ion-list>
-   <button ion-button color="primary" block (click)="logout()" >Sign Out</button>
+
+	<ion-grid no-padding>
+		  <ion-row>
+			<ion-col width-25 no-padding class="left-pane">
+				<ion-list>
+				  <!-- (click)="openNavAccountPage() -->
+					<button no-padding ion-item (click)="openNavAccountPage()" icon-left>
+					  <ion-icon  item-left><img src="assets/img/icon-settings.png" /></ion-icon>
+					  Account Settings
+					</button>
+					<button ion-item (click)="gotoStaffPage()" icon-left>
+					  <ion-icon  item-left><img src="assets/img/icon-settings.png" /></ion-icon>
+					  Enrolled Staff
+					</button>
+					<button ion-item (click)="gotoMetricsPage()" icon-left>
+					  <ion-icon  item-left><img src="assets/img/icon-terms.png" /></ion-icon>
+					  Metrics
+					</button>
+					<button ion-item (click)="gotoBusinessHealthPage()" icon-left>
+					  <ion-icon  item-left><img src="assets/img/icon-privacy.png" /></ion-icon>
+					  Business Health
+					</button>
+					<button ion-item (click)="gotoSurveyPage()" icon-left>
+					  <ion-icon  item-left><img src="assets/img/icon-trust.png" /></ion-icon>
+					  Go to Survey Mode
+					</button>
+					<button ion-item (click)="openNavTermsPage()" icon-left>
+					  <ion-icon  item-left><img src="assets/img/icon-support.png" /></ion-icon>
+					  Terms Of Use
+					</button>
+					<button ion-item (click)="openNavPrivacyPage()" icon-left>
+					  <ion-icon  item-left></ion-icon>
+					  Privacy Policy
+					</button>
+				</ion-list>
+			   
+			</ion-col>
+			
+			<ion-col width-75 class="right-pane">
+				<!-- rp stands for right-pane below -->
+				<div class="inner-rp">
+					<ion-grid>
+					  <ion-row>
+						<ion-col width-67>
+							<button ion-button  icon-left large  color="revvolve" class="bn-survey" (click)="gotoSurveyPage()">
+							  <span class="ionico2"><img src="assets/img/bn-icon1.png" /></span>
+							  <span class="caption">go to survey mode</span>
+							</button>
+						</ion-col>
+						
+						<ion-col width-33><button ion-button large color="red-button" class="bn-signout" (click)="logout()">Sign Out</button></ion-col>
+					  </ion-row>
+					  
+					  <ion-row class="large-icon-block">
+						<ion-col width-33>
+							<div class="inner-lib first">
+								<img src="assets/img/big-icon1.png" />
+								<h2>ACCOUNT SETTINGS</h2>
+							</div>
+						</ion-col>
+						
+						<ion-col width-33>
+							<div class="inner-lib second">
+								<img src="assets/img/big-icon2.png" />
+								<h2>METRICS</h2>
+							</div>
+						</ion-col>
+						
+						<ion-col width-33>
+							<div class="inner-lib third">
+								<img src="assets/img/big-icon3.png" />
+								<h2>ENROLLED STAFF</h2>
+							</div>
+						</ion-col>
+					  </ion-row>
+					  
+					  <ion-row class="large-icon-block">
+						<ion-col width-33>
+							<div class="inner-lib first">
+								<img src="assets/img/big-icon1.png" />
+								<h2>ACCOUNT SETTINGS</h2>
+							</div>
+						</ion-col>
+						
+						<ion-col width-33>
+							<div class="inner-lib second">
+								<img src="assets/img/big-icon2.png" />
+								<h2>METRICS</h2>
+							</div>
+						</ion-col>
+						
+						<ion-col width-33>
+							<div class="inner-lib third">
+								<img src="assets/img/big-icon3.png" />
+								<h2>ENROLLED STAFF</h2>
+							</div>
+						</ion-col>
+					  </ion-row>
+					</ion-grid>
+					
+					<p text-center>
+						<button ion-button icon-left outline no-padding color="revvolve" class="bn-terms" (click)="openNavTermsPage()">
+							<ion-icon class="ionico"><img src="assets/img/icon-white-bg1.png" /></ion-icon>
+							TERMS OF USE
+						
+						</button>
+						<button ion-button outline icon-left no-padding color="revvolve" class="bn-privacy" (click)="openNavPrivacyPage()">
+						  <ion-icon class="ionico"><img src="assets/img/icon-white-bg2.png" /></ion-icon>
+						  PRIVACY POLICY
+						</button>
+						
+					</p>
+					
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
 </ion-content>
