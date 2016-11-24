@@ -25,3 +25,57 @@
   max-height:30%;
   border:solid 1px orange;
 }
+.header {
+	.wrap-h-logo {
+		
+		img {
+			max-height:35px;
+		}
+	}
+	
+	.wrap-icon {
+		border-right: solid 1px #dddddd;
+		
+		display:inline-block;;
+		position:relative;
+		img {
+			height:16px;
+			vertical-align:-webkit-baseline-middle;
+			margin-top:10px;
+		}
+		.wrap-notification-icon {
+			position:relative;
+			.super {
+				top: 0.3em;
+				background:red;
+				color:#ffffff;
+				display:block;
+				border-radius: 50%;
+				display:block;
+				min-width:12px;
+				min-height:12px;
+				position:absolute;
+				right:-0.3em;
+				font-size:0.6em;
+				line-height:1.6em;
+				text-align:center;
+				padding:0px 2px;
+			}
+		}
+	}
+	
+	.user-info {
+		
+		.avatar {max-height:34px;float:left;}
+		span.fullname {
+			font-size:1em;
+			float:left;
+			margin-top:8px;
+			color:#ffffff;
+			padding-left: 4px;
+		}
+	}
+	.full-height {
+		height:100%;
+	}
+}
