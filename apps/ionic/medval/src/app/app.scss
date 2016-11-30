@@ -15,55 +15,8 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-.metricHeading {
-  text-align:center;
-  padding:15% 15% 0 15%;
-}
+//Global Styles
+@import "../theme/global.scss";
 
-.feedback {
-  height:20%;
-  max-height:30%;
-  border:solid 1px orange;
-}
-
-//Common App Background
-.content-md, .content-wp {
-    background-color: #EFF1F5;
-}
-
-//Dashboard custom styles
-.colstyle {
-  margin: 0 auto;
-  text-align: center;
-  display: inline-block;
-  ion-col {
-    display: inline-block;
-    padding: 5px;
-    max-width: 164px;
-    margin: 0;
-    clear: none;
-    .box-content {
-        border-bottom: 9px solid #27ae60;
-        padding: 0px 5px 0 5px;
-        .box-inner-content {
-          background-color: white;
-          margin-bottom: 2px;
-          text-align: center;
-          border-radius: 5px 5px 0 0;
-        }
-    }
-    .button {
-      font-size: 12px;
-    }
-  }
-}
-
-.dashboardbutton {
-  .button {
-    padding: 26px;
-    img {
-      max-width: 50px;
-      padding: 0 20px 0 0;
-    }
-  }
-}
+//Custom Dashboard Styles
+@import "../pages/dashboard/dashboard.component.scss";

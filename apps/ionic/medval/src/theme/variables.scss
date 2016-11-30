@@ -11,8 +11,7 @@
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
 
 $text-color:        #000;
-$background-color:  #fff;
-
+$background-color:  #FFFFFF;
 
 // Named Color Variables
 // --------------------------------------------------
@@ -33,7 +32,13 @@ $colors: (
 	base:#27ae60,
 	contrast: #ffffff
   ),
-  darkgrey: #4b4b4b
+  green:(
+	base:#27ae60,
+	contrast: #ffffff
+  ),
+  darkgrey: #4b4b4b,
+  lightgrey: #EFF1F5,
+  white: #ffffff
 );
 
 

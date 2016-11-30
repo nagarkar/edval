@@ -1,0 +1,36 @@
+//Dashboard custom styles
+.colstyle {
+  margin: 0 auto;
+  text-align: center;
+  display: inline-block;
+  ion-col {
+    display: inline-block;
+    padding: 5px;
+    max-width: 164px;
+    margin: 0;
+    clear: none;
+    .box-content {
+        border-bottom: 9px solid color($colors, green, base);
+        padding: 0px 5px 0 5px;
+        .box-inner-content {
+          background-color: color($colors, white);
+          margin-bottom: 2px;
+          text-align: center;
+          border-radius: 5px 5px 0 0;
+        }
+    }
+    .button {
+      font-size: 14px;
+    }
+  }
+}
+
+.dashboardbutton {
+  .button {
+    padding: 26px;
+    img {
+      max-width: 50px;
+      padding: 0 20px 0 0;
+    }
+  }
+}
