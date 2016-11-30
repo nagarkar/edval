@@ -1,11 +1,46 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>Dashboard</ion-title>
-    </ion-navbar>
+  <ion-navbar color="revvolve">
+    <ion-title style="float:left;">Dashboard</ion-title>
+    <ion-icon name="home" style="float:right;width:40px;padding:5px" (click)="gotoHome()"></ion-icon>
+    <ion-icon name="remove" style="float:right;width:40px;padding:5px" (click)="gotoSettings()"></ion-icon>
+  </ion-navbar>
 </ion-header>
-<ion-content class="outer-content">
-    <ion-list>
-      <!-- (click)="openNavAccountPage() -->
+<ion-content padding class="outer-content">
+  <ion-grid>
+    <ion-row>
+      <ion-col width-75 class="dashboardbutton">
+        <button ion-button block  (click)="gotoSurveyPage()" color="revvolve"><img src="assets/img/user-stars.png"><span class="button-text">Go to Survey Mode</span></button>
+      </ion-col>
+      <ion-col width-25 class="dashboardbutton">
+        <button ion-button block color="danger" (click)="logout()" >Sign Out</button>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+  <ion-grid>
+  <div class="colstyle">
+    <ion-col><div class="box-content" (click)="openNavAccountPage()"><div class="box-inner-content"><img src="assets/img/settings1.png"><span class="button-text rowtext ">Account Settings</span></div></div></ion-col>
+    <ion-col><div class="box-content" (click)="gotoMetricsPage()"><div class="box-inner-content"><img src="assets/img/met.png"><span class="button-text rowtext">Metrics</span></div></div></ion-col>
+    <ion-col><div class="box-content" (click)="gotoStaffPage()"><div class="box-inner-content"><img src="assets/img/user-icon1.png"><span class="button-text rowtext">Enrolled Staff</span></div></div></ion-col>
+    <ion-col><div class="box-content" (click)="gotoBusinessHealthPage()"><div class="box-inner-content"><img src="assets/img/settings1.png"><span class="button-text rowtext">Business Health</span></div></div></ion-col>
+    <ion-col><div class="box-content" (click)="gotoSurveyPage()"><div class="box-inner-content"><img src="assets/img/met.png"><span class="button-text rowtext">Go to Survey Mode</span></div></div></ion-col>
+    <ion-col><div class="box-content"><div class="box-inner-content"><img src="assets/img/user-icon1.png"><span class="button-text rowtext">LOREM IPSUM</span></div></div></ion-col>
+  </div>
+</ion-grid>
+<ion-grid>
+  <ion-row class="colstyle">
+    <ion-col width-50>
+      <button ion-button color="revvolve" (click)="openNavTermsPage()" outline icon-left><ion-icon name="list-box"></ion-icon><span class="button-text">Terms Of Use</span></button>
+    </ion-col>
+    <ion-col width-50>
+      <button ion-button color="revvolve" (click)="openNavPrivacyPage()" outline icon-left><ion-icon name="lock"></ion-icon><span class="button-text">Privacy Policy</span></button>
+    </ion-col>
+  </ion-row>
+
+</ion-grid>
+  <!-- (click)="openNavAccountPage() -->
+    <!-- ion-list>
         <button ion-item (click)="openNavAccountPage()" icon-left>
           <ion-icon  item-left></ion-icon>
           Account Settings
@@ -35,5 +70,5 @@
           Privacy Policy
         </button>
     </ion-list>
-   <button ion-button color="primary" block (click)="logout()" >Sign Out</button>
+   <button ion-button color="primary" block (click)="logout()" >Sign Out</button> -->
 </ion-content>
