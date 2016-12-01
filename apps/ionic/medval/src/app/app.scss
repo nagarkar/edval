@@ -16,7 +16,18 @@
 // automatically applied to the <body> element in the app.
 
 //Global Styles
-@import "../theme/global.scss";
+.metricHeading {
+  text-align:center;
+  padding:15% 15% 0 15%;
+}
 
-//Custom Dashboard Styles
-@import "../pages/dashboard/dashboard.component.scss";
+.feedback {
+  height:20%;
+  max-height:30%;
+  border:1px solid orange;
+}
+
+//Common App Background
+.content-md, .content-wp {
+    background-color: color($colors, lightgrey);
+}
