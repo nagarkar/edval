@@ -44,6 +44,7 @@ import {Icon} from "ionic-angular";
 })
 
 export class RatingComponent {
+  color: string = 'danger';
   onState: string = 'ion-ios-star ion-android-star';
   offState: string = 'ion-ios-star-outline ion-android-star-outline';
   private _ratingValue: number;
@@ -99,6 +100,17 @@ export class RatingComponent {
   public setRating(value: number, icon?:Icon) {
 
     this.ratingValue = value;
+    if(value <= 2) {
+      this.color = 'danger';
+    } else if (value <= 4) {
+      this.color = 'yellow';
+    } else if (value <= 6) {
+      this.color = 'orange';
+    } else if (value <= 8) {
+      this.color = 'green';
+    } else {
+      this.color = 'darkgreen';
+    }
     this.ratingValueChange.emit(value);
     this.popped = true;
     Utils.log("In setRating value:{0}, hasbeenselected:{1}", value, this.popped);
