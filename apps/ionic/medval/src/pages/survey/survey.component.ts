@@ -132,6 +132,7 @@ export class SurveyComponent extends MedvalComponent {
     let length = this.maxMetrics;
     if (length > 0) {
       this.progressBarValue = this.progressBarValue +  Math.round(80 / length);
+      Utils.log("ProgressbarValue {0}", this.progressBarValue)
     }
   }
 

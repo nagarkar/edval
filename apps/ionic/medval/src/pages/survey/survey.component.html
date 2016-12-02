@@ -7,7 +7,8 @@
         </button>
     </ion-buttons>
     <ion-title><div class="revvolve-logo" text-center>
-     <img src="assets/img/header-logo.jpg" alt="">
+     <img src="assets/img/header-logo.jpg" style="height:1em" alt="">
+
     </div></ion-title>
     <ion-buttons right>
       <button ion-button icon-only>
@@ -24,11 +25,17 @@
     (onAnswerSelection)="onAnswerSelection($event);">
   </survey-metric>
   <div text-center>
+    <ion-label>
+      {{metricCount}} out of {{maxMetrics}} done!
+    </ion-label>
+  </div>
+  <div text-center>
     <div class="progress-bar-wrapper">
       <progress class="progress-bar-field" max="100" value="{{progressBarValue}}"></progress>
       <div class="arrow-box" [style.left]="progressBarValue + '%'">
-        <span *ngIf="progressBarValue <= 50" class="arrow-box-content" color="light">Wow <br>You got started!</span>
-        <span *ngIf="progressBarValue > 50" class="arrow-box-content" color="light">Thank you! <br>For your time</span>
+        <span *ngIf="progressBarValue <= 100*3.1/maxMetrics" class="arrow-box-content" color="light">Thanks for <br/>getting started!</span>
+        <span *ngIf="progressBarValue > 100*3.1/maxMetrics && progressBarValue < 60" class="arrow-box-content" color="light">About <br/>Halfway done!</span>
+        <span *ngIf="progressBarValue > 60" class="arrow-box-content" color="light">Almost <br/>done!</span>
       </div>
     </div>
   </div>

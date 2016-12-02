@@ -3,9 +3,9 @@
 <div class="userimg" text-center padding>
   <img class="border" src="{{this._currentStaff?.properties?.photoUrl}}" alt="">
 </div>
-<h1 text-center [@metricName]="currentMetric?.properties?.metricName">
-  <span color="darkgrey">{{metricDisplayName}}</span>
-</h1>
+<div text-center [@metricName]="currentMetric?.properties?.metricName">
+  <span class="metricHeading" color="darkgrey">{{metricDisplayName}}</span>
+</div>
 
 <p text-center class="font-large" *ngIf="currentMetric.isNpsType()">
   <rating (ratingValueChange)="onSelection($event);"

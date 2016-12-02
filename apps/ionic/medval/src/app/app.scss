@@ -19,6 +19,7 @@
 .metricHeading {
   text-align:center;
   padding:15% 15% 0 15%;
+  font-size:1.5em;
 }
 
 .feedback {
@@ -40,4 +41,8 @@
 //Override ios border on header
 .toolbar-background-ios {
   border-bottom-width: 0px;
+}
+
+.ion-icon {
+  font-size:1em;
 }
