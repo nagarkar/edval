@@ -31,3 +31,13 @@
 .content-md, .content-wp {
     background-color: color($colors, lightgrey);
 }
+.border {
+  border: 2px solid color($colors, green);
+}
+.font-large {
+  font-size: xx-large;
+}
+//Override ios border on header
+.toolbar-background-ios {
+  border-bottom-width: 0px;
+}
