@@ -1,31 +1,60 @@
-.carousel-container {
-  padding: 150px 0 0 0; /* top padding 100 to avoid header collision */
-  margin: 0 auto;
-  width: 250px;
-  height: 500px;
-  position: relative;
-  perspective: 1000px;
+.swiper-container {
+    width: 100%;
+    padding-top: 120px;
+    .swiper-slide {
+      background-position: center;
+      background-size: cover;
+      width: 200px;
+      height: 200px;
+      .default {
+        border: 1px solid color($colors, lightgrey);
+        position:relative;
+        .selected-icon {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          margin: 0px;
+          border-radius: 0px;
+          padding: 12px;
+          ion-icon {
+            font-size: 40px;
+          }
+        }
+      }
+      .selected-slide {
+        border: 1px solid color($colors, green) !important;
+      }
+    }
 }
-.carousel {
-  height: 100%;
-  width: 100%;
+.selected-items {
   position: absolute;
-  transform-style: preserve-3d;
-  transition: transform 1s;
-}
-.carousel-slide-item {
-  /* display: block; */
-  position: absolute;
-  /* background: #fff; */
-  /* border-width: thin; */
-  width: 200px;
-  /* height: 275px; */
-  /* font-size: large; */
-  text-align: center;
-  /* color: #FFF; */
-  /* opacity: 0.95; */
-  border-radius: 20px;
-  /* border-color: gray; */
-  /* border: black; */
-  border-style: groove;
+  top: 440px;
+  z-index: 1000;
+  .selected-item {
+    position: relative;
+    display: inline-block;
+    width: 112px;
+    height: 112px;
+    margin-left: 5px;
+    .button {
+      position: absolute;
+      right: 0px;
+      margin: 0px;
+      padding: 10px;
+      border-radius: 0px;
+      height: 34px;
+      ion-icon {
+        font-size: 22px;
+      }
+    }
+    img {
+      width: 112px;
+      height: 112px;
+    }
+    .selected-icon {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+    }
+  }
 }

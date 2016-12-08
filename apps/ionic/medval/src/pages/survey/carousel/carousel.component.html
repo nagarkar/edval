@@ -1,9 +1,8 @@
-<ion-content>
+<!-- <ion-content>
   <ion-grid>
   <ion-row center>
     <ion-col width-90>
     <div class="carousel-container">
-      <!--div *ngIf="items.length > 3" class="carousel"-->
       <div *ngIf="true" class="carousel">
         <div check-box class="carousel-slide-item" *ngFor="let item of items"
              [style.background-color]="item.color"
@@ -16,7 +15,6 @@
           <p>{{item.heading}}</p>
           <p>{{item.subheading}}</p>
           <ion-checkbox primary checked="{{item.isSelected}}" (ionChange)="selectItem(item)" ></ion-checkbox>
-          <!-- [(ngModel)]="item.isSelected"-->
         </div>
       </div>
     </div>
@@ -28,4 +26,38 @@
     </ion-col>
   </ion-row>
   </ion-grid>
+</ion-content> -->
+<ion-content class="has-header" has-header>
+  <ion-slides [options]="_options" #mySlider>
+    <ion-slide *ngFor="let item of items; let i = index" (tap)="selectItem(item)">
+      <div class="default" [ngClass]="{'center': (currentSlide == i), 'near-center': (currentSlide == (i-1)), 'near-center': (currentSlide == (i+1)), 'selected-slide': item.isSelected}">
+        <button *ngIf="item.isSelected" class="selected-icon" ion-button color="green"><ion-icon name="checkmark"></ion-icon></button>
+        <img src="{{item.imgUrl}}" class="image" />
+        <p>{{item.heading}}</p>
+        <p>{{item.subheading}}</p>
+      </div>
+    </ion-slide>
+  </ion-slides>
+  <ion-grid class="selected-items">
+    <ion-row text-center>
+      <ion-col>
+        <span *ngFor="let selectedItem of items; let s = index">
+          <div class="selected-item" *ngIf="selectedItem.isSelected">
+            <button ion-button color="danger" (click)="removeItem(selectedItem)"><ion-icon name="close"></ion-icon></button>
+            <img src="{{selectedItem.imgUrl}}" class="image" />
+          </div>
+        </span>
+      </ion-col>
+    </ion-row>
+    <ion-row text-center>
+      <ion-col>
+        <button ion-button color="green" (click)="finished()">Next</button>
+        <div class="skip">
+          Skip, <span>Continue this later</span>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div *ngIf="big" class="swiper-button-next"></div>
+  <div *ngIf="big" class="swiper-button-prev"></div>
 </ion-content>
