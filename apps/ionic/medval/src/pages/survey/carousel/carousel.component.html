@@ -1,32 +1,3 @@
-<!-- <ion-content>
-  <ion-grid>
-  <ion-row center>
-    <ion-col width-90>
-    <div class="carousel-container">
-      <div *ngIf="true" class="carousel">
-        <div check-box class="carousel-slide-item" *ngFor="let item of items"
-             [style.background-color]="item.color"
-             [ngStyle]="{'transform': 'rotateY(-'+item.currentPlacement+'deg)  translateZ('+tz+'px)', '-webkit-transform': 'rotateY('+item.currentPlacement+'deg)  translateZ('+tz+'px)', '-ms-transform': 'rotateY('+item.currentPlacement+'deg)  translateZ('+tz+'px)',
-        '-o-transform': 'rotateY('+item.currentPlacement+'deg)  translateZ('+tz+'px)'}"
-             (swipeleft)="onSwipeLeft($event);"
-             (swiperight)="onSwipeRight($event);">
-
-          <img src="{{item.imgUrl}}" style="width:150px;height:150px;margin-top: 10px;" />
-          <p>{{item.heading}}</p>
-          <p>{{item.subheading}}</p>
-          <ion-checkbox primary checked="{{item.isSelected}}" (ionChange)="selectItem(item)" ></ion-checkbox>
-        </div>
-      </div>
-    </div>
-    </ion-col>
-    <ion-col>
-      <button ion-button icon-left (click)="finished()">
-        <ion-icon name="fastforward"></ion-icon>
-      </button>
-    </ion-col>
-  </ion-row>
-  </ion-grid>
-</ion-content> -->
 <ion-content class="has-header" has-header>
   <ion-slides [options]="_options" #mySlider>
     <ion-slide *ngFor="let item of items; let i = index" (tap)="selectItem(item)">

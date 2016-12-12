@@ -1,23 +1,23 @@
 .swiper-container {
     width: 100%;
-    padding-top: 120px;
+    padding-top: 9em;
     .swiper-slide {
       background-position: center;
       background-size: cover;
-      width: 200px;
-      height: 200px;
+      width: 11.5em;
+      height: 11.5em;
       .default {
         border: 1px solid color($colors, lightgrey);
         position:relative;
         .selected-icon {
           position: absolute;
-          top: 0px;
-          left: 0px;
-          margin: 0px;
-          border-radius: 0px;
-          padding: 12px;
+          top: 0em;
+          left: 0em;
+          margin: 0em;
+          border-radius: 0;
+          padding: 1.6em 1em;
           ion-icon {
-            font-size: 40px;
+            font-size: 3em;
           }
         }
       }
@@ -28,33 +28,33 @@
 }
 .selected-items {
   position: absolute;
-  top: 440px;
+  top: 31em;
   z-index: 1000;
   .selected-item {
     position: relative;
     display: inline-block;
-    width: 112px;
-    height: 112px;
-    margin-left: 5px;
+    width: 8em;
+    height: 8em;
+    margin-left: 0.3em;
     .button {
       position: absolute;
-      right: 0px;
-      margin: 0px;
-      padding: 10px;
-      border-radius: 0px;
-      height: 34px;
+      right: 0em;
+      margin: 0em;
+      padding: 0.6em;
+      border-radius: 0;
+      height: 2em;
       ion-icon {
-        font-size: 22px;
+        font-size: 1.5em;
       }
     }
     img {
-      width: 112px;
-      height: 112px;
+      width: 8em;
+      height: 8em;
     }
     .selected-icon {
       position: absolute;
-      top: 0px;
-      right: 0px;
+      top: 0em;
+      right: 0em;
     }
   }
 }
