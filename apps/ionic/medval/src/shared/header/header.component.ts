@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
   public account: Account = new Account();
 
   @Input() showImage: boolean;
+  @Input() title: string;
 
   constructor(
     private accessProvider : AccessTokenService,

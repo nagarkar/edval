@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter, ElementRef, QueryList, ContentChildren } from '@angular/core';
+import { Component, ViewChild, Input, Output, EventEmitter, ElementRef, QueryList, ContentChildren } from '@angular/core';
+import { Platform } from 'ionic-angular';
 import {SlideItem} from "./carousel.schema";
 import {Utils} from "../../../shared/stuff/utils";
 
@@ -7,6 +8,8 @@ import {Utils} from "../../../shared/stuff/utils";
   templateUrl: 'carousel.component.html'
 })
 export class CarouselComponent {
+  _options:any;
+  @ViewChild('mySlider') mySlider: any;
 
   currentDeg: number = 0;
   containerWidth: number = 250;
@@ -32,8 +35,45 @@ export class CarouselComponent {
         return true;
       });
   }
-
-  constructor(private eleRef: ElementRef, private utils: Utils) { }
+  big:boolean = false;
+  constructor(private eleRef: ElementRef, private utils: Utils, private platform: Platform) {
+    this.platform = platform;
+    if(this.platform.is('ipad') || this.platform.is('tablet') || this.platform.is('core')) {
+      this.big = true;
+      this._options = {
+        pagination: '.swiper-pagination',
+        effect: 'coverflow',
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        coverflow: {
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows : true
+        },
+        nextButton: ".swiper-button-next",
+        prevButton: ".swiper-button-prev",
+      }
+    } else {
+      this.big = false;
+      this._options = {
+        pagination: '.swiper-pagination',
+        effect: 'coverflow',
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        coverflow: {
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows : true
+        }
+      }
+    }
+  }
 
   onSwipeLeft() {
     Utils.log('swiped left');
@@ -64,7 +104,12 @@ export class CarouselComponent {
     this.selectSlide.emit(item);
   }
 
+  removeItem(item: SlideItem) {
+    item.isSelected = !item.isSelected;
+  }
+
   finished() {
     this.done.emit();
   }
+
 }
