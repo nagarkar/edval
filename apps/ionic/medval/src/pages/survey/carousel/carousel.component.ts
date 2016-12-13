@@ -15,7 +15,7 @@ export class CarouselComponent {
   containerWidth: number = 250;
   tz: number;
   items: Array<SlideItem> = [];
-
+  activeSlide:number = 0;
   @Output()
   selectSlide = new EventEmitter();
 
@@ -42,17 +42,8 @@ export class CarouselComponent {
       this.big = true;
       this._options = {
         pagination: '.swiper-pagination',
-        effect: 'coverflow',
-        grabCursor: true,
         centeredSlides: true,
         slidesPerView: 'auto',
-        coverflow: {
-          rotate: 50,
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-          slideShadows : true
-        },
         nextButton: ".swiper-button-next",
         prevButton: ".swiper-button-prev",
       }
@@ -60,17 +51,8 @@ export class CarouselComponent {
       this.big = false;
       this._options = {
         pagination: '.swiper-pagination',
-        effect: 'coverflow',
-        grabCursor: true,
         centeredSlides: true,
-        slidesPerView: 'auto',
-        coverflow: {
-          rotate: 50,
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-          slideShadows : true
-        }
+        slidesPerView: 'auto'
       }
     }
   }
@@ -106,6 +88,11 @@ export class CarouselComponent {
 
   removeItem(item: SlideItem) {
     item.isSelected = !item.isSelected;
+  }
+
+  onSlideChanged() {
+    this.activeSlide = this.mySlider.getActiveIndex();
+    console.log("Current index is", this.activeSlide);
   }
 
   finished() {
