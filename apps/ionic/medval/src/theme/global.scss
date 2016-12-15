@@ -1,0 +1,18 @@
+.metricHeading {
+  text-align:center;
+  padding:15% 15% 0 15%;
+}
+
+.feedback {
+  height:20%;
+  max-height:30%;
+  border:1px solid orange;
+}
+
+//Common App Background
+.content-md, .content-wp {
+    background-color: color($colors, lightgrey);
+}
+.has-header {
+  top: 56px;
+}
