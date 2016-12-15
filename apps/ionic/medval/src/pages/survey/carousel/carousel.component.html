@@ -3,35 +3,36 @@
   <div class="carousel-area">
     <ion-slides [options]="_options" #mySlider (ionDidChange)="onSlideChanged()">
       <ion-slide *ngFor="let item of items; let i = index" (tap)="selectItem(item)">
-        <div class="default" [ngClass]="{'center-slide': (i == activeSlide), 'near-center': (activeSlide == (i-1)), 'near-center': (activeSlide == (i+1)), 'selected-slide': item.isSelected}">
+        <div class="default" [ngClass]="{'center-slide': (activeSlide == i), 'near-center': (activeSlide == (i-1)), 'near-center': (activeSlide == (i+1)), 'selected-slide': item.isSelected}">
           <button *ngIf="item.isSelected" class="selected-icon" ion-button color="green"><ion-icon name="checkmark"></ion-icon></button>
-          <img src="{{item.imgUrl}}" class="image" />
+          <img src="{{item.imgUrl}}" class="image" [ngClass]="{'center-image': (i == activeSlide), 'near-center-image': (activeSlide == (i-1)), 'near-center-image': (activeSlide == (i+1)), 'selected-slide': item.isSelected}" />
           <p class="name">{{item.heading}}</p>
           <span class='desc'>{{item.subheading}}</span>
         </div>
       </ion-slide>
     </ion-slides>
-    <ion-grid class="selected-items">
-      <ion-row text-center>
-        <ion-col>
-          <span *ngFor="let selectedItem of items; let s = index">
-            <div class="selected-item" *ngIf="selectedItem.isSelected">
-              <button ion-button color="danger" (click)="removeItem(selectedItem)"><ion-icon name="close"></ion-icon></button>
-              <img src="{{selectedItem.imgUrl}}" class="image" />
-            </div>
-          </span>
-        </ion-col>
-      </ion-row>
-      <ion-row text-center>
-        <ion-col>
-          <button ion-button color="green" (click)="finished()">Next</button>
-          <div class="skip">
-            Skip, <span><strong>Continue this later</strong></span>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    <div *ngIf="big" class="swiper-button-next"></div>
-    <div *ngIf="big" class="swiper-button-prev"></div>
   </div>
+
+  <ion-grid class="selected-items">
+    <ion-row text-center>
+      <ion-col>
+        <span *ngFor="let selectedItem of items; let s = index">
+          <div class="selected-item" *ngIf="selectedItem.isSelected">
+            <button ion-button color="danger" (click)="removeItem(selectedItem)"><ion-icon name="close"></ion-icon></button>
+            <img src="{{selectedItem.imgUrl}}" class="image" />
+          </div>
+        </span>
+      </ion-col>
+    </ion-row>
+    <ion-row text-center>
+      <ion-col>
+        <button ion-button color="green" (click)="finished()">Next</button>
+        <div class="skip">
+          Skip, <span><strong>Continue this later</strong></span>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div *ngIf="big" class="swiper-button-next"></div>
+  <div *ngIf="big" class="swiper-button-prev"></div>
 </ion-content>

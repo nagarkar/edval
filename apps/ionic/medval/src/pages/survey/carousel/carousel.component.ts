@@ -1,5 +1,5 @@
 import { Component, ViewChild, Input, Output, EventEmitter, ElementRef, QueryList, ContentChildren } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform, Slides } from 'ionic-angular';
 import {SlideItem} from "./carousel.schema";
 import {Utils} from "../../../shared/stuff/utils";
 
@@ -9,7 +9,7 @@ import {Utils} from "../../../shared/stuff/utils";
 })
 export class CarouselComponent {
   _options:any;
-  @ViewChild('mySlider') mySlider: any;
+  @ViewChild('mySlider') slider: Slides;
 
   currentDeg: number = 0;
   containerWidth: number = 250;
@@ -42,8 +42,11 @@ export class CarouselComponent {
       this.big = true;
       this._options = {
         pagination: '.swiper-pagination',
-        centeredSlides: true,
         slidesPerView: 'auto',
+        centeredSlides: true,
+        paginationClickable: true,
+        spaceBetween: 30,
+        grabCursor: true,
         nextButton: ".swiper-button-next",
         prevButton: ".swiper-button-prev",
       }
@@ -51,10 +54,24 @@ export class CarouselComponent {
       this.big = false;
       this._options = {
         pagination: '.swiper-pagination',
+        effect: 'coverflow',
+        grabCursor: true,
         centeredSlides: true,
-        slidesPerView: 'auto'
+        slidesPerView: 'auto',
+        coverflow: {
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows : false
+        }
       }
     }
+    setTimeout(() => {
+      console.log("length", this.items.length);
+      this.activeSlide = Math.round(this.items.length/2) - 1;
+      this.slider.slideTo(this.activeSlide, 500);
+    }, 500);
   }
 
   onSwipeLeft() {
@@ -91,7 +108,7 @@ export class CarouselComponent {
   }
 
   onSlideChanged() {
-    this.activeSlide = this.mySlider.getActiveIndex();
+    this.activeSlide = this.slider.getActiveIndex();
     console.log("Current index is", this.activeSlide);
   }
 
