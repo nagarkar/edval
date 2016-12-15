@@ -1,14 +1,28 @@
 .swiper-container {
     width: 100%;
-    padding-top: 9em;
+    padding-top: 1em;
     .swiper-slide {
       background-position: center;
       background-size: cover;
-      width: 11.5em;
-      height: 11.5em;
+      width: 10.5em;
+      min-height: 11.5em;
+      margin-left: 0.3em;
       .default {
-        border: 1px solid color($colors, lightgrey);
         position:relative;
+        img.image {
+          border: 2px solid color($colors, green);
+          width: 11em;
+          height: 13em;
+        }
+        p.name {
+          font-weight: bold;
+          font-size: 0.9em;
+          margin: 0px;
+        }
+        span.desc {
+          font-weight: normal;
+          font-size: 0.6em;
+        }
         .selected-icon {
           position: absolute;
           top: 0em;
@@ -17,18 +31,37 @@
           border-radius: 0;
           padding: 1.6em 1em;
           ion-icon {
-            font-size: 3em;
+            font-size: 2em;
           }
         }
       }
+      .center-slide {
+        img.image {
+          height: 14em;
+          margin: -0.5em 0 0 0;
+        }
+        .selected-icon {
+          top: -0.5em;
+        }
+      }
+      .near-center {
+        img.image {
+          height: 13.5em;
+          margin: -0.25em 0 0 0;
+        }
+        .selected-icon {
+          top: -0.25em;
+        }
+      }
       .selected-slide {
-        border: 1px solid color($colors, green) !important;
+        img.image {
+          border: 2px solid color($colors, green) !important;
+        }
       }
     }
 }
 .selected-items {
-  position: absolute;
-  top: 31em;
+  padding-top: 1em;
   z-index: 1000;
   .selected-item {
     position: relative;
@@ -56,5 +89,22 @@
       top: 0em;
       right: 0em;
     }
+  }
+}
+.swiper-button-next {
+  background-image: url(../assets/img/right-arrow.png);
+  width: 6em;
+  height: 6em;
+  background-size: auto;
+}
+.swiper-button-prev {
+  background-image: url(../assets/img/left-arrow.png);
+  width: 6em;
+  height: 6em;
+  background-size: auto;
+}
+.swiper-container-rtl {
+  .swiper-button-prev {
+    background-image: url(../assets/img/right-arrow.png);
   }
 }
