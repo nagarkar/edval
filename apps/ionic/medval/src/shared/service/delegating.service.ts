@@ -4,6 +4,7 @@ import {AbstractService} from "./abstract.service";
 import {Config} from "../aws/config";
 import {AbstractMockService} from "./abstract.mock.service";
 import {ErrorType} from "../stuff/error.types";
+import {Utils} from "../stuff/utils";
 
 
 export abstract class DelegatingService<T> implements ServiceInterface<T> {
@@ -28,8 +29,13 @@ export abstract class DelegatingService<T> implements ServiceInterface<T> {
   }
 
   reset() {
-    this.mockService.reset();
-    this.liveService.reset();
+    if (this.inMockMode()) {
+      Utils.log("Reseting mock service for object:{0}", this.getObjectName());
+      this.mockService.reset();
+    } else {
+      Utils.log("Reseting live service for object:{0}", this.getObjectName());
+      this.liveService.reset();
+    }
   }
 
   getId(member: T): string {
@@ -62,6 +68,14 @@ export abstract class DelegatingService<T> implements ServiceInterface<T> {
 
   delete(id: string): Promise<boolean> {
     return this.getDelegate().delete(id);
+  }
+
+  private inMockMode() : boolean {
+    return Config.isMockData(this.liveService.getInstance());
+  }
+
+  private getObjectName() : string {
+    return Utils.getObjectName(this.liveService.getInstance());
   }
 
   private delegateEventEmitters() {

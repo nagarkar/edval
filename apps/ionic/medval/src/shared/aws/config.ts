@@ -23,10 +23,10 @@ export class Config {
   public static REFRESH_ACCESS_TOKEN: number = 30*60*1000;
 
   private static MOCK_DATA : Map<any, boolean> = new Map<any, boolean>([
-    [Session, true],
-    [Metric, true],
-    [Account, true],
-    [Staff, true]
+    ["Session", true],
+    ["Metric", true],
+    ["Account", true],
+    ["Staff", true]
   ]);
 
   static get baseUrl() {
@@ -42,22 +42,22 @@ export class Config {
     return Config._baseUrl + "/api/ping";
   }
 
-
   public static isMockData(obj: any) : boolean {
-    return Config.MOCK_DATA.get(Object.getPrototypeOf(obj).constructor);
+    return Config.MOCK_DATA.get(Utils.getObjectName(obj));
   }
+
   public static setUseMockData(obj:any, state: boolean) {
-    Config.MOCK_DATA.set(Object.getPrototypeOf(obj).constructor, state);
+    Config.MOCK_DATA.set(Utils.getObjectName(obj), state);
   }
   public static flipMockData(obj: any) {
-    Config.MOCK_DATA.set(Object.getPrototypeOf(obj).constructor, !Config.isMockData(obj));
+    Config.MOCK_DATA.set(Utils.getObjectName(obj), !Config.isMockData(obj));
   }
 
   public static useMockData(obj: any) : void {
-    Config.MOCK_DATA.set(Object.getPrototypeOf(obj).constructor, true);
+    Config.MOCK_DATA.set(Utils.getObjectName(obj), true);
   }
 
   public static useLiveData(obj: any) : void {
-    Config.MOCK_DATA.set(Object.getPrototypeOf(obj).constructor, false);
+    Config.MOCK_DATA.set(Utils.getObjectName(obj), false);
   }
 }

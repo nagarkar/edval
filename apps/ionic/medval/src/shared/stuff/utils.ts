@@ -40,6 +40,13 @@ export class Utils {
     }
   }
 
+  public static getObjectName(obj: any): string {
+    if (obj) {
+      return Object.getPrototypeOf(obj).constructor.name;
+    }
+    return 'undefined';
+  }
+
   public presentProfileModal(component, parameters) : Modal {
     let profileModal : Modal = this.modalCtrl.create(component, parameters);
     profileModal.present(); //profileModal.

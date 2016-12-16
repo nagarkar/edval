@@ -143,7 +143,7 @@ export class SurveyComponent extends MedvalComponent {
       this.maxMetrics,
       this.metricService,
       this.selectedStaff,
-      new Set<string>() /* Roles */);
+      null /* Roles */);
 
     this.nextMetric();
   }

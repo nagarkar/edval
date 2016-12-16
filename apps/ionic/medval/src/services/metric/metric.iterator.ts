@@ -31,6 +31,12 @@ export class MetricIterator implements Iterator<Metric> {
     private staffSet: Set<Staff>,
     private roles: Set<string>) {
 
+    if (staffSet == null) {
+      this.staffSet = new Set<Staff>();
+    }
+    if (roles == null) {
+      this.roles = new Set<string>();
+    }
     Utils.log("IN METRIC ITERATOR with staff: {0}, roles: {1}", Utils.stringify(staffSet), roles);
     this.maxDrilldowns = this.computeMaxDrilldowns();
     let metrics: Metric[] = this.metricService.listCached();

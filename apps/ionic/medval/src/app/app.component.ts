@@ -6,6 +6,8 @@ import {LoginComponent} from "../pages/login/login.component";
 import {StartComponent} from "../pages/survey/start/start.component";
 import {NpsTrendComponent} from "../pages/charts/nps.trend.component";
 import {AllTrendsComponent} from "../pages/charts/all.trends";
+import {SurveyComponent} from "../pages/survey/survey.component";
+import {ServiceFactory} from "../services/service.factory";
 
 
 @Component({
@@ -14,7 +16,8 @@ import {AllTrendsComponent} from "../pages/charts/all.trends";
 export class MyApp {
   rootPage = LoginComponent;
 
-  constructor(platform: Platform) {
+  constructor(platform: Platform, serviceFactory: ServiceFactory) {
+    serviceFactory.resetRegisteredServices(); // this needs to be done first, esp in mock mode.
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

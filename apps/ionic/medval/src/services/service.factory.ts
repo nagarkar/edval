@@ -4,6 +4,7 @@ import {StaffService} from "./staff/delegator";
 import {AccountService} from "./account/delegator";
 import {SessionService} from "./session/delegator";
 import {Injectable} from "@angular/core";
+import {Utils} from "../shared/stuff/utils";
 
 @Injectable()
 export class ServiceFactory {
@@ -32,6 +33,7 @@ export class ServiceFactory {
   }
 
   resetRegisteredServices() {
+    Utils.log("Reseting registered services");
     this.serviceMap.forEach((value: ServiceInterface<any>)=>{
       value.reset();
     })

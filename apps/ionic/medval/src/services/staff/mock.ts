@@ -61,6 +61,54 @@ export class MockStaffService extends AbstractMockService<Staff> {
         photoUrl: "http://www.name-list.net/img/portrait/Chinmay_6.jpg"
       }
     }));
+    map.set("adminx", Object.assign(new Staff(), {
+      customerId: Config.CUSTOMERID,
+      username: "adminx",
+      entityStatus: "ACTIVE",
+      role: "MD",
+      properties: {
+        firstName: "Dre",
+        lastName: "Robbins",
+        email: "dre@imaginary.com",
+        photoUrl: "http://www.name-list.net/img/portrait/Chinmay_6.jpg"
+      }
+    }));
+    map.set("adminy", Object.assign(new Staff(), {
+      customerId: Config.CUSTOMERID,
+      username: "adminy",
+      entityStatus: "ACTIVE",
+      role: "MD",
+      properties: {
+        firstName: "Dre",
+        lastName: "Robbins",
+        email: "dre@imaginary.com",
+        photoUrl: "http://www.name-list.net/img/portrait/Chinmay_6.jpg"
+      }
+    }));
+    map.set("adminz", Object.assign(new Staff(), {
+      customerId: Config.CUSTOMERID,
+      username: "adminz",
+      entityStatus: "ACTIVE",
+      role: "MD",
+      properties: {
+        firstName: "Dre",
+        lastName: "Robbins",
+        email: "dre@imaginary.com",
+        photoUrl: "http://www.name-list.net/img/portrait/Chinmay_6.jpg"
+      }
+    }));
+    map.set("admina", Object.assign(new Staff(), {
+      customerId: Config.CUSTOMERID,
+      username: "admina",
+      entityStatus: "ACTIVE",
+      role: "MD",
+      properties: {
+        firstName: "Dre",
+        lastName: "Robbins",
+        email: "dre@imaginary.com",
+        photoUrl: "http://www.name-list.net/img/portrait/Chinmay_6.jpg"
+      }
+    }));
     map.set("admin", Object.assign(new Staff(), {
       customerId: Config.CUSTOMERID,
       username: "admin",

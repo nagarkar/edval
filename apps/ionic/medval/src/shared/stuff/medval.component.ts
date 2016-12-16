@@ -3,6 +3,8 @@ import {AccessTokenService} from "../aws/access.token.service";
 import {NavController} from "ionic-angular";
 import {LoginComponent} from "../../pages/login/login.component";
 import {Utils} from "./utils";
+import {Session} from "../../services/session/schema";
+import {Config} from "../aws/config";
 
 /**
  * Subclasses should implement ngOnInit() and call super.ngOnInit() before calling the account to load
@@ -15,7 +17,7 @@ export abstract class MedvalComponent implements OnInit {
               protected  utils: Utils) { }
 
   ngOnInit() {
-    if(!this.tokenProvider.getAuthResult()) {
+    if(!Config.isMockData(new Session()) && !this.tokenProvider.getAuthResult()) {
       this.gotoLogin();
     }
   }
