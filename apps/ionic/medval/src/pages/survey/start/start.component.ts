@@ -7,12 +7,14 @@ import {Utils} from "../../../shared/stuff/utils";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
 import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
+import {Account} from "../../../services/account/schema";
 
 @Component({
   templateUrl: 'start.component.html'
 })
 export class StartComponent {
   showNoThanks = false;
+  account: Account;
   constructor(
     private navCtrl: NavController,
     private utils: Utils,
