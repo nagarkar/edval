@@ -1,34 +1,38 @@
 <ion-header>
-	<ion-navbar>
+	<ion-navbar color="green">
 		<ion-title>Staff Info</ion-title>
 	</ion-navbar>
 </ion-header>
 <ion-content>
-	<ion-list>
-    <ion-item *ngFor="let item of staffList">
-			<ion-card>
-        <img src="{{item.properties.photoUrl}}" style="margin-left:5%;width:10%;"/>
-				<ion-card-content>
-					<ion-card-title>
-						{{[item.properties.title, item.properties.firstName, item.properties.lastName].join(' ')}}
-					</ion-card-title>
-					<p>
-						&nbsp;Email: {{item?.properties.email}}
-					</p>
-					<p>
-            &nbsp;Role : {{item?.role}}
-					</p>
-          <p>
-            &nbsp;Phone: {{item?.properties.phoneNumber}}
-          </p>
-				</ion-card-content>
-			</ion-card>
-			<button icon-left clear (click)="edit(item)">Edit</button>
-      <button icon-left clear (click)="delete(item)">Delete</button>
-		</ion-item>
-	</ion-list>
-
-  <button ion-button color="primary" block (click)="add()" >Add New Staff Member</button>
-  <button ion-button color="secondary" block (click)="navCtrl.pop()">Cancel</button>
-
+	<ion-grid>
+		<div class="custom-list-cards">
+			<ion-col class="box" *ngFor="let item of staffList">
+				<div class="box-content">
+					<div class="box-inner-content">
+						<ion-item class="item-clean">
+							<ion-thumbnail item-left>
+								<img src="{{item.properties.photoUrl}}">
+							</ion-thumbnail>
+							<h2>{{[item.properties.title, item.properties.firstName, item.properties.lastName].join(' ')}}</h2>
+							<p class="details" *ngIf="item?.properties.email">Email: {{item?.properties.email}}</p>
+							<p class="details" *ngIf="item?.role">Role : {{item?.role}}</p>
+							<p class="details" *ngIf="item?.properties.phoneNumber">Phone: {{item?.properties.phoneNumber}}</p>
+						</ion-item>
+						<div class="actions">
+							<button ion-button color="lightgrey" clear (click)="delete(item)">Delete</button>
+							<button ion-button color="grey" clear (click)="edit(item)">Edit</button>
+						</div>
+					</div>
+				</div>
+			</ion-col>
+			<ion-row padding>
+				<ion-col padding width-50>
+					<button ion-button large color="green" block (click)="add()" >Add New Staff Member</button>
+				</ion-col>
+				<ion-col padding width-50>
+					<button ion-button large color="danger" block (click)="navCtrl.pop()">Cancel</button>
+				</ion-col>
+			</ion-row>
+		</div>
+	</ion-grid>
 </ion-content>
