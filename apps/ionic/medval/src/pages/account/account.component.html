@@ -1,20 +1,65 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar color="green">
         <ion-title>Account Information</ion-title>
     </ion-navbar>
 </ion-header>
-<ion-content>
-    <ion-item>
-        <ion-label color="primary" fixed>Account Name</ion-label>
-        <ion-input  [(ngModel)]="account['properties']['customerName']"></ion-input>
+<ion-content padding>
+  <ion-list class="list custom-form-list">
+    <ion-item class="item-custom">
+        <ion-label>Organization Name</ion-label>
+        <ion-input  placeholder="Acme Inc." [(ngModel)]="account['properties']['customerName']"></ion-input>
     </ion-item>
-
-    <ion-item>
-      <ion-card>
-        <img src="{{account['properties']['logo']}}" style="width:40%"/>
-        <ion-icon name="camera" style="margin-left:45%;height:25px" (click)="collectUrl()" ></ion-icon>
-      </ion-card>
+    <ion-item class="item-custom">
+        <ion-label>Organization ID</ion-label>
+        <ion-input placeholder="OMC 12" [(ngModel)]="account['properties']['organizationId']"></ion-input>
     </ion-item>
-    <button ion-button color="primary" block (click)="save();">Save</button>
-    <button ion-button color="secondary" block (click)="navCtrl.pop()">Cancel</button>
+    <ion-item class="item-custom">
+        <ion-label>Location Address</ion-label>
+        <ion-input placeholder="Address Line 1" [(ngModel)]="account['properties']['address1']"></ion-input>
+    </ion-item>
+    <ion-item class="item-custom">
+        <ion-label></ion-label>
+        <ion-input placeholder="Address Line 2" [(ngModel)]="account['properties']['address2']"></ion-input>
+    </ion-item>
+    <ion-row class="group-fields">
+      <ion-col width-25></ion-col>
+      <ion-col>
+        <ion-input placeholder="City" [(ngModel)]="account['properties']['city']"></ion-input>
+      </ion-col>
+      <ion-col>
+        <ion-select [(ngModel)]="account['properties']['state']">
+          <ion-option value="washington" selected>Washington</ion-option>
+          <ion-option value="california">California</ion-option>
+        </ion-select>
+      </ion-col>
+      <ion-col>
+        <ion-input placeholder="Zip" [(ngModel)]="account['properties']['zip']"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row class="logos">
+      <ion-col width-25></ion-col>
+      <ion-col>
+        <div no-margin class="image-box">
+          <img src="{{account['properties']['logo']}}" style="width:40%"/>
+          <ion-icon name="camera" (click)="collectUrl()" ></ion-icon>
+        </div>
+        <div class="desc">Logo</div>
+      </ion-col>
+      <ion-col>
+        <div no-margin class="image-box">
+          <img src="{{account['properties']['logo']}}" style="width:40%"/>
+          <ion-icon name="camera" (click)="collectUrl()" ></ion-icon>
+        </div>
+        <div class="desc">Background image</div>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+  <ion-row padding>
+    <ion-col padding>
+      <button ion-button large color="green" block (click)="save();">Save</button>
+    </ion-col>
+    <ion-col padding>
+      <button ion-button large color="danger" block (click)="navCtrl.pop()">Cancel</button>
+    </ion-col>
+  </ion-row>
 </ion-content>
