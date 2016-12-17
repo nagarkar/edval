@@ -50,6 +50,14 @@
   font-size:1em;
 }
 .item-clean {
-  border: 0 none;
+  border: 0 none !important;
   background: transparent;
+  min-height: auto;
+  .item-inner {
+    border: 0 none !important;
+  }
+}
+
+.no-padding-top {
+  padding-top: 0px !important;
 }
