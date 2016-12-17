@@ -2,14 +2,21 @@
 
 <ion-content stlyle="padding:30% 0 0 0">
   <div *ngIf="showNoThanks == false" style="text-align:center">
-    <h1 class="metricHeading">
+    <img src="assets/img/intentions.jpg" style="margin-top:3em"/>
+    <h1 class="centeredHeading">
       <!--Thanks for taking a minute of your time to help us improve our service!-->
-      Please help us improve patient care with your feedback.
-      <br/>Just 7 questions, and 2 minutes!
-      <br/>Your feedback is confidential
+      Please help Orthodontic Excellence improve service!
     </h1>
+    <ion-item class="keypoint">
+      <ion-label>It takes just 7 questions, and 2 minutes</ion-label>
+      <ion-checkbox color="dark" checked="true"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-checkbox color="dark" checked="true"></ion-checkbox>
+      <ion-label>Your feedback is completely anonymous</ion-label>
+    </ion-item>
     <br/>
-    <button ion-button small (click)="startSurvey();">Let's Start</button>
+    <button ion-button color="revvolve" large (click)="startSurvey();">Let's Start</button>
     <br/>
     <button ion-button small clear (click)="noThanks();">No Thanks</button>
     <br/>

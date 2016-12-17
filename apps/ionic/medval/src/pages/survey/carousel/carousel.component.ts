@@ -23,6 +23,9 @@ export class CarouselComponent {
   done = new EventEmitter();
 
   @Input()
+  maxselect: number;
+
+  @Input()
   set slides(values: Array<SlideItem>) {
     if (!values.length) return;
 
@@ -35,7 +38,9 @@ export class CarouselComponent {
         return true;
       });
   }
-  big:boolean = false;
+
+  big: boolean = false;
+
   constructor(private eleRef: ElementRef, private utils: Utils, private platform: Platform) {
     this.platform = platform;
     if(this.platform.is('ipad') || this.platform.is('tablet') || this.platform.is('core')) {
@@ -99,6 +104,7 @@ export class CarouselComponent {
 
   selectItem(item: SlideItem){
     item.isSelected = !item.isSelected;
+
     Utils.log('selected slide: ' + Utils.stringify(item));
     this.selectSlide.emit(item);
   }

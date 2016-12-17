@@ -2,6 +2,7 @@
     width: 100%;
     padding-top: 1em;
     .swiper-slide {
+      font-size: 1em;
       background-position: center;
       background-size: cover;
       width: 10.5em;
@@ -39,12 +40,13 @@
           left: 0em;
           margin: 0.75em 0 0em 0;
           border-radius: 0;
+          width: 1em;
           padding: 1.6em 1em;
           -webkit-transition-property: margin; /* Safari */
           -webkit-transition-duration: 1s; /* Safari */
           transition-property: margin;
           ion-icon {
-            font-size: 2em;
+            font-size: 3em;
           }
         }
       }
@@ -66,8 +68,8 @@
   .selected-item {
     position: relative;
     display: inline-block;
-    width: 8em;
-    height: 8em;
+    width: 6em;
+    /*height: 8em; */
     margin-left: 0.3em;
     .button {
       position: absolute;
@@ -75,7 +77,8 @@
       margin: 0em;
       padding: 0.6em;
       border-radius: 0;
-      height: 2em;
+      height: 1.5em;
+      width: 1.5em;
       ion-icon {
         font-size: 1.5em;
       }

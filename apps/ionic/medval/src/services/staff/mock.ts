@@ -37,88 +37,76 @@ export class MockStaffService extends AbstractMockService<Staff> {
 
   private static mockMap() : Map<string, Staff> {
     let map : Map<string, Staff> = new Map<string, Staff>();
+    map.set("ermania", Object.assign(new Staff(), {
+      customerId: Config.CUSTOMERID,
+      username: "ermania",
+      entityStatus: "ACTIVE",
+      role: "FrontOffice",
+      properties: {
+        firstName: "Ermania",
+        lastName: "",
+        email: "team@smilewithbraces.com",
+        photoUrl: "assets/img/staff/ermania.jpg"
+      }
+    }));
+    map.set("jaite", Object.assign(new Staff(), {
+      customerId: Config.CUSTOMERID,
+      username: "jaite",
+      entityStatus: "ACTIVE",
+      role: "Orthodontic Assistant",
+      properties: {
+        firstName: "Jaite",
+        lastName: "",
+        email: "team@smilewithbraces.com",
+        photoUrl: "assets/img/staff/jaite.jpg"
+      }
+    }));
     map.set("celeron", Object.assign(new Staff(), {
-        customerId: Config.CUSTOMERID,
-        username: "celeron",
-        entityStatus: "ACTIVE",
-        role: "MD",
-        properties: {
-          firstName: "Chinmay",
-          lastName: "Nagarkar",
-          email: "nagarkar@imaginary.com",
-          photoUrl: "https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAfzAAAAJDllODlkOWU4LWRkODAtNDhjYi1hZjA3LWQ4YzFiYjE1NjVlZg.jpg"
-        }
-    }));
-    map.set("admin2", Object.assign(new Staff(), {
       customerId: Config.CUSTOMERID,
-      username: "admin2",
+      username: "celeron",
       entityStatus: "ACTIVE",
       role: "MD",
       properties: {
-        firstName: "Dre",
-        lastName: "Robbins",
-        email: "dre@imaginary.com",
-        photoUrl: "http://www.name-list.net/img/portrait/Chinmay_6.jpg"
+        firstName: "Megha",
+        lastName: "Anand",
+        email: "drmegha@smilewithbraces.com",
+        photoUrl: "assets/img/staff/megha.jpg"
       }
     }));
-    map.set("adminx", Object.assign(new Staff(), {
+    map.set("kelsey", Object.assign(new Staff(), {
       customerId: Config.CUSTOMERID,
-      username: "adminx",
+      username: "kelsey",
       entityStatus: "ACTIVE",
-      role: "MD",
+      role: "Orthodontic Assistant",
       properties: {
-        firstName: "Dre",
-        lastName: "Robbins",
-        email: "dre@imaginary.com",
-        photoUrl: "http://www.name-list.net/img/portrait/Chinmay_6.jpg"
+        firstName: "Kelsey",
+        lastName: "",
+        email: "team@smilewithbraces.com",
+        photoUrl: "assets/img/staff/kelsey.jpg"
       }
     }));
-    map.set("adminy", Object.assign(new Staff(), {
+    map.set("jazzmine", Object.assign(new Staff(), {
       customerId: Config.CUSTOMERID,
-      username: "adminy",
+      username: "jazzmine",
       entityStatus: "ACTIVE",
-      role: "MD",
+      role: "Orthodontic Assistant",
       properties: {
-        firstName: "Dre",
-        lastName: "Robbins",
-        email: "dre@imaginary.com",
-        photoUrl: "http://www.name-list.net/img/portrait/Chinmay_6.jpg"
+        firstName: "Jazzmine",
+        lastName: "",
+        email: "team@smilewithbraces.com",
+        photoUrl: "assets/img/staff/jazzmine.jpg"
       }
     }));
-    map.set("adminz", Object.assign(new Staff(), {
+    map.set("liana", Object.assign(new Staff(), {
       customerId: Config.CUSTOMERID,
-      username: "adminz",
+      username: "liana",
       entityStatus: "ACTIVE",
-      role: "MD",
+      role: "FrontOffice",
       properties: {
-        firstName: "Dre",
-        lastName: "Robbins",
-        email: "dre@imaginary.com",
-        photoUrl: "http://www.name-list.net/img/portrait/Chinmay_6.jpg"
-      }
-    }));
-    map.set("admina", Object.assign(new Staff(), {
-      customerId: Config.CUSTOMERID,
-      username: "admina",
-      entityStatus: "ACTIVE",
-      role: "MD",
-      properties: {
-        firstName: "Dre",
-        lastName: "Robbins",
-        email: "dre@imaginary.com",
-        photoUrl: "http://www.name-list.net/img/portrait/Chinmay_6.jpg"
-      }
-    }));
-    map.set("admin", Object.assign(new Staff(), {
-      customerId: Config.CUSTOMERID,
-      username: "admin",
-      entityStatus: "ACTIVE",
-      role: "MD",
-      properties: {
-        firstName: "Dre2",
-        lastName: "Robbins2",
-        email: "dre@imaginary.com",
-        photoUrl: "http://www.name-list.net/img/portrait/Chinmay_6.jpg"
+        firstName: "Liana",
+        lastName: "",
+        email: "team@smilewithbraces.com",
+        photoUrl: "assets/img/staff/liana.jpg"
       }
     }));
     return map;

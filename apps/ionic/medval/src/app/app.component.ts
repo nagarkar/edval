@@ -8,13 +8,15 @@ import {NpsTrendComponent} from "../pages/charts/nps.trend.component";
 import {AllTrendsComponent} from "../pages/charts/all.trends";
 import {SurveyComponent} from "../pages/survey/survey.component";
 import {ServiceFactory} from "../services/service.factory";
+import {PickStaffComponent} from "../pages/survey/pickstaff/pickstaff.component";
 
 
 @Component({
   template: `<ion-nav [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
-  rootPage = LoginComponent;
+  //rootPage = LoginComponent;
+  rootPage = PickStaffComponent;
 
   constructor(platform: Platform, serviceFactory: ServiceFactory) {
     serviceFactory.resetRegisteredServices(); // this needs to be done first, esp in mock mode.
