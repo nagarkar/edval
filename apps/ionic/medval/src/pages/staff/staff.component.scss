@@ -1,0 +1,53 @@
+//global list cards
+.custom-list-cards {
+  text-align: center;
+  max-width: 100%;
+  margin: 1em auto;
+  ion-col.box {
+    display: inline-block;
+    padding: 0.5em;
+    max-width: 18em;
+    width: 100%;
+    margin: 0;
+    clear: none;
+    .box-content {
+        .box-inner-content {
+          border: 1px solid color($colors, grey);
+          border-radius: 0.5em;
+          background-color: color($colors, white);
+          text-align: center;
+          .item {
+            padding: 0 0 0 0.5em;
+            ion-thumbnail {
+              display: inline-flex;
+              img {
+                min-width: 4em;
+                min-height: 4em;
+                border-radius: 0.25em;
+              }
+            }
+            .item-inner {
+              border: 0 none;
+              ion-label {
+                margin: 0px;
+              }
+              .details {
+                border-bottom: 1px solid color($colors, lightgrey);
+                padding: 0.3em;
+              }
+            }
+          }
+          .actions {
+            padding: 0em;
+          }
+        }
+    }
+  }
+}
+ion-app {
+  &.platform-core, &.platform-ipad &.platform-tablet {
+    .custom-form-list {
+      padding: 3em 8em 0;
+    }
+  }
+}
