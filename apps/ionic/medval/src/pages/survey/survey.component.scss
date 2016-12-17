@@ -11,9 +11,54 @@
 }
 
 .progress-bar > span {
-  background-color: blue;
+  background-color: color($colors, green);
   border-radius: 2px;
 
   display: block;
   text-indent: -9999px;
+}
+
+.progress-bar-wrapper {
+  position: fixed;
+  width: 100%;
+  padding: 0 50px;
+  .progress-bar-field {
+    height:35px;
+    width:100%;
+  }
+}
+.arrow-box {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  width: 100px;
+  height: 50px;
+  border: none;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  font: normal 100%/normal Arial, Helvetica, sans-serif;
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: color($colors, green);
+  position: relative;
+  bottom: 0;
+  border: 5px solid color($colors, green);
+  margin-left: -55px;
+}
+.arrow-box-content {
+  font-size: 11px;
+}
+.arrow-box:after {
+  bottom: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-color: rgba(13, 148, 71, 0);
+  border-bottom-color: color($colors, green);
+  border-width: 16px;
+  margin-left: -16px;
 }

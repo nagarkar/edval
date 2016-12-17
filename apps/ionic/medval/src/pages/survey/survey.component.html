@@ -1,33 +1,42 @@
-<mdval-header></mdval-header>
+<ion-header>
+  <ion-navbar color="green">
+    <ion-toolbar>
+    <ion-buttons left>
+        <button ion-button icon-only (click)="gotoHome()">
+          <ion-icon name="home"></ion-icon>
+        </button>
+    </ion-buttons>
+    <ion-title><div class="revvolve-logo" text-center>
+     <img src="assets/img/header-logo.jpg" style="height:1em" alt="">
+
+    </div></ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only>
+        <ion-icon ios="ios-log-out" md="md-log-out"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+  </ion-navbar>
+</ion-header>
 <ion-content>
   <survey-metric
     [@metricsPresented]="state()"
     [currentMetric]="currentMetric"
     (onAnswerSelection)="onAnswerSelection($event);">
   </survey-metric>
-  <div style="text-align:center">
-    <ion-label style="width: 50%;position: fixed;bottom: 10%;left: 25%;">
+  <div text-center>
+    <ion-label>
       {{metricCount}} out of {{maxMetrics}} done!
     </ion-label>
-    <!--ion-label small>{{progressBarValue}}% Done!</ion-label-->
-    <progress style="height:35px;width:50%;position: fixed;bottom: 5%;left: 25%;" max="100" value="{{progressBarValue}}"></progress>
-    <span style="position: fixed;bottom: 1.5%;left: 25%;">0%</span>
-    <span style="position: fixed;bottom: 1.5%;left: 72%;">100%</span>
   </div>
-  <!--div style="text-align:center;height:35px;width:100%">
-    <progress max="100" value="{{progressBarValue}}"></progress>
-  </div-->
-  <!--div style="text-align:center;height:35px">
-    <ion-label>{{metricCount}} out of {{maxMetrics}}</ion-label>
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <progress max="100" value="{{progressBarValue}}"></progress>
-        </ion-col>
-        <ion-col>
-          <ion-label style="width: 80%;">{{progressBarValue}}% Done!</ion-label>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div-->
+  <div text-center>
+    <div class="progress-bar-wrapper">
+      <progress class="progress-bar-field" max="100" value="{{progressBarValue}}"></progress>
+      <div class="arrow-box" [style.left]="progressBarValue + '%'">
+        <span *ngIf="progressBarValue <= 100*3.1/maxMetrics" class="arrow-box-content" color="light">Thanks for <br/>getting started!</span>
+        <span *ngIf="progressBarValue > 100*3.1/maxMetrics && progressBarValue < 60" class="arrow-box-content" color="light">About <br/>Halfway done!</span>
+        <span *ngIf="progressBarValue > 60" class="arrow-box-content" color="light">Almost <br/>done!</span>
+      </div>
+    </div>
+  </div>
 </ion-content>
