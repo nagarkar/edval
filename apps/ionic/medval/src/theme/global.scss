@@ -10,9 +10,153 @@
 }
 
 //Common App Background
-.content-md, .content-wp {
+.content-md, &.content-wp, &.content-ios {
     background-color: color($colors, lightgrey);
 }
 .has-header {
   top: 56px;
+}
+.list {
+  &.custom-form-list {
+    ion-label {
+      -webkit-flex: 0 0 25%;
+      -ms-flex: 0 0 25%;
+      flex: 0 0 25%;
+      max-width: 25%;
+      color: color($colors, dark);
+      margin: 0em;
+      text-align: left;
+    }
+    ion-input {
+      background: color($colors, white);
+      border: 1px solid color($colors, grey);
+      border-radius: 0.25em;
+      z-index: 1000;
+    }
+    .item {
+      background: transparent;
+      &.item-custom {
+        background: transparent;
+        border: 0 none;
+        margin: 1em 0;
+        padding: 0em;
+        .item-inner {
+          border: 0 none;
+          padding: 0em;
+          box-shadow: none !important;
+        }
+      }
+    }
+    ion-row {
+      margin: 1em 0;
+      padding: 0px;
+      &.group-fields {
+        ion-col {
+          padding: 0px;
+          position: relative;
+          z-index: 0;
+          ion-input {
+            padding-left: 16px;
+          }
+          ion-select {
+            padding: 0.83em 0.4em 0.83em 0.8em;
+            z-index: 0;
+            max-width: 100%;
+            background: color($colors, white);
+            border: 1px solid color($colors, grey);
+            border-radius: 0.25em;
+            margin: 0 0.5em;
+          }
+        }
+      }
+      &.logos {
+        ion-col {
+          padding: 0em 0.15em;
+          .image-box {
+            background: color($colors, white);
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            position: relative;
+            border-radius: 0.5em;
+            padding: 0.5em 0;
+            margin-right: 0.25em;
+            border: 1px solid color($colors, grey);
+            img {
+              width: 100%;
+              height: 100%;
+              text-align: center;
+            }
+            ion-icon {
+              position: absolute;
+              right: 0.5em;
+              bottom: 0;
+            }
+          }
+          .desc {
+            padding: 0.5em 1em;
+            font-size: 1em;
+          }
+        }
+      }
+    }
+  }
+}
+//global list cards
+.custom-list-cards {
+  text-align: center;
+  max-width: 100%;
+  margin: 1em auto;
+  ion-col.box {
+    display: inline-block;
+    padding: 0.5em;
+    max-width: 18em;
+    width: 100%;
+    margin: 0;
+    clear: none;
+    .box-content {
+        .box-inner-content {
+          border: 1px solid color($colors, grey);
+          border-radius: 0.5em;
+          background-color: color($colors, white);
+          text-align: center;
+          .item {
+            padding: 0 0 0 0.5em;
+            ion-thumbnail {
+              display: inline-flex;
+              img {
+                min-width: 4em;
+                min-height: 4em;
+                border-radius: 0.25em;
+              }
+            }
+            .item-inner {
+              border: 0 none;
+              ion-label {
+                margin: 0px;
+              }
+              .details {
+                border-bottom: 1px solid color($colors, lightgrey);
+                padding: 0.3em;
+              }
+            }
+          }
+          .actions {
+            padding: 0em;
+          }
+        }
+    }
+  }
+}
+.item-clean {
+  border: 0 none;
+  background: transparent;
+}
+
+ion-app {
+  &.platform-core, &.platform-ipad &.platform-tablet {
+    .custom-form-list {
+      padding: 3em 8em 0;
+    }
+  }
 }
