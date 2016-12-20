@@ -23,7 +23,7 @@ export abstract class AbstractMockService<T> implements ServiceInterface<T> {
 
   }
 
-  get(id: string) : Promise<T[]> {
+  get(id: string, dontuseCache?: boolean) : Promise<T> {
     return Promise.resolve(this.mockData().get(id));
   }
 
