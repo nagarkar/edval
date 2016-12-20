@@ -24,6 +24,8 @@ export class MetricValue {
 
 export interface MetricProperties  {
   metricName: string;
+  metricDescription?: string;
+  question?: string;
   definition: {
     npsType?: NPSType;
     textType?: TextType;
@@ -70,12 +72,12 @@ export class Metric {
   }
 
   public isLow(value: MetricValue) {
-    return this.isNpsType() && value && this.isDetractor(value);
+    return this.isNpsType() && value && this.isDetractor(+value.metricValue);
   }
 
   /** Returns true is value is defined, a number, and greater than 8. */
   public isHigh(value: MetricValue) {
-    return this.isNpsType() && value && this.isPromoter(value);
+    return this.isNpsType() && value && this.isPromoter(+value.metricValue);
   }
 
   /** Returns true is value is defined, a number, and less than 2. */
@@ -91,12 +93,16 @@ export class Metric {
     return this.properties.definition.npsType != null;
   }
 
-  private isDetractor(value: MetricValue): boolean {
-    return +(value.metricValue)/this.properties.definition.npsType.range <= 0.545454545;
+  public isDetractor(value: number): boolean {
+    return value/this.properties.definition.npsType.range < 0.72727272;
   }
 
-  private isPromoter(value: MetricValue): boolean {
-    return +(value.metricValue)/this.properties.definition.npsType.range >= 0.727272727;
+  public isStrongDetractor(value: number): boolean {
+    return value/this.properties.definition.npsType.range < 0.72727272;
+  }
+
+  public isPromoter(value: number): boolean {
+    return value/this.properties.definition.npsType.range > 0.81818181;
   }
 
   hasRoleSubject(): boolean {

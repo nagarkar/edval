@@ -1,10 +1,9 @@
 
-
-<div class="userimg" text-center padding>
-  <img class="border" src="{{this._currentStaff?.properties?.photoUrl}}" alt="">
+<div class="image">
+  <img class="border" src="assets/img/everything-can-be-better.jpg" alt="">
 </div>
-<div text-center [@metricName]="currentMetric?.properties?.metricName">
-  <span class="metricHeading" color="darkgrey">{{metricDisplayName}}</span>
+<div text-center>
+  <span class="metricHeading" color="darkgrey">{{currentMetric?.properties?.question}}</span>
 </div>
 
 <p text-center class="font-large" *ngIf="currentMetric.isNpsType()">

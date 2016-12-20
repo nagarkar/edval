@@ -2,13 +2,15 @@ import {MetricValue, Metric} from "../metric/schema";
 import {Utils} from "../../shared/stuff/utils";
 
 export class SessionProperties {
+  surveyId?: string;
   selectedStaffUserNames: Array<string> = [];
   selectedRoles: Array<string> = []
   staffMetricValues:Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
   roleMetricValues:Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
-  orgMetricValues: Array<MetricValue> = [];
+  orgMetricValues: Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
   endTime: number;
   aggregationProcessed: boolean;
+  navigatedLocation?: string[] = [];
 }
 
 export class Session {
@@ -50,12 +52,54 @@ export class Session {
       this.addMetricValueHelper(this.properties.staffMetricValues, subject, value);
     }
     if (Metric.isOrgSubject(subject)) {
-      this.addMetricValueHelper(this.properties.staffMetricValues, subject, value);
+      this.addMetricValueHelper(this.properties.orgMetricValues, subject, value);
     }
   }
 
   setStaffUsernames(usernames: string[]) {
     this.properties.selectedStaffUserNames = usernames;
+  }
+
+  addNavigatedLocation(location: string) {
+    this.properties.navigatedLocation.push(location);
+  }
+
+  public getMetricValue(subject: string, metricId: string): string {
+    let returnValue: string = null;
+    let mValues: MetricValue[] = this.properties.staffMetricValues.get(subject);
+    if (mValues) {
+      mValues.forEach((mValue: MetricValue) =>{
+        if (mValue.metricId == metricId) {
+          returnValue = mValue.metricValue;
+        }
+      });
+    }
+    if (returnValue) {
+      return returnValue;
+    }
+    mValues = this.properties.orgMetricValues.get(subject);
+    if (mValues) {
+      mValues.forEach((mValue: MetricValue) =>{
+        if (mValue.metricId == metricId) {
+          returnValue = mValue.metricValue;
+        }
+      });
+    }
+    if (returnValue) {
+      return returnValue;
+    }
+    mValues = this.properties.roleMetricValues.get(subject);
+    if (mValues) {
+      mValues.forEach((mValue: MetricValue) =>{
+        if (mValue.metricId == metricId) {
+          returnValue = mValue.metricValue;
+        }
+      });
+    }
+    if (returnValue) {
+      return returnValue;
+    }
+    return null;
   }
 
   private addMetricValueHelper(subjectMetricValueMap: Map<string, MetricValue[]>, subject: string, value: MetricValue) {
@@ -66,4 +110,5 @@ export class Session {
     values.push(value);
     subjectMetricValueMap.set(subject, values);
   }
+
 }

@@ -7,37 +7,53 @@ import {LiveSessionService} from "./live";
 import {ErrorType} from "../../shared/stuff/error.types";
 import {MetricValue} from "../metric/schema";
 import {Utils} from "../../shared/stuff/utils";
+import {SurveyNavigator} from "../survey/survey.navigator";
+import {SurveyService} from "../survey/delegator";
+import {MetricService} from "../metric/delegator";
 
 @Injectable()
 export class SessionService extends DelegatingService<Session> {
 
-  private currentSession: Session;
+  surveyNavigator: SurveyNavigator;
 
   constructor(
     mockService: MockSessionService,
-    liveService: LiveSessionService) {
+    liveService: LiveSessionService,
+    private surveyService: SurveyService,
+    private metricSvc: MetricService) {
 
     super(mockService, liveService);
   }
 
   getCurrentSession(): Session {
-    return this.currentSession;
+    return this.surveyNavigator.session;
   }
 
-  newCurrentSession() {
-    this.currentSession = new Session();
-    super.create(this.currentSession);
+  newCurrentSession(surveyId: string): Session {
+    let session: Session = new Session();
+    session.properties.surveyId = surveyId;
+    this.surveyNavigator = new SurveyNavigator(session, this.surveyService.getCached(surveyId), this.metricSvc);
+    super.create(this.getCurrentSession());
+    return this.getCurrentSession();
   }
 
   closeCurrentSession() {
-    this.currentSession.close();
-    super.update(this.currentSession);
-    Utils.log("Setting session to null. Session: {0}", this.currentSession);
-    this.currentSession = null;
+    this.getCurrentSession().close();
+    super.update(this.getCurrentSession());
+    Utils.log("Setting session to null. Session: {0}", this.getCurrentSession());
+    this.surveyNavigator = null;
+  }
+
+  recordNavigatedLocationInCurrentSession(location: string) {
+    if (this.surveyNavigator) {
+      this.getCurrentSession().addNavigatedLocation(location);
+    } else {
+      Utils.log("Attempted to call recordNavigatedLocationInCurrentSession with null currentSession");
+    }
   }
 
   addToCurrentSession(subject: string, metricValue: MetricValue) {
-    this.currentSession.addMetricValue(subject, metricValue);
+    this.getCurrentSession().addMetricValue(subject, metricValue);
   }
 
   get(id: string, dontuseCache?: boolean) : Promise<Session> {

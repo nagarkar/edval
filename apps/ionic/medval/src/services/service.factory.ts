@@ -5,6 +5,7 @@ import {AccountService} from "./account/delegator";
 import {SessionService} from "./session/delegator";
 import {Injectable} from "@angular/core";
 import {Utils} from "../shared/stuff/utils";
+import {SurveyService} from "./survey/delegator";
 
 @Injectable()
 export class ServiceFactory {
@@ -13,6 +14,7 @@ export class ServiceFactory {
   public static ACCOUNT: string = "ACCOUNT";
   public static STAFF: string = "STAFF";
   public static METRIC: string = "METRIC";
+  public static SURVEY: string = "SURVEY";
 
   private serviceMap: Map<string, ServiceInterface<any>> = new Map<string, ServiceInterface<any>>();
 
@@ -20,15 +22,17 @@ export class ServiceFactory {
     sessionService: SessionService,
     accountService: AccountService,
     staffService: StaffService,
-    metricService: MetricService
+    metricService: MetricService,
+    surveyService: SurveyService
   ) {
     this.serviceMap.set(ServiceFactory.SESSION, sessionService);
     this.serviceMap.set(ServiceFactory.ACCOUNT, accountService);
     this.serviceMap.set(ServiceFactory.STAFF, staffService);
     this.serviceMap.set(ServiceFactory.METRIC, metricService);
+    this.serviceMap.set(ServiceFactory.SURVEY, surveyService);
   }
 
-  get(name: string) {
+  get(name: string): ServiceInterface<any> {
     return this.serviceMap.get(name);
   }
 

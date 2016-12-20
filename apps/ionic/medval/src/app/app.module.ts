@@ -15,9 +15,9 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import {HttpClient} from "../shared/stuff/http.client";
 import {RatingComponent} from "../shared/rating/rating.component";
 import {SurveyComponent} from "../pages/survey/survey.component";
-import {MetricComponent} from "../pages/survey/metric/metric.component";
-import {ThanksComponent} from "../pages/survey/thanks/thanks.component";
 import {StartComponent} from "../pages/survey/start/start.component";
+import {MetricComponentLegacy} from "../pages/survey/metric.legacy/metric.legacy.component";
+import {ThanksComponent} from "../pages/survey/thanks/thanks.component";
 import {StaffEditComponent} from "../pages/staff/staff.edit.component";
 import {CarouselComponent} from "../pages/survey/carousel/carousel.component";
 import {PickStaffComponent} from "../pages/survey/pickstaff/pickstaff.component";
@@ -45,6 +45,16 @@ import {SettingsComponent} from "../pages/settings/settings.component";
 import {MetricSummaryComponent} from "../pages/metricsetup/metric.summary.component";
 import {MetricDetailComponent} from "../pages/metricsetup/metric.detail.component";
 import {ServiceFactory} from "../services/service.factory";
+import {SurveySelectionComponent} from "../pages/survey/surveyselection/surveyselection.component";
+import {SurveyService} from "../services/survey/delegator";
+import {MockSurveyService} from "../services/survey/mock";
+import {LiveSurveyService} from "../services/survey/live";
+import {StartWithSurveyOption} from "../pages/survey/startWithSurveyOption/start.with.survey.option.component";
+import {DetractorInfluencerComponent} from "../pages/survey/DetractorInfluencerComponent/detractor.influencer.component";
+import {HandleComplaintComponent} from "../pages/survey/HandleComplaintComponent/handle.complaint.component";
+import {PromoterInfluencersComponent} from "../pages/survey/PromoterInfluencerComponent/promoterinfluencers.component";
+import {RequestReviewComponent} from "../pages/survey/RequestReviewComponnet/requestreview.component";
+import {SingleMetricComponent} from "../pages/survey/singlemetric/single.metric.component";
 
 enableProdMode();
 
@@ -52,25 +62,40 @@ enableProdMode();
   declarations: [
     MyApp,
     LoginComponent,
+    HeaderComponent,
+    CarouselComponent,
+
+    /** Administrative Components */
     DashboardComponent,
     AccountComponent,
     StaffComponent,
     PolicyComponent,
     TermComponent,
+    StaffEditComponent,
+    SettingsComponent,
+
+    /** Survey Components */
     RatingComponent,
+    SurveySelectionComponent,
     SurveyComponent,
-    MetricComponent,
+    MetricComponentLegacy,
     ThanksComponent,
     StartComponent,
-    StaffEditComponent,
-    CarouselComponent,
+    StartWithSurveyOption,
+    DetractorInfluencerComponent,
+    HandleComplaintComponent,
+    PromoterInfluencersComponent,
+    RequestReviewComponent,
+    SingleMetricComponent,
     PickStaffComponent,
     FeedbackComponent,
-    HeaderComponent,
+
+    /** Reporting */
     NpsTrendComponent,
     RevvolveMetricsComponent,
     AllTrendsComponent,
-    SettingsComponent,
+
+    /** Metric Management */
     MetricSummaryComponent,
     MetricDetailComponent
   ],
@@ -82,26 +107,41 @@ enableProdMode();
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    DashboardComponent,
     LoginComponent,
+    HeaderComponent,
+    CarouselComponent,
+
+    /** Administrative Components */
+    DashboardComponent,
     AccountComponent,
     StaffComponent,
     PolicyComponent,
     TermComponent,
+    StaffEditComponent,
+    SettingsComponent,
+
+    /** Survey Components */
     RatingComponent,
+    SurveySelectionComponent,
     SurveyComponent,
-    MetricComponent,
+    MetricComponentLegacy,
     ThanksComponent,
     StartComponent,
-    StaffEditComponent,
-    CarouselComponent,
+    StartWithSurveyOption,
+    DetractorInfluencerComponent,
+    HandleComplaintComponent,
+    PromoterInfluencersComponent,
+    RequestReviewComponent,
+    SingleMetricComponent,
     PickStaffComponent,
     FeedbackComponent,
-    HeaderComponent,
+
+    /** Reporting */
     NpsTrendComponent,
     RevvolveMetricsComponent,
     AllTrendsComponent,
-    SettingsComponent,
+
+    /** Metric Management */
     MetricSummaryComponent,
     MetricDetailComponent
 
@@ -114,6 +154,7 @@ enableProdMode();
     AccountService, MockAccountService, LiveAccountService,
     LiveSessionService, MockSessionService, SessionService,
     LiveMetricService, MockMetricService, MetricService,
+    LiveSurveyService, MockSurveyService, SurveyService,
     ServiceFactory
   ]
 })

@@ -100,16 +100,16 @@ export class RatingComponent {
   public setRating(value: number, icon?:Icon) {
 
     this.ratingValue = value;
-    if(value <= 2) {
-      this.color = 'danger';
-    } else if (value <= 4) {
+    if(value <= (2*this._ratingMax)/10) {
       this.color = 'yellow';
-    } else if (value <= 6) {
-      this.color = 'orange';
-    } else if (value <= 8) {
+    } else if (value <= (4*this._ratingMax)/10) {
+      this.color = 'danger';
+    } else if (value <= (6*this._ratingMax)/11) {
       this.color = 'green';
-    } else {
+    } else if (value <= (8*this._ratingMax)/11) {
       this.color = 'darkgreen';
+    } else {
+      this.color = 'revvolvepurple';
     }
     this.ratingValueChange.emit(value);
     this.popped = true;

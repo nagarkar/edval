@@ -12,6 +12,7 @@ import {StartComponent} from "../survey/start/start.component";
 import {Utils} from "../../shared/stuff/utils";
 import {AllTrendsComponent} from "../charts/all.trends";
 import {MetricSummaryComponent} from "../metricsetup/metric.summary.component";
+import {SurveySelectionComponent} from "../survey/surveyselection/surveyselection.component";
 
 @Component({
   templateUrl: 'dashboard.component.html'
@@ -41,7 +42,7 @@ export class DashboardComponent {
   }
 
   gotoSurveyPage() {
-    this.utils.setRoot(this.navCtrl, StartComponent);
+    this.utils.setRoot(this.navCtrl, SurveySelectionComponent);
   }
 
   openNavGetHelpPage() {

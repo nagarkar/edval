@@ -16,10 +16,11 @@ import {Utils} from "../../../shared/stuff/utils";
 import {RatingComponent} from "../../../shared/rating/rating.component";
 import {Staff} from "../../../services/staff/schema";
 import {StaffService} from "../../../services/staff/delegator";
+import {SurveyNavigator, ISurveyFunction, ISurveyComponent, RegisterComponent} from "../../../services/survey/survey.navigator";
 
 @Component({
   selector: 'survey-metric',
-  templateUrl: 'metric.component.html',
+  templateUrl: 'metric.legacy.component.html',
   animations: [
     trigger('metricName', [
       transition('* => *', [
@@ -33,7 +34,7 @@ import {StaffService} from "../../../services/staff/delegator";
   ]
 })
 
-export class MetricComponent {
+export class MetricComponentLegacy implements ISurveyComponent {
 
   private _currentMetric: Metric; // Input()
   private _currentStaff: Staff;
@@ -46,6 +47,7 @@ export class MetricComponent {
     private utils: Utils,
     private staffSvc: StaffService
   ) { }
+
 
   public onSelection(data) {
     this.onAnswerSelection.emit(new MetricValue(

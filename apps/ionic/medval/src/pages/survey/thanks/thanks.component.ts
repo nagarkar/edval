@@ -7,6 +7,7 @@ import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
 import {MedvalComponent} from "../../../shared/stuff/medval.component";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
+import {StartWithSurveyOption} from "../startWithSurveyOption/start.with.survey.option.component";
 
 @Component({
   templateUrl: 'thanks.component.html',
@@ -24,7 +25,7 @@ export class ThanksComponent extends MedvalComponent implements AfterViewInit {
   }
 
   public restartSurvey() {
-    this.utils.push(this.navCtrl, StartComponent);
+    this.utils.push(this.navCtrl, StartWithSurveyOption);
   }
 
   public ngAfterViewInit() {

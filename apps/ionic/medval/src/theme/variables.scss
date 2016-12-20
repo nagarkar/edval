@@ -22,28 +22,36 @@ $background-color:  #FFFFFF;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #387ef5,
-  secondary:  #32db64,
+  primary: #04ad67,
+  secondary: #553982,
+  //primary:    #387ef5,
+  //secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222,
   favorite:   #69BB7B,
   revvolve:(
-	base:#27ae60,
-	contrast: #ffffff
+    //base:#27ae60,
+    base:#04ad67,
+    contrast: #ffffff
+  ),
+  revvolve2:(
+    base:#553982,
+    contrast: #ffffff
   ),
   green:(
-	base:#27ae60,
-	contrast: #ffffff
+    base:#27ae60,
+    contrast: #ffffff
   ),
   darkgrey: #4b4b4b,
   lightgrey: #EFF1F5,
   white: #ffffff,
   grey: #b2b2b2,
   yellow: #d4c800,
+  gold: #FFD700,
   orange: #f36523,
-  darkgreen: #0d9447
-
+  darkgreen: #0d9447,
+  revvolvepurple: #553982
 );
 
 

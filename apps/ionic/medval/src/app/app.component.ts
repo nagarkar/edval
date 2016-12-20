@@ -9,6 +9,9 @@ import {AllTrendsComponent} from "../pages/charts/all.trends";
 import {SurveyComponent} from "../pages/survey/survey.component";
 import {ServiceFactory} from "../services/service.factory";
 import {PickStaffComponent} from "../pages/survey/pickstaff/pickstaff.component";
+import {SurveySelectionComponent} from "../pages/survey/surveyselection/surveyselection.component";
+import {StartWithSurveyOption} from "../pages/survey/startWithSurveyOption/start.with.survey.option.component";
+import {AllNPSPromoters, StrongDetractor, StrongPromoter,AnyStrongDetractors} from "../services/survey/survey.functions";
 
 
 @Component({
@@ -16,7 +19,7 @@ import {PickStaffComponent} from "../pages/survey/pickstaff/pickstaff.component"
 })
 export class MyApp {
   //rootPage = LoginComponent;
-  rootPage = PickStaffComponent;
+  rootPage = StartWithSurveyOption;
 
   constructor(platform: Platform, serviceFactory: ServiceFactory) {
     serviceFactory.resetRegisteredServices(); // this needs to be done first, esp in mock mode.
@@ -25,6 +28,11 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
       Splashscreen.hide();
+      // This is required to make sure the class decorators run. There must be a better way to do this.
+      new AllNPSPromoters();
+      new AnyStrongDetractors();
+      new StrongPromoter();
+      new StrongDetractor();
     });
   }
 }

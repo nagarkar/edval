@@ -5,6 +5,7 @@ import {HttpClient} from "../stuff/http.client";
 import {Utils} from "../stuff/utils";
 import {ServiceInterface} from "./interface.service";
 import {Http} from "@angular/http";
+import {Config} from "../aws/config";
 
 
 export abstract class AbstractService<T> implements ServiceInterface<T> {
@@ -133,9 +134,13 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
   }
 
   protected checkGate() : void {
-    if (!this.accessProvider.supposedToBeLoggedIn()) {
+    if (!this.inMockMode() && !this.accessProvider.supposedToBeLoggedIn()) {
       throw ErrorType.NotLoggedIn;
     }
+  }
+
+  private inMockMode() : boolean {
+    return Config.isMockData(this.getInstance());
   }
 
   private updateCache(value: T | Array<T>, ...pathElements) {

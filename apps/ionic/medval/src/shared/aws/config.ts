@@ -26,7 +26,8 @@ export class Config {
     ["Session", true],
     ["Metric", true],
     ["Account", true],
-    ["Staff", true]
+    ["Staff", true],
+    ["Survey", true]
   ]);
 
   static get baseUrl() {

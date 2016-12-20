@@ -1,7 +1,7 @@
 <ion-content class="has-header" has-header>
   <h2 class="title" text-center>Please tell us who worked with you today ?</h2>
   <div class="carousel-area">
-    <ion-slides [options]="_options" #mySlider (ionDidChange)="onSlideChanged()">
+    <ion-slides #mySlider [options]="sliderOptions" (ionDidChange)="onSlideChanged()">
       <ion-slide *ngFor="let item of items; let i = index" (tap)="selectItem(item)">
         <div class="default" [ngClass]="{'center-slide': (activeSlide == i), 'near-center': (activeSlide == (i-1)), 'near-center': (activeSlide == (i+1)), 'selected-slide': item.isSelected}">
           <button *ngIf="item.isSelected" class="selected-icon" ion-button color="green"><ion-icon name="checkmark"></ion-icon></button>
@@ -16,12 +16,22 @@
   <ion-grid class="selected-items">
     <ion-row text-center>
       <ion-col>
-        <span *ngFor="let selectedItem of items; let s = index">
-          <div class="selected-item" *ngIf="selectedItem.isSelected">
-            <button ion-button color="danger" (click)="removeItem(selectedItem)"><ion-icon name="close"></ion-icon></button>
-            <img src="{{selectedItem.imgUrl}}" class="image" />
+        <div [ngSwitch]="selectedItems.length">
+          <div *ngSwitchCase="0">
+            <div class="selected-item">
+              <img src="assets/img/placeholder.png" class="image" />
+            </div>
           </div>
-        </span>
+          <div *ngSwitchDefault>
+            <span *ngFor="let selectedItem of selectedItems">
+              <div class="selected-item">
+                <button ion-button color="danger" (click)="removeItem(selectedItem)"><ion-icon name="close"></ion-icon>
+                </button>
+                <img src="{{selectedItem.imgUrl}}" class="image" />
+              </div>
+            </span>
+          </div>
+        </div>
       </ion-col>
     </ion-row>
     <ion-row text-center>

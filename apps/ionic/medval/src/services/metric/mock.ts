@@ -48,6 +48,22 @@ export class MockMetricService extends AbstractMockService<Metric> {
   static getMetrics(): any[] {
     return [{
       customerId: Config.CUSTOMERID,
+      metricId: 'root',
+      parentMetricId: null,
+      entityStatus: "ACTIVE",
+      subject: "org",
+      properties: {
+        question: "Would you recommend ${item.get('account').displayName} to your friends and family?",
+        metricName: "",
+        metricDescription: "Organization Level Metric. This metric is alrways present by default and cannot be deleted",
+        definition: {
+          npsType: {
+            range: 11
+          }
+        }
+      }
+    }, {
+      customerId: Config.CUSTOMERID,
       metricId: '62861045b4984805ae213df729dad97b',
       parentMetricId: null,
       entityStatus: "ACTIVE",

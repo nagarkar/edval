@@ -1,26 +1,38 @@
-<mdval-header [showImage]="false" [title]="'START SURVEY'"></mdval-header>
-
+<mdval-header></mdval-header>
 <ion-content stlyle="padding:30% 0 0 0">
-  <div *ngIf="showNoThanks == false" style="text-align:center">
-    <img src="assets/img/intentions.jpg" style="margin-top:3em"/>
-    <h1 class="centeredHeading">
-      <!--Thanks for taking a minute of your time to help us improve our service!-->
-      Please help Orthodontic Excellence improve service!
-    </h1>
-    <ion-item class="keypoint">
-      <ion-label>It takes just 7 questions, and 2 minutes</ion-label>
-      <ion-checkbox color="dark" checked="true"></ion-checkbox>
-    </ion-item>
-    <ion-item>
-      <ion-checkbox color="dark" checked="true"></ion-checkbox>
-      <ion-label>Your feedback is completely anonymous</ion-label>
-    </ion-item>
-    <br/>
-    <button ion-button color="revvolve" large (click)="startSurvey();">Let's Start</button>
-    <br/>
-    <button ion-button small clear (click)="noThanks();">No Thanks</button>
-    <br/>
-    <br/>
+  <ion-buttons end>
+    <button ion-button small icon-only (click)="gotoLogin()">
+      <ion-icon name="settings"></ion-icon>
+    </button>
+  </ion-buttons>
+  <div *ngIf="showNoThanks == false" style="text-align:center;margin: 1em">
+    <ion-row>
+      <ion-col width-40>
+        <!--img src="http://img.picturequotes.com/2/26/25637/when-you-know-better-you-do-better-quote-1.jpg"/-->
+        <img src={{leftImage}}>
+      </ion-col>
+      <ion-col class="text-center" style="padding-top:2em">
+        <p class="centeredHeading">
+          <h1 style="margin-top:0; margin-bottom:2px"><b>Orthodontic Excellence</b></h1>
+          <h2 style="margin-top:0;font-style: italic">needs&nbsp;your help!</h2>
+          <br/>
+          <ion-list>
+            <ion-item class="reassure">
+              <ion-icon name="timer" item-left></ion-icon>
+              We&nbsp;want&nbsp;to&nbsp;know &nbsp;<b>what&nbsp;you think</b>
+            </ion-item>
+            <ion-item class="reassure">
+              <ion-icon name="lock" item-left></ion-icon>
+              Your feedback <b>is always anonymous</b>
+            </ion-item>
+          </ion-list>
+          <h4><span class="question"><b>"After your visit today, would you recommend Orthodontic Excellence to your friends and family?"</b></span></h4>
+          <p text-center class="font-large">
+            <rating (ratingValueChange)="pickStaff($event);" [ratingMax]='5' [ratingValue]='1'></rating>
+          </p>
+        <button class="nothanks" ion-button medium clear (click)="noThanks();">No Thanks. I don't have any feedback today.</button>
+      </ion-col>
+    </ion-row>
   </div>
   <div *ngIf="showNoThanks == true">
     <br/>

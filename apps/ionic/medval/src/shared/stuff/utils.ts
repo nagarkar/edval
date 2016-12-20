@@ -40,6 +40,24 @@ export class Utils {
     }
   }
 
+  public static assert(object: any) {
+    if (object === null) {
+      throw new Error("Null object in Utils.assert");
+    }
+  }
+
+  public static assertTrue(object: any) {
+    if (!object) {
+      throw new Error("Object not evaluated as true in Utils.assertTrue");
+    }
+  }
+
+  public static assertFalse(object: any) {
+    if (object) {
+      throw new Error("Object not evaluated as false in Utils.assertFalse");
+    }
+  }
+
   public static getObjectName(obj: any): string {
     if (obj) {
       return Object.getPrototypeOf(obj).constructor.name;
@@ -271,7 +289,7 @@ export class Utils {
       animate: true,
       direction: 'forward',
       animation: this.isAndroid()? "md-transition" : "ios-transition",
-      duration: 500
+      duration: 100
     }
   }
 
@@ -327,6 +345,10 @@ export class Utils {
       array[i] = t;
     }
     return array;
+  }
+
+  static throw(format:string, ...args) {
+    throw ErrorType.UnsupportedOperation(this.format(format, args));
   }
 
   static throwIfNull(value: any, format?:string, ...args) {
