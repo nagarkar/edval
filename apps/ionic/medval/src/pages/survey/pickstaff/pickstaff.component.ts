@@ -89,7 +89,8 @@ export class PickStaffComponent implements OnInit {
   }
 
   public navigateToNext() {
-    SurveyNavUtils.handleEvent(this.sessionSvc.surveyNavigator, this.navCtrl, this.utils);
+    this.sessionSvc.getCurrentSession().setStaffUsernames(Staff.getUsernames(this.selectedStaff));
+    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl, this.utils);
   }
 
   /*

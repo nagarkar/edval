@@ -1,4 +1,33 @@
+<ion-content class="card-background-page">
+  <mdval-header></mdval-header>
+  <ion-card>
+    <img src="assets/img/family2.jpg"/>
+    <div class="card-conversation-setup">{{currentMetric?.properties?.conversationSetup}}</div>
+    <div class="card-title">{{currentMetric?.properties?.question}}</div>
+    <p text-center class="card-subtitle" *ngIf="currentMetric.isNpsType()">
+      <rating (ratingValueChange)="onSelection($event);"
+              [ratingMax]="currentMetric.properties.definition.npsType.range"
+              [ratingValue]="1"></rating>
+    </p>
+    <p text-center *ngIf="currentMetric.isTextType()">
+      <textFeedback (textValueChange)="onSelection($event);" ></textFeedback>
+    </p>
+  </ion-card>
+</ion-content>
+<ion-footer>
+  <ion-navbar style="margin:0;padding:0">
+    <div style="margin-left:30%">
+      <ion-list style="margin:0px">
+        <ion-item class="reassure">
+          <ion-icon name="lock" item-left></ion-icon>
+          Your feedback <b>is always anonymous</b>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ion-navbar>
+</ion-footer>
 
+<!--
 <div class="image">
   <img class="border" src="assets/img/everything-can-be-better.jpg" alt="">
 </div>
@@ -14,3 +43,4 @@
 <p text-center *ngIf="currentMetric.isTextType()">
   <textFeedback (textValueChange)="onSelection($event);" ></textFeedback>
 </p>
+-->

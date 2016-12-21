@@ -17,6 +17,8 @@ import {SurveyNavUtils} from "../SurveyNavUtils";
 @RegisterComponent
 export class RequestReviewComponent {
 
+  public reviewMsg: string;
+
   constructor(
     tokenProvider: AccessTokenService,
     private sessionSvc: SessionService,
@@ -26,7 +28,7 @@ export class RequestReviewComponent {
   }
 
   public navigateToNext() {
-    SurveyNavUtils.handleEvent(this.sessionSvc.surveyNavigator, this.navCtrl, this.utils);
+    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl, this.utils);
   }
 }
 

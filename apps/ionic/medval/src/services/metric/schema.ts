@@ -25,7 +25,9 @@ export class MetricValue {
 export interface MetricProperties  {
   metricName: string;
   metricDescription?: string;
+  conversationSetup?:string;
   question?: string;
+  positiveImpact?: string;
   definition: {
     npsType?: NPSType;
     textType?: TextType;

@@ -333,6 +333,7 @@ export class Utils {
     return new Function('item', 'return \`' + message + "\`");
   }
 
+  /** Shuffles the elements of the array using https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle */
   static shuffle<T>(array: Array<T>): Array<T> {
     let length = array.length, t, i;
     // While there remain elements to shuffle…

@@ -4,10 +4,10 @@ import {NavController} from "ionic-angular";
 import {Utils} from "../../shared/stuff/utils";
 
 export class SurveyNavUtils {
-  public static handleEvent(navigator: SurveyNavigator, navCtrl: NavController, utils: Utils) {
+  public static navigateOrTerminate(navigator: SurveyNavigator, navCtrl: NavController, utils: Utils, terminationMessage?: string) {
     let navigationTarget: NavigationTarget = navigator.getNavigationTarget();
     if (navigationTarget == null) {
-      utils.setRoot(navCtrl, ThanksComponent);
+      utils.setRoot(navCtrl, ThanksComponent, {message: terminationMessage});
     } else {
       utils.setRoot(navCtrl, navigationTarget.component, navigationTarget.params);
     }

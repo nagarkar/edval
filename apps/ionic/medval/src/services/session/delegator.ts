@@ -25,6 +25,10 @@ export class SessionService extends DelegatingService<Session> {
     super(mockService, liveService);
   }
 
+  hasCurrentSession(): boolean {
+    return this.surveyNavigator != null && this.surveyNavigator.session != null;
+  }
+
   getCurrentSession(): Session {
     return this.surveyNavigator.session;
   }

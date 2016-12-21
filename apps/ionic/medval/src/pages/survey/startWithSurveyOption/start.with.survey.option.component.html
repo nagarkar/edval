@@ -1,17 +1,12 @@
 <mdval-header [rightIconName]='albums'></mdval-header>
 <ion-content stlyle="padding:30% 0 0 0">
-  <ion-buttons end>
-    <button ion-button small icon-only (click)="gotoLogin()">
-      <ion-icon name="settings"></ion-icon>
-    </button>
-  </ion-buttons>
-  <div *ngIf="showNoThanks == false" style="text-align:center;margin: 1em">
+  <div style="text-align:center;margin-top: 4em">
     <ion-row>
       <ion-col width-40>
         <!--img src="http://img.picturequotes.com/2/26/25637/when-you-know-better-you-do-better-quote-1.jpg"/-->
         <img src={{leftImage}}>
       </ion-col>
-      <ion-col class="text-center" style="padding-top:2em">
+      <ion-col class="text-center">
         <p class="centeredHeading">
           <h1 style="margin-top:0; margin-bottom:2px"><b>Orthodontic Excellence</b></h1>
           <h2 style="margin-top:0;font-style: italic">appreciates&nbsp;your help!</h2>
@@ -30,10 +25,5 @@
         <button class="nothanks" ion-button medium clear (click)="noThanks();">No Thanks. I can't give feedback today.</button>
       </ion-col>
     </ion-row>
-  </div>
-  <div *ngIf="showNoThanks == true">
-    <br/>
-    <br/>
-    <h1  style="text-align: center;">Thank You!</h1>
   </div>
 </ion-content>

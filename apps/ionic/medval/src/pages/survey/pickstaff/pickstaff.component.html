@@ -2,3 +2,15 @@
 <ion-content>
   <carousel [slides]="slides" [maxselect]="2" (selectSlide)="selectStaff($event);" (done)="navigateToNext()"></carousel>
 </ion-content>
+<ion-footer>
+  <ion-navbar style="margin:0;padding:0">
+    <div style="margin-left:20%">
+      <ion-list style="margin:0px">
+        <ion-item class="reassure">
+          <ion-icon name="lock" item-left></ion-icon>
+          All feedback is anonymous and considered in aggregate only.
+        </ion-item>
+      </ion-list>
+    </div>
+  </ion-navbar>
+</ion-footer>

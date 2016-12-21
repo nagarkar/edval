@@ -16,10 +16,7 @@ import {Utils} from "../../../shared/stuff/utils";
 import {RatingComponent} from "../../../shared/rating/rating.component";
 import {Staff} from "../../../services/staff/schema";
 import {StaffService} from "../../../services/staff/delegator";
-import {
-  SurveyNavigator, ISurveyFunction, ISurveyComponent, RegisterComponent,
-  NavigationTarget
-} from "../../../services/survey/survey.navigator";
+import { SurveyNavigator, ISurveyComponent, RegisterComponent,NavigationTarget} from "../../../services/survey/survey.navigator";
 import {NavParams, NavController} from "ionic-angular";
 import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
@@ -27,17 +24,6 @@ import {SessionService} from "../../../services/session/delegator";
 @Component({
   selector: 'single-metric',
   templateUrl: 'single.metric.component.html',
-  animations: [
-    trigger('metricName', [
-      transition('* => *', [
-        style({
-          opacity: 0,
-          transform: 'translateY(-100%)'
-        }),
-        animate('1s ease-in')
-      ]),
-    ])
-  ]
 })
 
 @RegisterComponent
@@ -73,11 +59,8 @@ export class SingleMetricComponent implements ISurveyComponent {
     let navigator: SurveyNavigator = this.sessionSvc.surveyNavigator;
     navigator.session.addMetricValue(this.currentMetric.subject, new MetricValue(this.currentMetric.metricId, data));
     let navigationTarget: NavigationTarget = navigator.getNavigationTarget();
-    this.utils.setRoot(this.navCtrl, navigationTarget.component, navigationTarget.params);
+    setTimeout(() =>{
+      this.utils.setRoot(this.navCtrl, navigationTarget.component, navigationTarget.params);
+    }, 1500);
   }
-
-  get metricDisplayName(): string {
-    return this.currentMetric.properties.metricName;
-  }
-
 }

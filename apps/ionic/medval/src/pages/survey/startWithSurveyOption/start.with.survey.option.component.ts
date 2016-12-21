@@ -12,13 +12,13 @@ import {SurveyService} from "../../../services/survey/delegator";
 import {Session} from "../../../services/session/schema";
 import {SurveySelectionComponent} from "../surveyselection/surveyselection.component";
 import {NavigationTarget} from "../../../services/survey/survey.navigator";
+import {ThanksComponent} from "../thanks/thanks.component";
 
 @Component({
   templateUrl: 'start.with.survey.option.component.html'
 })
 
 export class StartWithSurveyOption extends SurveySelectionComponent {
-  showNoThanks = false;
   private images = [
     'assets/img/do-better4.jpg',
     //'assets/img/do-better.jpg',
@@ -51,10 +51,7 @@ export class StartWithSurveyOption extends SurveySelectionComponent {
   }
 
   noThanks() {
-    this.showNoThanks = true;
-    setTimeout(()=> {
-      this.showNoThanks = false;
-    }, 5000)
+    this.utils.setRoot(this.navCtrl, ThanksComponent, {message: "That's ok, maybe next time!"});
   }
 
   pickSurvey(idx: number){

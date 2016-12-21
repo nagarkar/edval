@@ -53,7 +53,8 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "org",
       properties: {
-        question: "Would you recommend ${item.get('account').displayName} to your friends and family?",
+        conversationSetup: "Lets get the most important question out of the way!",
+        question: "Would you recommend Orthodontic Excellence to your friends and family?",
         metricName: "",
         metricDescription: "Organization Level Metric. This metric is alrways present by default and cannot be deleted",
         definition: {
@@ -85,6 +86,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:MD",
       properties: {
         metricName: 'Was your doctor friendly and courteous?',
+        positiveImpact: "Dr. Megha at Orthodontic Excellence is friendly and courteous",
         definition: {
           npsType: {
             range: 11
@@ -126,7 +128,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:MD",
       properties: {
-        metricName: 'Did Dr. El-Ghazzawi address your concerns and questions?',
+        metricName: 'Did Dr. Megha address your concerns and questions?',
         definition: {
           npsType: {
             range: 11
@@ -141,6 +143,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:MD",
       properties: {
         metricName: 'Do you feel the treatment plan was properly explained to you?',
+        positiveImpact: 'The doctor & staff at OE did a great job explaining the treatment plan',
         definition: {
           npsType: {
             range: 11

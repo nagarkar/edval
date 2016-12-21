@@ -34,7 +34,6 @@ export class MockSurveyService extends AbstractMockService<Survey> {
     return MockSurveyService.surveyMap;
   }
 
-
   private static mockMap() : Map<string, Survey> {
     let map : Map<string, Survey> = new Map<string, Survey>();
     map.set("default", Object.assign(new Survey(), {
@@ -48,13 +47,14 @@ export class MockSurveyService extends AbstractMockService<Survey> {
       },
       workflow:[
         {
+          component:"RequestReviewComponent",
+          isTerminal:true
+        },
+        {
           component:"SingleMetricComponent",
           params:{
             metricId: "root"
           },
-        },
-        {
-          component:"PickStaffComponent",
         },
         {
           fn:"StrongDetractor",
@@ -81,11 +81,21 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
-          component:"DetractorInfluencerComponent",
+          component:"TopInfluencerComponent",
+          params: {
+            valueOrderDesc: false,
+            maxMetrics:4,
+            rootMetricId: null,
+          },
           isTerminal:true
         },
         {
-          component:"PromoterInfluencersComponent",
+          component:"TopInfluencerComponent",
+          params: {
+            valueOrderDesc: true,
+            maxMetrics: 4,
+            rootMetricId: null
+          }
         },
         {
           component:"RequestReviewComponent",

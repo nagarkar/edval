@@ -9,9 +9,9 @@ import {Utils} from "../stuff/utils";
 
 export abstract class DelegatingService<T> implements ServiceInterface<T> {
 
-  onCreate: EventEmitter<T> = new EventEmitter<T>();
-  onUpdate: EventEmitter<T> = new EventEmitter<T>();
-  onDelete: EventEmitter<string> = new EventEmitter<string>();
+  public onCreate: EventEmitter<T> = new EventEmitter<T>();
+  public onUpdate: EventEmitter<T> = new EventEmitter<T>();
+  public onDelete: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(
     private mockService: AbstractMockService<T>,

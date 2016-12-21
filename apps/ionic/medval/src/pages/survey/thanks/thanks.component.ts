@@ -1,6 +1,6 @@
 import {Component, AfterViewChecked, AfterViewInit} from '@angular/core';
 
-import { NavController} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import {Config} from "../../../shared/aws/config";
 import {StartComponent} from "../start/start.component";
 import {Utils} from "../../../shared/stuff/utils";
@@ -14,14 +14,20 @@ import {StartWithSurveyOption} from "../startWithSurveyOption/start.with.survey.
 })
 export class ThanksComponent extends MedvalComponent implements AfterViewInit {
 
+  message: string;
+
   constructor(
     tokenProvider: AccessTokenService,
     private sessionService: SessionService,
     navCtrl: NavController,
+    navParams: NavParams,
     utils: Utils
     ) {
     super(tokenProvider, navCtrl, utils);
-    sessionService.closeCurrentSession();
+    this.message = navParams.get('message') || 'Thanks for your feedback!';
+    if (sessionService.hasCurrentSession()) {
+      sessionService.closeCurrentSession();
+    }
   }
 
   public restartSurvey() {

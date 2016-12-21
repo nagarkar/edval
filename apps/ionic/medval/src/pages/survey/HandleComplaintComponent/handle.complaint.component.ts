@@ -17,6 +17,8 @@ import {RegisterComponent} from "../../../services/survey/survey.navigator";
 @RegisterComponent
 export class HandleComplaintComponent {
 
+  public complaintMsg: string;
+
   constructor(
     tokenProvider: AccessTokenService,
     private sessionSvc: SessionService,
@@ -26,6 +28,10 @@ export class HandleComplaintComponent {
   }
 
   public navigateToNext() {
-    SurveyNavUtils.handleEvent(this.sessionSvc.surveyNavigator, this.navCtrl, this.utils);
+    SurveyNavUtils.navigateOrTerminate(
+      this.sessionSvc.surveyNavigator,
+      this.navCtrl,
+      this.utils,
+      "Sorry about that! Your constructive feedback will certainly help Orthodontic Excellence improve!");
   }
 }

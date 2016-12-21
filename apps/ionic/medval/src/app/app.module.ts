@@ -50,9 +50,8 @@ import {SurveyService} from "../services/survey/delegator";
 import {MockSurveyService} from "../services/survey/mock";
 import {LiveSurveyService} from "../services/survey/live";
 import {StartWithSurveyOption} from "../pages/survey/startWithSurveyOption/start.with.survey.option.component";
-import {DetractorInfluencerComponent} from "../pages/survey/DetractorInfluencerComponent/detractor.influencer.component";
+import {TopInfluencerComponent} from "../pages/survey/TopInfluencerComponent/top.influencer.component";
 import {HandleComplaintComponent} from "../pages/survey/HandleComplaintComponent/handle.complaint.component";
-import {PromoterInfluencersComponent} from "../pages/survey/PromoterInfluencerComponent/promoterinfluencers.component";
 import {RequestReviewComponent} from "../pages/survey/RequestReviewComponnet/requestreview.component";
 import {SingleMetricComponent} from "../pages/survey/singlemetric/single.metric.component";
 
@@ -82,9 +81,8 @@ enableProdMode();
     ThanksComponent,
     StartComponent,
     StartWithSurveyOption,
-    DetractorInfluencerComponent,
+    TopInfluencerComponent,
     HandleComplaintComponent,
-    PromoterInfluencersComponent,
     RequestReviewComponent,
     SingleMetricComponent,
     PickStaffComponent,
@@ -128,9 +126,8 @@ enableProdMode();
     ThanksComponent,
     StartComponent,
     StartWithSurveyOption,
-    DetractorInfluencerComponent,
+    TopInfluencerComponent,
     HandleComplaintComponent,
-    PromoterInfluencersComponent,
     RequestReviewComponent,
     SingleMetricComponent,
     PickStaffComponent,
