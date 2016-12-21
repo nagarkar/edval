@@ -54,6 +54,7 @@ import {TopInfluencerComponent} from "../pages/survey/TopInfluencerComponent/top
 import {HandleComplaintComponent} from "../pages/survey/HandleComplaintComponent/handle.complaint.component";
 import {RequestReviewComponent} from "../pages/survey/RequestReviewComponnet/requestreview.component";
 import {SingleMetricComponent} from "../pages/survey/singlemetric/single.metric.component";
+import {ToplineForStaffComponent} from "../pages/survey/topline.for.staff/topline.for.staff.component";
 
 enableProdMode();
 
@@ -87,6 +88,7 @@ enableProdMode();
     SingleMetricComponent,
     PickStaffComponent,
     FeedbackComponent,
+    ToplineForStaffComponent,
 
     /** Reporting */
     NpsTrendComponent,
@@ -132,6 +134,7 @@ enableProdMode();
     SingleMetricComponent,
     PickStaffComponent,
     FeedbackComponent,
+    ToplineForStaffComponent,
 
     /** Reporting */
     NpsTrendComponent,

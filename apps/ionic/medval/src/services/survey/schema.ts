@@ -32,6 +32,7 @@ export interface ComponentIf {
     sampleSize?: number,
     metrics?: Array<string>
   },
+  executeIf?: string,
   navigateOnException?: number,
   isTerminal?: boolean
 };

@@ -2,32 +2,45 @@
 import {ISurveyFunction, SurveyNavigator, RegisterFunction} from "./survey.navigator";
 import {Survey} from "./schema";
 import {Session} from "../session/schema";
-import {Metric} from "../metric/schema";
+import {Metric, MetricValue} from "../metric/schema";
 
 @RegisterFunction
-export class AllNPSPromoters implements ISurveyFunction {
+export class AllPromoters implements ISurveyFunction {
 
-  constructor() {}
-
-  canExecute(navigator: SurveyNavigator): boolean {
-    return undefined;
+  canExecute(navigator: SurveyNavigator, params: any): boolean {
+    return true;
   }
 
-  execute(navigator: SurveyNavigator): string|number {
-    return undefined;
+  execute(navigator: SurveyNavigator, params: any): string|number {
+    let metricIds: string[] = navigator.metricSvc.getCachedMatchingRootMetrics();
+    return navigator.session.getAllMetricValues().every((metricValue: MetricValue) => {
+      let metric: Metric = navigator.metricSvc.getCached(metricValue.metricId);
+      if (metric.parentMetricId || (metric.isNpsType() && metric.isPromoter(+metricValue.metricValue))) {
+        return true;
+      }
+      return false;
+    }).toString();
   }
+
 }
+
 @RegisterFunction
-export class AnyStrongDetractors implements ISurveyFunction {
+export class AnyDetractors implements ISurveyFunction {
 
-  constructor() {}
-
-  canExecute(navigator: SurveyNavigator): boolean {
-    return undefined;
+  canExecute(navigator: SurveyNavigator, params: any): boolean {
+    return true;
   }
 
-  execute(navigator: SurveyNavigator): string|number {
-    return undefined;
+  execute(navigator: SurveyNavigator, params: any): string|number {
+
+    let metricIds: string[] = navigator.metricSvc.getCachedMatchingRootMetrics();
+    return (!navigator.session.getAllMetricValues().every((metricValue: MetricValue) => {
+      let metric: Metric = navigator.metricSvc.getCached(metricValue.metricId);
+      if (metric.parentMetricId || (metric.isNpsType() && !metric.isDetractor(+metricValue.metricValue))) {
+        return true;
+      }
+      return false;
+    })).toString();
   }
 }
 

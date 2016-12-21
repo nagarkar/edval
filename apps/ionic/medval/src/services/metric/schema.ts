@@ -36,6 +36,7 @@ export interface MetricProperties  {
 
 export class Metric {
 
+  // Test regex changes here: https://regex101.com/
   private static readonly rolePattern = /^role:(.*)/i;
   private static readonly staffPattern = /^staff:(.*)/i;
   private static readonly orgPattern = /(^org$)|(^org:(.+)$)/i;
@@ -143,6 +144,10 @@ export class Metric {
 
   setStaffSubject(username: string) {
     this.subject = "staff:" + username;
+  }
+
+  static createStaffSubject(staffName: string) {
+    return "staff:" + staffName;
   }
 
   static createRoleSubject(role: string) {

@@ -25,14 +25,35 @@ export class MetricService extends DelegatingService<Metric> {
     this.resetRootDrilldownMap();
   }
 
-  public getCachedDrilldownMetrics(rootMetricId: string): Metric[] {
-    let result: Metric[] = [];
-    let metrics: Metric[] = this.listCached();
-    let rootMetrics: string[] = this.getCachedMatchingRootMetrics(rootMetricId);
-    rootMetrics.forEach((rootMetric: string)=>{
-      result.push(...this.getCachedDrilldownMetricsFor(rootMetric));
-    });
+  public getRootMetricIds(): string[] {
+    let result: string[] = [];
+    return this.listCached()
+      .filter((value: Metric) => {return value.isRoot()})
+      .map<string>((value: Metric) => {return value.metricId});
+  }
+
+  public getRootMetricsForSubject(subject: string): Metric[] {
+    return this.listCached()
+      .filter((value: Metric) => {return value.isRoot() && value.subject == subject})
+  }
+
+  public getCachedMatchingRootMetrics(rootMetricId?: string): string[] {
+    let result: string[] = [];
+    if (rootMetricId){
+      result.push(this.getCached(rootMetricId).metricId);
+      return result;
+    }
+    this.rootDrilldownMap.forEach((value:Metric[], rootMetric:string)=> result.push(rootMetric));
     return result;
+  }
+
+  public getCachedNpsDrilldownMetrics(rootMetricId: string): Metric[] {
+    if (!rootMetricId) {
+      return this.listCached()
+        .filter((value: Metric) => {return value.isNpsType() && value.parentMetricId != null});
+    }
+    return this.listCached()
+      .filter((value: Metric) => {return value.isNpsType() && value.parentMetricId == rootMetricId});
   }
 
   private resetRootDrilldownMap() {
@@ -86,15 +107,4 @@ export class MetricService extends DelegatingService<Metric> {
   private getCachedDrilldownMetricsFor(rootMetric: string): Metric[] {
     return this.rootDrilldownMap.get(rootMetric);
   }
-
-  private getCachedMatchingRootMetrics(rootMetricId: string): string[] {
-    let result: string[] = [];
-    if (rootMetricId){
-      result.push(this.getCached(rootMetricId).metricId);
-      return result;
-    }
-    this.rootDrilldownMap.forEach((value:Metric[], rootMetric:string)=> result.push(rootMetric));
-    return result;
-  }
-
 }

@@ -1,10 +1,13 @@
-import { Injectable } from '@angular/core';
+import {Injectable, Directive} from '@angular/core';
 import {
   ActionSheetController, AlertController, LoadingController, Alert, ToastController,
   ModalController, Modal, Platform, NavController
 } from "ionic-angular";
 import {CameraOptions, Camera, SpinnerDialog} from "ionic-native";
 import {ErrorType} from "./error.types";
+import {Parser} from "@angular/compiler/src/expression_parser/parser";
+import {Lexer} from "@angular/compiler/src/expression_parser/lexer";
+import {ASTWithSource, RecursiveAstVisitor} from "@angular/compiler/src/expression_parser/ast";
 
 @Injectable()
 export class Utils {
@@ -328,6 +331,20 @@ export class Utils {
         ;
     });
   };
+
+
+  /*
+  public static dummyFn() {
+    let parser: Parser = new Parser(new Lexer());;
+    Utils.log("Parser {0}", parser);
+    let obj = {name:'something'};
+    Utils.log("Obj {0}", obj);
+    let ast: ASTWithSource = parser.parseSimpleBinding("name", "");
+    Utils.log("ast {0}", ast);
+    let result = ast.visit(new RecursiveAstVisitor(), obj);
+    Utils.log("result {0}", result);
+  }
+  */
 
   private static itemFunction(message: string) {
     return new Function('item', 'return \`' + message + "\`");

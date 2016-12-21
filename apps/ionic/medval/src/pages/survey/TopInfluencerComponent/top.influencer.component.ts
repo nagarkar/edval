@@ -48,7 +48,7 @@ export class TopInfluencerComponent {
     this.message = this.constructMessage();
     this.offsetRange = +navParams.get('offsetRange') || 0.5;
     this.numCols = navParams.get('numCols') || 2;
-    let drilldownMetrics: Metric[] = metricSvc.getCachedDrilldownMetrics(this.rootMetricId);
+    let drilldownMetrics: Metric[] = metricSvc.getCachedNpsDrilldownMetrics(this.rootMetricId);
     drilldownMetrics = Utils.shuffle(drilldownMetrics);
     this.displayMetrics = drilldownMetrics.slice(0, Math.min(this.maxMetrics, drilldownMetrics.length))
     this.rows = Array.from(Array(Math.ceil(this.displayMetrics.length / this.numCols)).keys())

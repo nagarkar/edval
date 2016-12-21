@@ -29,6 +29,7 @@ export class SurveyNavigator {
 
   static componentMap: Map<string, Function> = new Map<string, Function>();
   static fnMap: Map<string, ISurveyFunction> = new Map<string, ISurveyFunction>();
+  static expressionMap: Map<string, Function> = new Map<string, Function>();
 
   static TERMINAL = -1;
 
@@ -66,18 +67,27 @@ export class SurveyNavigator {
     }
 
     let currentStep = this.survey.workflow[this.progCounter];
+    this.incrementOrTerminateProgramCounter(currentStep);
     if (currentStep['fn']) {
-      this.incrementOrTerminateProgramCounter(currentStep);
       this.processFunction(<FnIf>currentStep);
     }
     // Default assumption is currentStep.component != null
     if (currentStep['component']) {
-      this.incrementOrTerminateProgramCounter(currentStep);
       // Check if component is able to run. If not, move PC and doNext. If yes, return.
       let componentStep = <ComponentIf>currentStep;
-      return this.convertStepToNavigationTarget(componentStep);
+      if (this.shouldExecute(componentStep)) {
+        return this.convertStepToNavigationTarget(componentStep);
+      }
     }
     return this.getNavigationTarget();
+  }
+
+  private shouldExecute(step: ComponentIf): boolean {
+    if (!step.executeIf) {
+      return true;
+    }
+    const func = SurveyNavigator.getExpressionForFunction(step.executeIf);
+    return func(this.session);
   }
 
   /**
@@ -145,5 +155,15 @@ export class SurveyNavigator {
     }
     Utils.assert(component);
     map.set(name, component);
+  }
+
+  private static getExpressionForFunction(expression: string) {
+    const cleanExpression = expression.trim();
+    let func = SurveyNavigator.expressionMap.get(cleanExpression);
+    if (!func) {
+      func = new Function('session', 'return \`' + cleanExpression + "\`");
+      SurveyNavigator.expressionMap.set(cleanExpression, func);
+    }
+    return func;
   }
 }

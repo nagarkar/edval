@@ -47,10 +47,6 @@ export class MockSurveyService extends AbstractMockService<Survey> {
       },
       workflow:[
         {
-          component:"RequestReviewComponent",
-          isTerminal:true
-        },
-        {
           component:"SingleMetricComponent",
           params:{
             metricId: "root"
@@ -113,80 +109,70 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         timeCommitment: "I have 5 minutes"
       },
       workflow:[
-        // 1
         {
-          component:"SingleMetric",
+          component:"SingleMetricComponent",
           params:{
             metricId: "root"
           },
         },
-        // 2
+        {
+          fn:"StrongDetractor",
+          params:{
+            metricId: "root"
+          },
+          navigateOnResult: {
+            "false": 2,
+            "true": 1
+          }
+        },
+        {
+          component:"HandleComplaintComponent",
+          isTerminal:true
+        },
         {
           component:"PickStaffComponent",
           params: {
             roles: ["MD", "OrthoAssitant"]
           }
         },
-        // 3
         {
-          component:"StaffNPSComponent",
-          params: {
-            staffIndex:0
-          },
-          navigateOnException:5
+          component:"ToplineForStaffComponent",
+          executeIf: 'session.properties.selectedStaffUserNames.length > 0'
         },
-        // 4
         {
-          component:"StaffNPSComponent",
-          params: {
-            staffIndex:1
-          },
-          navigateOnException:5
-        },
-        // 5
-        {
-          component: "QuestionBank",
-          params: {
-            sampleSize:4,
-            metrics: [
-              // Add your list of metric ids here.
-            ]
-          }
-        },
-        // 6
-        {
-          component: "QuestionBank",
-          params: {
-            sampleSize:4,
-            role: "FrontDesk"
-          }
-        },
-        // 7
-        {
-          fn: "AllNPSPromoters",
+          fn:"AnyDetractors",
           navigateOnResult: {
-            "true": 8,
-            "false": 9
+            "false": 1,
+            "true": -3
           }
         },
-        // 8
         {
-          component:"RequestReviewComponnet",
+          component:"TopInfluencerComponent",
+          params: {
+            valueOrderDesc: false,
+            maxMetrics:4,
+            rootMetricId: null,
+          },
+        },
+        {
+          component:"TopInfluencerComponent",
+          params: {
+            valueOrderDesc: true,
+            maxMetrics: 4,
+            rootMetricId: null
+          }
+        },
+        {
+          fn: "AllPromoters",
+          navigateOnResult: {
+            "true": 1,
+            "false": Infinity // end if false.
+          }
+        },
+        {
+          component:"RequestReviewComponent",
           isTerminal:true
         },
-        // 9
-        {
-          fn: "AnyStrongDetractors",
-          navigateOnResult: {
-            "true": 10,
-            "false": -1 // terminal
-          }
-        },
-        // 10
-        {
-          component: "DiffuseSituationComponent",
-          isTerminal:true
-        }
       ]
     }));
     return map;

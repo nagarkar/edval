@@ -44,6 +44,14 @@ export class Session {
     return false;
   }
 
+  public getAllMetricValues(): MetricValue[] {
+    let returnValue: MetricValue[] = [];
+    this.properties.orgMetricValues.forEach((value: MetricValue[])=> {returnValue.push(...value);});
+    this.properties.staffMetricValues.forEach((value: MetricValue[])=> {returnValue.push(...value);});
+    this.properties.roleMetricValues.forEach((value: MetricValue[])=> {returnValue.push(...value);});
+    return returnValue;
+  }
+
   public addMetricValue(subject: string, value: MetricValue) {
     if(Metric.isRoleSubject(subject)) {
       this.addMetricValueHelper(this.properties.roleMetricValues, subject, value);

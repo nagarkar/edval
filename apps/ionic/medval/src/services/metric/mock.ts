@@ -65,12 +65,30 @@ export class MockMetricService extends AbstractMockService<Metric> {
       }
     }, {
       customerId: Config.CUSTOMERID,
+      metricId: '62861045b4984805213df729dad97b',
+      parentMetricId: null,
+      entityStatus: "ACTIVE",
+      subject: "role:Orthodontic Assistant",
+      properties: {
+        question: "How do you rate ${item.get('staff').displayName} as an Orthodontic Assistant?",
+        metricName: "NPS Metric for Role Orthodontic Assistant",
+        positiveImpact: "${item.get('staff').displayName} is a wonderful Orthodontic Assistant!",
+        definition: {
+          npsType: {
+            range: 11
+          }
+        }
+      }
+    }, {
+      customerId: Config.CUSTOMERID,
       metricId: '62861045b4984805ae213df729dad97b',
       parentMetricId: null,
       entityStatus: "ACTIVE",
       subject: "role:MD",
       properties: {
-        metricName: "Would you recommend ${item.get('staff').displayName} to friends and family?",
+        question: "Would you recommend ${item.get('staff').displayName} to friends and family?",
+        metricName: "NPS Metric for Role MD",
+        positiveImpact: "${item.get('staff').displayName} is a wonderful orthodontist and makes you feel comfortable!",
         definition: {
           npsType: {
             range: 11
@@ -85,8 +103,9 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:MD",
       properties: {
-        metricName: 'Was your doctor friendly and courteous?',
-        positiveImpact: "Dr. Megha at Orthodontic Excellence is friendly and courteous",
+        question: 'Was your doctor friendly and courteous?',
+        metricName: 'FriendlycourteousMD',
+        positiveImpact: "Dr. Megha is friendly and courteous.",
         definition: {
           npsType: {
             range: 11
@@ -101,6 +120,8 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:MD",
       properties: {
         metricName: 'Were you satisfied with the outcome of your treatment?',
+        question: 'Were you satisfied with the outcome of your treatment?',
+        positiveImpact: "I always get great treatment and great results here.",
         definition: {
           npsType: {
             range: 11
@@ -115,6 +136,8 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:MD",
       properties: {
         metricName: 'Did you have a clear understanding of the plan going forward?',
+        question: 'Did you have a clear understanding of the plan going forward?',
+        positiveImpact: "I always know the treament I'm getting, why I'm getting it and the plan going forward",
         definition: {
           npsType: {
             range: 11
@@ -129,6 +152,8 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:MD",
       properties: {
         metricName: 'Did Dr. Megha address your concerns and questions?',
+        question: 'Did Dr. Megha address your concerns and questions?',
+        positiveImpact: "Dr. Megha always adddresses my concerns and questions.",
         definition: {
           npsType: {
             range: 11
@@ -143,6 +168,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:MD",
       properties: {
         metricName: 'Do you feel the treatment plan was properly explained to you?',
+        question: 'Do you feel the treatment plan was properly explained to you?',
         positiveImpact: 'The doctor & staff at OE did a great job explaining the treatment plan',
         definition: {
           npsType: {
@@ -158,6 +184,8 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:PA",
       properties: {
         metricName: 'How do you rate the office and support staff?',
+        question: 'How do you rate the office and support staff?',
+        positiveImpact: 'The office and support staff is excellent!',
         definition: {
           npsType: {
             range: 11
@@ -172,6 +200,8 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:PA",
       properties: {
         metricName: 'Was the office staff professional and helpful?',
+        question: 'Was the office staff professional and helpful?',
+        positiveImpact: 'The office and support staff are professional and helpful!',
         definition: {
           npsType: {
             range: 11
@@ -186,20 +216,8 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:PA",
       properties: {
         metricName: 'Was it easy and convenient to book an appointment?',
-        definition: {
-          npsType: {
-            range: 11
-          }
-        }
-      }
-    }, {
-      customerId: Config.CUSTOMERID,
-      metricId: 'e0f99cdd7a34a058ff2fb22fbe51738',
-      parentMetricId: 'aae40633d0f646ce86840bf21bfcb3a4',
-      entityStatus: "ACTIVE",
-      subject: "role:PA",
-      properties: {
-        metricName: 'Did the office staff respect your privacy?',
+        question: 'Was it easy and convenient to book an appointment?',
+        positiveImpact: "It's always easy to book an appointment!",
         definition: {
           npsType: {
             range: 11
@@ -214,6 +232,8 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:PA",
       properties: {
         metricName: 'Once you arrived, did you see your doctor on time?',
+        question: 'Once you arrived, did you see your doctor on time?',
+        positiveImpact: 'My wait time is always less than 5 minutes',
         definition: {
           npsType: {
             range: 11
@@ -228,40 +248,15 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:PA",
       properties: {
         metricName: 'Was the office staff helpful with insurance and billing questions?',
+        question: 'Was the office staff helpful with insurance and billing questions?',
+        positiveImpact: 'The office and support staff are always helpful with insurance and billing questions!',
         definition: {
           npsType: {
             range: 11
           }
-        }
-      }
-    }, {
-      customerId: Config.CUSTOMERID,
-      metricId: '4182735427d4f2eba99eb0acb66078f',
-      parentMetricId: null,
-      entityStatus: "ACTIVE",
-      subject: "org:control",
-      properties: {
-        metricName: 'Did you mind providing this quick, anonymous review?',
-        definition: {
-          npsType: {
-            range: 11
-          }
-        }
-      }
-    }, {
-      customerId: Config.CUSTOMERID,
-      metricId: '4182735427d4f2eba99eb0acb66078f',
-      parentMetricId: null,
-      entityStatus: "ACTIVE",
-      subject: "org",
-      properties: {
-        metricName: 'Would you care to add anything else?',
-        definition: {
-          textType: {}
         }
       }
     }
     ];
   }
-
 }

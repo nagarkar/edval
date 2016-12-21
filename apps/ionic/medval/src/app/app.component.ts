@@ -11,7 +11,8 @@ import {ServiceFactory} from "../services/service.factory";
 import {PickStaffComponent} from "../pages/survey/pickstaff/pickstaff.component";
 import {SurveySelectionComponent} from "../pages/survey/surveyselection/surveyselection.component";
 import {StartWithSurveyOption} from "../pages/survey/startWithSurveyOption/start.with.survey.option.component";
-import {AllNPSPromoters, StrongDetractor, StrongPromoter,AnyStrongDetractors} from "../services/survey/survey.functions";
+import {AllPromoters, StrongDetractor, StrongPromoter,AnyDetractors} from "../services/survey/survey.functions";
+import {Utils} from "../shared/stuff/utils";
 
 
 @Component({
@@ -29,10 +30,11 @@ export class MyApp {
       StatusBar.styleDefault();
       Splashscreen.hide();
       // This is required to make sure the class decorators run. There must be a better way to do this.
-      new AllNPSPromoters();
-      new AnyStrongDetractors();
+      new AllPromoters();
+      new AnyDetractors();
       new StrongPromoter();
       new StrongDetractor();
+      //Utils.dummyFn();
     });
   }
 }
