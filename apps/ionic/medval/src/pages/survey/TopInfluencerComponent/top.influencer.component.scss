@@ -7,3 +7,35 @@
   top: 0em;
   right: 0em;
 }
+
+
+.new-btn.button-md {
+    margin: 0;
+    padding: 10px;
+    height: auto;
+    min-height: 80px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    line-height: 18px;
+}
+
+.new-card-md button:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.pos-rel {
+    position: relative;
+    margin-top: 25px;
+}
+
+
+.new-badge {
+    padding: 1px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 50%;
+    font-size: 12px;
+    position: absolute;
+    top: -19px;
+    left: 0px;
+}

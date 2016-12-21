@@ -1,6 +1,6 @@
 import {
   Component, ViewChild, Input, Output, EventEmitter, ElementRef, QueryList, ContentChildren,
-  OnInit
+  OnInit, Renderer
 } from '@angular/core';
 import { Platform, Slides } from 'ionic-angular';
 import {SlideItem} from "./carousel.schema";
@@ -39,7 +39,8 @@ export class CarouselComponent {
   activeSlide: number = 0;
   sliderOptions:any;
 
-  constructor(private eleRef: ElementRef, private utils: Utils, private platform: Platform) {
+  constructor(private utils: Utils, private renderer: Renderer) {
+    let me = this;
     this.sliderOptions = {
       pagination: '.swiper-pagination',
       slidesPerView: 'auto',
@@ -49,20 +50,60 @@ export class CarouselComponent {
       grabCursor: true,
       nextButton: ".swiper-button-next",
       prevButton: ".swiper-button-prev",
-      //loop:true,
-      initialSlide: Math.floor(this.items.length/2)
+      loop:true,
+      initialSlide: 0,
+      onSlideChangeStart: (swiper) => {
+        /*
+                 me.renderer.listen(swiper, 'click', (event) => {
+                    console.log(event);
+                  })
+                  
+                  console.log(swiper);
+                console.log('mySwiper.slides.length - 2',swiper.slides.length - 2);
+                console.log('current slide',(swiper.activeIndex - 1) % (swiper.slides.length - 2));
+*/
+                this.activeSlide = swiper.activeIndex;
+                if(this.activeSlide > this.items.length) this.activeSlide = swiper.activeIndex - this.items.length;
+                swiper.createLoop();
+                
+                if (swiper.activeIndex > swiper.previousIndex) { //go forward
+                    //console.log(this.slider);
+                    this.next(swiper);
+                }
+                else if (swiper.activeIndex < swiper.previousIndex) { //go backward
+                    this.prev(swiper);
+                }
+            }
     }
+
+    //initialSlide: Math.floor(this.items.length/2)
     setTimeout(() => {
       console.log("length", this.items.length);
-      this.activeSlide = Math.round(this.items.length/2) - 1;
-      this.slider.slideTo(this.activeSlide, 1000);
+      //this.activeSlide = Math.round(this.items.length/2) - 1;
+      //this.slider.slideTo(4, 3000);
     }, 500);
+
   }
+
+  next(swiper) {
+    
+    //this.slider.slideTo(1, 1000);
+    console.log('swiper.activeIndex:next',this.activeSlide);
+    //console.log('this.slider.getActiveIndex():next', this.slider.getActiveIndex());
+    //swiper.createLoop();
+	}
+	
+	prev(swiper) {
+    console.log('swiper.activeIndex:prev',swiper.activeIndex);
+    //console.log('this.slider.getActiveIndex():prev', this.slider.getActiveIndex());
+    //this.slider.slideTo(1, 1000);
+    //swiper.createLoopssss();
+	}
 
   selectItem(item: SlideItem){
     item.isSelected = !item.isSelected;
-    this.activeSlide = item.idx || this.activeSlide;
-    this.slider.slideTo(this.activeSlide, 1000);
+    //this.activeSlide = item.idx || this.activeSlide;
+    //this.slider.slideTo(this.activeSlide, 1000);
     Utils.log('selected slide: ' + Utils.stringify(item));
     this.selectSlide.emit(item);
   }
@@ -72,7 +113,7 @@ export class CarouselComponent {
   }
 
   onSlideChanged() {
-    this.activeSlide = this.slider.getActiveIndex();
+    //this.activeSlide = this.slider.getActiveIndex();
     console.log("Current index is", this.activeSlide);
   }
 

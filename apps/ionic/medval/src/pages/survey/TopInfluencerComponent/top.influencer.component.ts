@@ -30,9 +30,12 @@ export class TopInfluencerComponent {
   displayMetrics: Metric[] = [];
   rows = [];
   numCols = 0;
-
+  leftImage: string;
   private rankedMetrics: Metric[] = [];
-
+  private images = [
+    'assets/img/do-better4.jpg',
+    'assets/img/intentions2.jpg',
+  ];
   constructor(
     navParams: NavParams,
     tokenProvider: AccessTokenService,
@@ -51,7 +54,12 @@ export class TopInfluencerComponent {
     let drilldownMetrics: Metric[] = metricSvc.getCachedNpsDrilldownMetrics(this.rootMetricId);
     drilldownMetrics = Utils.shuffle(drilldownMetrics);
     this.displayMetrics = drilldownMetrics.slice(0, Math.min(this.maxMetrics, drilldownMetrics.length))
-    this.rows = Array.from(Array(Math.ceil(this.displayMetrics.length / this.numCols)).keys())
+    this.rows = Array.from(Array(Math.ceil(this.displayMetrics.length / this.numCols)).keys());
+
+     this.leftImage = this.images[0];
+     setInterval(()=> {
+      this.cycleImage();
+    }, 15000 /*http://museumtwo.blogspot.com/2010/10/getting-people-in-door-design-tips-from.html */);
   }
 
   public registerRank(metric: Metric) {
@@ -88,5 +96,8 @@ export class TopInfluencerComponent {
 
   public navigateToNext() {
     SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl, this.utils);
+  }
+  private cycleImage() {
+    this.leftImage = this.images[(this.images.indexOf(this.leftImage) + 1) % this.images.length];
   }
 }
