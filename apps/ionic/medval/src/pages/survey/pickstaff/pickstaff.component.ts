@@ -36,11 +36,10 @@ export class PickStaffComponent implements OnInit {
     private sessionSvc: SessionService,
     private staffSvc: StaffService) {
 
+    this.setupSlides();
   }
 
   ngOnInit(): void {
-    this.sessionSvc.recordNavigatedLocationInCurrentSession(Utils.getObjectName(this));
-    this.setupSlides();
   }
 
   gotoLogin() {

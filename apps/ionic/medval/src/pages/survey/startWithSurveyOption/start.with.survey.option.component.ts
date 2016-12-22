@@ -13,6 +13,7 @@ import {Session} from "../../../services/session/schema";
 import {SurveySelectionComponent} from "../surveyselection/surveyselection.component";
 import {NavigationTarget} from "../../../services/survey/survey.navigator";
 import {ThanksComponent} from "../thanks/thanks.component";
+import {ObjectCycler} from "./object.cycler";
 
 @Component({
   templateUrl: 'start.with.survey.option.component.html'
@@ -21,14 +22,9 @@ import {ThanksComponent} from "../thanks/thanks.component";
 export class StartWithSurveyOption extends SurveySelectionComponent {
   private images = [
     'assets/img/do-better4.jpg',
-    //'assets/img/do-better.jpg',
     'assets/img/intentions2.jpg',
-    //'assets/img/intentions3.jpg',
-    //'assets/img/do-better3-left.jpg',
-    //'assets/img/intentions.jpg',
-    //'assets/img/improve-easy-button.jpg'
   ];
-  leftImage: string;
+  leftImage: string = this.images[0];
   account: Account;
   constructor(
     navCtrl: NavController,
@@ -38,10 +34,8 @@ export class StartWithSurveyOption extends SurveySelectionComponent {
     sessionSvc: SessionService
   ) {
     super(navCtrl, utils, tokenProvider, surveySvc, sessionSvc);
-    this.leftImage = this.images[0];
-    setInterval(()=> {
-      this.cycleImage();
-    }, 15000 /*http://museumtwo.blogspot.com/2010/10/getting-people-in-door-design-tips-from.html */);
+    new ObjectCycler<string>(null, ...this.images)
+      .onNewObj.subscribe((next:string)=>this.leftImage = next);
     //TODO remove this.
     tokenProvider.startNewSession("celeron", "passWord@1");
   }
@@ -51,7 +45,7 @@ export class StartWithSurveyOption extends SurveySelectionComponent {
   }
 
   noThanks() {
-    this.utils.setRoot(this.navCtrl, ThanksComponent, {message: "That's ok, maybe next time!"});
+    this.utils.setRoot(this.navCtrl, ThanksComponent, {message: ["That's ok, maybe next time!"]});
   }
 
   pickSurvey(idx: number){
@@ -60,15 +54,5 @@ export class StartWithSurveyOption extends SurveySelectionComponent {
     setTimeout(()=> {
       this.utils.setRoot(this.navCtrl, navTarget.component, navTarget.params);
     }, 1000)
-
-    /*
-    setTimeout(()=> {
-      this.utils.setRoot(this.navCtrl, PickStaffComponent, {directPage: true});
-    }, 1000)
-    */
-  }
-
-  private cycleImage() {
-    this.leftImage = this.images[(this.images.indexOf(this.leftImage) + 1) % this.images.length];
   }
 }

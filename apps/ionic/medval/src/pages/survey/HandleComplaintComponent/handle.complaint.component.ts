@@ -32,6 +32,8 @@ export class HandleComplaintComponent {
       this.sessionSvc.surveyNavigator,
       this.navCtrl,
       this.utils,
-      "Sorry about that! Your constructive feedback will certainly help Orthodontic Excellence improve!");
+      "We're sorry if had a bad experience",
+      "The folks at Orthodontic Excellence want to do better",
+      "Rest assured that your feedback, although nameless, will help");
   }
 }

@@ -12,6 +12,7 @@ import {ThanksComponent} from "../thanks/thanks.component";
 import {SurveyNavUtils} from "../SurveyNavUtils";
 import {MetricService} from "../../../services/metric/delegator";
 import {Metric, MetricValue} from "../../../services/metric/schema";
+import {ObjectCycler} from "../startWithSurveyOption/object.cycler";
 
 @Component({
   templateUrl: 'top.influencer.component.html',
@@ -25,13 +26,15 @@ export class TopInfluencerComponent {
   private valueOrderDesc: boolean;
   private numSelections: number;
   private offsetRange: number;
+  private rankedMetrics: Metric[] = [];
+  private images: string[] = []
 
   message: string;
   displayMetrics: Metric[] = [];
   rows = [];
   numCols = 0;
-
-  private rankedMetrics: Metric[] = [];
+  leftImage: string;
+  displayAttribute: string;
 
   constructor(
     navParams: NavParams,
@@ -48,25 +51,67 @@ export class TopInfluencerComponent {
     this.message = this.constructMessage();
     this.offsetRange = +navParams.get('offsetRange') || 0.5;
     this.numCols = navParams.get('numCols') || 2;
-    let drilldownMetrics: Metric[] = metricSvc.getCachedNpsDrilldownMetrics(this.rootMetricId);
-    drilldownMetrics = Utils.shuffle(drilldownMetrics);
-    this.displayMetrics = drilldownMetrics.slice(0, Math.min(this.maxMetrics, drilldownMetrics.length))
+
+    this.displayAttribute = this.valueOrderDesc ? 'positiveImpact' : 'improvement';
+
+    this.images = this.setupImages();
+    this.leftImage = this.images[0];
+    this.setupImageCycling();
+
+    this.displayMetrics = this.setupDisplayMetrics(metricSvc);
+
     this.rows = Array.from(Array(Math.ceil(this.displayMetrics.length / this.numCols)).keys())
   }
 
   public registerRank(metric: Metric) {
-    metric['isSelected'] = true;
+    let currentIndex = this.rankedMetrics.indexOf(metric);
+    if (currentIndex >= 0) {
+      this.rankedMetrics.splice(currentIndex, 1);
+      metric['isSelected'] = false;
+      return;
+    }
     this.rankedMetrics.push(metric);
     if (this.rankedMetrics.length == Math.min(this.numSelections, this.displayMetrics.length)) {
       this.persistMetricValuesAndNavigate();
     }
+    metric['isSelected'] = true;
+  }
+
+  private setupImages() {
+    if (this.valueOrderDesc) {
+      return [
+        'assets/img/strength4.jpg',
+        'assets/img/strength.jpg',
+        'assets/img/strength2.jpg',
+        'assets/img/strength3.jpg',
+      ]
+    } else {
+      return [
+        'assets/img/strength4.jpg',
+        'assets/img/mistake1.jpg',
+      ]
+    }
+
+  }
+  private setupImageCycling() {
+    new ObjectCycler<string>(Config.TIME_OUT_AFTER_SURVEY/2, ...this.images)
+      .onNewObj.subscribe((next:string) => { this.leftImage = next;});
+  }
+
+  private setupDisplayMetrics(metricSvc: MetricService) {
+    let drilldownMetrics: Metric[] = metricSvc.getCachedNpsDrilldownMetrics(this.rootMetricId);
+    drilldownMetrics = Utils.shuffle(drilldownMetrics);
+    drilldownMetrics = drilldownMetrics.slice(0, Math.min(this.maxMetrics, drilldownMetrics.length))
+    return drilldownMetrics.sort((a:Metric, b:Metric) => {
+      return b.properties[this.displayAttribute].length - a.properties[this.displayAttribute].length
+    });
   }
 
   private constructMessage(): string {
     if (this.valueOrderDesc) {
       return "What are the top (" + this.numSelections + ")" + "things Orthodontic Excellence does realy well?";
     } else {
-      return "We try our best. Tell us the top (" + this.numSelections + ")" + "things we need to improve on!";
+      return "Tell us the top (" + this.numSelections + ")" + "things Orthodontic Excellence should improve!";
     }
   }
 

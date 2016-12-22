@@ -1,11 +1,11 @@
 <ion-content class="has-header" has-header>
   <h2 class="title" text-center>Please tell us who worked with you today ?</h2>
   <div class="carousel-area">
-    <ion-slides #mySlider [options]="sliderOptions" (ionDidChange)="onSlideChanged()">
+    <ion-slides #mySlider [options]="sliderOptions">
       <ion-slide *ngFor="let item of items; let i = index" (tap)="selectItem(item)">
-        <div class="default" [ngClass]="{'center-slide': (activeSlide == i), 'near-center': (activeSlide == (i-1)), 'near-center': (activeSlide == (i+1)), 'selected-slide': item.isSelected}">
+        <div class="default" [ngClass]="{'center-slide': (activeIndex == i), 'near-center': (activeIndex == (i-1)), 'near-center': (activeIndex == (i+1)), 'selected-slide': item.isSelected}">
           <button *ngIf="item.isSelected" class="selected-icon" ion-button color="green"><ion-icon name="checkmark"></ion-icon></button>
-          <img src="{{item.imgUrl}}" class="image" [ngClass]="{'center-image': (i == activeSlide), 'near-center-image': (activeSlide == (i-1)), 'near-center-image': (activeSlide == (i+1)), 'selected-slide': item.isSelected}" />
+          <img src="{{item.imgUrl}}" class="image" [ngClass]="{'center-image': (i == activeIndex), 'near-center-image': (activeIndex == (i-1)), 'near-center-image': (activeIndex == (i+1)), 'selected-slide': item.isSelected}" />
           <p class="name">{{item.heading}}</p>
           <span class='desc'>{{item.subheading}}</span>
         </div>

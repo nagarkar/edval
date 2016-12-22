@@ -72,7 +72,6 @@ export class MockMetricService extends AbstractMockService<Metric> {
       properties: {
         question: "How do you rate ${item.get('staff').displayName} as an Orthodontic Assistant?",
         metricName: "NPS Metric for Role Orthodontic Assistant",
-        positiveImpact: "${item.get('staff').displayName} is a wonderful Orthodontic Assistant!",
         definition: {
           npsType: {
             range: 11
@@ -88,7 +87,6 @@ export class MockMetricService extends AbstractMockService<Metric> {
       properties: {
         question: "Would you recommend ${item.get('staff').displayName} to friends and family?",
         metricName: "NPS Metric for Role MD",
-        positiveImpact: "${item.get('staff').displayName} is a wonderful orthodontist and makes you feel comfortable!",
         definition: {
           npsType: {
             range: 11
@@ -106,6 +104,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         question: 'Was your doctor friendly and courteous?',
         metricName: 'FriendlycourteousMD',
         positiveImpact: "Dr. Megha is friendly and courteous.",
+        improvement: "Be more friendly and courteous",
         definition: {
           npsType: {
             range: 11
@@ -122,6 +121,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         metricName: 'Were you satisfied with the outcome of your treatment?',
         question: 'Were you satisfied with the outcome of your treatment?',
         positiveImpact: "I always get great treatment and great results here.",
+        improvement: "Please provide better quality treatment and focus on results",
         definition: {
           npsType: {
             range: 11
@@ -138,6 +138,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         metricName: 'Did you have a clear understanding of the plan going forward?',
         question: 'Did you have a clear understanding of the plan going forward?',
         positiveImpact: "I always know the treament I'm getting, why I'm getting it and the plan going forward",
+        improvement: "Do a better job explaining the treaments and the plan going forward",
         definition: {
           npsType: {
             range: 11
@@ -153,7 +154,8 @@ export class MockMetricService extends AbstractMockService<Metric> {
       properties: {
         metricName: 'Did Dr. Megha address your concerns and questions?',
         question: 'Did Dr. Megha address your concerns and questions?',
-        positiveImpact: "Dr. Megha always adddresses my concerns and questions.",
+        positiveImpact: "Dr. Megha always addresses my concerns and questions!",
+        improvement: "Try to do a better job listening to patients and addressing their concerns",
         definition: {
           npsType: {
             range: 11
@@ -170,6 +172,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         metricName: 'Do you feel the treatment plan was properly explained to you?',
         question: 'Do you feel the treatment plan was properly explained to you?',
         positiveImpact: 'The doctor & staff at OE did a great job explaining the treatment plan',
+        improvement: 'Try to do a better job explaining the treatment plan',
         definition: {
           npsType: {
             range: 11
@@ -185,7 +188,6 @@ export class MockMetricService extends AbstractMockService<Metric> {
       properties: {
         metricName: 'How do you rate the office and support staff?',
         question: 'How do you rate the office and support staff?',
-        positiveImpact: 'The office and support staff is excellent!',
         definition: {
           npsType: {
             range: 11
@@ -202,6 +204,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         metricName: 'Was the office staff professional and helpful?',
         question: 'Was the office staff professional and helpful?',
         positiveImpact: 'The office and support staff are professional and helpful!',
+        improvement: 'The front office staff need to be more professional and helpful!',
         definition: {
           npsType: {
             range: 11
@@ -218,6 +221,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         metricName: 'Was it easy and convenient to book an appointment?',
         question: 'Was it easy and convenient to book an appointment?',
         positiveImpact: "It's always easy to book an appointment!",
+        improvement: "Please make it easier to get appointments",
         definition: {
           npsType: {
             range: 11
@@ -234,6 +238,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         metricName: 'Once you arrived, did you see your doctor on time?',
         question: 'Once you arrived, did you see your doctor on time?',
         positiveImpact: 'My wait time is always less than 5 minutes',
+        improvement: 'I had to wait too long in the waiting area. Please get organized!',
         definition: {
           npsType: {
             range: 11
@@ -250,6 +255,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         metricName: 'Was the office staff helpful with insurance and billing questions?',
         question: 'Was the office staff helpful with insurance and billing questions?',
         positiveImpact: 'The office and support staff are always helpful with insurance and billing questions!',
+        improvement: 'The office staff could be more helpful with insurance and billing questions',
         definition: {
           npsType: {
             range: 11

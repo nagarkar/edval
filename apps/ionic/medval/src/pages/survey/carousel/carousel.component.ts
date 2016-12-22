@@ -1,6 +1,6 @@
 import {
   Component, ViewChild, Input, Output, EventEmitter, ElementRef, QueryList, ContentChildren,
-  OnInit
+  OnInit, Renderer
 } from '@angular/core';
 import { Platform, Slides } from 'ionic-angular';
 import {SlideItem} from "./carousel.schema";
@@ -21,7 +21,6 @@ export class CarouselComponent {
   @Input()
   set slides(values: Array<SlideItem>) {
     if (!values.length) return;
-
     let degreeIncrement: number = 60;
     this.items = values
       .filter((slideItem: SlideItem, index: number)=>{
@@ -36,10 +35,34 @@ export class CarouselComponent {
       return value.isSelected;
     })
   }
-  activeSlide: number = 0;
+  //activeSlide: number = 0;
   sliderOptions:any;
 
-  constructor(private eleRef: ElementRef, private utils: Utils, private platform: Platform) {
+  constructor(private utils: Utils, private renderer: Renderer) {
+    /*
+    setTimeout(() => {
+      console.log("length", this.items.length);
+      this.activeSlide = Math.round(this.items.length/2) - 1;
+      this.slider.slideTo(this.slider.getActiveIndex(), 1000);
+    }, 500);
+    */
+  }
+
+  ngOnInit() {
+
+  }
+
+  ngOnChanges() {
+    this.setSlideOptions(false);
+    var refreshId = setInterval(() => {
+      if (this.activeIndex > -1) {
+        this.slider.slideTo(this.sliderOptions.initialSlide);
+        clearInterval(refreshId);
+      }
+    }, 10);
+  }
+
+  private setSlideOptions(loop: boolean) {
     this.sliderOptions = {
       pagination: '.swiper-pagination',
       slidesPerView: 'auto',
@@ -49,20 +72,16 @@ export class CarouselComponent {
       grabCursor: true,
       nextButton: ".swiper-button-next",
       prevButton: ".swiper-button-prev",
-      //loop:true,
-      initialSlide: Math.floor(this.items.length/2)
+      loop:loop,
+      initialSlide: Math.floor(this.items.length/2),
     }
-    setTimeout(() => {
-      console.log("length", this.items.length);
-      this.activeSlide = Math.round(this.items.length/2) - 1;
-      this.slider.slideTo(this.activeSlide, 1000);
-    }, 500);
+    //this.activeSlide = Math.floor(this.items.length/2);
   }
 
   selectItem(item: SlideItem){
     item.isSelected = !item.isSelected;
-    this.activeSlide = item.idx || this.activeSlide;
-    this.slider.slideTo(this.activeSlide, 1000);
+    //this.activeSlide = item.idx || this.activeSlide;
+    this.slider.slideTo(this.slider.getActiveIndex(), 1000);
     Utils.log('selected slide: ' + Utils.stringify(item));
     this.selectSlide.emit(item);
   }
@@ -71,13 +90,15 @@ export class CarouselComponent {
     item.isSelected = !item.isSelected;
   }
 
-  onSlideChanged() {
-    this.activeSlide = this.slider.getActiveIndex();
-    console.log("Current index is", this.activeSlide);
-  }
-
   finished() {
     this.done.emit();
+  }
+
+  get activeIndex() {
+    if (this.slider.getSlider()) {
+      return this.slider.getActiveIndex();
+    }
+    return -1;
   }
 
 }

@@ -28,6 +28,7 @@ export interface MetricProperties  {
   conversationSetup?:string;
   question?: string;
   positiveImpact?: string;
+  improvement?:string;
   definition: {
     npsType?: NPSType;
     textType?: TextType;

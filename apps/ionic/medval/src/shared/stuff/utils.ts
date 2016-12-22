@@ -292,7 +292,8 @@ export class Utils {
       animate: true,
       direction: 'forward',
       animation: this.isAndroid()? "md-transition" : "ios-transition",
-      duration: 100
+      duration: 1000,
+      easing: 'ease-in'
     }
   }
 
