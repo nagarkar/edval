@@ -1,0 +1,63 @@
+<mdval-header></mdval-header>
+<ion-content padding style="text-align:center">
+  <div style="text-align:center;margin-top: 3em">
+    <ion-row>
+      <ion-col>
+        <ion-row>
+          <ion-label style="margin: 0; font-size: 1.75em;">{{message}}</ion-label>
+        </ion-row>
+        <ion-row style="padding:1em 1em 0 1em" *ngFor="let metric of displayMetrics; let idx = index">
+          <ion-col>
+            <ion-card text-center *ngIf="metric.isNpsType()" style="font-size: 1.4em">
+              <span>{{metric.properties.question}}</span>
+              <ion-range
+                style="padding-top: 1.1em"
+                (ionChange)="setValue($event, metric)"
+                min="1"
+                pin=true
+                max="{{metric.properties.definition.npsType.range}}"
+                snaps="true"
+                debounce=3000
+                color="revvolve2">
+
+                <ion-label style="font-size: .8em; padding-right: 1em;color:darkolivegreen" range-left>Strongly<br/>Disagree</ion-label>
+                <ion-label style="font-size: .8em; padding-left: 1em;color:darkolivegreen" range-right>Strongly<br/>Agree</ion-label>
+              </ion-range>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>
+<!--
+
+<mdval-header></mdval-header>
+<ion-content padding style="text-align:center">
+  <ion-row>
+    <ion-col width-30>
+<img src='assets/img/strength.jpg'>
+</ion-col>
+<ion-col>
+  <h1 style="padding-top:4em; padding-left:10px">{{message}}</h1>
+  <ion-row center *ngFor="let i of rows">
+    <ion-col width-50 *ngFor="let metric of displayMetrics | slice:(i*numCols):(i+1)*numCols">
+      <ion-card>
+        <div class="row responsive-md">
+          <button *ngIf="metric['isSelected']" class="selected-icon" ion-button color="green"><ion-icon name="checkmark"></ion-icon></button>
+          <button ion-button
+                  (click)="registerRank(metric)"
+                  color="revvolve2"
+                  class="card-title"
+                  style="white-space: normal;">
+            {{metric.properties?.positiveImpact ? metric.properties?.positiveImpact :  metric.properties?.metricName}}
+          </button>
+        </div>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-col>
+</ion-row>
+</ion-content>
+
+-->

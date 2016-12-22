@@ -91,13 +91,16 @@ export class Utils {
       duration: delay || 3000,
       position: 'top'
     });
-
-    /*
-    toast.onDidDismiss(() => {
-      this.log('Dismissed toast');
-    });
-    */
     toast.present();
+  }
+
+  public presentLoading(){
+    let loading = this.loadingCtrl.create({
+      spinner: 'ios',
+      duration: 5000,
+      dismissOnPageChange:true
+    });
+    loading.present();
   }
 
   public uploadImage() : Promise<string> {

@@ -55,6 +55,7 @@ import {HandleComplaintComponent} from "../pages/survey/HandleComplaintComponent
 import {RequestReviewComponent} from "../pages/survey/RequestReviewComponnet/requestreview.component";
 import {SingleMetricComponent} from "../pages/survey/singlemetric/single.metric.component";
 import {ToplineForStaffComponent} from "../pages/survey/topline.for.staff/topline.for.staff.component";
+import {MultimetricComponent} from "../pages/survey/multimetric/multimetric.component";
 
 enableProdMode();
 
@@ -89,6 +90,7 @@ enableProdMode();
     PickStaffComponent,
     FeedbackComponent,
     ToplineForStaffComponent,
+    MultimetricComponent,
 
     /** Reporting */
     NpsTrendComponent,
@@ -135,7 +137,7 @@ enableProdMode();
     PickStaffComponent,
     FeedbackComponent,
     ToplineForStaffComponent,
-
+    MultimetricComponent,
     /** Reporting */
     NpsTrendComponent,
     RevvolveMetricsComponent,

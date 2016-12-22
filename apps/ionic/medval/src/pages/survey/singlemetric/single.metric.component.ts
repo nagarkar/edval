@@ -20,6 +20,7 @@ import { SurveyNavigator, ISurveyComponent, RegisterComponent,NavigationTarget} 
 import {NavParams, NavController} from "ionic-angular";
 import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
+import {SurveyNavUtils} from "../SurveyNavUtils";
 
 @Component({
   selector: 'single-metric',
@@ -58,9 +59,6 @@ export class SingleMetricComponent implements ISurveyComponent {
   public onSelection(data) {
     let navigator: SurveyNavigator = this.sessionSvc.surveyNavigator;
     navigator.session.addMetricValue(this.currentMetric.subject, new MetricValue(this.currentMetric.metricId, data));
-    let navigationTarget: NavigationTarget = navigator.getNavigationTarget();
-    setTimeout(() =>{
-      this.utils.setRoot(this.navCtrl, navigationTarget.component, navigationTarget.params);
-    }, 1500);
+    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl, this.utils);
   }
 }

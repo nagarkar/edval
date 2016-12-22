@@ -12,7 +12,7 @@ import {ThanksComponent} from "../thanks/thanks.component";
 import {SurveyNavUtils} from "../SurveyNavUtils";
 import {MetricService} from "../../../services/metric/delegator";
 import {Metric, MetricValue} from "../../../services/metric/schema";
-import {ObjectCycler} from "../startWithSurveyOption/object.cycler";
+import {ObjectCycler} from "../../../shared/stuff/object.cycler";
 
 @Component({
   templateUrl: 'top.influencer.component.html',

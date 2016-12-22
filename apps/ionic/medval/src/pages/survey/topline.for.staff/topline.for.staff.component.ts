@@ -25,7 +25,7 @@ import {SurveyNavUtils} from "../SurveyNavUtils";
 interface dataInterface {staff: Staff, metric: Metric, value?: string};
 
 @Component({
-  selector: 'single-metric',
+  selector: 'topline-for-staff',
   templateUrl: 'topline.for.staff.component.html',
 })
 

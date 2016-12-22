@@ -1,13 +1,50 @@
+<mdval-header></mdval-header>
+
+<ion-content padding text-center>
+  <ion-spinner name="bubbles"></ion-spinner>
+  <ion-grid  style="padding-top:3em">
+    <ion-row *ngFor="let data of displayData; let idx = index" wrap center>
+      <ion-col offset-10 width-20>
+        <img class="border" src="{{data.staff.properties?.photoUrl}}" alt="{{data.staff.displayName}}">
+      </ion-col>
+      <ion-col style="font-size: 2em">
+          <span>{{data.metric.properties.question}}</span>
+          <p text-center *ngIf="data.metric.isNpsType()">
+            <rating (ratingValueChange)="onSelection(data, $event);"
+                    [ratingMax]="data.metric.properties.definition.npsType.range"
+                    [ratingValue]="1"></rating>
+          </p>
+          <p text-center *ngIf="data.metric.isTextType()">
+            <textFeedback (textValueChange)="onSelection(data, $event);" ></textFeedback>
+          </p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-navbar style="margin:0;padding:0">
+    <div style="margin-left:30%">
+      <ion-list style="margin:0px">
+        <ion-item class="reassure">
+          <ion-icon name="lock" item-left></ion-icon>
+          Your feedback <b>is always anonymous</b>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ion-navbar>
+</ion-footer>
+
+<!--
 <ion-content class="card-background-page">
   <mdval-header></mdval-header>
-  <ion-card *ngFor="let data of displayData; let idx = index">
+  <ion-card *ngFor="let data of displayData; let idx = index" style="padding:3em;text-align:center;font-size:1em">
     <div class="image">
       <img class="border" src="{{data.staff.properties?.photoUrl}}" alt="">
     </div>
-    <div class="card-title">
+    <div>
       <span class="metricHeading" color="darkgrey">{{data.metric.properties.question}}</span>
     </div>
-    <p text-center class="card-subtitle" *ngIf="data.metric.isNpsType()">
+    <p text-center *ngIf="data.metric.isNpsType()">
       <rating (ratingValueChange)="onSelection(data, $event);"
               [ratingMax]="data.metric.properties.definition.npsType.range"
               [ratingValue]="1"></rating>
@@ -30,7 +67,6 @@
   </ion-navbar>
 </ion-footer>
 
-<!--
 <div class="image">
   <img class="border" src="assets/img/everything-can-be-better.jpg" alt="">
 </div>

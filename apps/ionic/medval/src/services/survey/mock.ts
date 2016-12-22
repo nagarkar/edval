@@ -99,16 +99,26 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         }
       ]
     }));
-    map.set("fullsurvey", Object.assign(new Survey(), {
+    map.set("twominute", Object.assign(new Survey(), {
       customerId: Config.CUSTOMERID,
-      id: "fullsurvey",
+      id: "twominute",
       entityStatus: "ACTIVE",
       properties: {
         name: "Short Survey",
-        purpose: "5 minute in-visit survey",
-        timeCommitment: "I have 5 minutes"
+        purpose: "2 minute in-visit survey",
+        timeCommitment: "I have 2 minutes"
       },
       workflow:[
+        {
+          component:"PickStaffComponent",
+          params: {
+            roles: ["MD", "OrthoAssitant"]
+          }
+        },
+        {
+          component:"ToplineForStaffComponent",
+          executeIf: 'session.properties.selectedStaffUserNames.length > 0'
+        },
         {
           component:"SingleMetricComponent",
           params:{
@@ -171,6 +181,80 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         },
         {
           component:"RequestReviewComponent",
+          isTerminal:true
+        },
+      ]
+    }));
+    map.set("full", Object.assign(new Survey(), {
+      customerId: Config.CUSTOMERID,
+      id: "full",
+      entityStatus: "ACTIVE",
+      properties: {
+        name: "Full Survey",
+        purpose: "5 minute survey (provide every six months)",
+        timeCommitment: "I have 5 minutes"
+      },
+      workflow:[
+        {
+          component:"SingleMetricComponent",
+          params:{
+            metricId: "root"
+          },
+        },
+        {
+          component:"PickStaffComponent",
+          params: {
+            roles: ["MD", "OrthoAssitant"]
+          }
+        },
+        {
+          component:"ToplineForStaffComponent",
+          executeIf: 'session.properties.selectedStaffUserNames.length > 0'
+        },
+        {
+          component:"MultimetricComponent",
+          params: {
+            message:'Tell us about how the doctor & staff are doing',
+            metricIds: [
+              '2861045b4984805ae23df729dad97b',
+              '861045b4984805ae213df729dad97b',
+              '1045b4984805ae213df729dad97b',
+              '045b4984805ae213df729dad97b',
+            ]
+          }
+        },
+        {
+          component:"MultimetricComponent",
+          params: {
+            message:'Tell us about the front-desk and other support staff',
+            metricIds: [
+              '95a8659497274ffe9f8fb14fa45b21e5',
+              '6e0f99cdd7a34a058ff2fb22fbe51738',
+              '0f99cdd7a34a058ff2fb22fbe51738',
+              '34182735427d4f2eba99eb0acb66078f',
+            ]
+          }
+        },
+        {
+          fn:"AllPromoters",
+          navigateOnResult: {
+            "false": 2,
+            "true": 1
+          }
+        },
+        {
+          component:"RequestReviewComponent",
+          isTerminal:true
+        },
+        {
+          fn:"AnyDetractors",
+          navigateOnResult: {
+            "false": Infinity,
+            "true": 1
+          }
+        },
+        {
+          component:"HandleComplaintComponent",
           isTerminal:true
         },
       ]

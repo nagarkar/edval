@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController } from 'ionic-angular';
+import {NavController, LoadingController} from 'ionic-angular';
 import {LoginComponent} from "../../login/login.component";
 import {PickStaffComponent} from "../pickstaff/pickstaff.component";
 import {Utils} from "../../../shared/stuff/utils";
@@ -13,7 +13,8 @@ import {Session} from "../../../services/session/schema";
 import {SurveySelectionComponent} from "../surveyselection/surveyselection.component";
 import {NavigationTarget} from "../../../services/survey/survey.navigator";
 import {ThanksComponent} from "../thanks/thanks.component";
-import {ObjectCycler} from "./object.cycler";
+import {ObjectCycler} from "../../../shared/stuff/object.cycler";
+import {SurveyNavUtils} from "../SurveyNavUtils";
 
 @Component({
   templateUrl: 'start.with.survey.option.component.html'
@@ -50,9 +51,6 @@ export class StartWithSurveyOption extends SurveySelectionComponent {
 
   pickSurvey(idx: number){
     this.sessionSvc.newCurrentSession(this.surveys[idx].id);
-    let navTarget: NavigationTarget = this.sessionSvc.surveyNavigator.getNavigationTarget();
-    setTimeout(()=> {
-      this.utils.setRoot(this.navCtrl, navTarget.component, navTarget.params);
-    }, 1000)
+    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl, this.utils);
   }
 }

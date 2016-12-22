@@ -8,7 +8,7 @@ import {SessionService} from "../../../services/session/delegator";
 import {MedvalComponent} from "../../../shared/stuff/medval.component";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
 import {StartWithSurveyOption} from "../startWithSurveyOption/start.with.survey.option.component";
-import {ObjectCycler} from "../startWithSurveyOption/object.cycler";
+import {ObjectCycler} from "../../../shared/stuff/object.cycler";
 
 @Component({
   templateUrl: 'thanks.component.html',
