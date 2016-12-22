@@ -41,8 +41,8 @@ export class MockAccountService extends AbstractMockService<Account> {
     map.set(Config.CUSTOMERID, Object.assign(new Account(), {
       customerId: Config.CUSTOMERID,
       properties: {
-        logo: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTUobvzZgwqeFcJ9Y2d_Q58AL8n_FHMB1J49yjnpYFdxtDt1Xyf",
-        customerName: "Dr. Nagarkar"
+        logo: "assets/img/logo.jpg",
+        customerName: "Orthodontic Excellence"
       }}));
     return map;
   }

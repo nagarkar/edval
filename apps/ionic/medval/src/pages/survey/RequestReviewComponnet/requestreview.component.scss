@@ -1,3 +1,55 @@
-.ion-textarea{
+.ion-textarea {
     border: 1px solid #e0e0e0;
+}
+
+ion-row.cstm-grid {
+    display: block;
+}
+
+.cstm-grid ion-row {
+    .cstm-grid {
+        display: block;
+    }
+}
+
+.cstm-grid ion-row {
+    display: block;
+}
+
+.cstm-grid ion-col[width-50] {
+    float: left;
+}
+
+.cstm-grid ion-col[width-10] {
+    float: left;
+}
+
+.cstm-grid .cstm-f-w40 {
+    float: left;
+    width: 40%;
+}
+
+.cstm-grid .input-wrapper {
+    overflow: visible;
+}
+
+.cstm-grid .cstm-f-w40 ion-label {
+    font-size: 1.1em;
+}
+
+.cstm-grid ion-label {
+    white-space: inherit;
+}
+
+@media only screen and (max-width: 320px) {
+    .cstm-grid .cstm-f-w40 {
+        float: left;
+        width: 100%;
+    }
+    .cstm-grid ion-col[width-10] {
+    	max-width: 100%;
+    }
+    .cstm-grid ion-col[width-50] {
+    	max-width: 100%;
+    }
 }

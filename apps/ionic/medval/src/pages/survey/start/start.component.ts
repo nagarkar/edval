@@ -36,7 +36,7 @@ export class StartComponent {
     }, 15000 /*http://museumtwo.blogspot.com/2010/10/getting-people-in-door-design-tips-from.html */);
     sessionSvc.recordNavigatedLocationInCurrentSession(Utils.getObjectName(this));
     //TODO remove this.
-    tokenProvider.startNewSession("celeron", "passWord@1");
+    //tokenProvider.startNewSession("celeron", "passWord@1");
   }
 
   gotoLogin() {

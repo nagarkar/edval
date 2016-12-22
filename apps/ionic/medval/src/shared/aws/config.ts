@@ -9,7 +9,7 @@ export class Config {
   /* TODO this should not be hardcoded */
   public static CUSTOMERID : string = "";
 
-  public static readonly TIME_OUT_AFTER_SURVEY: number = 25000;
+  public static readonly TIME_OUT_AFTER_SURVEY: number = 10000;
 
   public static POOL_DATA = {
     UserPoolId : 'us-east-1_WRjTRJPkD', // Your user pool metricId here

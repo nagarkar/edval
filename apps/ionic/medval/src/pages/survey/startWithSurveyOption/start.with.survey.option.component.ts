@@ -34,7 +34,7 @@ export class StartWithSurveyOption extends SurveySelectionComponent {
     new ObjectCycler<string>(null, ...this.images)
       .onNewObj.subscribe((next:string)=>this.leftImage = next);
     //TODO remove this.
-    tokenProvider.startNewSession("celeron", "passWord@1");
+    //tokenProvider.startNewSession("celeron", "passWord@1");
   }
 
   gotoLogin() {

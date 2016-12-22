@@ -20,6 +20,7 @@ export class AccessTokenService {
   private authenticatingIntervalTimer : any;
 
   constructor(private utils: Utils) {
+    /* TODO Revert
     this._tokenObservable = Observable.create((observer: Observer<AuthResult>) => {
       var intervalTimer = setInterval(() => {
         if (this.hasError()) {
@@ -35,14 +36,22 @@ export class AccessTokenService {
         console.log('disposed');
       };
     });
+    */
   }
 
   public getAuthResult() : AuthResult {
+    return new AuthResult(null,null);
+    /** TODO Revert
     return this.authResult;
+     */
   }
 
   public getUserName() : string {
+
+    return 'celeron';
+    /** TODO Revert
     return this._username;
+     */
   }
 
   public logout() : void {
@@ -54,9 +63,13 @@ export class AccessTokenService {
   }
 
   public supposedToBeLoggedIn(): boolean {
+    return true;
+    /** TODO revert
     return this._cognitoUser !== null;
+     */
   }
 
+  /** TODO revert
   public startNewSession(username : string, password : string): Promise<AuthResult> {
 
     this._username = username;
@@ -80,14 +93,17 @@ export class AccessTokenService {
     return this.startAuthenticatingUserAtIntervals();
   }
 
-  get cognitoUser(): any {
+   get cognitoUser(): any {
     return this._cognitoUser;
   }
 
-  get tokenObservable(): Observable<AuthResult> {
+   get tokenObservable(): Observable<AuthResult> {
     return this._tokenObservable;
   }
+   **/
 
+
+  /** TODO Revert
   private startAuthenticatingUserAtIntervals() : Promise<AuthResult> {
     const promise : Promise<AuthResult> = this.startAuthenticatingUser();
     this.startAuthenticatingIntervalTimer(Config.REFRESH_ACCESS_TOKEN);
@@ -171,6 +187,7 @@ export class AccessTokenService {
       }
     }, interval);
   }
+   */
 }
 
 export class AuthResult {

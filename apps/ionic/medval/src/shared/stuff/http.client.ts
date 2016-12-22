@@ -29,6 +29,8 @@ export class HttpClient<T> {
    * @returns {Promise<ErrorObservable|ErrorObservable>|Promise<TResult>}
    */
   public ping() : Promise<string>{
+    // TODO Revert line
+    if (1==1) throw ErrorType.UnsupportedOperation('http client');
     return this.http.get(Config.pingUrl, this.createRequestOptionsArgs())
       .toPromise()
       .then<string>(this.extractData)
@@ -36,6 +38,8 @@ export class HttpClient<T> {
   }
 
   public list<T>(path : string | '') : Promise<Array<T>> {
+    // TODO Revert line
+    if (1==1) throw ErrorType.UnsupportedOperation('http client');
     return this.http.get(Config.baseUrl + path, this.createRequestOptionsArgs())
       .toPromise()
       .then(this.extractData)
@@ -43,6 +47,8 @@ export class HttpClient<T> {
   }
 
   public get<T>(path : string, id: string | '') : Promise<T> {
+    // TODO Revert line
+    if (1==1) throw ErrorType.UnsupportedOperation('http client');
     return  this.http.get(Config.baseUrl + path + "/" + id, this.createRequestOptionsArgs())
       .toPromise()
       .then(this.extractData)
@@ -50,6 +56,8 @@ export class HttpClient<T> {
   }
 
   public put<T>(path : string, id: string | '', body: T) : Promise<T> {
+    // TODO Revert line
+    if (1==1) throw ErrorType.UnsupportedOperation('http client');
     let response: Observable<Response> = this.http.put(Config.baseUrl + path + "/" + id, Utils.stringify(body),
       this.createRequestOptionsArgs());
     let responsePromise : Promise<Response> = response.toPromise();
@@ -59,6 +67,8 @@ export class HttpClient<T> {
   }
 
   public post<T>(path : string, body: T) : Promise<T> {
+    // TODO Revert line
+    if (1==1) throw ErrorType.UnsupportedOperation('http client');
     return this.http.post(Config.baseUrl + path, Utils.stringify(body),
       this.createRequestOptionsArgs())
         .toPromise()
@@ -67,6 +77,8 @@ export class HttpClient<T> {
   }
 
   public delete(path : string, id: string | '') : Promise<boolean> {
+    // TODO Revert line
+    if (1==1) throw ErrorType.UnsupportedOperation('http client');
     return this.http.delete(Config.baseUrl + path + "/" + id,
       this.createRequestOptionsArgs())
       .toPromise()
@@ -131,6 +143,7 @@ export class HttpClient<T> {
       })
     }
   }
+
 
   private newInstance(): T {
     return Object.create(Object.getPrototypeOf(this.instance));

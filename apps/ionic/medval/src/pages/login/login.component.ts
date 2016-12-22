@@ -28,7 +28,9 @@ export class LoginComponent implements OnInit {
 
   public ngOnInit() : void {
     this.initValidation();
+    /** TODO Revertr
     this.initSubscriptions();
+     */
   }
 
   private initValidation() {
@@ -43,6 +45,11 @@ export class LoginComponent implements OnInit {
     let username: string = this.loginForm.controls[ 'username' ].value.trim();
     let password: string = this.loginForm.controls[ 'password' ].value.trim();
 
+    // TODO Remove this
+    this.navigateToDashboardPage();
+    /* End remove */
+
+    /** TODO Uncommment
     this.authProvider.startNewSession(username, password).then(
       (token) => {
         this.processToken(token);
@@ -50,6 +57,7 @@ export class LoginComponent implements OnInit {
         this.navigateToDashboardPage();
       },
       (err) => this.processError(err));
+     */
   }
 
 
@@ -65,6 +73,7 @@ export class LoginComponent implements OnInit {
     this.navCtrl.push(SettingsComponent);
   }
 
+  /** TODO Revert
   private initSubscriptions() {
     this.authProvider.tokenObservable.subscribe(
       next => this.processToken(next),
@@ -82,4 +91,5 @@ export class LoginComponent implements OnInit {
     this.authResult = null;
     Utils.error("Error \n" + err);
   }
+   */
 }
