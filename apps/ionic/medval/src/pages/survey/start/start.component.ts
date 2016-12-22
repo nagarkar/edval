@@ -5,11 +5,8 @@ import {LoginComponent} from "../../login/login.component";
 import {PickStaffComponent} from "../pickstaff/pickstaff.component";
 import {Utils} from "../../../shared/stuff/utils";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
-import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
 import {Account} from "../../../services/account/schema";
-import {SurveyService} from "../../../services/survey/delegator";
-import {Session} from "../../../services/session/schema";
 
 @Component({
   templateUrl: 'start.component.html'

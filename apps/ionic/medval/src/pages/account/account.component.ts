@@ -3,7 +3,6 @@ import {Component } from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {Account} from "../../services/account/schema";
 import { AccountService } from "../../services/account/delegator";
-import {LoginComponent} from "../login/login.component";
 import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {MockAccountService} from "../../services/account/mock";

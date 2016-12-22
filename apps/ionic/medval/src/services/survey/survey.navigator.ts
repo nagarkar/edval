@@ -98,8 +98,6 @@ export class SurveyNavigator {
   private processFunction(step: FnIf): void {
     Utils.assertFalse(step.isTerminal && step.navigateOnResult);
     let fn: ISurveyFunction = SurveyNavigator.fnMap.get(step.fn);
-    let session = this.session;
-    let survey = this.survey;
     let jump: number = null;
     if (fn.canExecute(this, step.params)) {
       this.lastResult = fn.execute(this, step.params);

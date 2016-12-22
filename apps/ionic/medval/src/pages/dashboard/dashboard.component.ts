@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component} from '@angular/core';
 
 import { NavController} from 'ionic-angular';
 
@@ -8,7 +8,6 @@ import {LoginComponent} from "../login/login.component";
 import {TermComponent} from "./terms/term.component";
 import {PolicyComponent} from "./policy/policy.component";
 import {StaffComponent} from "../staff/staff.component";
-import {StartComponent} from "../survey/start/start.component";
 import {Utils} from "../../shared/stuff/utils";
 import {AllTrendsComponent} from "../charts/all.trends";
 import {MetricSummaryComponent} from "../metricsetup/metric.summary.component";

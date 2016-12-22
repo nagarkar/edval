@@ -1,28 +1,16 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  AfterViewInit,
-  ViewChild,
-  trigger,
-  state,
-  style,
-  transition,
-  animate
-} from '@angular/core';
-import {Metric, MetricValue, NPSType, TextType} from "../../../services/metric/schema";
+import {Component,ViewChild,} from '@angular/core';
+import {Metric, MetricValue} from "../../../services/metric/schema";
 import {Utils} from "../../../shared/stuff/utils";
 import {RatingComponent} from "../../../shared/rating/rating.component";
 import {Staff} from "../../../services/staff/schema";
 import {StaffService} from "../../../services/staff/delegator";
-import { SurveyNavigator, ISurveyComponent, RegisterComponent,NavigationTarget} from "../../../services/survey/survey.navigator";
+import { SurveyNavigator, ISurveyComponent, RegisterComponent} from "../../../services/survey/survey.navigator";
 import {NavParams, NavController} from "ionic-angular";
 import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
 import {SurveyNavUtils} from "../SurveyNavUtils";
 
-interface dataInterface {staff: Staff, metric: Metric, value?: string};
+export interface dataInterface {staff: Staff, metric: Metric, value?: string};
 
 @Component({
   selector: 'topline-for-staff',

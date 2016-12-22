@@ -7,19 +7,16 @@ import {
   animate
 } from '@angular/core';
 
-import {NavController, NavParams, LoadingController} from'ionic-angular';
+import {NavController, NavParams} from'ionic-angular';
 
 import {Metric, MetricValue} from "../../services/metric/schema";
 import {MetricIterator} from "../../services/metric/metric.iterator";
 import {ThanksComponent} from "./thanks/thanks.component";
 import {Utils} from "../../shared/stuff/utils";
-import {LoginComponent} from "../login/login.component";
 import {SessionService} from "../../services/session/delegator";
 import {MedvalComponent} from "../../shared/stuff/medval.component";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {AccountService} from "../../services/account/delegator";
-import {Config} from "../../shared/aws/config";
-import {Account} from "../../services/account/schema";
 import {Staff} from "../../services/staff/schema";
 import {MetricService} from "../../services/metric/delegator";
 

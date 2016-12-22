@@ -3,7 +3,6 @@ import {ServiceInterface} from "./interface.service";
 import {AbstractService} from "./abstract.service";
 import {Config} from "../aws/config";
 import {AbstractMockService} from "./abstract.mock.service";
-import {ErrorType} from "../stuff/error.types";
 import {Utils} from "../stuff/utils";
 
 

@@ -1,13 +1,10 @@
 import {Component, OnInit, Input} from "@angular/core";
-import {MedvalComponent} from "../stuff/medval.component";
 import {AccountService} from "../../services/account/delegator";
 import {NavController} from "ionic-angular";
 import {Utils} from "../stuff/utils";
 import {Account} from "../../services/account/schema";
 import {Config} from "../aws/config";
 import {LoginComponent} from "../../pages/login/login.component";
-import {AccessTokenService} from "../aws/access.token.service";
-import {SurveySelectionComponent} from "../../pages/survey/surveyselection/surveyselection.component";
 
 /**
  * Shows the header, including the account logo. If not logged in, logo is not shown.
@@ -24,7 +21,6 @@ export class HeaderComponent implements OnInit {
   @Input() rightIconName: string;
 
   constructor(
-    private accessProvider : AccessTokenService,
     private accountSvc : AccountService,
     private navCtrl: NavController,
     private utils: Utils // instance required for navigation.
@@ -48,13 +44,5 @@ export class HeaderComponent implements OnInit {
       .catch(error => {
         // no op; don't show the image
       });
-  }
-
-  private navigate() {
-    switch (this.rightIconName) {
-      case 'albums': {
-        this.utils.setRoot(this.navCtrl, SurveySelectionComponent);
-      }
-    }
   }
 }

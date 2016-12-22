@@ -1,13 +1,10 @@
-import {Injectable, Directive} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {
   ActionSheetController, AlertController, LoadingController, Alert, ToastController,
   ModalController, Modal, Platform, NavController
 } from "ionic-angular";
 import {CameraOptions, Camera, SpinnerDialog} from "ionic-native";
 import {ErrorType} from "./error.types";
-import {Parser} from "@angular/compiler/src/expression_parser/parser";
-import {Lexer} from "@angular/compiler/src/expression_parser/lexer";
-import {ASTWithSource, RecursiveAstVisitor} from "@angular/compiler/src/expression_parser/ast";
 
 @Injectable()
 export class Utils {

@@ -6,12 +6,8 @@ import {Staff} from "../../../services/staff/schema";
 import {CarouselComponent} from "../carousel/carousel.component";
 import {NavController} from "ionic-angular";
 import {LoginComponent} from "../../login/login.component";
-import {SurveyComponent} from "../survey.component";
 import {SessionService} from "../../../services/session/delegator";
-import {Session} from "../../../services/session/schema";
-import {Config} from "../../../shared/aws/config";
 import {ServiceFactory} from "../../../services/service.factory";
-import {ServiceInterface} from "../../../shared/service/interface.service";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
 import {SurveyNavUtils} from "../SurveyNavUtils";
 

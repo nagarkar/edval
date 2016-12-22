@@ -1,7 +1,5 @@
 import {AccessTokenService} from "../aws/access.token.service";
-import {ErrorType} from "../stuff/error.types";
 import {EventEmitter} from "@angular/core";
-import {HttpClient} from "../stuff/http.client";
 import {Utils} from "../stuff/utils";
 import {ServiceInterface} from "./interface.service";
 

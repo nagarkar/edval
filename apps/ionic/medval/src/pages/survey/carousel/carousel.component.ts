@@ -1,8 +1,5 @@
-import {
-  Component, ViewChild, Input, Output, EventEmitter, ElementRef, QueryList, ContentChildren,
-  OnInit, Renderer
-} from '@angular/core';
-import { Platform, Slides } from 'ionic-angular';
+import {Component, ViewChild, Input, Output, EventEmitter, Renderer} from '@angular/core';
+import { Slides } from 'ionic-angular';
 import {SlideItem} from "./carousel.schema";
 import {Utils} from "../../../shared/stuff/utils";
 

@@ -1,4 +1,4 @@
-import {Metric, MetricValue, TextType} from "./schema";
+import {Metric, MetricValue} from "./schema";
 import {Utils} from "../../shared/stuff/utils";
 import {Staff} from "../staff/schema";
 import {MetricService} from "./delegator";
@@ -47,8 +47,6 @@ export class MetricIterator implements Iterator<Metric> {
 
     Utils.log("In metricIterator.next, with lastRoot {0}, lastRootValue: {1}, lastMetric: {2}, lastValue: {3}",
       this.lastRoot, this.lastRootValue, this.lastMetric, this.lastValue);
-
-    let result: IteratorResult<Metric>;
 
     if (!this.lastRoot) {
       return this.saveAndReturn(this.getNextIteratorResultOrDone(
@@ -156,12 +154,6 @@ export class MetricIterator implements Iterator<Metric> {
       allRootMetrics = allRootMetrics.concat(rootMetrics);
     })
     return allRootMetrics.values();
-  }
-
-  private getControlIterator(metrics: Metric[]): Iterator<Metric> {
-    return metrics.filter((metric: Metric) => {
-      return metric.subject === "control";
-    }).values();
   }
 
   private getNextIteratorResultOrDone(...iterators: Iterator<Metric>[]) : IteratorResult<Metric> {

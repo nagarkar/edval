@@ -1,17 +1,13 @@
 import { Component } from '@angular/core';
 
-import {NavController, LoadingController} from 'ionic-angular';
+import {NavController} from 'ionic-angular';
 import {LoginComponent} from "../../login/login.component";
-import {PickStaffComponent} from "../pickstaff/pickstaff.component";
 import {Utils} from "../../../shared/stuff/utils";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
-import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
 import {Account} from "../../../services/account/schema";
 import {SurveyService} from "../../../services/survey/delegator";
-import {Session} from "../../../services/session/schema";
 import {SurveySelectionComponent} from "../surveyselection/surveyselection.component";
-import {NavigationTarget} from "../../../services/survey/survey.navigator";
 import {ThanksComponent} from "../thanks/thanks.component";
 import {ObjectCycler} from "../../../shared/stuff/object.cycler";
 import {SurveyNavUtils} from "../SurveyNavUtils";

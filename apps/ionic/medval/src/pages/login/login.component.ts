@@ -5,11 +5,6 @@ import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService, AuthResult} from "../../shared/aws/access.token.service";
 import {DashboardComponent} from "../dashboard/dashboard.component";
 import {NavController} from "ionic-angular";
-import {HttpClient} from "../../shared/stuff/http.client";
-import {AccountService} from "../../services/account/delegator";
-import {MetricService} from "../../services/metric/delegator";
-import {StaffService} from "../../services/staff/delegator";
-import {Config} from "../../shared/aws/config";
 import {SettingsComponent} from "../settings/settings.component";
 import {ServiceFactory} from "../../services/service.factory";
 

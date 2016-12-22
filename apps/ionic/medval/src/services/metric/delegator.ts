@@ -26,7 +26,6 @@ export class MetricService extends DelegatingService<Metric> {
   }
 
   public getRootMetricIds(): string[] {
-    let result: string[] = [];
     return this.listCached()
       .filter((value: Metric) => {return value.isRoot()})
       .map<string>((value: Metric) => {return value.metricId});
@@ -102,9 +101,5 @@ export class MetricService extends DelegatingService<Metric> {
 
   private getRootMetrics(metrics: Metric[]) : Array<Metric> {
     return Array<Metric>(...metrics.filter((metric: Metric) => {return !metric.parentMetricId}));
-  }
-
-  private getCachedDrilldownMetricsFor(rootMetric: string): Metric[] {
-    return this.rootDrilldownMap.get(rootMetric);
   }
 }

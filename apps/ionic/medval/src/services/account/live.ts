@@ -2,10 +2,8 @@ import {Injectable} from '@angular/core';
 
 import { Account } from './schema';
 import {Utils} from "../../shared/stuff/utils";
-import {AccessTokenService, AuthResult} from "../../shared/aws/access.token.service";
-import {HttpClient} from "../../shared/stuff/http.client";
+import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {AbstractService} from "../../shared/service/abstract.service";
-import {ErrorType} from "../../shared/stuff/error.types";
 import {Http} from "@angular/http";
 import {Config} from "../../shared/aws/config";
 

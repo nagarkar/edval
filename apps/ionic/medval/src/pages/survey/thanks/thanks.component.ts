@@ -1,8 +1,7 @@
-import {Component, AfterViewChecked, AfterViewInit, trigger, animate, transition, state, style} from '@angular/core';
+import {Component, AfterViewInit, trigger, animate, transition, state, style} from '@angular/core';
 
 import {NavController, NavParams} from 'ionic-angular';
 import {Config} from "../../../shared/aws/config";
-import {StartComponent} from "../start/start.component";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
 import {MedvalComponent} from "../../../shared/stuff/medval.component";

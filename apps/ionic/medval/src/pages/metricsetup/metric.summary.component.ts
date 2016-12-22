@@ -6,7 +6,6 @@ import {AccountService} from "../../services/account/delegator";
 import {Metric} from "../../services/metric/schema";
 import {Config} from "../../shared/aws/config";
 import {Account, Role} from "../../services/account/schema";
-import {Staff} from "../../services/staff/schema";
 @Component({
   templateUrl:'metric.summary.component.html',
   selector:'metric-setup'

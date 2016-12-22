@@ -1,7 +1,4 @@
-
 import {ISurveyFunction, SurveyNavigator, RegisterFunction} from "./survey.navigator";
-import {Survey} from "./schema";
-import {Session} from "../session/schema";
 import {Metric, MetricValue} from "../metric/schema";
 
 @RegisterFunction
@@ -12,7 +9,6 @@ export class AllPromoters implements ISurveyFunction {
   }
 
   execute(navigator: SurveyNavigator, params: any): string|number {
-    let metricIds: string[] = navigator.metricSvc.getCachedMatchingRootMetrics();
     return navigator.session.getAllMetricValues().every((metricValue: MetricValue) => {
       let metric: Metric = navigator.metricSvc.getCached(metricValue.metricId);
       if (metric.parentMetricId || (metric.isNpsType() && metric.isPromoter(+metricValue.metricValue))) {
@@ -33,7 +29,6 @@ export class AnyDetractors implements ISurveyFunction {
 
   execute(navigator: SurveyNavigator, params: any): string|number {
 
-    let metricIds: string[] = navigator.metricSvc.getCachedMatchingRootMetrics();
     return (!navigator.session.getAllMetricValues().every((metricValue: MetricValue) => {
       let metric: Metric = navigator.metricSvc.getCached(metricValue.metricId);
       if (metric.parentMetricId || (metric.isNpsType() && !metric.isDetractor(+metricValue.metricValue))) {

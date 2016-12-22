@@ -139,10 +139,6 @@ export class RevvolveMetricsComponent implements OnInit {
   }
   */
 
-  private r() {
-    return Math.ceil(11*Math.random());
-  }
-
   private rr(div: number, argCount: number): number[] {
     let ret: number[] = [];
     for (let ct = 0; ct < argCount; ct++) {

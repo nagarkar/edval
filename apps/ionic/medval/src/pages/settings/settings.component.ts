@@ -1,5 +1,3 @@
-
-
 import {Component} from "@angular/core";
 import {Config} from "../../shared/aws/config";
 import {Session} from "../../services/session/schema";
@@ -9,6 +7,7 @@ import {LoginComponent} from "../login/login.component";
 import {Staff} from "../../services/staff/schema";
 import {Metric} from "../../services/metric/schema";
 import {Account} from "../../services/account/schema";
+
 @Component({
   selector:'settings',
   templateUrl:'settings.component.html'
