@@ -11,7 +11,6 @@ import {AllPromoters, StrongDetractor, StrongPromoter,AnyDetractors} from "../se
   template: `<ion-nav [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
-  //rootPage = LoginComponent;
   rootPage = StartWithSurveyOption;
 
   constructor(platform: Platform, serviceFactory: ServiceFactory) {
