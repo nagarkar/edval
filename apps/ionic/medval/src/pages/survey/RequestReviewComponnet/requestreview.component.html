@@ -26,22 +26,20 @@
                     </ion-row>
                 </ion-col>
                 <ion-col width-10 style="padding: 2em 1em 0em 1em;">
-                    <h1>-OR-</h1>
+                    <h1>OR</h1>
                 </ion-col>
                 <ion-col class="cstm-f-w40">
-                    <ion-item style="padding-left: 0.688em;">
-                        <ion-label style="margin-top: 0em" stacked>Send me a reminder later</ion-label>
-                    </ion-item>
+                    <ion-label style="margin-top: 0em;padding-left: .7em;text-align: left;" stacked>Send me one reminder later</ion-label>
                     <ion-item>
                       <ion-label stacked>Email</ion-label>
                       <ion-input width-60 class="email" type="email" placeholder="youremail@gmail.com"></ion-input>
                     </ion-item>
                     <ion-item>
-                      <ion-label stacked>Phone (we'll send you an SMS)</ion-label>
+                      <ion-label stacked>Phone (Text me!)</ion-label>
                       <ion-input width-40 type="tel" placeholder="206-555-5555"></ion-input>
                     </ion-item>
                     <ion-row style="margin-top: 2em; text-align: right;">
-                      <button ion-button (click)="navigateToNext()">No Thanks!</button>
+                      <button ion-button small (click)="navigateToNext()">No Thanks!</button>
                     </ion-row>
                 </ion-col>
             </ion-row>
