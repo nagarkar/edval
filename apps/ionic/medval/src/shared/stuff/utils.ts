@@ -24,16 +24,17 @@ export class Utils {
   public static getTime() {
     return Utils.date.getTime();
   }
-  public static log(message: string, ...args) : void {
-    let fmsg = Utils.format(message, args);
+
+  public static log(message: string, ...args: string[]) : void {
+    let fmsg = Utils.format(message, ...args);
     this.logs.push(fmsg);
     if (console) {
       console.log(fmsg);
     }
   }
 
-  public static error(message: string, ...args) : void {
-    let fmsg = Utils.format(message, args);
+  public static error(message: string, ...args: string[]) : void {
+    let fmsg = Utils.format(message, ...args);
     this.errors.push(fmsg);
     if (console) {
       console.error(fmsg);
@@ -65,7 +66,7 @@ export class Utils {
     return 'undefined';
   }
 
-  public presentProfileModal(component, parameters) : Modal {
+  public presentProfileModal(component: any, parameters: {}) : Modal {
     let profileModal : Modal = this.modalCtrl.create(component, parameters);
     profileModal.present(); //profileModal.
     return profileModal;
@@ -148,7 +149,7 @@ export class Utils {
         {
           text: 'Image link/url',
           icon: 'attach',
-          handler: (res) => {
+          handler: (res: any) => {
             this.presentURLPrompt(onselect);
           }
         },
@@ -165,10 +166,10 @@ export class Utils {
     actionSheet.present();
   }
 
-  public presentInvalidEntryAlert(message: string, ...args) {
+  public presentInvalidEntryAlert(message: string, ...args: string[]) {
     let alert : Alert = this.alertCtrl.create({
       title: 'Are you sure?',
-      subTitle: Utils.format(message, args),
+      subTitle: Utils.format(message, ...args),
       buttons: ['Dismiss']
     });
     alert.present();
@@ -188,7 +189,7 @@ export class Utils {
         },
         {
           text: 'Proceed',
-          handler: data => {
+          handler: (data: any) => {
             onselect(data);
           }
         }
@@ -210,13 +211,13 @@ export class Utils {
         {
           text: 'Cancel',
           role: 'cancel',
-          handler: data => {
+          handler: (data: any) => {
             console.log('Cancel clicked');
           }
         },
         {
           text: 'Save',
-          handler: data => {
+          handler: (data: any) => {
             onselect(data);
           }
         }
@@ -238,13 +239,13 @@ export class Utils {
         {
           text: 'Cancel',
           role: 'cancel',
-          handler: data => {
+          handler: (data: any) => {
             console.log('Cancel clicked');
           }
         },
         {
           text: 'Save',
-          handler: data => {
+          handler: (data: any) => {
             if (data.url.startsWith("http://") || data.url.startsWith("https://")) {
               onselect(data.url);
             }
@@ -324,7 +325,7 @@ export class Utils {
    * @param format
    * @returns {string}
    */
-  static format(format: string, ...args) {
+  static format(format: string, ...args: string[]) {
     return format.replace(/{(\d+)}/g, function(match, number) {
       return typeof args[number] != 'undefined'
         ? args[number]
@@ -353,7 +354,7 @@ export class Utils {
 
   /** Shuffles the elements of the array using https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle */
   static shuffle<T>(array: Array<T>): Array<T> {
-    let length = array.length, t, i;
+    let length = array.length, t: T, i: number;
     // While there remain elements to shuffle…
     while (length) {
       // Pick a remaining element…
@@ -366,37 +367,37 @@ export class Utils {
     return array;
   }
 
-  static throw(format:string, ...args) {
-    throw ErrorType.UnsupportedOperation(this.format(format, args));
+  static throw(format:string, ...args: string[]) {
+    throw ErrorType.UnsupportedOperation(this.format(format, ...args));
   }
 
-  static throwIfNull(value: any, format?:string, ...args) {
+  static throwIfNull(value: any, format?:string, ...args: string[]) {
     if (value == null) {
-      throw ErrorType.NullNotAllowed(this.format(format, args));
+      throw ErrorType.NullNotAllowed(this.format(format, ...args));
     }
   }
 
-  static throwIfAnyNull(values: any[], format?:string, ...args) {
+  static throwIfAnyNull(values: any[], format?:string, ...args: string[]) {
     values.forEach((value: any)=>{
       if (!value) {
-        throw ErrorType.NullNotAllowed(this.format(format || "Null Not Allowed", args));
+        throw ErrorType.NullNotAllowed(this.format(format || "Null Not Allowed", ...args));
       }
     })
   }
 
-  public static stringify(obj, replacer?, spaces?, cycleReplacer?) {
-    return JSON.stringify(obj, Utils.serializer(replacer, cycleReplacer), spaces)
+  public static stringify(obj: any, replacer?: (key: string, value: any) => any, space?: string | number, cycleReplacer?: any) {
+    return JSON.stringify(obj, Utils.serializer(replacer, cycleReplacer), space)
   }
 
-  private static serializer(replacer, cycleReplacer) {
-    var stack = [], keys = []
+  private static serializer(replacer: (key: string, value: any) => any, cycleReplacer: any) {
+    var stack: any[] = [], keys: any[] = []
 
-    if (cycleReplacer == null) cycleReplacer = function (key, value) {
+    if (cycleReplacer == null) cycleReplacer = function (key: any, value: any) {
       if (stack[0] === value) return "[Circular ~]"
       return "[Circular ~." + keys.slice(0, stack.indexOf(value)).join(".") + "]"
     }
 
-    return function (key, value) {
+    return function (key: any, value: any) {
       if (stack.length > 0) {
         var thisPos = stack.indexOf(this)
         ~thisPos ? stack.splice(thisPos + 1) : stack.push(this)

@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-
-import { NavController } from 'ionic-angular';
+import {Component} from "@angular/core";
+import {NavController} from "ionic-angular";
 import {LoginComponent} from "../../login/login.component";
 import {PickStaffComponent} from "../pickstaff/pickstaff.component";
 import {Utils} from "../../../shared/stuff/utils";
@@ -14,13 +13,8 @@ import {Account} from "../../../services/account/schema";
 export class StartComponent {
   showNoThanks = false;
   private images = [
-    'assets/img/do-better4.jpg',
-    //'assets/img/do-better.jpg',
+    'http://img.picturequotes.com/2/26/25637/when-you-know-better-you-do-better-quote-1.jpg',
     'assets/img/intentions2.jpg',
-    //'assets/img/intentions3.jpg',
-    //'assets/img/do-better3-left.jpg',
-    //'assets/img/intentions.jpg',
-    //'assets/img/improve-easy-button.jpg'
   ];
   leftImage: string;
   account: Account;

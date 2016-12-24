@@ -1,6 +1,5 @@
-import {Component} from '@angular/core';
-
-import {NavController, NavParams} from 'ionic-angular';
+import {Component} from "@angular/core";
+import {NavController, NavParams} from "ionic-angular";
 import {Config} from "../../../shared/aws/config";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
@@ -28,7 +27,7 @@ export class TopInfluencerComponent {
 
   message: string;
   displayMetrics: Metric[] = [];
-  rows = [];
+  rows: any[] = [];
   numCols = 0;
   leftImage: string;
   displayAttribute: string;
@@ -77,15 +76,18 @@ export class TopInfluencerComponent {
   private setupImages() {
     if (this.valueOrderDesc) {
       return [
-        'assets/img/strength4.jpg',
-        'assets/img/strength.jpg',
-        'assets/img/strength2.jpg',
-        'assets/img/strength3.jpg',
+        'http://blog.insurancejobs.com/wp-content/uploads/2012/04/InterviewQuestionWhatAreYourWeaknesses.jpg',
+        'http://www.medpreps.com/wp-content/uploads/2012/08/interview-strength.jpg',
+        'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcREOSr8_qh3jy6hF7c0ZbtboZxRXtqdn104ZjugwFkEFcjDRGR2ug',
+        'http://www.sqleadership.com/wp-content/uploads/2010/06/strength-weights1.jpg'
       ]
     } else {
       return [
-        'assets/img/strength4.jpg',
-        'assets/img/mistake1.jpg',
+        'http://blog.insurancejobs.com/wp-content/uploads/2012/04/InterviewQuestionWhatAreYourWeaknesses.jpg',
+        'https://s-media-cache-ak0.pinimg.com/236x/64/61/bb/6461bb2129d84e14e52f80c9d5762a04.jpg',
+        'http://www.desibucket.com/dbp/01/60737/60737.jpg',
+        'http://www.positivemotivation.net/wp-content/uploads/2012/10/Criticism-Quotes-To-avoid-criticism-do-nothing-say-nothing-be-nothing..jpg',
+        'http://www.clipartkid.com/images/280/mistake-clipart-fault-error-mistake-and-flaws-OI2dFx-clipart.jpg',
       ]
     }
 
@@ -116,7 +118,7 @@ export class TopInfluencerComponent {
     let numRanked = this.rankedMetrics.length;
     let offset = this.offsetRange/numRanked;
     this.rankedMetrics.forEach((metric: Metric, index: number) => {
-      let value = null;
+      let value: number = null;
       let range = metric.properties.definition.npsType.range;
       if (this.valueOrderDesc) {
         value = Math.floor(range * (1 - offset * (index + 1)));

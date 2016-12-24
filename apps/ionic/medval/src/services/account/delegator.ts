@@ -5,8 +5,10 @@ import {DelegatingService} from "../../shared/service/delegating.service";
 import {MockAccountService} from "./mock";
 import {LiveAccountService} from "./live";
 import {ErrorType} from "../../shared/stuff/error.types";
+import {RegisterService} from "../service.factory";
 
 @Injectable()
+@RegisterService
 export class AccountService extends DelegatingService<Account> {
 
   constructor(

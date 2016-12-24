@@ -5,6 +5,7 @@ import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {Config} from "../../shared/aws/config";
 import {AbstractMockService} from "../../shared/service/abstract.mock.service";
 
+
 @Injectable()
 export class MockStaffService extends AbstractMockService<Staff> {
 
@@ -46,7 +47,7 @@ export class MockStaffService extends AbstractMockService<Staff> {
         firstName: "Ermania",
         lastName: "",
         email: "team@smilewithbraces.com",
-        photoUrl: "assets/img/staff/ermania.jpg"
+        photoUrl: "http://www.smilewithbraces.com/wp-content/uploads/2015/01/Ermaina-240x300.jpg"
       }
     }));
     map.set("jaite", Object.assign(new Staff(), {
@@ -58,7 +59,7 @@ export class MockStaffService extends AbstractMockService<Staff> {
         firstName: "Jaite",
         lastName: "",
         email: "team@smilewithbraces.com",
-        photoUrl: "assets/img/staff/jaite.jpg"
+        photoUrl: "http://www.smilewithbraces.com/wp-content/uploads/2016/06/Jaite-Cheverez.jpg"
       }
     }));
     map.set("celeron", Object.assign(new Staff(), {
@@ -70,7 +71,7 @@ export class MockStaffService extends AbstractMockService<Staff> {
         firstName: "Megha",
         lastName: "Anand",
         email: "drmegha@smilewithbraces.com",
-        photoUrl: "assets/img/staff/megha.jpg"
+        photoUrl: "http://www.smilewithbraces.com/wp-content/uploads/2015/01/Dr-Megha.jpg"
       }
     }));
     map.set("kelsey", Object.assign(new Staff(), {
@@ -82,7 +83,7 @@ export class MockStaffService extends AbstractMockService<Staff> {
         firstName: "Kelsey",
         lastName: "",
         email: "team@smilewithbraces.com",
-        photoUrl: "assets/img/staff/kelsey.jpg"
+        photoUrl: "http://www.smilewithbraces.com/wp-content/uploads/2016/06/Kelsey-Garbe.jpg"
       }
     }));
     map.set("jazzmine", Object.assign(new Staff(), {
@@ -94,7 +95,7 @@ export class MockStaffService extends AbstractMockService<Staff> {
         firstName: "Jazzmine",
         lastName: "",
         email: "team@smilewithbraces.com",
-        photoUrl: "assets/img/staff/jazzmine.jpg"
+        photoUrl: "http://www.smilewithbraces.com/wp-content/uploads/2016/06/Jazzmine-Wilke.jpg"
       }
     }));
     map.set("liana", Object.assign(new Staff(), {
@@ -106,7 +107,7 @@ export class MockStaffService extends AbstractMockService<Staff> {
         firstName: "Liana",
         lastName: "",
         email: "team@smilewithbraces.com",
-        photoUrl: "assets/img/staff/liana.jpg"
+        photoUrl: "http://www.smilewithbraces.com/wp-content/uploads/2016/06/Liana-Borishkevich.jpg"
       }
     }));
     return map;

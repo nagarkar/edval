@@ -1,7 +1,6 @@
-import {Component} from '@angular/core';
-
-import {NavController} from 'ionic-angular';
-import {Staff } from "../../services/staff/schema";
+import {Component} from "@angular/core";
+import {NavController} from "ionic-angular";
+import {Staff} from "../../services/staff/schema";
 import {Utils} from "../../shared/stuff/utils";
 import {StaffService} from "../../services/staff/delegator";
 import {MedvalComponent} from "../../shared/stuff/medval.component";

@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-
-import { NavController } from 'ionic-angular';
+import {Component, OnInit} from "@angular/core";
+import {NavController} from "ionic-angular";
 import {Utils} from "../../../shared/stuff/utils";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
 import {SessionService} from "../../../services/session/delegator";

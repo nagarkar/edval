@@ -7,7 +7,7 @@ import {ServiceInterface} from "./interface.service";
 export abstract class AbstractMockService<T> implements ServiceInterface<T> {
 
   abstract mockData() : Map<string, T>;
-  abstract reset();
+  abstract reset(): any;
   abstract getId(member: T) : string;
   abstract setId(member: T, id: string): string;
 

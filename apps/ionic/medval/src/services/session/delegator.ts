@@ -10,8 +10,10 @@ import {Utils} from "../../shared/stuff/utils";
 import {SurveyNavigator} from "../survey/survey.navigator";
 import {SurveyService} from "../survey/delegator";
 import {MetricService} from "../metric/delegator";
+import {RegisterService} from "../service.factory";
 
 @Injectable()
+@RegisterService
 export class SessionService extends DelegatingService<Session> {
 
   surveyNavigator: SurveyNavigator;
@@ -44,7 +46,7 @@ export class SessionService extends DelegatingService<Session> {
   closeCurrentSession() {
     this.getCurrentSession().close();
     super.update(this.getCurrentSession());
-    Utils.log("Setting session to null. Session: {0}", this.getCurrentSession());
+    Utils.log("Setting session to null. Session: {0}", Utils.stringify(this.getCurrentSession()));
     this.surveyNavigator = null;
   }
 

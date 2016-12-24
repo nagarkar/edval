@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
 import {Utils} from "../../../shared/stuff/utils";
 import {StaffService} from "../../../services/staff/delegator";
-import {SlideItem } from "../carousel/carousel.schema";
+import {SlideItem} from "../carousel/carousel.schema";
 import {Staff} from "../../../services/staff/schema";
 import {CarouselComponent} from "../carousel/carousel.component";
 import {NavController} from "ionic-angular";
@@ -70,7 +70,7 @@ export class PickStaffComponent implements OnInit {
           })
           .map<SlideItem>((staff: Staff): SlideItem => {
             this.slideToStaffMap.set(count, staff);
-            Utils.log("In setup slides, wtih staff: {0}", staff);
+            Utils.log("In setup slides, wtih staff: {0}", Utils.stringify(staff));
             return <SlideItem>{
               idx: count++,
               heading: staff.displayName,

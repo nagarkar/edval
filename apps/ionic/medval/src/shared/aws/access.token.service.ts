@@ -2,10 +2,9 @@ declare let AWS:any;
 declare let AWSCognito:any;
 
 
-import { Injectable}     from "@angular/core";
-import { Observable, Observer }   from "rxjs";
-import { Utils }                 from "../stuff/utils";
-import { Config }              from "./config";
+import {Injectable} from "@angular/core";
+import {Observable} from "rxjs";
+import {Utils} from "../stuff/utils";
 
 @Injectable()
 export class AccessTokenService {

@@ -1,6 +1,5 @@
-import {Component} from '@angular/core';
-
-import {NavController, NavParams} from 'ionic-angular';
+import {Component} from "@angular/core";
+import {NavController, NavParams} from "ionic-angular";
 import {Config} from "../../../shared/aws/config";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
@@ -57,10 +56,10 @@ export class MultimetricComponent {
 
   private setupImages() {
     return [
-      'assets/img/strength4.jpg',
-      'assets/img/strength.jpg',
-      'assets/img/strength2.jpg',
-      'assets/img/strength3.jpg',
+      'http://blog.insurancejobs.com/wp-content/uploads/2012/04/InterviewQuestionWhatAreYourWeaknesses.jpg',
+      'http://www.medpreps.com/wp-content/uploads/2012/08/interview-strength.jpg',
+      'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcREOSr8_qh3jy6hF7c0ZbtboZxRXtqdn104ZjugwFkEFcjDRGR2ug',
+      'http://www.sqleadership.com/wp-content/uploads/2010/06/strength-weights1.jpg'
     ]
   }
 

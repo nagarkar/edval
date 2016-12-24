@@ -1,10 +1,10 @@
-import {Component,ViewChild,} from '@angular/core';
+import {Component, ViewChild} from "@angular/core";
 import {Metric, MetricValue} from "../../../services/metric/schema";
 import {Utils} from "../../../shared/stuff/utils";
 import {RatingComponent} from "../../../shared/rating/rating.component";
 import {Staff} from "../../../services/staff/schema";
 import {StaffService} from "../../../services/staff/delegator";
-import { SurveyNavigator, ISurveyComponent, RegisterComponent} from "../../../services/survey/survey.navigator";
+import {SurveyNavigator, ISurveyComponent, RegisterComponent} from "../../../services/survey/survey.navigator";
 import {NavParams, NavController} from "ionic-angular";
 import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
@@ -58,7 +58,7 @@ export class ToplineForStaffComponent implements ISurveyComponent {
     }
   }
 
-  public onSelection(data: dataInterface, value) {
+  public onSelection(data: dataInterface, value: string) {
     data.value = value;
     let navigator: SurveyNavigator = this.sessionSvc.surveyNavigator;
     navigator.session.addMetricValue(data.metric.subject, new MetricValue(data.metric.metricId, data.value));

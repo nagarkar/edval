@@ -148,8 +148,10 @@ export class SurveyNavigator {
   }
 
   static registerInMap(name: string, component: any, map: Map<string, any>) {
+    Utils.log("Registering: {0}, constructor: {1}, currentMap: {2}", name, component.constructor.name,
+      Utils.stringify(map.entries()));
     if (map.has(name)) {
-      Utils.error("Two components with same name, or component being registered twice?");
+      Utils.error("Two components with same name registered");
     }
     Utils.assert(component);
     map.set(name, component);

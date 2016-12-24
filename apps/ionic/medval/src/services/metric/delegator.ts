@@ -5,8 +5,10 @@ import {DelegatingService} from "../../shared/service/delegating.service";
 import { MockMetricService} from "./mock";
 import {LiveMetricService} from "./live";
 import {Utils} from "../../shared/stuff/utils";
+import {RegisterService} from "../service.factory";
 
 @Injectable()
+@RegisterService
 export class MetricService extends DelegatingService<Metric> {
 
   private rootDrilldownMap: Map<string, Metric[]> = new Map<string, Metric[]>();

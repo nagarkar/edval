@@ -1,7 +1,5 @@
-import {Component} from '@angular/core';
-
-import { NavController} from 'ionic-angular';
-
+import {Component} from "@angular/core";
+import {NavController} from "ionic-angular";
 import {AccountComponent} from "../account/account.component";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {LoginComponent} from "../login/login.component";
@@ -11,8 +9,8 @@ import {StaffComponent} from "../staff/staff.component";
 import {Utils} from "../../shared/stuff/utils";
 import {AllTrendsComponent} from "../charts/all.trends";
 import {MetricSummaryComponent} from "../metricsetup/metric.summary.component";
-import {SurveySelectionComponent} from "../survey/surveyselection/surveyselection.component";
 import {StartWithSurveyOption} from "../survey/startWithSurveyOption/start.with.survey.option.component";
+import {SettingsComponent} from "../settings/settings.component";
 
 @Component({
   templateUrl: 'dashboard.component.html'
@@ -23,6 +21,14 @@ export class DashboardComponent {
   constructor(private navCtrl: NavController,
     private accessTokenProvider: AccessTokenService,
     private utils: Utils) {
+  }
+
+  gotoHome(): void {
+    this.navCtrl.push(LoginComponent);
+  }
+
+  gotoSettings(): void {
+    this.navCtrl.push(SettingsComponent);
   }
 
   openNavAccountPage() {

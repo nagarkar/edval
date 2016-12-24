@@ -1,9 +1,9 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, ViewChild} from "@angular/core";
 import {Metric, MetricValue} from "../../../services/metric/schema";
 import {Utils} from "../../../shared/stuff/utils";
 import {RatingComponent} from "../../../shared/rating/rating.component";
 import {StaffService} from "../../../services/staff/delegator";
-import { SurveyNavigator, ISurveyComponent, RegisterComponent} from "../../../services/survey/survey.navigator";
+import {SurveyNavigator, ISurveyComponent, RegisterComponent} from "../../../services/survey/survey.navigator";
 import {NavParams, NavController} from "ionic-angular";
 import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
@@ -17,7 +17,7 @@ import {SurveyNavUtils} from "../SurveyNavUtils";
 @RegisterComponent
 export class SingleMetricComponent implements ISurveyComponent {
 
-  private currentMetric: Metric; // Input()
+  currentMetric: Metric;
 
   @ViewChild(RatingComponent) inputComponent: RatingComponent;
 
@@ -43,7 +43,7 @@ export class SingleMetricComponent implements ISurveyComponent {
 
   }
 
-  public onSelection(data) {
+  public onSelection(data: string): void {
     let navigator: SurveyNavigator = this.sessionSvc.surveyNavigator;
     navigator.session.addMetricValue(this.currentMetric.subject, new MetricValue(this.currentMetric.metricId, data));
     SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl, this.utils);

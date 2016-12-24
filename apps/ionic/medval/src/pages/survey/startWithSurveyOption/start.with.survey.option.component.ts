@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-
-import {NavController} from 'ionic-angular';
+import {Component} from "@angular/core";
+import {NavController} from "ionic-angular";
 import {LoginComponent} from "../../login/login.component";
 import {Utils} from "../../../shared/stuff/utils";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
@@ -18,11 +17,12 @@ import {SurveyNavUtils} from "../SurveyNavUtils";
 
 export class StartWithSurveyOption extends SurveySelectionComponent {
   private images = [
-    'assets/img/do-better4.jpg',
-    'assets/img/intentions2.jpg',
+    'http://img.picturequotes.com/2/26/25637/when-you-know-better-you-do-better-quote-1.jpg',
+    'http://www.dailypicturequotes.bmabh.com/wp-content/uploads/2015/05/Do-the-best-you-can-until-you-know-better.-Then-when-you-know-better-do-better.jpg?x29195',
+    'http://img.picturequotes.com/2/27/26724/its-not-intentions-that-matter-its-actions-we-are-what-we-do-and-say-not-what-we-intend-to-quote-1.jpg',
   ];
   leftImage: string = this.images[0];
-  account: Account;
+  account: Account = new Account();
   constructor(
     navCtrl: NavController,
     utils: Utils,

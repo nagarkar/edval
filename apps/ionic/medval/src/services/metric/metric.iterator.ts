@@ -7,7 +7,7 @@ import {MetricService} from "./delegator";
 export class MetricIterator implements Iterator<Metric> {
 
   // Calculated on startup based on maxMetrics@constructor.
-  private maxDrilldowns;
+  private maxDrilldowns: number;
 
   // State Variables.
   // The last root metric returned by this iterator, and it'svalue.
@@ -37,7 +37,7 @@ export class MetricIterator implements Iterator<Metric> {
     if (roles == null) {
       this.roles = new Set<string>();
     }
-    Utils.log("IN METRIC ITERATOR with staff: {0}, roles: {1}", Utils.stringify(staffSet), roles);
+    Utils.log("IN METRIC ITERATOR with staff: {0}, roles: {1}", Utils.stringify(staffSet), Utils.stringify(roles));
     this.maxDrilldowns = this.computeMaxDrilldowns();
     let metrics: Metric[] = this.metricService.listCached();
     this.expandAndSetupMetricIterators(metrics);
@@ -46,7 +46,7 @@ export class MetricIterator implements Iterator<Metric> {
   next(value?: MetricValue): IteratorResult<Metric> {
 
     Utils.log("In metricIterator.next, with lastRoot {0}, lastRootValue: {1}, lastMetric: {2}, lastValue: {3}",
-      this.lastRoot, this.lastRootValue, this.lastMetric, this.lastValue);
+      this.lastRoot.toString(), this.lastRootValue.toString(), this.lastMetric.toString(), this.lastValue.toString());
 
     if (!this.lastRoot) {
       return this.saveAndReturn(this.getNextIteratorResultOrDone(

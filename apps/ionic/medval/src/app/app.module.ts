@@ -13,9 +13,7 @@ import {TermComponent} from "../pages/dashboard/terms/term.component";
 import {PolicyComponent} from "../pages/dashboard/policy/policy.component";
 import { HttpModule, JsonpModule } from '@angular/http';
 import {RatingComponent} from "../shared/rating/rating.component";
-import {SurveyComponent} from "../pages/survey/survey.component";
 import {StartComponent} from "../pages/survey/start/start.component";
-import {MetricComponentLegacy} from "../pages/survey/metric.legacy/metric.legacy.component";
 import {ThanksComponent} from "../pages/survey/thanks/thanks.component";
 import {StaffEditComponent} from "../pages/staff/staff.edit.component";
 import {CarouselComponent} from "../pages/survey/carousel/carousel.component";
@@ -76,8 +74,6 @@ enableProdMode();
     /** Survey Components */
     RatingComponent,
     SurveySelectionComponent,
-    SurveyComponent,
-    MetricComponentLegacy,
     ThanksComponent,
     StartComponent,
     StartWithSurveyOption,
@@ -123,8 +119,6 @@ enableProdMode();
     /** Survey Components */
     RatingComponent,
     SurveySelectionComponent,
-    SurveyComponent,
-    MetricComponentLegacy,
     ThanksComponent,
     StartComponent,
     StartWithSurveyOption,

@@ -1,5 +1,5 @@
-import {Component, ViewChild, Input, Output, EventEmitter, Renderer} from '@angular/core';
-import { Slides } from 'ionic-angular';
+import {Component, ViewChild, Input, Output, EventEmitter, Renderer, OnChanges, SimpleChanges} from "@angular/core";
+import {Slides} from "ionic-angular";
 import {SlideItem} from "./carousel.schema";
 import {Utils} from "../../../shared/stuff/utils";
 
@@ -7,7 +7,7 @@ import {Utils} from "../../../shared/stuff/utils";
   selector: 'carousel',
   templateUrl: 'carousel.component.html'
 })
-export class CarouselComponent {
+export class CarouselComponent implements OnChanges {
   @ViewChild('mySlider') slider: Slides;
 
 
@@ -49,7 +49,7 @@ export class CarouselComponent {
 
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     this.setSlideOptions(false);
     var refreshId = setInterval(() => {
       if (this.activeIndex > -1) {
@@ -83,11 +83,11 @@ export class CarouselComponent {
     this.selectSlide.emit(item);
   }
 
-  removeItem(item: SlideItem) {
+  removeItem(item: SlideItem): void {
     item.isSelected = !item.isSelected;
   }
 
-  finished() {
+  finished(): void {
     this.done.emit();
   }
 

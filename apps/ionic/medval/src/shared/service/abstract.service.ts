@@ -29,7 +29,7 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
     http: Http,
     private instance: T) {
 
-    this.httpClient = new HttpClient(utils, accessProvider, http, instance);
+    this.httpClient = new HttpClient(accessProvider, http, instance);
     this.lastCacheClearMillis = this.timeKeeper.getMilliseconds();
   }
 
@@ -41,7 +41,7 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
     return AbstractService.DEFAULT_CACHE_AGE;
   }
 
-  reset() {
+  reset(): void {
     this.cache.clear();
   }
 
@@ -135,7 +135,7 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
 
   protected checkGate() : void {
     if (!this.inMockMode() && !this.accessProvider.supposedToBeLoggedIn()) {
-      throw ErrorType.NotLoggedIn;
+      ErrorType.throwNotLoggedIn();
     }
   }
 
@@ -143,11 +143,11 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
     return Config.isMockData(this.getInstance());
   }
 
-  private updateCache(value: T | Array<T>, ...pathElements) {
+  private updateCache(value: T | Array<T>, ...pathElements: string[]) {
     this.cache.set(pathElements.join(), value);
   }
 
-  private getCachedValue(...pathElements) : T | Array<T> {
+  private getCachedValue(...pathElements: string[]) : T | Array<T> {
     if (this.cacheMaxAgeExceeded()) {
       this.clearCache();
       return null;
@@ -160,7 +160,7 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
     this.lastCacheClearMillis = this.timeKeeper.getMilliseconds();
   }
 
-  private deleteCachedValue(...pathElements) {
+  private deleteCachedValue(...pathElements: string[]) {
     this.cache.delete(pathElements.join());
   }
 

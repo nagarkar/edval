@@ -5,8 +5,11 @@ import {Config} from "../aws/config";
 import {AbstractMockService} from "./abstract.mock.service";
 import {Utils} from "../stuff/utils";
 
+declare let REVVOLVE_PROD_ENV: boolean;
 
 export abstract class DelegatingService<T> implements ServiceInterface<T> {
+
+  private mockMode: boolean = !REVVOLVE_PROD_ENV;
 
   public onCreate: EventEmitter<T> = new EventEmitter<T>();
   public onUpdate: EventEmitter<T> = new EventEmitter<T>();
@@ -16,25 +19,34 @@ export abstract class DelegatingService<T> implements ServiceInterface<T> {
     private mockService: AbstractMockService<T>,
     private liveService: AbstractService<T>) {
 
-    this.delegateEventEmitters();
+    this.subscribeToEventsFor(this.getDelegate());
+  }
+
+  setMockMode(mode: boolean) {
+    let needReset: boolean = this.mockMode != mode;
+    let prevDelegate: ServiceInterface<T> = this.getDelegate();
+    this.mockMode = mode;
+    if (needReset) {
+      this.resetIncludingEvents(prevDelegate);
+    }
   }
 
   getDelegate(): ServiceInterface<T> {
-    if (Config.isMockData(this.liveService.getInstance())) {
+    if (this.mockMode) {
       return this.mockService;
     } else {
       return this.liveService;
     }
   }
 
+  private resetIncludingEvents(prevDelegate: ServiceInterface<T>) {
+    this.unSubscribeToEventsFor(prevDelegate);
+    this.reset();
+    this.subscribeToEventsFor(this.getDelegate());
+  }
+
   reset() {
-    if (this.inMockMode()) {
-      Utils.log("Reseting mock service for object:{0}", this.getObjectName());
-      this.mockService.reset();
-    } else {
-      Utils.log("Reseting live service for object:{0}", this.getObjectName());
-      this.liveService.reset();
-    }
+    this.getDelegate().reset();
   }
 
   getId(member: T): string {
@@ -69,33 +81,28 @@ export abstract class DelegatingService<T> implements ServiceInterface<T> {
     return this.getDelegate().delete(id);
   }
 
-  private inMockMode() : boolean {
-    return Config.isMockData(this.liveService.getInstance());
+  private subscribeToEventsFor(delegate: ServiceInterface<T>) {
+    function delegateToEvent(emitter: EventEmitter<T|string>, emitterSource: EventEmitter<T|string>) {
+      emitter.subscribe(
+        (next: T|string)=>{
+          emitterSource.emit(next);
+        },
+        (error: any) => {
+          emitterSource.error(error);
+        },
+        ()=> {
+          emitterSource.complete();
+        });
+    }
+    delegateToEvent(delegate.onUpdate, this.onUpdate);
+    delegateToEvent(delegate.onCreate, this.onCreate);
+    delegateToEvent(delegate.onDelete, this.onDelete);
   }
 
-  private getObjectName() : string {
-    return Utils.getObjectName(this.liveService.getInstance());
-  }
-
-  private delegateEventEmitters() {
-    this.mockService.onUpdate.subscribe((next: T)=>{
-      this.onUpdate.emit(next);
-    });
-    this.liveService.onUpdate.subscribe((next: T)=>{
-      this.onUpdate.emit(next);
-    });
-    this.mockService.onCreate.subscribe((next: T)=>{
-      this.onCreate.emit(next);
-    });
-    this.liveService.onCreate.subscribe((next: T)=>{
-      this.onCreate.emit(next);
-    });
-    this.mockService.onDelete.subscribe((next: string)=>{
-      this.onDelete.emit(next);
-    });
-    this.liveService.onDelete.subscribe((next: string)=>{
-      this.onDelete.emit(next);
-    });
+  private unSubscribeToEventsFor(delegate: ServiceInterface<any>) {
+    delegate.onUpdate.unsubscribe();
+    delegate.onCreate.unsubscribe();
+    delegate.onDelete.unsubscribe();
   }
 
 }

@@ -1,39 +1,31 @@
 import {ServiceInterface} from "../shared/service/interface.service";
-import {MetricService} from "./metric/delegator";
-import {StaffService} from "./staff/delegator";
-import {AccountService} from "./account/delegator";
-import {SessionService} from "./session/delegator";
-import {Injectable} from "@angular/core";
+import {Injectable, Injector} from "@angular/core";
 import {Utils} from "../shared/stuff/utils";
-import {SurveyService} from "./survey/delegator";
+
+declare let REVVOLVE_PROD_ENV: boolean;
+
+/** Annotation to register the component */
+
+export function RegisterService(constructor: Function) {
+  ServiceFactory.registerService(constructor);
+}
+
 
 @Injectable()
 export class ServiceFactory {
 
-  public static SESSION: string = "SESSION";
-  public static ACCOUNT: string = "ACCOUNT";
-  public static STAFF: string = "STAFF";
-  public static METRIC: string = "METRIC";
-  public static SURVEY: string = "SURVEY";
+  private static serviceConstructors: Function[] = [];
 
   private serviceMap: Map<string, ServiceInterface<any>> = new Map<string, ServiceInterface<any>>();
 
-  constructor(
-    sessionService: SessionService,
-    accountService: AccountService,
-    staffService: StaffService,
-    metricService: MetricService,
-    surveyService: SurveyService
-  ) {
-    this.serviceMap.set(ServiceFactory.SESSION, sessionService);
-    this.serviceMap.set(ServiceFactory.ACCOUNT, accountService);
-    this.serviceMap.set(ServiceFactory.STAFF, staffService);
-    this.serviceMap.set(ServiceFactory.METRIC, metricService);
-    this.serviceMap.set(ServiceFactory.SURVEY, surveyService);
+  public ServiceFactory(injector: Injector) {
+    ServiceFactory.serviceConstructors.forEach((constructor: Function)=>{
+      this.serviceMap.set(constructor.name, injector.get(constructor));
+    })
   }
 
-  get(name: string): ServiceInterface<any> {
-    return this.serviceMap.get(name);
+  registerService(instance: ServiceInterface<any>) {
+    this.serviceMap.set(instance.constructor.name, instance);
   }
 
   resetRegisteredServices() {
@@ -41,5 +33,9 @@ export class ServiceFactory {
     this.serviceMap.forEach((value: ServiceInterface<any>)=>{
       value.reset();
     })
+  }
+
+  static registerService(constructor: Function) {
+    ServiceFactory.serviceConstructors.push(constructor);
   }
 }

@@ -113,10 +113,10 @@ export class RatingComponent {
     }
     this.ratingValueChange.emit(value);
     this.popped = true;
-    Utils.log("In setRating value:{0}, hasbeenselected:{1}", value, this.popped);
+    Utils.log("In setRating value:{0}, hasbeenselected:{1}", value.toString(), this.popped.toString());
     setTimeout(()=> {
       this.popped = false;
-      Utils.log("Reset hasBeenSelected: {0}", this.popped);
+      Utils.log("Reset hasBeenSelected: {0}", this.popped.toString());
     }, 1300);
   }
 

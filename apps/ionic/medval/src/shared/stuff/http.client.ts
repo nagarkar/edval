@@ -1,7 +1,6 @@
 import {Utils} from "./utils";
 import {AccessTokenService, AuthResult} from "../aws/access.token.service";
 import {Http, Response, RequestOptionsArgs, Headers} from "@angular/http";
-import {Observable} from "rxjs";
 import {ErrorType} from "./error.types";
 import {Injectable} from "@angular/core";
 import {Config} from "../aws/config";
@@ -10,7 +9,6 @@ import {Config} from "../aws/config";
 export class HttpClient<T> {
 
   constructor(
-    private utils: Utils,
     private tokenProvider: AccessTokenService,
     private http: Http,
     private instance: T) {
@@ -28,13 +26,13 @@ export class HttpClient<T> {
    *   );
    * @returns {Promise<ErrorObservable|ErrorObservable>|Promise<TResult>}
    */
-  public ping() : Promise<string>{
+  public ping() : Promise<any>{
     // TODO Revert line
     if (1==1) throw ErrorType.UnsupportedOperation('http client');
     return this.http.get(Config.pingUrl, this.createRequestOptionsArgs())
       .toPromise()
-      .then<string>(this.extractData)
-      .catch<string>(this.handleError);
+      .then<any>(this.extractData)
+      .catch<any>(this.handleError);
   }
 
   public list<T>(path : string | '') : Promise<Array<T>> {
@@ -58,22 +56,19 @@ export class HttpClient<T> {
   public put<T>(path : string, id: string | '', body: T) : Promise<T> {
     // TODO Revert line
     if (1==1) throw ErrorType.UnsupportedOperation('http client');
-    let response: Observable<Response> = this.http.put(Config.baseUrl + path + "/" + id, Utils.stringify(body),
-      this.createRequestOptionsArgs());
-    let responsePromise : Promise<Response> = response.toPromise();
-    return responsePromise
-      .then<T>(this.extractData)
-      .catch<T>(this.handleError);
+    return this.http.put(Config.baseUrl + path + "/" + id, Utils.stringify(body), this.createRequestOptionsArgs())
+      .toPromise()
+      .then(this.extractData)
+      .catch(this.handleError);
   }
 
   public post<T>(path : string, body: T) : Promise<T> {
     // TODO Revert line
     if (1==1) throw ErrorType.UnsupportedOperation('http client');
-    return this.http.post(Config.baseUrl + path, Utils.stringify(body),
-      this.createRequestOptionsArgs())
-        .toPromise()
-        .then(this.extractData)
-        .catch(this.handleError);
+    return this.http.post(Config.baseUrl + path, Utils.stringify(body), this.createRequestOptionsArgs())
+      .toPromise()
+      .then(this.extractData)
+      .catch(this.handleError);
   }
 
   public delete(path : string, id: string | '') : Promise<boolean> {
@@ -108,10 +103,9 @@ export class HttpClient<T> {
       }
     }
     return body;
-    //throw Promise.throw("Invalid Content-TYpe; Only application/json or subject is supported")
   }
 
-  private handleError  = (error: Response | any): any => {
+  private handleError  = (error: any): T | PromiseLike<T> => {
     // In a real world app, we might use a remote logging infrastructure
     let errMsg: string;
     Utils.log('in handle error' + Utils.stringify(error));
@@ -123,13 +117,12 @@ export class HttpClient<T> {
       errMsg = error.message ? error.message : error.toString();
     }
     Utils.error(errMsg);
-    return null;
-    //return Promise.throw(errMsg);
+    return Promise.reject(errMsg);
   }
 
   private createRequestOptionsArgs() : RequestOptionsArgs {
     if (!this.tokenProvider.getAuthResult()) {
-      return Observable.throw(ErrorType.NotLoggedIn);
+      ErrorType.throwNotLoggedIn();
     }
     let result : AuthResult = this.tokenProvider.getAuthResult();
     return {

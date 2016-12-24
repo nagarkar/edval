@@ -30,34 +30,3 @@
     </ion-row>
   </div>
 </ion-content>
-<!--
-
-<mdval-header></mdval-header>
-<ion-content padding style="text-align:center">
-  <ion-row>
-    <ion-col width-30>
-<img src='assets/img/strength.jpg'>
-</ion-col>
-<ion-col>
-  <h1 style="padding-top:4em; padding-left:10px">{{message}}</h1>
-  <ion-row center *ngFor="let i of rows">
-    <ion-col width-50 *ngFor="let metric of displayMetrics | slice:(i*numCols):(i+1)*numCols">
-      <ion-card>
-        <div class="row responsive-md">
-          <button *ngIf="metric['isSelected']" class="selected-icon" ion-button color="green"><ion-icon name="checkmark"></ion-icon></button>
-          <button ion-button
-                  (click)="registerRank(metric)"
-                  color="revvolve2"
-                  class="card-title"
-                  style="white-space: normal;">
-            {{metric.properties?.positiveImpact ? metric.properties?.positiveImpact :  metric.properties?.metricName}}
-          </button>
-        </div>
-      </ion-card>
-    </ion-col>
-  </ion-row>
-</ion-col>
-</ion-row>
-</ion-content>
-
--->

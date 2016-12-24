@@ -56,3 +56,13 @@ Expect to see some warnings.
     ionic build ios / android
     ionic emulate ios / ionic build android
     ionic serve - for development 
+
+* Recent changes to speed up app
+######
+    Followed AOT
+    1. Compile everything
+    node_modules/.bin/ngc -p tsconfig-aot.json 
+    2. Instlal rollup
+    npm install rollup rollup-plugin-node-resolve rollup-plugin-commonjs rollup-plugin-uglify --save-dev
+   
+    Installed gulp (may not be required in addition to AOT)
