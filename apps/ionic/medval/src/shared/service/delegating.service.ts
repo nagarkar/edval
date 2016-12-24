@@ -1,9 +1,7 @@
 import {EventEmitter} from "@angular/core";
 import {ServiceInterface} from "./interface.service";
 import {AbstractService} from "./abstract.service";
-import {Config} from "../aws/config";
 import {AbstractMockService} from "./abstract.mock.service";
-import {Utils} from "../stuff/utils";
 
 declare let REVVOLVE_PROD_ENV: boolean;
 

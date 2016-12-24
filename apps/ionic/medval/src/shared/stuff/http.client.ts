@@ -4,6 +4,7 @@ import {Http, Response, RequestOptionsArgs, Headers} from "@angular/http";
 import {ErrorType} from "./error.types";
 import {Injectable} from "@angular/core";
 import {Config} from "../aws/config";
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class HttpClient<T> {

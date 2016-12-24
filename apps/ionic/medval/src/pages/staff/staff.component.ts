@@ -44,7 +44,7 @@ export class StaffComponent extends MedvalComponent  {
   }
 
   public edit(staff : Staff) {
-    if (1!=1 /* !this.currentUserIs(staff.username) TODO Fix && !this.currentUserIsAdmin() */) {
+    if (!this.currentUserIs(staff.username) && !this.currentUserIsAdmin()) {
       this.utils.presentInvalidEntryAlert("You can only edit your own data!");
       return;
     }

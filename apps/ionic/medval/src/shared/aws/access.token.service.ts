@@ -1,10 +1,8 @@
+import {Config} from "./config";
+import {Injectable} from "@angular/core";
+import {Utils} from "../stuff/utils";
 declare let AWS:any;
 declare let AWSCognito:any;
-
-
-import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
-import {Utils} from "../stuff/utils";
 
 @Injectable()
 export class AccessTokenService {
@@ -15,60 +13,26 @@ export class AccessTokenService {
   private authResult: AuthResult = null;
   private error: Error = null;
 
-  private _tokenObservable: Observable<AuthResult>;
   private authenticatingIntervalTimer : any;
 
-  constructor(private utils: Utils) {
-    /* TODO Revert
-    this._tokenObservable = Observable.create((observer: Observer<AuthResult>) => {
-      var intervalTimer = setInterval(() => {
-        if (this.hasError()) {
-          observer.error(this.error);
-        } else if (this.authResult != null) {
-          observer.next(this.authResult);
-        }
-      }, Config.REFRESH_ACCESS_TOKEN);
-
-      // Note that this is optional, you do not have to return this if you require no cleanup
-      return () => {
-        clearInterval(intervalTimer);
-        console.log('disposed');
-      };
-    });
-    */
-  }
+  constructor(private utils: Utils) {}
 
   public getAuthResult() : AuthResult {
-    return new AuthResult(null,null);
-    /** TODO Revert
     return this.authResult;
-     */
   }
 
   public getUserName() : string {
-
-    return 'celeron';
-    /** TODO Revert
     return this._username;
-     */
   }
 
   public logout() : void {
     this._cognitoUser = null;
   }
 
-  private hasError(): boolean {
-    return this.error === null;
-  }
-
   public supposedToBeLoggedIn(): boolean {
-    return true;
-    /** TODO revert
     return this._cognitoUser !== null;
-     */
   }
 
-  /** TODO revert
   public startNewSession(username : string, password : string): Promise<AuthResult> {
 
     this._username = username;
@@ -96,13 +60,7 @@ export class AccessTokenService {
     return this._cognitoUser;
   }
 
-   get tokenObservable(): Observable<AuthResult> {
-    return this._tokenObservable;
-  }
-   **/
 
-
-  /** TODO Revert
   private startAuthenticatingUserAtIntervals() : Promise<AuthResult> {
     const promise : Promise<AuthResult> = this.startAuthenticatingUser();
     this.startAuthenticatingIntervalTimer(Config.REFRESH_ACCESS_TOKEN);
@@ -131,7 +89,6 @@ export class AccessTokenService {
             }
             resolve(this.authResult);  // fulfilled successfully
           });
-          //Utils.log("Finished Logging in :" + this._username);
         },
         onFailure: (err) => {
           this.error = err;
@@ -142,7 +99,6 @@ export class AccessTokenService {
           // password and required attributes, if any, to complete
           // authentication.
 
-          // Get these details and call
           me.utils.presentAlertPrompt(
             (data) => {
               me._cognitoUser.completeNewPasswordChallenge(data.password, {"email": data.email}, this);
@@ -166,19 +122,16 @@ export class AccessTokenService {
             (data) => {
               me._cognitoUser.sendMFACode(data.value, this)
             },
-            "Provide MFA",
-            [
-              {
-                name: 'value',
-                placeholder: 'Provide an MFA code:'
-              }
-            ]);
+            "Provide MFA", [{
+              name: 'value',
+              placeholder: 'Provide an MFA code:'
+            }]);
         }
       });
     });
   }
 
-  private startAuthenticatingIntervalTimer(interval : number) {
+  private startAuthenticatingIntervalTimer(interval : number): void {
     clearInterval(this.authenticatingIntervalTimer);
     this.authenticatingIntervalTimer = setInterval(() => {
       if (this.supposedToBeLoggedIn()) {
@@ -186,7 +139,6 @@ export class AccessTokenService {
       }
     }, interval);
   }
-   */
 }
 
 export class AuthResult {
