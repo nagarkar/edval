@@ -5,6 +5,7 @@ import {
 } from "ionic-angular";
 import {CameraOptions, Camera, SpinnerDialog} from "ionic-native";
 import {ErrorType} from "./error.types";
+import {Config} from "../aws/config";
 
 @Injectable()
 export class Utils {
@@ -288,14 +289,19 @@ export class Utils {
     return this.platform.is("ios");
   }
 
-  public forwardAnimation() {
-    return {
-      animate: true,
-      direction: 'forward',
-      animation: this.isAndroid()? "md-transition" : "ios-transition",
-      duration: 1000,
-      easing: 'ease-in'
+  public forwardAnimation(): any {
+    if (Config.PAGE_TRANSITION_ANIMATION) {
+      return {
+        animate: true,
+        direction: 'forward',
+        animation: this.isAndroid() ? "md-transition" : "ios-transition",
+        duration: 1000,
+        easing: 'ease-in'
+      }
     }
+    return {
+      animate: false
+    };
   }
 
   public push(navCtrl: NavController, component: any, params?: any) {

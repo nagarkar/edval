@@ -5,6 +5,9 @@ import {SessionService} from "../../../services/session/delegator";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
 import {SurveyNavUtils} from "../SurveyNavUtils";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
+import {AccountService} from "../../../services/account/delegator";
+import {Config} from "../../../shared/aws/config";
+import {Account} from "../../../services/account/schema";
 
 @Component({
   templateUrl: 'handle.complaint.component.html',
@@ -21,13 +24,16 @@ export class HandleComplaintComponent {
   ];
   complaintMsg: string;
   image: string = this.images[0];
+  account: Account = new Account();
 
   constructor(
     tokenProvider: AccessTokenService,
+    accountSvc: AccountService,
     private sessionSvc: SessionService,
     private navCtrl: NavController,
     private utils: Utils
   ) {
+    this.account =  accountSvc.getCached(Config.CUSTOMERID);
   }
 
   public navigateToNext() {

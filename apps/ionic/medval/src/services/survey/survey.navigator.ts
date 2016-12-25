@@ -86,7 +86,7 @@ export class SurveyNavigator {
     if (!step.executeIf) {
       return true;
     }
-    const func = SurveyNavigator.getExpressionForFunction(step.executeIf);
+    const func = SurveyNavigator.getFunctionForExpression(step.executeIf);
     return func(this.session);
   }
 
@@ -157,7 +157,7 @@ export class SurveyNavigator {
     map.set(name, component);
   }
 
-  private static getExpressionForFunction(expression: string) {
+  private static getFunctionForExpression(expression: string) {
     const cleanExpression = expression.trim();
     let func = SurveyNavigator.expressionMap.get(cleanExpression);
     if (!func) {

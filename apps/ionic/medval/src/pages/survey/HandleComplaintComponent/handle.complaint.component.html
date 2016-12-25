@@ -14,7 +14,7 @@
         <br/>
         <br/>
         <h3 style="margin-top:0;font-size:1.4em">
-          Would you like a telephone/email follow-up from Dr. Megha? Your feedback remains anonymous
+          {{'Would you like a telephone/email follow-up from ' + account.properties.contactName + '? Your feedback remains anonymous'}}
         </h3>
         <ion-item>
           <ion-input width-60 class="email" type="email" placeholder="youremail@gmail.com"></ion-input>
@@ -25,7 +25,7 @@
     <ion-row>
       <ion-item>
         <ion-label style="padding-left: 10px;margin-top: 2em;font-size: 1.2em;" stacked>
-          Tell us the most important thing Orthodontic Excellence needs to fix
+          {{'Tell us the most important thing ' + account.properties.customerName + ' needs to fix'}}
         </ion-label>
         <ion-textarea
           style="height: 5em;padding-left: 10px;padding-right: 1em;"

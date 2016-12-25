@@ -3,7 +3,7 @@
   <ion-card>
     <img src="https://notalwaysrelated.com/wp-content/uploads/2016/03/Family-Photo-1024x683.jpg"/>
     <div class="card-conversation-setup">{{currentMetric?.properties?.conversationSetup}}</div>
-    <div class="card-title">{{currentMetric?.properties?.question}}</div>
+    <div class="card-title">{{currentMetric?.properties?.question | sReplacer}}</div>
     <p text-center class="card-subtitle" *ngIf="currentMetric.isNpsType()">
       <rating (ratingValueChange)="onSelection($event);"
               [ratingMax]="currentMetric.properties.definition.npsType.range"

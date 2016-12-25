@@ -9,9 +9,11 @@ import {SurveyNavUtils} from "../SurveyNavUtils";
 import {MetricService} from "../../../services/metric/delegator";
 import {Metric, MetricValue} from "../../../services/metric/schema";
 import {ObjectCycler} from "../../../shared/stuff/object.cycler";
+import {SReplacer} from "../../../pipes/SReplacer";
 
 @Component({
   templateUrl: 'top.influencer.component.html',
+  //pipes: [SReplacer]
 })
 
 @RegisterComponent

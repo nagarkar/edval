@@ -9,12 +9,14 @@ import {NavParams, NavController} from "ionic-angular";
 import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
 import {SurveyNavUtils} from "../SurveyNavUtils";
+import {SReplacer} from "../../../pipes/SReplacer";
 
 export interface dataInterface {staff: Staff, metric: Metric, value?: string};
 
 @Component({
   selector: 'topline-for-staff',
   templateUrl: 'topline.for.staff.component.html',
+  //pipes: [SReplacer]
 })
 
 @RegisterComponent
@@ -33,8 +35,8 @@ export class ToplineForStaffComponent implements ISurveyComponent {
     private metricSvc: MetricService
   ) {
 
-    let displayCount = params.get('displayCount') || 2;
     let staffNames: string[] = sessionSvc.getCurrentSession().properties.selectedStaffUserNames;
+    let displayCount = params.get('displayCount') || staffNames.length;
     if(staffNames.length == 0) {
       this.navigateToNext();
     }

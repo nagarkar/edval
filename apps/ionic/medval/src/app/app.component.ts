@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
-
+import {Component} from "@angular/core";
+import {Platform} from "ionic-angular";
+import {StatusBar, Splashscreen} from "ionic-native";
 import {ServiceFactory} from "../services/service.factory";
 import {StartWithSurveyOption} from "../pages/survey/startWithSurveyOption/start.with.survey.option.component";
-import {AllPromoters, StrongDetractor, StrongPromoter,AnyDetractors} from "../services/survey/survey.functions";
+import {AllPromoters, StrongDetractor, StrongPromoter, AnyDetractors} from "../services/survey/survey.functions";
 
 
 @Component({
@@ -14,7 +13,6 @@ export class MyApp {
   rootPage = StartWithSurveyOption;
 
   constructor(platform: Platform, serviceFactory: ServiceFactory) {
-    serviceFactory.resetRegisteredServices(); // this needs to be done first, esp in mock mode.
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -25,7 +23,15 @@ export class MyApp {
       new AnyDetractors();
       new StrongPromoter();
       new StrongDetractor();
-      //Utils.dummyFn();
+      serviceFactory.resetRegisteredServices(); // this needs to be done first, esp in mock mode.
+
+
+      /*
+      let s: Staff = new Staff();
+      s.username = "chinmay";
+      let x: SReplacer = new SReplacer();
+      console.log(x.transform("staff? 'Hello ' + staff.username : 'Role message'", {staff: s}));
+      */
     });
   }
 }

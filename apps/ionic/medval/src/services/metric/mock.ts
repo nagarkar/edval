@@ -54,7 +54,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "org",
       properties: {
         conversationSetup: "Lets get the most important question out of the way!",
-        question: "Would you recommend Orthodontic Excellence to your friends and family?",
+        question: "'Would you recommend ' + account.properties.customerName + ' to your friends and family?'",
         metricName: "",
         metricDescription: "Organization Level Metric. This metric is alrways present by default and cannot be deleted",
         definition: {
@@ -70,7 +70,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:Orthodontic Assistant",
       properties: {
-        question: "How would you rate our Orthodontic Assistants?",
+        question: "'How would you rate ' + (staff ? staff.displayName : 'our Orthodontic Assistants?')",
         metricName: "NPS Metric for Role Orthodontic Assistant",
         definition: {
           npsType: {
@@ -85,7 +85,9 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:MD",
       properties: {
-        question: "Would you recommend Dr Megha to your friends and family?",
+        question: `'Would you recommend ' 
+          + (staff ? staff.displayName : ('the doctors at' + account.properties.customerName)) 
+          + ' to your friends and family?'`,
         metricName: "NPS Metric for Role MD",
         definition: {
           npsType: {
@@ -152,7 +154,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:MD",
       properties: {
-        metricName: 'Did Dr. Megha address your concerns and questions?',
+        metricName: "'Did ' + staff.displayName + ' address your concerns and questions?'",
         question: 'Does the doctor & team show genuine interest in patients?',
         positiveImpact: "The doctor & team show genuine interest in patients",
         improvement: "Show genuine interest in patients and address their concerns",
@@ -185,7 +187,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:PA",
       properties: {
         metricName: 'Was the office staff professional and helpful?',
-        question: 'Did Financial Coordinator present financial information clearly & concisely',
+        question: 'Did the Financial Coordinator present financial information clearly & concisely',
         positiveImpact: 'Your Financial Coordinator presented financial information clearly & concisely',
         improvement: 'The front office staff need to be more professional and helpful!',
         definition: {
@@ -249,5 +251,3 @@ export class MockMetricService extends AbstractMockService<Metric> {
     ];
   }
 }
-
-

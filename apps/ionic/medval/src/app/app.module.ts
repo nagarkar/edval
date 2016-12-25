@@ -1,17 +1,17 @@
 //import { RouterModule }   from '@angular/router';
-import { NgModule } from '@angular/core';
-import {IonicApp, IonicModule} from 'ionic-angular';
-import { MyApp } from './app.component';
-import { LoginComponent } from '../pages/login/login.component';
-import { Utils } from "../shared/stuff/utils";
-import { Config } from "../shared/aws/config";
-import { AccessTokenService } from "../shared/aws/access.token.service";
+import {NgModule, enableProdMode} from "@angular/core";
+import {IonicApp, IonicModule} from "ionic-angular";
+import {MyApp} from "./app.component";
+import {LoginComponent} from "../pages/login/login.component";
+import {Utils} from "../shared/stuff/utils";
+import {Config} from "../shared/aws/config";
+import {AccessTokenService} from "../shared/aws/access.token.service";
 import {AccountComponent} from "../pages/account/account.component";
 import {DashboardComponent} from "../pages/dashboard/dashboard.component";
 import {StaffComponent} from "../pages/staff/staff.component";
 import {TermComponent} from "../pages/dashboard/terms/term.component";
 import {PolicyComponent} from "../pages/dashboard/policy/policy.component";
-import { HttpModule, JsonpModule } from '@angular/http';
+import {HttpModule, JsonpModule} from "@angular/http";
 import {RatingComponent} from "../shared/rating/rating.component";
 import {StartComponent} from "../pages/survey/start/start.component";
 import {ThanksComponent} from "../pages/survey/thanks/thanks.component";
@@ -28,8 +28,6 @@ import {LiveSessionService} from "../services/session/live";
 import {MockSessionService} from "../services/session/mock";
 import {SessionService} from "../services/session/delegator";
 import {FeedbackComponent} from "../shared/feedback/feedback.component";
-
-import {enableProdMode} from '@angular/core';
 import {HeaderComponent} from "../shared/header/header.component";
 import {MetricService} from "../services/metric/delegator";
 import {MockMetricService} from "../services/metric/mock";
@@ -52,15 +50,26 @@ import {RequestReviewComponent} from "../pages/survey/RequestReviewComponnet/req
 import {SingleMetricComponent} from "../pages/survey/singlemetric/single.metric.component";
 import {ToplineForStaffComponent} from "../pages/survey/topline.for.staff/topline.for.staff.component";
 import {MultimetricComponent} from "../pages/survey/multimetric/multimetric.component";
+import {RequestReviewComponent2} from "../pages/survey/RequestReviewComponent2/requestreview.component2";
+import {CustomerTextEmailComponent} from "../pages/survey/RequestReviewComponent2/customer.text.email.component";
+import {SReplacer} from "../pipes/SReplacer";
 
 enableProdMode();
 
 @NgModule({
   declarations: [
     MyApp,
+
+    /** Pipes **/
+    SReplacer,
+
+
     LoginComponent,
     HeaderComponent,
     CarouselComponent,
+
+    /** Common **/
+    CustomerTextEmailComponent,
 
     /** Administrative Components */
     DashboardComponent,
@@ -80,6 +89,7 @@ enableProdMode();
     TopInfluencerComponent,
     HandleComplaintComponent,
     RequestReviewComponent,
+    RequestReviewComponent2,
     SingleMetricComponent,
     PickStaffComponent,
     FeedbackComponent,
@@ -103,9 +113,13 @@ enableProdMode();
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+
     LoginComponent,
     HeaderComponent,
     CarouselComponent,
+
+    /** Common **/
+    CustomerTextEmailComponent,
 
     /** Administrative Components */
     DashboardComponent,
@@ -125,11 +139,13 @@ enableProdMode();
     TopInfluencerComponent,
     HandleComplaintComponent,
     RequestReviewComponent,
+    RequestReviewComponent2,
     SingleMetricComponent,
     PickStaffComponent,
     FeedbackComponent,
     ToplineForStaffComponent,
     MultimetricComponent,
+
     /** Reporting */
     NpsTrendComponent,
     RevvolveMetricsComponent,

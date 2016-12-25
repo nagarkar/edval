@@ -11,6 +11,7 @@ export class SessionProperties {
   endTime: number;
   aggregationProcessed: boolean;
   navigatedLocation?: string[] = [];
+  reviewData: {email?: string, phone?: string, message?: string, preferredReviewSite?: string[]} = {};
 }
 
 export class Session {

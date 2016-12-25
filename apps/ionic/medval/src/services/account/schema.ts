@@ -9,6 +9,7 @@ export class Account {
   customerId: string;
   properties : {
     customerName: string,
+    contactName: string,
     logo: string
   };
   configuration?: {
@@ -18,6 +19,7 @@ export class Account {
   constructor() {
     this.properties = {
       customerName: "",
+      contactName: '',
       logo: ''
     };
     this.configuration = {};

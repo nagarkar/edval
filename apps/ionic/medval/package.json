@@ -4,18 +4,17 @@
   "homepage": "http://healthcaretech.io/",
   "private": true,
   "scripts": {
+    "clean": "ionic-app-scripts clean",
+    "build": "ionic-app-scripts build",
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve",
-    "clean": "ionic-app-scripts clean",
     "cleancss": "ionic-app-scripts cleancss // Doesn't do much.",
     "android:prod": "npm run web:prod && cordova build android --release",
     "ios:prod": "npm run web:prod && cordova build ios --release",
     "web:prod": "npm run ionic:build && npm run uglify:deljsmap",
-
     "uglify": "uglifyjs www/build/main.js -c keep_fnames=true,unused,dead_code -o www/build/main.js",
     "deljsmap": "del www/build/main.js.map",
     "uglify:deljsmap": "npm run uglify && npm run deljsmap",
-
     "imagemin": "imagemin www/assets/img/* --out-dir=www/assets/imgmin // Doesn't do much",
     "minify": "ionic-app-scripts minify // Doesn't work: Runs uglify internally but no way to pass custom options like keep_fnames"
   },

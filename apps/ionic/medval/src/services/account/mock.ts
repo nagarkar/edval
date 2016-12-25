@@ -42,6 +42,7 @@ export class MockAccountService extends AbstractMockService<Account> {
       customerId: Config.CUSTOMERID,
       properties: {
         logo: "assets/img/logo.jpg",
+        contactName: "Dr. Megha",
         customerName: "Orthodontic Excellence"
       }}));
     return map;

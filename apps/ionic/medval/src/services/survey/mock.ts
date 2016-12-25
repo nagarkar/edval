@@ -94,7 +94,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
-          component:"RequestReviewComponent",
+          component:"RequestReviewComponent2",
           isTerminal:true
         }
       ]
@@ -180,7 +180,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
-          component:"RequestReviewComponent",
+          component:"RequestReviewComponent2",
           isTerminal:true
         },
       ]
@@ -243,7 +243,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
-          component:"RequestReviewComponent",
+          component:"RequestReviewComponent2",
           isTerminal:true
         },
         {
