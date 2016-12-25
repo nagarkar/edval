@@ -10,6 +10,8 @@ import {MetricService} from "../../../services/metric/delegator";
 import {Metric, MetricValue} from "../../../services/metric/schema";
 import {ObjectCycler} from "../../../shared/stuff/object.cycler";
 import {SReplacer} from "../../../pipes/SReplacer";
+import {Account} from "../../../services/account/schema";
+import {AccountService} from "../../../services/account/delegator";
 
 @Component({
   templateUrl: 'top.influencer.component.html',
@@ -33,15 +35,19 @@ export class TopInfluencerComponent {
   numCols = 0;
   leftImage: string;
   displayAttribute: string;
+  account: Account;
 
   constructor(
     navParams: NavParams,
     tokenProvider: AccessTokenService,
     private sessionSvc: SessionService,
+    private accountSvc: AccountService,
     private navCtrl: NavController,
     private metricSvc: MetricService,
     private utils: Utils
     ) {
+    this.account = accountSvc.getCached(Config.CUSTOMERID);
+
     this.rootMetricId = navParams.get('rootMetricId');
     this.maxMetrics = +navParams.get('maxMetrics') || Infinity;
     this.numSelections = +navParams.get('numSelections') || 2;
@@ -110,9 +116,23 @@ export class TopInfluencerComponent {
 
   private constructMessage(): string {
     if (this.valueOrderDesc) {
-      return "What are the top (" + this.numSelections + ")" + "things Orthodontic Excellence does realy well?";
+      return [
+        "What are the top (",
+        this.numSelections,
+        ")",
+        "things ",
+        this.account.properties.customerName,
+        "does realy well?"
+      ].join();
     } else {
-      return "Tell us the top (" + this.numSelections + ")" + "things Orthodontic Excellence should improve!";
+      return [
+        "Tell us the top (",
+        this.numSelections,
+        ")",
+        "things ",
+        this.account.properties.customerName,
+        "should improve!"
+      ].join();
     }
   }
 

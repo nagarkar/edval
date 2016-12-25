@@ -8,8 +8,6 @@ import {NavParams, NavController} from "ionic-angular";
 import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
 import {SurveyNavUtils} from "../SurveyNavUtils";
-import {SReplacerDataMap, SReplacer} from "../../../pipes/SReplacer";
-import {AccountService} from "../../../services/account/delegator";
 
 @Component({
   selector: 'single-metric',

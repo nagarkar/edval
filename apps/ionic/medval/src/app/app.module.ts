@@ -46,7 +46,6 @@ import {LiveSurveyService} from "../services/survey/live";
 import {StartWithSurveyOption} from "../pages/survey/startWithSurveyOption/start.with.survey.option.component";
 import {TopInfluencerComponent} from "../pages/survey/TopInfluencerComponent/top.influencer.component";
 import {HandleComplaintComponent} from "../pages/survey/HandleComplaintComponent/handle.complaint.component";
-import {RequestReviewComponent} from "../pages/survey/RequestReviewComponnet/requestreview.component";
 import {SingleMetricComponent} from "../pages/survey/singlemetric/single.metric.component";
 import {ToplineForStaffComponent} from "../pages/survey/topline.for.staff/topline.for.staff.component";
 import {MultimetricComponent} from "../pages/survey/multimetric/multimetric.component";
@@ -88,7 +87,6 @@ enableProdMode();
     StartWithSurveyOption,
     TopInfluencerComponent,
     HandleComplaintComponent,
-    RequestReviewComponent,
     RequestReviewComponent2,
     SingleMetricComponent,
     PickStaffComponent,
@@ -138,7 +136,6 @@ enableProdMode();
     StartWithSurveyOption,
     TopInfluencerComponent,
     HandleComplaintComponent,
-    RequestReviewComponent,
     RequestReviewComponent2,
     SingleMetricComponent,
     PickStaffComponent,

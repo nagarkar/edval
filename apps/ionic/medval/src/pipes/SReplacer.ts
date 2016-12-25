@@ -5,6 +5,7 @@ import {Session} from "../services/session/schema";
 import {Role, Account} from "../services/account/schema";
 import {AccountService} from "../services/account/delegator";
 import {Config} from "../shared/aws/config";
+import {Utils} from "../shared/stuff/utils";
 
 declare function compile(src);
 
@@ -52,6 +53,14 @@ export class SReplacer implements PipeTransform {
   }
 
   private static compileX(expression: string) {
-    return compile(expression);
+    let res = () => {
+      return expression;
+    };
+    try {
+      res = compile(expression);
+    } catch(err) {
+      Utils.log(err);
+    }
+    return res;
   }
 }

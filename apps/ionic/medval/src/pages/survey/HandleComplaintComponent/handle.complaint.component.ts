@@ -42,7 +42,7 @@ export class HandleComplaintComponent {
       this.navCtrl,
       this.utils,
       "We're sorry if had a bad experience",
-      "The folks at Orthodontic Excellence want to do better",
+      "'The folks at '+ account.properties.customerName + ' want to do better'",
       "Rest assured that your feedback, although nameless, will help");
   }
 }

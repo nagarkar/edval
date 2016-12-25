@@ -68,6 +68,7 @@ export class MockStaffService extends AbstractMockService<Staff> {
       entityStatus: "ACTIVE",
       role: "MD",
       properties: {
+        title: "Dr.",
         firstName: "Megha",
         lastName: "Anand",
         email: "drmegha@smilewithbraces.com",
