@@ -52,6 +52,7 @@ import {MultimetricComponent} from "../pages/survey/multimetric/multimetric.comp
 import {RequestReviewComponent2} from "../pages/survey/RequestReviewComponent2/requestreview.component2";
 import {CustomerTextEmailComponent} from "../pages/survey/RequestReviewComponent2/customer.text.email.component";
 import {SReplacer} from "../pipes/SReplacer";
+import {RotatingCarousel} from "../pages/survey/carousel2/rotatingcarousel.component";
 
 enableProdMode();
 
@@ -66,6 +67,7 @@ enableProdMode();
     LoginComponent,
     HeaderComponent,
     CarouselComponent,
+    RotatingCarousel,
 
     /** Common **/
     CustomerTextEmailComponent,
@@ -115,6 +117,7 @@ enableProdMode();
     LoginComponent,
     HeaderComponent,
     CarouselComponent,
+    RotatingCarousel,
 
     /** Common **/
     CustomerTextEmailComponent,

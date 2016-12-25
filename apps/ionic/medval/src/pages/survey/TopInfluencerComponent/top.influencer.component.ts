@@ -120,10 +120,10 @@ export class TopInfluencerComponent {
         "What are the top (",
         this.numSelections,
         ")",
-        "things ",
+        " things ",
         this.account.properties.customerName,
-        "does realy well?"
-      ].join();
+        " does really well?"
+      ].join('');
     } else {
       return [
         "Tell us the top (",
@@ -132,7 +132,7 @@ export class TopInfluencerComponent {
         "things ",
         this.account.properties.customerName,
         "should improve!"
-      ].join();
+      ].join('');
     }
   }
 

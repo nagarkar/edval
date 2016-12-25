@@ -16,7 +16,7 @@
           height: 13em;
           margin: 0.5em 0em;
           -webkit-transition-property: width, height, margin; /* Safari */
-          -webkit-transition-duration: 1s; /* Safari */
+          -webkit-transition-duration: 100ms; /* Safari */
           transition-property: width, height, margin;
           transition-duration: 1s;
         }
@@ -44,7 +44,7 @@
           width: 1em;
           padding: 1.6em 1em;
           -webkit-transition-property: margin; /* Safari */
-          -webkit-transition-duration: 1s; /* Safari */
+          -webkit-transition-duration: 200ms; /* Safari */
           transition-property: margin;
           ion-icon {
             font-size: 3em;

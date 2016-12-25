@@ -8,6 +8,8 @@ import {Utils} from "../../../shared/stuff/utils";
   templateUrl: 'carousel.component.html'
 })
 export class CarouselComponent implements OnChanges {
+  items: Array<SlideItem> = [];
+
   @ViewChild('mySlider') slider: Slides;
 
 
@@ -26,28 +28,14 @@ export class CarouselComponent implements OnChanges {
       });
   }
 
-  items: Array<SlideItem> = [];
   get selectedItems(): Array<SlideItem> {
     return this.items.filter((value: SlideItem)=>{
       return value.isSelected;
     })
   }
-  //activeSlide: number = 0;
   sliderOptions:any;
 
-  constructor(private utils: Utils, private renderer: Renderer) {
-    /*
-    setTimeout(() => {
-      console.log("length", this.items.length);
-      this.activeSlide = Math.round(this.items.length/2) - 1;
-      this.slider.slideTo(this.slider.getActiveIndex(), 1000);
-    }, 500);
-    */
-  }
-
-  ngOnInit() {
-
-  }
+  constructor(private utils: Utils, private renderer: Renderer) {}
 
   ngOnChanges(changes: SimpleChanges) {
     this.setSlideOptions(false);
@@ -72,12 +60,10 @@ export class CarouselComponent implements OnChanges {
       loop:loop,
       initialSlide: Math.floor(this.items.length/2),
     }
-    //this.activeSlide = Math.floor(this.items.length/2);
   }
 
   selectItem(item: SlideItem){
     item.isSelected = !item.isSelected;
-    //this.activeSlide = item.idx || this.activeSlide;
     this.slider.slideTo(this.slider.getActiveIndex(), 1000);
     Utils.log('selected slide: ' + Utils.stringify(item));
     this.selectSlide.emit(item);

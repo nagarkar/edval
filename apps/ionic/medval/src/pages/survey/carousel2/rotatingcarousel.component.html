@@ -1,0 +1,72 @@
+<ion-content>
+  <div class="carousel-container">
+    <div class="carousel">
+      <div radio-group class="carousel-slide-item"
+           *ngFor="let item of items"
+           [style.background-color]="item.color"
+           [ngStyle]="{'transform': 'rotateY(-' + item.currentPlacement +'deg)  translateZ(' + tz + 'px) scale(', '-webkit-transform': 'rotateY(' + item.currentPlacement + 'deg)  translateZ('+tz+'px)', '-ms-transform': 'rotateY('+item.currentPlacement+'deg)  translateZ('+tz+'px)',
+        '-o-transform': 'rotateY('+item.currentPlacement+'deg)  translateZ('+tz+'px)'}"
+           (swipeleft)="onSwipeLeft($event);"
+           (swiperight)="onSwipeRight($event);">
+
+        <button *ngIf="item.isSelected" class="selected-icon" ion-button color="green"><ion-icon name="checkmark"></ion-icon></button>
+        <img src="{{item.imgUrl}}" (click)="imageClick(item)"/>
+        <span class="name">{{item.heading}}</span>
+        <br/>
+        <span class='desc'>{{item.subheading}}</span>
+        <!-- <ion-checkbox [(ngModel)]="item.isSelected" (click)="selectItem(item)" ></ion-checkbox> -->
+      </div>
+    </div>
+  </div>
+  <ion-grid class="carousel-selected-items">
+    <ion-row text-center>
+      <ion-col>
+        <div [ngSwitch]="selectedItems.length">
+          <div *ngSwitchCase="0">
+            <div class="selected-item">
+              <img src="assets/img/placeholder.png" class="image" />
+            </div>
+          </div>
+          <div *ngSwitchDefault>
+            <span *ngFor="let selectedItem of selectedItems">
+              <div class="selected-item">
+                <button ion-button color="danger" (click)="removeItem(selectedItem)"><ion-icon name="close"></ion-icon>
+                </button>
+                <img src="{{selectedItem.imgUrl}}" class="image" />
+              </div>
+            </span>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row text-center>
+      <ion-col>
+        <button ion-button color="green" (click)="finished()">Next</button>
+        <div class="skip">
+          Skip, <span><strong>Continue this later</strong></span>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<!--
+
+
+<div class="carousel-container">
+    <div class="carousel">
+      <div radio-group class="carousel-slide-item"
+         *ngFor="let item of items"
+         [style.background-color]="item.color"
+         [ngStyle]="{'transform': 'rotateY(-'+item.currentPlacement+'deg)  translateZ('+tz+'px)', '-webkit-transform': 'rotateY('+item.currentPlacement+'deg)  translateZ('+tz+'px)', '-ms-transform': 'rotateY('+item.currentPlacement+'deg)  translateZ('+tz+'px)',
+        '-o-transform': 'rotateY('+item.currentPlacement+'deg)  translateZ('+tz+'px)'}"
+         (swipeleft)="onSwipeLeft($event);"
+         (swiperight)="onSwipeRight($event);">
+        <img src="{{item.imgUrl}}" style="width:200px;height:200px;margin-top: 10px;" />
+        <p>{{item.description}}</p>
+        <ion-checkbox [(ngModel)]="item.isSelected" (click)="selectItem(item)" ></ion-checkbox>
+      </div>
+    </div>
+  </div>
+
+-->

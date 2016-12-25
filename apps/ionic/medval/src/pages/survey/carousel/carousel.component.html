@@ -1,5 +1,4 @@
 <ion-content class="has-header" has-header>
-  <h2 class="title" text-center>Please tell us who worked with you today ?</h2>
   <div class="carousel-area">
     <ion-slides #mySlider [options]="sliderOptions">
       <ion-slide *ngFor="let item of items; let i = index" (tap)="selectItem(item)">

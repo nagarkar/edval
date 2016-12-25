@@ -1,6 +1,8 @@
 <mdval-header></mdval-header>
 <ion-content>
-  <carousel [slides]="slides" [maxselect]="2" (selectSlide)="selectStaff($event);" (done)="navigateToNext()"></carousel>
+  <h2 style="margin-top:3em" class="title" text-center>Please tell us who worked with you today ?</h2>
+  <carousel *ngIf="slides.length < 4" [slides]="slides" (done)="navigateToNext()" (selectSlide)="selectStaff($event);"></carousel>
+  <rotating-carousel *ngIf="slides.length > 4" [slides]="slides" (done)="navigateToNext()" (imageClicked)="imageClick($event);"></rotating-carousel>
 </ion-content>
 <ion-footer>
   <ion-navbar style="margin:0;padding:0">

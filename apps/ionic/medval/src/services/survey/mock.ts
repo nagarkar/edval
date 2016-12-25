@@ -47,6 +47,12 @@ export class MockSurveyService extends AbstractMockService<Survey> {
       },
       workflow:[
         {
+          component:"PickStaffComponent",
+          params: {
+            roles: ["MD", "OrthoAssitant"]
+          }
+        },
+        {
           component:"SingleMetricComponent",
           params:{
             metricId: "root"

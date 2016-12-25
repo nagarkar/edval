@@ -27,7 +27,6 @@ export class PickStaffComponent implements OnInit {
 
   constructor(
     private utils: Utils,
-    private serviceFactory: ServiceFactory,
     private navCtrl: NavController,
     private sessionSvc: SessionService,
     private staffSvc: StaffService) {
@@ -42,6 +41,7 @@ export class PickStaffComponent implements OnInit {
     this.utils.setRoot(this.navCtrl, LoginComponent);
   }
 
+  /** Click handler for the flat carousel. */
   selectStaff(slideitem: SlideItem) {
     const staff: Staff = this.slideToStaffMap.get(slideitem.idx);
     Utils.log("In Pickstaff.selectStaff with item {0}\n {1}\n",
@@ -53,6 +53,25 @@ export class PickStaffComponent implements OnInit {
       this.selectedStaff.delete(staff);
     }
     Utils.log("Selected staff {0} in pickstaff.", staff.username);
+    if (this.selectedStaff.size > 2) {
+      this.navigateToNext();
+    }
+  }
+
+  /** Click handler for the rotating carousel. */
+  imageClick(slideitem: SlideItem) {
+    const staff: Staff = this.slideToStaffMap.get(slideitem.idx);
+    Utils.log("In Pickstaff.selectStaff with item {0}\n {1}\n",
+      Utils.stringify(slideitem),
+      Utils.stringify(staff))
+    if (!slideitem.isSelected) {
+      slideitem.isSelected = true;
+      this.selectedStaff.add(staff);
+    } else {
+      slideitem.isSelected = false;
+      this.selectedStaff.delete(staff);
+    }
+    Utils.log("Image click staff {0} in pickstaff.", staff.username);
     if (this.selectedStaff.size > 2) {
       this.navigateToNext();
     }

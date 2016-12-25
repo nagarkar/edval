@@ -9,9 +9,7 @@
         <h6 color="black" style="margin-top:0; margin-bottom:0.5em;"><b>(we'll make it easy!)</b></h6>
         <ion-row center>
           <ion-col>
-            <button (click)="googleReview()">
-              <img src="http://www.temperaturepronwvalley.com/images/Google-Review-Button-.png" height="40em" style="margin-left: 1.2em" />
-            </button>
+            <img src="http://www.temperaturepronwvalley.com/images/Google-Review-Button-.png" (click)="googleReview()" height="40em" style="margin-left: 1.2em" />
           </ion-col>
           <ion-col>
             <img src="http://www.boudreaudentalstudio.com/images/inside/testimonials/u_fb_button.png" (click)="facebookReview()" height="40em" />
@@ -26,7 +24,7 @@
       <ion-col width-80>
         <ion-item>
             <ion-label color="black" style="margin-top:0em; padding-left: 0em;font-size: 1em;" stacked>
-              You can leave a note of encouragement or feedback for {{'account.properties.contactName'| sReplacer}} and team:
+              You can leave a note of encouragement or feedback for {{'account.properties.contactName'| sReplacer}}  and team:
             </ion-label>
             <ion-textarea style="height: 8em; padding-left: 0em;padding-right: 1em;" placeholder="Great job! Or Some Feedback!" [(ngModel)]="reviewMsg">
             </ion-textarea>
