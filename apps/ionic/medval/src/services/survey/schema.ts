@@ -2,7 +2,10 @@ import {Utils} from "../../shared/stuff/utils";
 
 export class Survey {
 
-  constructor () { }
+  constructor () {
+    this.workflowProperties = {};
+    this.properties = {};
+  }
 
   customerId: string;
   id: string;
@@ -10,8 +13,9 @@ export class Survey {
   properties?: {
     name?: string;
     purpose?: string;
-    timeCommitment: string;
-  }
+    timeCommitment?: string;
+  };
+  workflowProperties: any;
   workflow: ComponentIf[] |FnIf[];
 
   toString() {

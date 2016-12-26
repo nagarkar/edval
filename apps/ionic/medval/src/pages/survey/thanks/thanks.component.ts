@@ -22,6 +22,10 @@ import {AccountService} from "../../../services/account/delegator";
 })
 export class ThanksComponent extends MedvalComponent implements AfterViewInit {
 
+  whatToShow: string = "joke";
+  showWheel: boolean = false;
+  showJokes: boolean = true;
+
   message: string[];
   jokes: string[] = [
     "https://s-media-cache-ak0.pinimg.com/236x/bb/ae/34/bbae349eb7742a734090c978e2058d0c.jpg",
@@ -43,6 +47,11 @@ export class ThanksComponent extends MedvalComponent implements AfterViewInit {
   joke: string = this.jokes[0];
   //imgState: string = "0";
 
+  wheelOptions: any;
+  costPerUse: number;
+  award: number;
+  giftMessage: string;
+
   constructor(
     tokenProvider: AccessTokenService,
     private sessionService: SessionService,
@@ -53,6 +62,79 @@ export class ThanksComponent extends MedvalComponent implements AfterViewInit {
     ) {
     super(tokenProvider, navCtrl, utils);
     this.message = navParams.get('message');
+    this.processMessage(accountSvc);
+
+    let wfProperties = sessionService.surveyNavigator.survey.workflowProperties;
+    this.showJokes = wfProperties.showJokes || false;
+    this.showWheel = wfProperties.showWheel || false;
+    if (this.showWheel) {
+      this.costPerUse = +wfProperties.costPerUse || 1;
+      this.award = +wfProperties.award || 5;
+      this.giftMessage = ["$", this.award, ' Gift Card!'].join('');
+      this.wheelOptions = ThanksComponent.getDefaultOptions(this.giftMessage, this.costPerUse,this.award);
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.sessionService.hasCurrentSession()) {
+      this.sessionService.closeCurrentSession();
+    }
+  }
+
+  public restartSurvey() {
+    this.ngOnDestroy();
+    this.utils.push(this.navCtrl, StartWithSurveyOption);
+  }
+
+  public ngAfterViewInit() {
+    setTimeout(()=> {
+      this.restartSurvey();
+    }, Config.TIME_OUT_AFTER_SURVEY)
+  }
+
+  showWheelMessage() {
+
+  }
+
+  static getDefaultOptions(giftMessage: string, costPerUse: number, award: number): any {
+
+    let giftSegment = {'fillStyle' : '#eae56f', 'text': giftMessage};
+    let noWinSegments = [
+      {'fillStyle' : '#89f26e', 'text' : 'No Luck'},
+      {'fillStyle' : '#7de6ef', 'text' : 'Another time'},
+      {'fillStyle' : '#e7706f', 'text' : 'Not this time'},
+      {'fillStyle' : '#eae56f', 'text' : 'No Deal!'},
+      {'fillStyle' : '#eae56f', 'text' : 'Try next time!'},
+    ];
+
+    //costPerUse  = winSlots * award/totalSlots;
+    let loseSlotsPerWinSlots = Math.ceil(award/costPerUse - 1);
+    let winSlots = Math.floor(50/(1+loseSlotsPerWinSlots));
+
+    Utils.shuffle(noWinSegments);
+    let ret: any = {
+      'numSegments': 15,   // Specify number of segments.
+      'outerRadius': 212,  // Set radius to so wheel fits the background.
+      'innerRadius': 40,  // Set inner radius to make wheel hollow.
+      'textFontSize': 16,   // Set font size accordingly.
+      'textMargin': 0,    // Take out default margin.
+      'animation' : {
+        'type'     : 'spinToStop',
+        'duration' : 5,
+        'spins'    : 8
+      }
+    };
+    let segments: any[] = [];
+    for(let i = 0; i < winSlots; i++) {
+      segments.push(giftSegment);
+      for(let j = 0; i < loseSlotsPerWinSlots; i++) {
+        segments.push(noWinSegments[j % noWinSegments.length]);
+      }
+    }
+    ret.segments = Utils.shuffle(segments);
+  };
+
+  private processMessage(accountSvc: AccountService) {
     if (!this.message || this.message.length == 0) {
       this.message = ["'Thanks for your feedback!'"];
     }
@@ -68,18 +150,5 @@ export class ThanksComponent extends MedvalComponent implements AfterViewInit {
       return r.transform(value);
     });
 
-    if (sessionService.hasCurrentSession()) {
-      sessionService.closeCurrentSession();
-    }
-  }
-
-  public restartSurvey() {
-    this.utils.push(this.navCtrl, StartWithSurveyOption);
-  }
-
-  public ngAfterViewInit() {
-    setTimeout(()=> {
-      this.restartSurvey();
-    }, Config.TIME_OUT_AFTER_SURVEY)
   }
 }

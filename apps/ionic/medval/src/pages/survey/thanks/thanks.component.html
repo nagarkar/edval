@@ -14,12 +14,17 @@
           </div>
         </ion-col>
       </ion-row>
-      <ion-row [@imgState]="jokes.indexOf(joke).toString()" padding>
+      <ion-row *ngIf="whatToShow == 'joke' && showJokes" [@imgState]="jokes.indexOf(joke).toString()" padding>
         <ion-col width-100 text-center>
           <img style="width: 40em;" src={{joke}}/>
           <div>Laughter is the best medicine</div>
         </ion-col>
       </ion-row>
-  </ion-grid>
+      <ion-row *ngIf="whatToShow == 'wheel' && showWheel" padding>
+        <ion-col width-100 text-center>
+          <wheel (animationDone)="showWheelMessage()" [options]="wheelOptions"></wheel>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 </ion-content>

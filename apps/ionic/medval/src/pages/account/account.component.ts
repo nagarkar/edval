@@ -39,13 +39,17 @@ export class AccountComponent extends MedvalComponent {
       });
   }
 
+  ngOnDestroy() {
+    this.save();
+  }
+
   public collectUrl() {
     this.utils.collectUrl((value) => {
       this.account.properties.logo = value;
     })
   }
 
-  public save() {
+  private save() {
     this.accountSvc.update(this.account)
       .then((res) => {
         this.utils.presentTopToast('Information saved successfully!.');

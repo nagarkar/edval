@@ -332,7 +332,7 @@ export class Utils {
    * @returns {string}
    */
   static format(format: string, ...args: string[]) {
-    return format.replace(/{(\d+)}/g, function(match, number) {
+    return (new String(format)).replace(/{(\d+)}/g, function(match, number) {
       return typeof args[number] != 'undefined'
         ? args[number]
         : match

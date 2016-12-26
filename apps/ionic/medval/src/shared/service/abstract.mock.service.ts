@@ -52,7 +52,7 @@ export abstract class AbstractMockService<T> implements ServiceInterface<T> {
     this.onCreate.emit(member);
     // We use JSON.stringify to copy instead of Utils.stringify because we expect
     // there are no circular references.
-    return Promise.resolve(JSON.parse(JSON.stringify(member)));
+    return Promise.resolve(JSON.parse(Utils.stringify(member)));
   }
 
   public delete(id: string) : Promise<boolean> {

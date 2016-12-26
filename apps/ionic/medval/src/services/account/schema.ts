@@ -10,7 +10,16 @@ export class Account {
   properties : {
     customerName: string,
     contactName: string,
-    logo: string
+    logo: string,
+    address: {
+      street1?: string;
+      street2?: string;
+      pobox?:string;
+      zip?: string;
+      city?:string;
+      state?:string;
+      country?: string;
+    }
   };
   configuration?: {
     [key: string] : string
@@ -20,7 +29,8 @@ export class Account {
     this.properties = {
       customerName: "",
       contactName: '',
-      logo: ''
+      logo: '',
+      address: {}
     };
     this.configuration = {};
   }

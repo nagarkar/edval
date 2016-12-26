@@ -4,7 +4,9 @@ import {StatusBar, Splashscreen} from "ionic-native";
 import {ServiceFactory} from "../services/service.factory";
 import {StartWithSurveyOption} from "../pages/survey/startWithSurveyOption/start.with.survey.option.component";
 import {AllPromoters, StrongDetractor, StrongPromoter, AnyDetractors} from "../services/survey/survey.functions";
-import {RotatingCarousel} from "../pages/survey/carousel2/rotatingcarousel.component";
+import {RotatingCarousel} from "../pages/survey/rotatingcarousel/rotatingcarousel.component";
+import {WheelComponent} from "../pages/wheel/wheel.component";
+import {ThanksComponent} from "../pages/survey/thanks/thanks.component";
 
 
 @Component({

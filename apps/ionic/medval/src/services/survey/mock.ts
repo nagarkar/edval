@@ -45,6 +45,10 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         purpose: "CAHPS-equivalent survey",
         timeCommitment: "I have a minute"
       },
+      workflowProperties: {
+        showJokes: true,
+        showWheel: true,
+      },
       workflow:[
         {
           component:"PickStaffComponent",
@@ -113,6 +117,10 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         name: "Short Survey",
         purpose: "2 minute in-visit survey",
         timeCommitment: "I have 2 minutes"
+      },
+      workflowProperties: {
+        showJokes: true,
+        showWheel: true,
       },
       workflow:[
         {
@@ -199,6 +207,9 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         name: "Full Survey",
         purpose: "5 minute survey (provide every six months)",
         timeCommitment: "I have 5 minutes"
+      },
+      workflowProperties: {
+        showJokes: true,
       },
       workflow:[
         {

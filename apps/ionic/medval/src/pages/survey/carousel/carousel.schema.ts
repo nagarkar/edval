@@ -6,7 +6,8 @@ export class SlideItem {
   subheading: string;
   isSelected?: boolean;
   imgUrl: string;
-  currentPlacement?: number
+  currentPlacement?: number;
+  style?: string;
 
   toString() {
     return Utils.stringify(this);

@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {FormGroup, FormBuilder, Validators, FormControl} from "@angular/forms";
 import {Utils} from "../../shared/stuff/utils";
-import {AccessTokenService} from "../../shared/aws/access.token.service";
+import {AccessTokenService, AuthResult} from "../../shared/aws/access.token.service";
 import {DashboardComponent} from "../dashboard/dashboard.component";
 import {NavController} from "ionic-angular";
 import {SettingsComponent} from "../settings/settings.component";
@@ -11,28 +11,19 @@ import {ServiceFactory} from "../../services/service.factory";
   templateUrl: 'login.component.html'
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
-  public loginForm: FormGroup;
+  loginForm = new FormGroup({
+    'username': new FormControl('', Validators.required),
+    'password': new FormControl('', Validators.required)
+  });
 
   constructor(
-    public navCtrl: NavController,
-    private fb: FormBuilder,
+    private navCtrl: NavController,
     private authProvider: AccessTokenService,
     private serviceFactory: ServiceFactory,
     private utils: Utils) {
 
-  }
-
-  public ngOnInit() : void {
-    this.initValidation();
-  }
-
-  private initValidation() {
-    this.loginForm = this.fb.group({
-      'username': [ '', Validators.required ],
-      'password': [ '', Validators.required ]
-    });
   }
 
   public login() {
@@ -41,15 +32,15 @@ export class LoginComponent implements OnInit {
     let password: string = this.loginForm.controls[ 'password' ].value.trim();
 
     this.authProvider.startNewSession(username, password).then(
-      (token) => {
+      (token: AuthResult) => {
         this.serviceFactory.resetRegisteredServices();
         this.navigateToDashboardPage();
+        return token;
       },
       (err) => {
         Utils.error(err);
       });
   }
-
 
   private navigateToDashboardPage() {
     this.utils.setRoot(this.navCtrl, DashboardComponent);

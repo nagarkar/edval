@@ -1,0 +1,21 @@
+<mdval-header></mdval-header>
+<ion-content text-center>
+  <ion-grid style="margin-top:3em">
+    <ion-row>
+      <ion-col>
+        <span class="heading">Spin the wheel and win a prize (only available once every 30 minutes)!</span>
+        <br/>
+        <span>There's a one in five chance of instantly winning a $5 starbucks gift card!</span>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <!-- See http://joshondesign.com/p/books/canvasdeepdive -->
+        <canvas id="{{id}}" width="500em" height="500em" (tap)="startSpin()">
+          <p style="{color: white}" align="center">Sorry, this browser doesn't support canvas so you can't play the pinwheel.
+          </p>
+        </canvas>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

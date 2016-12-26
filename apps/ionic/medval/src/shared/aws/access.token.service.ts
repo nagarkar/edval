@@ -62,7 +62,7 @@ export class AccessTokenService {
 
 
   private startAuthenticatingUserAtIntervals() : Promise<AuthResult> {
-    const promise : Promise<AuthResult> = this.startAuthenticatingUser();
+    let promise : Promise<AuthResult> = this.startAuthenticatingUser();
     this.startAuthenticatingIntervalTimer(Config.REFRESH_ACCESS_TOKEN);
     return promise;
   }

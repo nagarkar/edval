@@ -43,7 +43,9 @@ export class MockAccountService extends AbstractMockService<Account> {
       properties: {
         logo: "assets/img/logo.jpg",
         contactName: "Dr. Megha",
-        customerName: "Orthodontic Excellence"
+        customerName: "Orthodontic Excellence",
+        address: {
+        }
       }}));
     return map;
   }

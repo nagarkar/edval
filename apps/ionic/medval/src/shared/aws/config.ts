@@ -7,7 +7,7 @@ export class Config {
   private static _baseUrl: string = "http://localhost:8090";
 
   /* TODO this should not be hardcoded */
-  public static CUSTOMERID : string = "";
+  public static CUSTOMERID : string = "OMC";
 
   public static readonly TIME_OUT_AFTER_SURVEY: number = 10000;
 
