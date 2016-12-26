@@ -1,7 +1,30 @@
-.ion-textarea{
+.ion-textarea {
     border: 1px solid #e0e0e0;
 }
 
 .email input {
-  width: 15em;
+    width: 15em;
+}
+
+.cstm-label {
+    font-size: 1.2em !important;
+}
+
+.cstm-label-pdng {
+    padding-left: 0.625em;
+}
+
+.m-t-4 {
+    margin-top: 4em !important;
+}
+
+.m-r-05 {
+    margin-right: 0.5em;
+}
+
+.cstm-footer-list {
+    width: 24em;
+    text-align: center;
+    margin: 0 auto !important;
+    background-color: #f4f4f4;
 }

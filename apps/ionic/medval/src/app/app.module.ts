@@ -52,7 +52,11 @@ import {MultimetricComponent} from "../pages/survey/multimetric/multimetric.comp
 import {RequestReviewComponent2} from "../pages/survey/RequestReviewComponent2/requestreview.component2";
 import {CustomerTextEmailComponent} from "../pages/survey/RequestReviewComponent2/customer.text.email.component";
 import {SReplacer} from "../pipes/SReplacer";
+
 import {RotatingCarousel} from "../pages/survey/carousel2/rotatingcarousel.component";
+import { ValidationService } from '../shared/components/validator/validation.service';
+import { ValidatorComponent } from '../shared/components/validator/validator.component';
+import { FormsModule } from "@angular/forms";
 
 enableProdMode();
 
@@ -103,7 +107,10 @@ enableProdMode();
 
     /** Metric Management */
     MetricSummaryComponent,
-    MetricDetailComponent
+    MetricDetailComponent,
+
+    /**validation purpose*/
+    ValidatorComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),

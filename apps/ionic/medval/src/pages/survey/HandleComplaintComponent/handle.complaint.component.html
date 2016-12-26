@@ -1,55 +1,71 @@
 <mdval-header></mdval-header>
 <ion-content padding>
-  <div style="text-align:center;margin-top: 4em">
-    <ion-row>
-      <ion-col width-30>
-        <img style="width:90%" src="http://www.nicephotomag.com/wp-content/uploads/2009/06/uniracer_2009_0409_1435_20_149.jpg">
-      </ion-col>
-      <ion-col class="text-center">
-        <h1 style="margin-top:0; margin-bottom:2px"><b>Did something go wrong?</b></h1>
-        <br/>
-        <h2 style="margin-top:0;margin-bottom:2em;font-size:1.5em">
-          We're sorry if you had a bad experience
-        </h2>
-        <br/>
-        <br/>
-        <h3 style="margin-top:0;font-size:1.4em">
-          {{'Would you like a telephone/email follow-up from ' + account.properties.contactName + '? Your feedback remains anonymous'}}
-        </h3>
-        <ion-item>
-          <ion-input width-60 class="email" type="email" placeholder="youremail@gmail.com"></ion-input>
-          <ion-input width-40 type="tel" placeholder="206-555-5555"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-item>
-        <ion-label style="padding-left: 10px;margin-top: 2em;font-size: 1.2em;" stacked>
-          {{'Tell us the most important thing ' + account.properties.customerName + ' needs to fix'}}
-        </ion-label>
-        <ion-textarea
-          style="height: 5em;padding-left: 10px;padding-right: 1em;"
-          placeholder="E.g. Getting an appointment was painful."
-          [(ngModel)]="complaintMsg">
-        </ion-textarea>
-      </ion-item>
-    </ion-row>
-    <button ion-button (click)="navigateToNext()">I don’t have time right now</button>
-  </div>
+    <div class="m-t-4" text-center>
+        <form [formGroup]="complaintForm">
+            <ion-row>
+                <ion-col width-50>
+                    <ion-row>
+                        <ion-col width-90>
+                            <img src="http://www.nicephotomag.com/wp-content/uploads/2009/06/uniracer_2009_0409_1435_20_149.jpg">
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
+                <ion-col width-50>
+                    <h1><b>Did something go wrong?</b></h1>
+                    <h1>
+                      <small>
+                        We're sorry if you had a bad experience
+                      </small>
+                    </h1>
+                    <br/>
+                    <br/>
+                    <h3 style="margin-top:0;font-size:1.4em">
+                        {{'Would you like a telephone/email follow-up from ' + account.properties.contactName + '? Your feedback remains anonymous'}}
+                    </h3>
+                    <br>
+                    <br>
+                    <br>
+                </ion-col>
+            </ion-row>
+            <ion-row responsive-sm>
+                <ion-col>
+                    <ion-item>
+                        <ion-input auto-complete class="email" type="email" formControlName="email" placeholder="youremail@gmail.com"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-input type="tel" placeholder="206-555-5555" formControlName="tel"></ion-input>
+                    </ion-item>
+                    <validator [control]="complaintForm.controls.tel"></validator>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-item>
+                    <ion-label class="cstm-label cstm-label-pdng" stacked>
+                        {{'Tell us the most important thing ' + account.properties.customerName + ' needs to fix'}}
+                    </ion-label>
+                    <ion-textarea style="height: 5em;padding-left: 10px;padding-right: 1em;" placeholder="E.g. Getting an appointment was painful." formControlName="complaintMsg">
+                    </ion-textarea>
+                </ion-item>
+            </ion-row>
+            <ion-row>
+                <ion-col text-center>
+                    <button ion-button (click)="navigateToNext()">{{(complaintForm.value.email || complaintForm.value.tel || complaintForm.value.complaintMsg)?"Thank you!": "I don’t have time right now…"}}</button>
+                </ion-col>
+            </ion-row>
+        </form>
+    </div>
 </ion-content>
 <ion-footer>
-  <ion-navbar style="margin:0;padding:0">
-    <div style="margin-left:30%">
-      <ion-list style="margin:0px">
-        <ion-item class="reassure">
-          <ion-icon name="lock" item-left></ion-icon>
-          Your feedback <b>is always anonymous</b>
-        </ion-item>
-      </ion-list>
-    </div>
-  </ion-navbar>
+    <ion-navbar no-padding text-center>
+        <div text-center>
+            <ion-list class="reassure" no-padding no-margin text-center>
+                <ion-item class="cstm-footer-list">
+                    <ion-icon name="lock" item-left></ion-icon>
+                    Your feedback <b>is always anonymous</b>
+                </ion-item>
+            </ion-list>
+        </div>
+    </ion-navbar>
 </ion-footer>
-
-
-
-
