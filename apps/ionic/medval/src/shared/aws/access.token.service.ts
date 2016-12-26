@@ -50,7 +50,7 @@ export class AccessTokenService {
   }
 
   public startNewSession(username : string, password : string): EventEmitter<AuthResult> {
-
+    console.log("in token service: username:"+username+",password:"+password);
     this._username = username;
     var authenticationData = {
       Username : username,
@@ -108,14 +108,17 @@ export class AccessTokenService {
     var me = this;
     this._cognitoUser.authenticateUser(this.authenticationDetails, {
       onSuccess: (session) => {
-        this.authResult = new AuthResult(
+        console.log("onsuccess in token service");
+        me.authResult = new AuthResult(
           session.getAccessToken().getJwtToken(),
           session.getIdToken().getJwtToken());
-        this.loginEvent.emit(this.authResult);
+        console.log("created authresult");
+        me.loginEvent.emit(me.authResult);
+        console.log("emitted authresult");
       },
       onFailure: (err) => {
         //this.error = err;
-        this.loginEvent.error(err);
+        me.loginEvent.error(err);
       },
       newPasswordRequired: function(userAttributes, requiredAttributes) {
         // User was signed up by an admin and must provide new
@@ -151,15 +154,6 @@ export class AccessTokenService {
           }]);
       }
     });
-  }
-
-  private startAuthenticatingIntervalTimer(interval : number): void {
-    this.clearAuthenticatingIntervalTimerIfValid();
-    this.authenticatingIntervalTimer = setInterval(() => {
-      if (this.supposedToBeLoggedIn()) {
-        this.startAuthenticatingUser();
-      }
-    }, interval);
   }
 
   private clearAuthenticatingIntervalTimerIfValid() {

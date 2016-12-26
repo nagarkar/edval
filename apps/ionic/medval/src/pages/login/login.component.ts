@@ -37,20 +37,24 @@ export class LoginComponent {
     let firstLogin: boolean = true;
     //let loginEvent: EventEmitter<AuthResult>;
     //loginEvent = ;
+    console.log("Presenting loading");
     this.utils.presentLoading(2000);
+    console.log("finished presenting loading");
     let subscription: Subject<AuthResult> = this.authProvider.startNewSession(username, password).subscribe(
       (token: AuthResult) => {
+        console.log("in subscribe success");
         this.navigateToDashboardPage();
         //loginEvent.complete();
         subscription.unsubscribe();
       },
       (err) => {
+        console.log("in subscribe error:"+err); 
         this.utils.presentTopToast("Login Failed with error: " + err + ". Please try again!");
       });
-
   }
 
   private navigateToDashboardPage() {
+    console.log("about to navigate to dashboard");
     this.utils.setRoot(this.navCtrl, DashboardComponent);
   }
 

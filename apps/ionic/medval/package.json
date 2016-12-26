@@ -10,7 +10,7 @@
     "ionic:serve": "ionic-app-scripts serve",
     "cleancss": "ionic-app-scripts cleancss // Doesn't do much.",
     "android:prod": "npm run web:prod && cordova build android --release",
-    "ios:prod": "npm run web:prod && cordova build ios --release",
+    "ios:prod": "npm run build && npm run uglify:deljsmap && cordova build ios --release",
     "web:prod": "npm run ionic:serve && npm run uglify:deljsmap",
     "uglify": "uglifyjs www/build/main.js -c keep_fnames=true,unused,dead_code -o www/build/main.js",
     "deljsmap": "del www/build/main.js.map",
