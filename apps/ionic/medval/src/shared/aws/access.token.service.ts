@@ -1,5 +1,5 @@
 import {Config} from "./config";
-import {Injectable} from "@angular/core";
+import {Injectable, EventEmitter} from "@angular/core";
 import {Utils} from "../stuff/utils";
 declare let AWS:any;
 declare let AWSCognito:any;
@@ -11,9 +11,12 @@ export class AccessTokenService {
   private _username : string = null;
   private authenticationDetails: any = null;
   private authResult: AuthResult = null;
-  private error: Error = null;
+  //private error: Error = null;
 
-  private authenticatingIntervalTimer : any;
+  loginEvent: EventEmitter<AuthResult> = new EventEmitter<AuthResult>();
+  //loginFailed: EventEmitter = new EventEmitter();
+
+  private authenticatingIntervalTimer : number = 0;
 
   constructor(private utils: Utils) {}
 
@@ -27,13 +30,26 @@ export class AccessTokenService {
 
   public logout() : void {
     this._cognitoUser = null;
+    this.clearAuthenticatingIntervalTimerIfValid();
+    this.completeEvents();
+    this.reinitializeEvents();
+  }
+
+  private completeEvents(): void {
+    this.loginEvent.complete();
+    //this.loginFailed.complete();
+  }
+
+  private reinitializeEvents(): void {
+    this.loginEvent = new EventEmitter<AuthResult>();
+    //this.loginFailed = new EventEmitter();
   }
 
   public supposedToBeLoggedIn(): boolean {
     return this._cognitoUser !== null;
   }
 
-  public startNewSession(username : string, password : string): Promise<AuthResult> {
+  public startNewSession(username : string, password : string): EventEmitter<AuthResult> {
 
     this._username = username;
     var authenticationData = {
@@ -53,7 +69,10 @@ export class AccessTokenService {
     };
 
     this._cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
-    return this.startAuthenticatingUserAtIntervals();
+    this.startAuthenticatingUser();
+    this.startAuthenticatingUserAtIntervals();
+
+    return this.loginEvent;
   }
 
    get cognitoUser(): any {
@@ -61,25 +80,18 @@ export class AccessTokenService {
   }
 
 
-  private startAuthenticatingUserAtIntervals() : Promise<AuthResult> {
-    let promise : Promise<AuthResult> = this.startAuthenticatingUser();
-    this.startAuthenticatingIntervalTimer(Config.REFRESH_ACCESS_TOKEN);
-    return promise;
+  private startAuthenticatingUserAtIntervals(): void {
+    this.authenticatingIntervalTimer = setInterval(()=> {
+      this.startAuthenticatingUser()
+    }, Config.REFRESH_ACCESS_TOKEN)
   }
 
-  private startAuthenticatingUser() : Promise<AuthResult> {
-    return new Promise((resolve, reject) => {
-      var me = this;
-      this._cognitoUser.authenticateUser(this.authenticationDetails, {
-        onSuccess: (session) => {
-          this.authResult = new AuthResult(
-            session.getAccessToken().getJwtToken(),
-            session.getIdToken().getJwtToken());
-
-          me._cognitoUser.getUserAttributes((err, result) => {
+  /**
+   let error: string = null;
+   me._cognitoUser.getUserAttributes((err, result) => {
             if (err) {
-              Utils.log("Error while trying to get cognito user attributes for user {0}", this.authenticationDetails);
-              return;
+              Utils.log("Error while trying to get cognito user attributes for user {0} ,{1}", err, Utils.stringify(this.authenticationDetails));
+              error = err;
             }
             for (let i = 0; i < result.length; i++) {
               Utils.log('attribute {0}  has value {1}', result[i].getName(), result[i].getValue());
@@ -87,57 +99,73 @@ export class AccessTokenService {
                 Config.CUSTOMERID = result[i].getValue();
               }
             }
-            resolve(this.authResult);  // fulfilled successfully
           });
-        },
-        onFailure: (err) => {
-          this.error = err;
-          reject(err);
-        },
-        newPasswordRequired: function(userAttributes, requiredAttributes) {
-          // User was signed up by an admin and must provide new
-          // password and required attributes, if any, to complete
-          // authentication.
 
-          me.utils.presentAlertPrompt(
-            (data) => {
-              me._cognitoUser.completeNewPasswordChallenge(data.password, {"email": data.email}, this);
+   * @returns {Promise<T>|Promise}
+   */
+
+  private startAuthenticatingUser(): void {
+    var me = this;
+    this._cognitoUser.authenticateUser(this.authenticationDetails, {
+      onSuccess: (session) => {
+        this.authResult = new AuthResult(
+          session.getAccessToken().getJwtToken(),
+          session.getIdToken().getJwtToken());
+        this.loginEvent.emit(this.authResult);
+      },
+      onFailure: (err) => {
+        //this.error = err;
+        this.loginEvent.error(err);
+      },
+      newPasswordRequired: function(userAttributes, requiredAttributes) {
+        // User was signed up by an admin and must provide new
+        // password and required attributes, if any, to complete
+        // authentication.
+
+        me.utils.presentAlertPrompt(
+          (data) => {
+            me._cognitoUser.completeNewPasswordChallenge(data.password, {"email": data.email}, this);
+          },
+          "Please choose a new password",
+          [
+            {
+              name: 'password',
+              placeholder: 'New Password:'
             },
-            "Please choose a new password",
-            [
-              {
-                name: 'password',
-                placeholder: 'New Password:'
-              },
-              {
-                name: 'email',
-                placeholder: 'Your Email Address:'
-              }
-            ]);
-        },
-        mfaRequired: function(codeDeliveryDetails) {
-          // MFA is required to complete user authentication.
-          // Get the code from user and call
-          me.utils.presentAlertPrompt(
-            (data) => {
-              me._cognitoUser.sendMFACode(data.value, this)
-            },
-            "Provide MFA", [{
-              name: 'value',
-              placeholder: 'Provide an MFA code:'
-            }]);
-        }
-      });
+            {
+              name: 'email',
+              placeholder: 'Your Email Address:'
+            }
+          ]);
+      },
+      mfaRequired: function(codeDeliveryDetails) {
+        // MFA is required to complete user authentication.
+        // Get the code from user and call
+        me.utils.presentAlertPrompt(
+          (data) => {
+            me._cognitoUser.sendMFACode(data.value, this)
+          },
+          "Provide MFA", [{
+            name: 'value',
+            placeholder: 'Provide an MFA code:'
+          }]);
+      }
     });
   }
 
   private startAuthenticatingIntervalTimer(interval : number): void {
-    clearInterval(this.authenticatingIntervalTimer);
+    this.clearAuthenticatingIntervalTimerIfValid();
     this.authenticatingIntervalTimer = setInterval(() => {
       if (this.supposedToBeLoggedIn()) {
         this.startAuthenticatingUser();
       }
     }, interval);
+  }
+
+  private clearAuthenticatingIntervalTimerIfValid() {
+    if (this.authenticatingIntervalTimer != 0) {
+      clearInterval(this.authenticatingIntervalTimer);
+    }
   }
 }
 

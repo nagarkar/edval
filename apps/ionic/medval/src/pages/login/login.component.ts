@@ -1,11 +1,12 @@
-import {Component, OnInit} from "@angular/core";
-import {FormGroup, FormBuilder, Validators, FormControl} from "@angular/forms";
+import {Component, EventEmitter} from "@angular/core";
+import {FormGroup, Validators, FormControl} from "@angular/forms";
 import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService, AuthResult} from "../../shared/aws/access.token.service";
 import {DashboardComponent} from "../dashboard/dashboard.component";
 import {NavController} from "ionic-angular";
 import {SettingsComponent} from "../settings/settings.component";
 import {ServiceFactory} from "../../services/service.factory";
+import {Subject} from "rxjs";
 
 @Component({
   templateUrl: 'login.component.html'
@@ -24,6 +25,7 @@ export class LoginComponent {
     private serviceFactory: ServiceFactory,
     private utils: Utils) {
 
+    authProvider.logout();
   }
 
   public login() {
@@ -31,15 +33,21 @@ export class LoginComponent {
     let username: string = this.loginForm.controls[ 'username' ].value.trim();
     let password: string = this.loginForm.controls[ 'password' ].value.trim();
 
-    this.authProvider.startNewSession(username, password).then(
+    let numTrials = 2;
+    let firstLogin: boolean = true;
+    //let loginEvent: EventEmitter<AuthResult>;
+    //loginEvent = ;
+    this.utils.presentLoading(2000);
+    let subscription: Subject<AuthResult> = this.authProvider.startNewSession(username, password).subscribe(
       (token: AuthResult) => {
-        this.serviceFactory.resetRegisteredServices();
         this.navigateToDashboardPage();
-        return token;
+        //loginEvent.complete();
+        subscription.unsubscribe();
       },
       (err) => {
-        Utils.error(err);
+        this.utils.presentTopToast("Login Failed with error: " + err + ". Please try again!");
       });
+
   }
 
   private navigateToDashboardPage() {

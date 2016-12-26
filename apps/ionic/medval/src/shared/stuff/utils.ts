@@ -93,10 +93,10 @@ export class Utils {
     toast.present();
   }
 
-  public presentLoading(){
+  public presentLoading(duration?: number){
     let loading = this.loadingCtrl.create({
       spinner: 'ios',
-      duration: 5000,
+      duration: duration || 5000,
       dismissOnPageChange:true
     });
     loading.present();
