@@ -1,0 +1,55 @@
+<mdval-header></mdval-header>
+<ion-content padding>
+    <div class="m-t-4">
+        <ion-row center>
+            <ion-col text-center>
+                <h1><b>Looks like Orthodontic Excellence <br/>did well!</b></h1>
+                <br/>
+            </ion-col>
+            <ion-col width-25>
+                <img class="cstm-img" src="assets/img/strength.jpg">
+            </ion-col>
+        </ion-row>
+        <br>
+        <div>
+            <ion-row responsive-sm>
+                <ion-col width-50>
+                    <ion-item>
+                        <ion-label class="cstm-label" stacked>
+                            Add your comments or click a review link below
+                        </ion-label>
+                        <ion-textarea class="p-r-1 requestreview-textarea" placeholder="Great job!" [(ngModel)]="reviewMsg">
+                        </ion-textarea>
+                    </ion-item>
+                    <ion-row>
+                        <ion-col padding>
+                            <input type="image" src="http://www.temperaturepronwvalley.com/images/Google-Review-Button-.png" height="33em" (click)="navigateToNext()" />
+                            <input type="image" src="http://www.boudreaudentalstudio.com/images/inside/testimonials/u_fb_button.png" (click)="navigateToNext()" height="33em" />
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
+                <ion-col width-10>
+                    <ion-col text-center>
+                        <h2><small>OR</small></h2>
+                    </ion-col>
+                </ion-col>
+                <ion-col>
+                    <ion-label class="cstm-label cstm-label-pdng" stacked>Send me one reminder later</ion-label>
+                    <ion-item>
+                        <ion-label class="cstm-label" stacked>Email</ion-label>
+                        <ion-input width-60 class="email" type="email" placeholder="youremail@gmail.com"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label class="cstm-label" stacked>Phone (Text me!)</ion-label>
+                        <ion-input width-40 type="tel" placeholder="206-555-5555"></ion-input>
+                    </ion-item>
+                    <ion-row>
+                        <ion-col text-right padding>
+                            <button ion-button small (click)="navigateToNext()">No Thanks!</button>
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
+            </ion-row>
+        </div>
+    </div>
+</ion-content>

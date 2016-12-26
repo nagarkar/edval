@@ -1,19 +1,21 @@
 //import { RouterModule }   from '@angular/router';
-import {NgModule, enableProdMode} from "@angular/core";
-import {IonicApp, IonicModule} from "ionic-angular";
-import {MyApp} from "./app.component";
-import {LoginComponent} from "../pages/login/login.component";
-import {Utils} from "../shared/stuff/utils";
-import {Config} from "../shared/aws/config";
-import {AccessTokenService} from "../shared/aws/access.token.service";
+import { NgModule } from '@angular/core';
+import {IonicApp, IonicModule} from 'ionic-angular';
+import { MyApp } from './app.component';
+import { LoginComponent } from '../pages/login/login.component';
+import { Utils } from "../shared/stuff/utils";
+import { Config } from "../shared/aws/config";
+import { AccessTokenService } from "../shared/aws/access.token.service";
 import {AccountComponent} from "../pages/account/account.component";
 import {DashboardComponent} from "../pages/dashboard/dashboard.component";
 import {StaffComponent} from "../pages/staff/staff.component";
 import {TermComponent} from "../pages/dashboard/terms/term.component";
 import {PolicyComponent} from "../pages/dashboard/policy/policy.component";
-import {HttpModule, JsonpModule} from "@angular/http";
+import { HttpModule, JsonpModule } from '@angular/http';
 import {RatingComponent} from "../shared/rating/rating.component";
+import {SurveyComponent} from "../pages/survey/survey.component";
 import {StartComponent} from "../pages/survey/start/start.component";
+import {MetricComponentLegacy} from "../pages/survey/metric.legacy/metric.legacy.component";
 import {ThanksComponent} from "../pages/survey/thanks/thanks.component";
 import {StaffEditComponent} from "../pages/staff/staff.edit.component";
 import {CarouselComponent} from "../pages/survey/carousel/carousel.component";
@@ -28,6 +30,8 @@ import {LiveSessionService} from "../services/session/live";
 import {MockSessionService} from "../services/session/mock";
 import {SessionService} from "../services/session/delegator";
 import {FeedbackComponent} from "../shared/feedback/feedback.component";
+
+import {enableProdMode} from '@angular/core';
 import {HeaderComponent} from "../shared/header/header.component";
 import {MetricService} from "../services/metric/delegator";
 import {MockMetricService} from "../services/metric/mock";
@@ -46,31 +50,23 @@ import {LiveSurveyService} from "../services/survey/live";
 import {StartWithSurveyOption} from "../pages/survey/startWithSurveyOption/start.with.survey.option.component";
 import {TopInfluencerComponent} from "../pages/survey/TopInfluencerComponent/top.influencer.component";
 import {HandleComplaintComponent} from "../pages/survey/HandleComplaintComponent/handle.complaint.component";
+import {RequestReviewComponent} from "../pages/survey/RequestReviewComponnet/requestreview.component";
 import {SingleMetricComponent} from "../pages/survey/singlemetric/single.metric.component";
 import {ToplineForStaffComponent} from "../pages/survey/topline.for.staff/topline.for.staff.component";
 import {MultimetricComponent} from "../pages/survey/multimetric/multimetric.component";
-import {RequestReviewComponent2} from "../pages/survey/RequestReviewComponent2/requestreview.component2";
-import {CustomerTextEmailComponent} from "../pages/survey/RequestReviewComponent2/customer.text.email.component";
-import {SReplacer} from "../pipes/SReplacer";
-import {RotatingCarousel} from "../pages/survey/carousel2/rotatingcarousel.component";
+
+import { ValidationService } from '../shared/components/validator/validation.service';
+import { ValidatorComponent } from '../shared/components/validator/validator.component';
+import { FormsModule } from "@angular/forms";
 
 enableProdMode();
 
 @NgModule({
   declarations: [
     MyApp,
-
-    /** Pipes **/
-    SReplacer,
-
-
     LoginComponent,
     HeaderComponent,
     CarouselComponent,
-    RotatingCarousel,
-
-    /** Common **/
-    CustomerTextEmailComponent,
 
     /** Administrative Components */
     DashboardComponent,
@@ -84,12 +80,14 @@ enableProdMode();
     /** Survey Components */
     RatingComponent,
     SurveySelectionComponent,
+    SurveyComponent,
+    MetricComponentLegacy,
     ThanksComponent,
     StartComponent,
     StartWithSurveyOption,
     TopInfluencerComponent,
     HandleComplaintComponent,
-    RequestReviewComponent2,
+    RequestReviewComponent,
     SingleMetricComponent,
     PickStaffComponent,
     FeedbackComponent,
@@ -103,24 +101,23 @@ enableProdMode();
 
     /** Metric Management */
     MetricSummaryComponent,
-    MetricDetailComponent
+    MetricDetailComponent,
+
+    /**validation purpose*/
+    ValidatorComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
     HttpModule,
-    JsonpModule
+    JsonpModule,
+    FormsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-
     LoginComponent,
     HeaderComponent,
     CarouselComponent,
-    RotatingCarousel,
-
-    /** Common **/
-    CustomerTextEmailComponent,
 
     /** Administrative Components */
     DashboardComponent,
@@ -134,18 +131,19 @@ enableProdMode();
     /** Survey Components */
     RatingComponent,
     SurveySelectionComponent,
+    SurveyComponent,
+    MetricComponentLegacy,
     ThanksComponent,
     StartComponent,
     StartWithSurveyOption,
     TopInfluencerComponent,
     HandleComplaintComponent,
-    RequestReviewComponent2,
+    RequestReviewComponent,
     SingleMetricComponent,
     PickStaffComponent,
     FeedbackComponent,
     ToplineForStaffComponent,
     MultimetricComponent,
-
     /** Reporting */
     NpsTrendComponent,
     RevvolveMetricsComponent,
@@ -165,7 +163,8 @@ enableProdMode();
     LiveSessionService, MockSessionService, SessionService,
     LiveMetricService, MockMetricService, MetricService,
     LiveSurveyService, MockSurveyService, SurveyService,
-    ServiceFactory
+    ServiceFactory,
+    ValidationService
   ]
 })
 
