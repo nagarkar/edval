@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {
   ActionSheetController, AlertController, LoadingController, Alert, ToastController,
-  ModalController, Modal, Platform, NavController
+  ModalController, Modal, Platform, NavController, Loading
 } from "ionic-angular";
 import {CameraOptions, Camera, SpinnerDialog} from "ionic-native";
 import {ErrorType} from "./error.types";
@@ -93,13 +93,14 @@ export class Utils {
     toast.present();
   }
 
-  public presentLoading(duration?: number){
+  public presentLoading(duration?: number): Loading {
     let loading = this.loadingCtrl.create({
       spinner: 'ios',
       duration: duration || 5000,
-      dismissOnPageChange:true
+      dismissOnPageChange: true
     });
     loading.present();
+    return loading;
   }
 
   public uploadImage() : Promise<string> {

@@ -3,7 +3,7 @@ import {FormGroup, Validators, FormControl} from "@angular/forms";
 import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService, AuthResult} from "../../shared/aws/access.token.service";
 import {DashboardComponent} from "../dashboard/dashboard.component";
-import {NavController} from "ionic-angular";
+import {NavController, Loading} from "ionic-angular";
 import {SettingsComponent} from "../settings/settings.component";
 import {ServiceFactory} from "../../services/service.factory";
 import {Subject} from "rxjs";
@@ -33,23 +33,25 @@ export class LoginComponent {
     let username: string = this.loginForm.controls[ 'username' ].value.trim();
     let password: string = this.loginForm.controls[ 'password' ].value.trim();
 
-    let numTrials = 2;
-    let firstLogin: boolean = true;
-    //let loginEvent: EventEmitter<AuthResult>;
-    //loginEvent = ;
     console.log("Presenting loading");
-    this.utils.presentLoading(2000);
+    let loading: Loading = this.utils.presentLoading(2000);
     console.log("finished presenting loading");
+
+    // Start new session and dismiss loading screen on success/failure (this dismiss step is required for ios/not for web)
     let subscription: Subject<AuthResult> = this.authProvider.startNewSession(username, password).subscribe(
       (token: AuthResult) => {
         console.log("in subscribe success");
         this.navigateToDashboardPage();
-        //loginEvent.complete();
         subscription.unsubscribe();
+        loading.dismissAll();
       },
       (err) => {
-        console.log("in subscribe error:"+err); 
+        console.log("in subscribe error:"+err);
         this.utils.presentTopToast("Login Failed with error: " + err + ". Please try again!");
+        loading.dismissAll();
+      },
+      () => {
+        loading.dismissAll();
       });
   }
 
