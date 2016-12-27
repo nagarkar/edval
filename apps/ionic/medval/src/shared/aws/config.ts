@@ -16,7 +16,7 @@ export class Config {
     ClientId : 's8koda3rkc3rsjt3fdlvdnvia' // Your client metricId here
   };
 
-  public static REFRESH_ACCESS_TOKEN: number = 5* 1000;
+  public static REFRESH_ACCESS_TOKEN: number = 30 * 60 * 1000;
 
   public static PAGE_TRANSITION_TIME: number = 0.5 * 1000;
 
