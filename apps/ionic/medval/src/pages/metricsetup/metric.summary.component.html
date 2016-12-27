@@ -1,14 +1,128 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="green">
     <ion-title>Setup Metrics</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <div *ngFor="let metricBush of subjectMetricMap.values()">
+<ion-content padding class="metrics-page">
+  <!-- <div *ngFor="let metricBush of subjectMetricMap.values()">
     <metric-detail [metricBush]="metricBush" (displayToggled)="updateDisplayState($event)">
     </metric-detail>
   </div>
   <button ion-button (click)="save()">Save</button>
-  <button ion-button (click)="cancel()">Cancel</button>
+  <button ion-button (click)="cancel()">Cancel</button> -->
+  <div class="metric-title" padding><span class="metric-title-content">TOP LEVEL METRICS </span><button ion-button>ADD</button></div>
+  <ion-row class="top-level-metrics">
+    <ion-col width-25 class="box main-metrics">
+      <ion-searchbar></ion-searchbar>
+      <ion-list class="metrics-search-list">
+        <ion-item>
+          Role 1
+        </ion-item>
+      </ion-list>
+    </ion-col>
+    <ion-col width-75 class="metrics-details">
+      <ion-row class="box">
+        <ion-col class="no-padding-top">
+          <ion-list>
+            <ion-row>
+              <ion-col width-50>
+                <ion-item class="item-clean">
+                <ion-label stacked>Subject (Type, Value)<span class="required">*</span></ion-label>
+                </ion-item>
+                <ion-row class="small-select-row">
+                  <ion-col width-25 class="small-select">
+                    <ion-select [(ngModel)]="role" class="width-25">
+                      <ion-option value="nes">NES</ion-option>
+                      <ion-option value="ps">PlayStation</ion-option>
+                    </ion-select>
+                  </ion-col>
+                  <ion-col width-75>
+                    <ion-select [(ngModel)]="md" class="width-75">
+                      <ion-option value="nes">NES</ion-option>
+                      <ion-option value="ps">PlayStation</ion-option>
+                    </ion-select>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+              <ion-col width-25>
+                <ion-item>
+                  <ion-label stacked>Max</ion-label>
+                  <ion-input placeholder="0" type="text"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col width-25>
+                <ion-item>
+                  <ion-label stacked>Min</ion-label>
+                  <ion-input placeholder="5" type="text"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col width-50>
+                <ion-item>
+                  <ion-label stacked>Name<span class="required">*</span></ion-label>
+                  <ion-input placeholder="Dentist NPS" type="text"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label stacked>Labels</ion-label>
+                  <ion-input placeholder="Never, Maybe, Always" type="text"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col width-50>
+                <ion-item>
+                  <ion-label stacked>Question<span class="required">*</span></ion-label>
+                  <ion-textarea placeholder="Will you recommend Dr Lorem Ipsum to friends and family"></ion-textarea>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      <div class="metric-title" padding>DRILL DOWN METRICS FOR THE  <button ion-button>ADD</button></div>
+      <ion-row class="drill-down-metrics">
+        <ion-col class="box drill-down-search">
+          <ion-searchbar></ion-searchbar>
+          <ion-list>
+            <ion-item >
+              Clarity of treatment plan
+            </ion-item>
+          </ion-list>
+        </ion-col>
+        <ion-col width-50 class="box">
+          <ion-list>
+            <ion-item class="item-clean">
+              <ion-label stacked>Name<span class="required">*</span></ion-label>
+              <ion-input placeholder="Clarity of the treatment plan" type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label stacked>Question<span class="required">*</span></ion-label>
+              <ion-textarea placeholder="Will you recommend Dr Lorem Ipsum to friends and family"></ion-textarea>
+            </ion-item>
+            <ion-row>
+              <ion-col width-50>
+                <ion-item>
+                  <ion-label stacked>Labels</ion-label>
+                  <ion-input placeholder="Never, Maybe, Always" type="text"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col width-25>
+                <ion-item>
+                  <ion-label stacked>Max</ion-label>
+                  <ion-input placeholder="0" type="text"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col width-25>
+                <ion-item>
+                  <ion-label stacked>Min</ion-label>
+                  <ion-input placeholder="5" type="text"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+
+    </ion-col>
+  </ion-row>
 </ion-content>
