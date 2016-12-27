@@ -4,6 +4,10 @@ import {Utils} from "../stuff/utils";
 declare let AWS:any;
 declare let AWSCognito:any;
 
+/**
+ * For additional implementation details:
+ * <link>http://docs.aws.amazon.com/cognito/latest/developerguide/using-amazon-cognito-user-identity-pools-javascript-examples.html</link>
+ */
 @Injectable()
 export class AccessTokenService {
 
@@ -50,7 +54,7 @@ export class AccessTokenService {
   }
 
   public startNewSession(username : string, password : string): EventEmitter<AuthResult> {
-    console.log("in token service: username:"+username+",password:"+password);
+    Utils.log("in token service: username:"+username+",password:"+password);
     this._username = username;
     var authenticationData = {
       Username : username,
@@ -108,13 +112,13 @@ export class AccessTokenService {
     var me = this;
     this._cognitoUser.authenticateUser(this.authenticationDetails, {
       onSuccess: (session) => {
-        console.log("onsuccess in token service");
+        Utils.log("onsuccess in token service");
         me.authResult = new AuthResult(
           session.getAccessToken().getJwtToken(),
           session.getIdToken().getJwtToken());
-        console.log("created authresult");
+        Utils.log("created authresult");
         me.loginEvent.emit(me.authResult);
-        console.log("emitted authresult");
+        Utils.log("emitted authresult");
       },
       onFailure: (err) => {
         //this.error = err;

@@ -1,0 +1,15 @@
+<ion-footer>
+  <ion-navbar style="margin:0;padding:0">
+    <div style="margin-left:30%">
+      <ion-list style="margin:0px">
+        <ion-item *ngIf="reassure" class="reassure">
+          <ion-icon name="lock" item-left></ion-icon>
+          Your feedback <b>is always anonymous</b>
+        </ion-item>
+        <ion-item *ngIf="!reassure" class="reassure">
+          Revvolve Metrics is developed by HC Technology Inc.
+        </ion-item>
+      </ion-list>
+    </div>
+  </ion-navbar>
+</ion-footer>

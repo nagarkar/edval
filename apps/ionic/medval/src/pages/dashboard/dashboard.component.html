@@ -1,16 +1,4 @@
-<ion-header>
-  <ion-navbar color="green">
-    <ion-title>Dashboard</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="gotoSettings()">
-        <ion-icon name="remove"></ion-icon>
-      </button>
-      <button ion-button icon-only (click)="gotoHome()">
-        <ion-icon name="home"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
-</ion-header>
+<mdval-header [home]="'login'"></mdval-header>
 <ion-content padding class="outer-content">
   <ion-grid>
     <ion-row>

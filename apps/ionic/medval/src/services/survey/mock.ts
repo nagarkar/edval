@@ -53,7 +53,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         {
           component:"PickStaffComponent",
           params: {
-            roles: ["MD", "OrthoAssitant"]
+            roles: ["Orthodontic Assistant", "MD", "FrontOffice"]
           }
         },
         {
@@ -124,12 +124,6 @@ export class MockSurveyService extends AbstractMockService<Survey> {
       },
       workflow:[
         {
-          component:"PickStaffComponent",
-          params: {
-            roles: ["MD", "OrthoAssitant"]
-          }
-        },
-        {
           component:"ToplineForStaffComponent",
           executeIf: 'session.properties.selectedStaffUserNames.length > 0'
         },
@@ -156,7 +150,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         {
           component:"PickStaffComponent",
           params: {
-            roles: ["MD", "OrthoAssitant"]
+            roles: ["MD", "Orthodontic Assitant"]
           }
         },
         {

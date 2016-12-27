@@ -1,12 +1,6 @@
-<ion-header>
-  <ion-navbar color="revvolve">
-    <ion-title style="float:left;">Login</ion-title>
-    <ion-icon name="home" style="float:right;width:40px;padding:5px" (click)="gotoHome()"></ion-icon>
-    <ion-icon name="remove" style="float:right;width:40px;padding:5px" (click)="gotoSettings()"></ion-icon>
-  </ion-navbar>
-</ion-header>
+<mdval-header [title]="'Login'" [home]="'settings'"></mdval-header>
 <ion-content padding class="login-page">
-  <div class="revvolve-logo" text-center>
+  <div class="revvolve-logo" text-center style="margin-top:4em">
     <img src="assets/img/logo.png" alt="">
   </div>
 

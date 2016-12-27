@@ -6,6 +6,7 @@ import {RegisterComponent} from "../../../services/survey/survey.navigator";
 import {SurveyNavUtils} from "../SurveyNavUtils";
 import {CustomerTextEmailComponent} from "./customer.text.email.component";
 import {SessionProperties} from "../../../services/session/schema";
+import {InAppBrowser} from "ionic-native";
 
 @Component({
   templateUrl: 'requestreview.component2.html',
@@ -15,6 +16,7 @@ import {SessionProperties} from "../../../services/session/schema";
 export class RequestReviewComponent2 {
 
   public reviewMsg: string;
+  private browser : InAppBrowser = null;
 
   constructor(
     private sessionSvc: SessionService,
@@ -30,7 +32,27 @@ export class RequestReviewComponent2 {
   }
 
   googleReview() {
-    this.saveReview('google');
+    let abtest: boolean = Math.random() > 0.5;
+    if (abtest) {
+      let url = 'https://www.google.com/search?q=gentle+dental+redmond&oq=gentle+dental+redmond&lrd=0x549072ac7b352b9d:0x4d08f342bcdf4b97,1,#lrd=0x549072ac7b352b9d:0x4d08f342bcdf4b97,3,';
+      let options = 'location=no,toolbar=yes,hardwareback=no,clearcache=yes,clearsessioncache=yes,closebuttoncaption=Back';
+      this.browser = new InAppBrowser(url, '_blank', options);
+
+      this.browser.on("loaderror")
+        .subscribe(
+          (res) => {
+            let options = 'location=no,toolbar=yes,hardwareback=no,closebuttoncaption=Back';
+            this.browser = new InAppBrowser(url, '_blank', options);
+          },
+          err => {
+            Utils.error("InAppBrowser loaderror Event Error: " + err);
+          });
+      setTimeout(() => {
+        this.browser.close();
+      }, 1000 * 60 * 5);
+    } else {
+      this.saveReview('google');
+    }
   }
 
   facebookReview() {
@@ -52,13 +74,6 @@ export class RequestReviewComponent2 {
       this.updateSessionReviewData(data.email, data.phone, reviewSite);
     });
     profileModal.present(); //profileModal.
-    /*
-    this.utils.presentProfileModal(CustomerTextEmailComponent, {
-      message: message,
-    }).onDidDismiss((data) =>{
-      this.updateSessionReviewData(data.email, data.phone, reviewSite);
-    });
-    */
   }
 
   private updateSessionReviewData(email: string, phone: string, preferredReviewSite: string) {

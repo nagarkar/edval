@@ -29,7 +29,7 @@ export class Utils {
   public static log(message: string, ...args: string[]) : void {
     let fmsg = Utils.format(message, ...args);
     this.logs.push(fmsg);
-    if (console) {
+    if (console && window['REVVOLVE_PROD_ENV'] == false) {
       console.log(fmsg);
     }
   }
@@ -214,7 +214,7 @@ export class Utils {
           text: 'Cancel',
           role: 'cancel',
           handler: (data: any) => {
-            console.log('Cancel clicked');
+            Utils.log('Cancel clicked');
           }
         },
         {
@@ -242,7 +242,7 @@ export class Utils {
           text: 'Cancel',
           role: 'cancel',
           handler: (data: any) => {
-            console.log('Cancel clicked');
+            Utils.log('Cancel clicked');
           }
         },
         {

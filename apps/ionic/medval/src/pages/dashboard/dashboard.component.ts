@@ -11,6 +11,7 @@ import {AllTrendsComponent} from "../charts/all.trends";
 import {MetricSummaryComponent} from "../metricsetup/metric.summary.component";
 import {StartWithSurveyOption} from "../survey/startWithSurveyOption/start.with.survey.option.component";
 import {SettingsComponent} from "../settings/settings.component";
+import {SurveySelectionComponent} from "../survey/surveyselection/surveyselection.component";
 
 @Component({
   templateUrl: 'dashboard.component.html'
@@ -48,7 +49,7 @@ export class DashboardComponent {
   }
 
   gotoSurveyPage() {
-    this.utils.setRoot(this.navCtrl, StartWithSurveyOption);
+    this.utils.setRoot(this.navCtrl, SurveySelectionComponent);
   }
 
   openNavGetHelpPage() {

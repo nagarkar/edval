@@ -46,6 +46,9 @@ export class StartWithSurveyOption extends SurveySelectionComponent {
   }
 
   pickSurvey(idx: number){
+    if (this.sessionSvc.hasCurrentSession()) {
+      this.sessionSvc.closeCurrentSession();
+    }
     this.sessionSvc.newCurrentSession(this.surveys[idx].id);
     SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl, this.utils);
   }

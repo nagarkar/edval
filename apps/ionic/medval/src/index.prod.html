@@ -24,11 +24,13 @@
   <script src="assets/js/amazon-cognito-identity.min.js"></script>
   <script src="assets/js/aws-sdk.js"></script>
 
-  <!-- un-comment this code to enable account worker
+  <!-- un-comment this code to enable service worker. This is usefor for building progressive web apps (PWA):
+      http://blog.ionic.io/announcing-pwa-support-in-ionic-2/
+
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('account-worker.js')
-        .then(() => console.log('account worker installed'))
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('service worker installed'))
         .catch(err => console.log('Error', err));
     }
   </script>-->

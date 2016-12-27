@@ -39,8 +39,8 @@ export class SessionService extends DelegatingService<Session> {
     let session: Session = new Session();
     session.properties.surveyId = surveyId;
     this.surveyNavigator = new SurveyNavigator(session, this.surveyService.getCached(surveyId), this.metricSvc);
-    super.create(this.getCurrentSession());
-    return this.getCurrentSession();
+    super.create(session);
+    return session;
   }
 
   closeCurrentSession() {

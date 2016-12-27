@@ -1,4 +1,4 @@
-<ion-content class="has-header" has-header>
+<ion-content>
   <div class="carousel-area">
     <ion-slides #mySlider [options]="sliderOptions">
       <ion-slide *ngFor="let item of items; let i = index" (tap)="selectItem(item)">
@@ -36,9 +36,6 @@
     <ion-row text-center>
       <ion-col>
         <button ion-button color="green" (click)="finished()">Next</button>
-        <div class="skip">
-          Skip, <span><strong>Continue this later</strong></span>
-        </div>
       </ion-col>
     </ion-row>
   </ion-grid>

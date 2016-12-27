@@ -33,20 +33,20 @@ export class LoginComponent {
     let username: string = this.loginForm.controls[ 'username' ].value.trim();
     let password: string = this.loginForm.controls[ 'password' ].value.trim();
 
-    console.log("Presenting loading");
+    Utils.log("Presenting loading");
     let loading: Loading = this.utils.presentLoading(2000);
-    console.log("finished presenting loading");
+    Utils.log("finished presenting loading");
 
     // Start new session and dismiss loading screen on success/failure (this dismiss step is required for ios/not for web)
     let subscription: Subject<AuthResult> = this.authProvider.startNewSession(username, password).subscribe(
       (token: AuthResult) => {
-        console.log("in subscribe success");
+        Utils.log("in subscribe success");
         this.navigateToDashboardPage();
         subscription.unsubscribe();
         loading.dismissAll();
       },
       (err) => {
-        console.log("in subscribe error:"+err);
+        Utils.log("in subscribe error:"+err);
         this.utils.presentTopToast("Login Failed with error: " + err + ". Please try again!");
         loading.dismissAll();
       },
@@ -56,7 +56,7 @@ export class LoginComponent {
   }
 
   private navigateToDashboardPage() {
-    console.log("about to navigate to dashboard");
+    Utils.log("about to navigate to dashboard");
     this.utils.setRoot(this.navCtrl, DashboardComponent);
   }
 

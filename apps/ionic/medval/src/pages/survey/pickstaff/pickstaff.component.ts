@@ -4,7 +4,7 @@ import {StaffService} from "../../../services/staff/delegator";
 import {SlideItem} from "../carousel/carousel.schema";
 import {Staff} from "../../../services/staff/schema";
 import {CarouselComponent} from "../carousel/carousel.component";
-import {NavController} from "ionic-angular";
+import {NavController, NavParams} from "ionic-angular";
 import {LoginComponent} from "../../login/login.component";
 import {SessionService} from "../../../services/session/delegator";
 import {ServiceFactory} from "../../../services/service.factory";
@@ -18,6 +18,7 @@ import {SurveyNavUtils} from "../SurveyNavUtils";
 @RegisterComponent
 export class PickStaffComponent {
 
+  private roles: string[] = [];
   slides: SlideItem[] = [];
   slideToStaffMap: Map<number, Staff> = new Map<number, Staff>();
 
@@ -27,8 +28,10 @@ export class PickStaffComponent {
     private utils: Utils,
     private navCtrl: NavController,
     private sessionSvc: SessionService,
-    private staffSvc: StaffService) {
+    private staffSvc: StaffService,
+    navParams: NavParams) {
 
+    this.roles = navParams.get("roles") || [];
     this.setupSlides();
   }
 
@@ -79,6 +82,17 @@ export class PickStaffComponent {
         let count = 0;
         //this.utils.log("got staff for carousel " + Utils.stringify(staffList));
         this.slides = staffList
+          .sort((a: Staff, b: Staff) => {
+            let aIndex: number = this.roles.indexOf(a.role);
+            let bIndex: number = this.roles.indexOf(b.role);
+            if (aIndex < 0) {
+              return -1; // consider a < b
+            }
+            if (bIndex < 0) {
+              return 1; // consider b < a
+            }
+            return aIndex - bIndex; // If a.role needs to sort first, a.index will be lower.
+          })
           .filter((staff: Staff) => {
             return staff.role != "ADMIN"
           })

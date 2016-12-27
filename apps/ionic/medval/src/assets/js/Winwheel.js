@@ -566,7 +566,7 @@ Winwheel.prototype.drawSegmentImages = function()
                 }
                 else
                 {
-                    console.log('Segment ' + x + ' imgData is not loaded');
+                    // For debug, Log:  console . log('Segment ' + x + ' imgData is not loaded');
                 }
             }
         }
@@ -1909,17 +1909,17 @@ Winwheel.prototype.getRandomForSegment = function(segmentNumber)
             }
             else
             {
-               console.log('Segment size is too small to safely get random angle inside it');
+               // For debugging, log: console .log('Segment size is too small to safely get random angle inside it');
             }
         }
         else
         {
-            console.log('Segment ' + segmentNumber + ' undefined');
+          // For debugging, log: console . log('Segment ' + segmentNumber + ' undefined');
         }
     }
     else
     {
-        console.log('Segment number not specified');
+      // For debugging, log: console .log('Segment number not specified');
     }
 
     return stopAngle;

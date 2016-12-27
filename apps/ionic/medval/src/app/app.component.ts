@@ -5,7 +5,7 @@ import {ServiceFactory} from "../services/service.factory";
 import {StartWithSurveyOption} from "../pages/survey/startWithSurveyOption/start.with.survey.option.component";
 import {AllPromoters, StrongDetractor, StrongPromoter, AnyDetractors} from "../services/survey/survey.functions";
 import {RotatingCarousel} from "../pages/survey/rotatingcarousel/rotatingcarousel.component";
-import {WheelComponent} from "../pages/wheel/wheel.component";
+import {WheelComponent} from "../shared/wheel/wheel.component";
 import {ThanksComponent} from "../pages/survey/thanks/thanks.component";
 
 
@@ -28,13 +28,6 @@ export class MyApp {
       new StrongDetractor();
       serviceFactory.resetRegisteredServices(); // this needs to be done first, esp in mock mode.
 
-
-      /*
-      let s: Staff = new Staff();
-      s.username = "chinmay";
-      let x: SReplacer = new SReplacer();
-      console.log(x.transform("staff? 'Hello ' + staff.username : 'Role message'", {staff: s}));
-      */
     });
   }
 }

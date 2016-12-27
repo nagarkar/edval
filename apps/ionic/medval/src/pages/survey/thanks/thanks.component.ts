@@ -64,7 +64,7 @@ export class ThanksComponent extends MedvalComponent implements AfterViewInit {
     this.message = navParams.get('message');
     this.processMessage(accountSvc);
 
-    let wfProperties = sessionService.surveyNavigator.survey.workflowProperties;
+    let wfProperties = sessionService.hasCurrentSession() ? sessionService.surveyNavigator.survey.workflowProperties: {};
     this.showJokes = wfProperties.showJokes || false;
     this.showWheel = wfProperties.showWheel || false;
     if (this.showWheel) {
@@ -75,14 +75,8 @@ export class ThanksComponent extends MedvalComponent implements AfterViewInit {
     }
   }
 
-  ngOnDestroy() {
-    if (this.sessionService.hasCurrentSession()) {
-      this.sessionService.closeCurrentSession();
-    }
-  }
-
   public restartSurvey() {
-    this.ngOnDestroy();
+    this.closeSession();
     this.utils.push(this.navCtrl, StartWithSurveyOption);
   }
 
@@ -92,6 +86,11 @@ export class ThanksComponent extends MedvalComponent implements AfterViewInit {
     }, Config.TIME_OUT_AFTER_SURVEY)
   }
 
+  private closeSession() {
+    if (this.sessionService.hasCurrentSession()) {
+      this.sessionService.closeCurrentSession();
+    }
+  }
   showWheelMessage() {
 
   }

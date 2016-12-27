@@ -42,31 +42,7 @@
     <ion-row text-center>
       <ion-col>
         <button ion-button color="green" (click)="finished()">Next</button>
-        <div class="skip">
-          Skip, <span><strong>Continue this later</strong></span>
-        </div>
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
-
-<!--
-
-
-<div class="carousel-container">
-    <div class="carousel">
-      <div radio-group class="carousel-slide-item"
-         *ngFor="let item of items"
-         [style.background-color]="item.color"
-         [ngStyle]="{'transform': 'rotateY(-'+item.currentPlacement+'deg)  translateZ('+tz+'px)', '-webkit-transform': 'rotateY('+item.currentPlacement+'deg)  translateZ('+tz+'px)', '-ms-transform': 'rotateY('+item.currentPlacement+'deg)  translateZ('+tz+'px)',
-        '-o-transform': 'rotateY('+item.currentPlacement+'deg)  translateZ('+tz+'px)'}"
-         (swipeleft)="onSwipeLeft($event);"
-         (swiperight)="onSwipeRight($event);">
-        <img src="{{item.imgUrl}}" style="width:200px;height:200px;margin-top: 10px;" />
-        <p>{{item.description}}</p>
-        <ion-checkbox [(ngModel)]="item.isSelected" (click)="selectItem(item)" ></ion-checkbox>
-      </div>
-    </div>
-  </div>
-
--->

@@ -1,18 +1,7 @@
-<mdval-header></mdval-header>
+<mdval-header [home]="survey"></mdval-header>
 <ion-content>
-  <h2 style="margin-top:3em" class="title" text-center>Please tell us who worked with you today ?</h2>
+  <h2 style="margin-top:3em" class="title" text-center>Tell us who worked with you today!</h2>
   <carousel *ngIf="slides.length < 4" [slides]="slides" (done)="navigateToNext()" (selectSlide)="selectStaff($event);"></carousel>
   <rotating-carousel *ngIf="slides.length > 4" [slides]="slides" (done)="navigateToNext()" (imageClicked)="imageClick($event);"></rotating-carousel>
 </ion-content>
-<ion-footer>
-  <ion-navbar style="margin:0;padding:0">
-    <div style="margin-left:20%">
-      <ion-list style="margin:0px">
-        <ion-item class="reassure">
-          <ion-icon name="lock" item-left></ion-icon>
-          All feedback is anonymous and considered in aggregate only.
-        </ion-item>
-      </ion-list>
-    </div>
-  </ion-navbar>
-</ion-footer>
+<mdval-footer [reassure]="true"></mdval-footer>

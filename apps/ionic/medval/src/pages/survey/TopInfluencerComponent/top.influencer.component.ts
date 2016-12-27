@@ -27,7 +27,6 @@ export class TopInfluencerComponent {
   private numSelections: number;
   private offsetRange: number;
   private rankedMetrics: Metric[] = [];
-  private images: string[] = []
 
   message: string;
   displayMetrics: Metric[] = [];
@@ -58,9 +57,7 @@ export class TopInfluencerComponent {
 
     this.displayAttribute = this.valueOrderDesc ? 'positiveImpact' : 'improvement';
 
-    this.images = this.setupImages();
-    this.leftImage = this.images[0];
-    this.setupImageCycling();
+    this.leftImage = this.pickRandomImage();
 
     this.displayMetrics = this.setupDisplayMetrics(metricSvc);
 
@@ -81,28 +78,24 @@ export class TopInfluencerComponent {
     metric['isSelected'] = true;
   }
 
-  private setupImages() {
+  private pickRandomImage() {
     if (this.valueOrderDesc) {
-      return [
+      return Utils.shuffle([
         'http://blog.insurancejobs.com/wp-content/uploads/2012/04/InterviewQuestionWhatAreYourWeaknesses.jpg',
         'http://www.medpreps.com/wp-content/uploads/2012/08/interview-strength.jpg',
         'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcREOSr8_qh3jy6hF7c0ZbtboZxRXtqdn104ZjugwFkEFcjDRGR2ug',
         'http://www.sqleadership.com/wp-content/uploads/2010/06/strength-weights1.jpg'
-      ]
+      ])[0];
     } else {
-      return [
+      return Utils.shuffle([
         'http://blog.insurancejobs.com/wp-content/uploads/2012/04/InterviewQuestionWhatAreYourWeaknesses.jpg',
         'https://s-media-cache-ak0.pinimg.com/236x/64/61/bb/6461bb2129d84e14e52f80c9d5762a04.jpg',
         'http://www.desibucket.com/dbp/01/60737/60737.jpg',
         'http://www.positivemotivation.net/wp-content/uploads/2012/10/Criticism-Quotes-To-avoid-criticism-do-nothing-say-nothing-be-nothing..jpg',
         'http://www.clipartkid.com/images/280/mistake-clipart-fault-error-mistake-and-flaws-OI2dFx-clipart.jpg',
-      ]
+      ])[0];
     }
 
-  }
-  private setupImageCycling() {
-    new ObjectCycler<string>(Config.TIME_OUT_AFTER_SURVEY/2, ...this.images)
-      .onNewObj.subscribe((next:string) => { this.leftImage = next;});
   }
 
   private setupDisplayMetrics(metricSvc: MetricService) {

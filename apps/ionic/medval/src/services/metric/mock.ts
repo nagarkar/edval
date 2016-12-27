@@ -53,7 +53,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "org",
       properties: {
-        conversationSetup: "Lets get the most important question out of the way!",
+        conversationSetup: "'Your overall rating for ' + account.properties.customerName + ''",
         question: "'Would you recommend ' + account.properties.customerName + ' to your friends and family?'",
         metricName: "",
         metricDescription: "Organization Level Metric. This metric is alrways present by default and cannot be deleted",
@@ -188,7 +188,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       properties: {
         metricName: 'Was the office staff professional and helpful?',
         question: 'Did the Financial Coordinator present financial information clearly & concisely',
-        positiveImpact: 'Your Financial Coordinator presented financial information clearly & concisely',
+        positiveImpact: 'The Financial Coordinator presented financial information clearly & concisely',
         improvement: 'The front office staff need to be more professional and helpful!',
         definition: {
           npsType: {

@@ -1,62 +1,33 @@
-<mdval-header></mdval-header>
+<mdval-header [home]="survey"></mdval-header>
 <ion-content padding style="text-align:center">
-  <div style="text-align:center;margin-top: 3em">
-    <ion-row>
-      <ion-col width-40>
-        <img src={{leftImage}}>
-      </ion-col>
-      <ion-col class="text-center new-card-md">
-        <p class="centeredHeading">
-        <h1 style="margin-top:0px; margin-bottom:2px"><b>{{message}}</b></h1>
-        <ion-grid class="pos-rel">
-          <ion-row center *ngFor="let i of rows">
-            <ion-col  *ngFor="let metric of displayMetrics | slice:(i*numCols):(i+1)*numCols; let j = index;">
-              <div class="row responsive-md pos-rel">
-                <!--button *ngIf="metric['isSelected']" class="selected-icon" ion-button color="green"><ion-icon name="checkmark"></ion-icon></button-->
-                <ion-badge *ngIf="metric['isSelected']" class="new-badge">{{rankedMetrics.indexOf(metric) + 1}}</ion-badge>
-                <button ion-button
-                        (click)="registerRank(metric)"
-                        class="card-title new-btn"
-                        [ngClass]="{'new-btn-pressed': metric['isSelected']}"
-                        style="white-space: normal;">
-                  {{metric.properties[displayAttribute] ? metric.properties[displayAttribute] :  metric.properties.metricName}}
-                </button>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-col>
-    </ion-row>
+  <div style="text-align:center;margin-top: 4em">
+    <ion-grid>
+      <ion-row>
+        <ion-col width-40>
+          <img src={{leftImage}}>
+        </ion-col>
+        <ion-col class="text-center new-card-md">
+          <h1 style="margin-top:0px; margin-bottom:2px"><b>{{message}}</b></h1>
+          <ion-grid class="pos-rel">
+            <ion-row center *ngFor="let i of rows">
+              <ion-col  *ngFor="let metric of displayMetrics | slice:(i*numCols):(i+1)*numCols; let j = index;">
+                <div class="row responsive-md pos-rel">
+                  <!--button *ngIf="metric['isSelected']" class="selected-icon" ion-button color="green"><ion-icon name="checkmark"></ion-icon></button-->
+                  <ion-badge *ngIf="metric['isSelected']" class="new-badge">{{rankedMetrics.indexOf(metric) + 1}}</ion-badge>
+                  <button ion-button
+                          (click)="registerRank(metric)"
+                          class="card-title new-btn"
+                          [ngClass]="{'new-btn-pressed': metric['isSelected']}"
+                          style="white-space: normal;">
+                    {{metric.properties[displayAttribute] ? metric.properties[displayAttribute] :  metric.properties.metricName}}
+                  </button>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 </ion-content>
-<!--
-
-<mdval-header></mdval-header>
-<ion-content padding style="text-align:center">
-  <ion-row>
-    <ion-col width-30>
-<img src='assets/img/strength.jpg'>
-</ion-col>
-<ion-col>
-  <h1 style="padding-top:4em; padding-left:10px">{{message}}</h1>
-  <ion-row center *ngFor="let i of rows">
-    <ion-col width-50 *ngFor="let metric of displayMetrics | slice:(i*numCols):(i+1)*numCols">
-      <ion-card>
-        <div class="row responsive-md">
-          <button *ngIf="metric['isSelected']" class="selected-icon" ion-button color="green"><ion-icon name="checkmark"></ion-icon></button>
-          <button ion-button
-                  (click)="registerRank(metric)"
-                  color="revvolve2"
-                  class="card-title"
-                  style="white-space: normal;">
-            {{metric.properties?.positiveImpact ? metric.properties?.positiveImpact :  metric.properties?.metricName}}
-          </button>
-        </div>
-      </ion-card>
-    </ion-col>
-  </ion-row>
-</ion-col>
-</ion-row>
-</ion-content>
-
--->
+<mdval-footer></mdval-footer>

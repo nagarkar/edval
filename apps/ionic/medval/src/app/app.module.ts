@@ -53,7 +53,8 @@ import {RequestReviewComponent2} from "../pages/survey/RequestReviewComponent2/r
 import {CustomerTextEmailComponent} from "../pages/survey/RequestReviewComponent2/customer.text.email.component";
 import {SReplacer} from "../pipes/SReplacer";
 import {RotatingCarousel} from "../pages/survey/rotatingcarousel/rotatingcarousel.component";
-import {WheelComponent} from "../pages/wheel/wheel.component";
+import {WheelComponent} from "../shared/wheel/wheel.component";
+import {FooterComponent} from "../shared/footer/footer.component";
 
 enableProdMode();
 
@@ -64,14 +65,15 @@ enableProdMode();
     /** Pipes **/
     SReplacer,
 
-
-    LoginComponent,
+    /** Shared components **/
     HeaderComponent,
+    FooterComponent,
     CarouselComponent,
     RotatingCarousel,
     WheelComponent,
 
     /** Common **/
+    LoginComponent,
     CustomerTextEmailComponent,
 
     /** Administrative Components */
@@ -116,13 +118,15 @@ enableProdMode();
   entryComponents: [
     MyApp,
 
-    LoginComponent,
+    /** Shared components **/
     HeaderComponent,
+    FooterComponent,
     CarouselComponent,
     RotatingCarousel,
     WheelComponent,
 
     /** Common **/
+    LoginComponent,
     CustomerTextEmailComponent,
 
     /** Administrative Components */
