@@ -3,29 +3,28 @@
   <div class="m-t-4" text-center>
     <ion-row>
       <ion-col>
-        <!--img src="http://img.picturequotes.com/2/26/25637/when-you-know-better-you-do-better-quote-1.jpg"/-->
         <img src={{leftImage}}>
       </ion-col>
       <ion-col>
-        
-          <h1><b>{{'account.properties.customerName' | sReplacer}}</b></h1>
-          <h2><em>appreciates&nbsp;your help!</em></h2>
-          <br/>
-          
-          <ion-item color="light" no-lines>
-             <ion-icon name="lock" item-left></ion-icon>
-             <ion-list no-margin>
-               Your feedback <b>is always anonymous</b>
-             </ion-list>
-          </ion-item>
-          
-          <br>
-          <div *ngFor="let survey of surveys; let idx = index;">
-            <button ion-button medium color="primary" (click)="pickSurvey(idx);">
+
+        <h1><b>{{'account.properties.customerName' | sReplacer}}</b></h1>
+        <h2><em>appreciates&nbsp;your help!</em></h2>
+        <br/>
+
+        <ion-item color="light" no-lines>
+          <ion-icon name="lock" item-left></ion-icon>
+          <ion-list no-margin>
+            Your feedback <b>is always anonymous</b>
+          </ion-list>
+        </ion-item>
+
+        <br>
+        <div *ngFor="let survey of surveys; let idx = index;">
+          <button ion-button medium color="primary" (click)="pickSurvey(idx);">
               <div class="card-title">{{survey.properties.timeCommitment}}. Lets do this!</div>
             </button>
-          </div>
-         <button class="nothanks" ion-button medium color="secondary" outline (click)="noThanks();">No Thanks. I can't give feedback today.</button>
+        </div>
+        <button class="nothanks" ion-button medium color="secondary" outline (click)="noThanks();">No Thanks. I can't give feedback today.</button>
       </ion-col>
     </ion-row>
   </div>

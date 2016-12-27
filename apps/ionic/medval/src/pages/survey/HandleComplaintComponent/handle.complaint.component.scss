@@ -1,41 +1,18 @@
-.ion-textarea {
-    border: 1px solid #e0e0e0;
+.reassure {
+  background-color: color($colors, light);
 }
 
-.email input {
-    width: 15em;
-}
-
-
-.cstm-footer-list {
+/*handle complaint custom footer list*/
+.hc-cstm-footer-list {
     width: 24em;
     text-align: center;
     margin: 0 auto !important;
     background-color: #f4f4f4;
 }
 
-.handle-cstm-textarea {
+/*handle complaint custom textarea*/
+.hc-cstm-textarea {
     height: 5em;
     padding-left: 0.625em;
     padding-right: 1em;
 }
-
-// .cstm-label {
-//     font-size: 1.2em !important;
-// }
-
-// .cstm-label-pdng {
-//     padding-left: 0.625em;
-// }
-// .m-t-3 {
-//     margin-top: 3em !important;
-// }
-// .m-t-4 {
-//     margin-top: 4em !important;
-// }
-// .m-t-5 {
-//     margin-top: 5em;
-// }
-// .m-r-05 {
-//     margin-right: 0.5em;
-// }

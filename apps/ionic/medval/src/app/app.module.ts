@@ -54,6 +54,7 @@ import {CustomerTextEmailComponent} from "../pages/survey/RequestReviewComponent
 import {SReplacer} from "../pipes/SReplacer";
 import {RotatingCarousel} from "../pages/survey/rotatingcarousel/rotatingcarousel.component";
 import {WheelComponent} from "../pages/wheel/wheel.component";
+import { ValidatorComponent } from '../shared/components/validator/validator.component';
 
 enableProdMode();
 
@@ -105,7 +106,10 @@ enableProdMode();
 
     /** Metric Management */
     MetricSummaryComponent,
-    MetricDetailComponent
+    MetricDetailComponent,
+
+    /**validation purpose*/
+    ValidatorComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),

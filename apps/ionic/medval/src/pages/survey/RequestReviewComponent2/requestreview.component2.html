@@ -2,7 +2,7 @@
 <ion-content padding>
   <div class="m-t-4" text-center>
     <ion-row>
-      <ion-col  responsive-sm>
+      <ion-col responsive-sm>
         <h1 no-margin><b>Thanks! Sounds like <br/>{{'account.properties.customerName'| sReplacer}}<br/>did well!</b></h1>
         <h4 color="secondary">
           <b>Help {{'account.properties.contactName'| sReplacer}} and her team by providing an Online Review</b>
@@ -10,10 +10,9 @@
         <h6 color="dark">
           <b>(we'll make it easy!)</b>
         </h6>
-        <ion-row center>
+        <ion-row>
           <ion-col padding>
-            <img src="http://www.temperaturepronwvalley.com/images/Google-Review-Button-.png" (click)="googleReview()" height="33em"/>
-          
+            <img src="http://www.temperaturepronwvalley.com/images/Google-Review-Button-.png" (click)="googleReview()" height="33em" />
             <img src="http://www.boudreaudentalstudio.com/images/inside/testimonials/u_fb_button.png" (click)="facebookReview()" height="33em" />
           </ion-col>
         </ion-row>
@@ -26,11 +25,11 @@
     <ion-row class="m-t-3" baseline>
       <ion-col>
         <ion-item no-padding>
-            <ion-label class="cstm-label" color="dark" stacked>
-              You can leave a note of encouragement or feedback for {{'account.properties.contactName'| sReplacer}}  and team:
-            </ion-label>
-            <ion-textarea class="cstm-textarea" placeholder="Great job! Or Some Feedback!" [(ngModel)]="reviewMsg">
-            </ion-textarea>
+          <ion-label class="cstm-label" color="dark" stacked>
+            You can leave a note of encouragement or feedback for {{'account.properties.contactName'| sReplacer}} and team:
+          </ion-label>
+          <ion-textarea class="cstm-textarea-h-8" placeholder="Great job! Or Some Feedback!" [(ngModel)]="reviewMsg">
+          </ion-textarea>
         </ion-item>
       </ion-col>
     </ion-row>
