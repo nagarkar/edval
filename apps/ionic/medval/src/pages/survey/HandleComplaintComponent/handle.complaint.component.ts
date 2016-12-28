@@ -1,18 +1,18 @@
-import {Component, AfterViewChecked, AfterViewInit} from '@angular/core';
+import { Component, AfterViewChecked, AfterViewInit } from '@angular/core';
 
-import { NavController} from 'ionic-angular';
-import {StartComponent} from "../start/start.component";
-import {Utils} from "../../../shared/stuff/utils";
-import {SessionService} from "../../../services/session/delegator";
-import {MedvalComponent} from "../../../shared/stuff/medval.component";
-import {AccessTokenService} from "../../../shared/aws/access.token.service";
-import {SurveyNavUtils} from "../SurveyNavUtils";
-import {RegisterComponent} from "../../../services/survey/survey.navigator";
-import {AccountService} from "../../../services/account/delegator";
-import {Config} from "../../../shared/aws/config";
-import {Account} from "../../../services/account/schema";
+import { NavController } from 'ionic-angular';
+import { StartComponent } from "../start/start.component";
+import { Utils } from "../../../shared/stuff/utils";
+import { SessionService } from "../../../services/session/delegator";
+import { MedvalComponent } from "../../../shared/stuff/medval.component";
+import { AccessTokenService } from "../../../shared/aws/access.token.service";
+import { SurveyNavUtils } from "../SurveyNavUtils";
+import { RegisterComponent } from "../../../services/survey/survey.navigator";
+import { AccountService } from "../../../services/account/delegator";
+import { Config } from "../../../shared/aws/config";
+import { Account } from "../../../services/account/schema";
 
-import {Validators, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder } from '@angular/forms';
 import { ValidationService } from '../../../shared/components/validator/validation.service';
 
 @Component({
@@ -27,7 +27,7 @@ export class HandleComplaintComponent {
     "http://i.dailymail.co.uk/i/pix/2011/04/14/article-1376796-0B9F664100000578-491_634x467.jpg",
     "http://cdn.alex.leonard.ie/wp-content/uploads/2013/02/extreme-mountain-unicycling.jpg"
   ];
-  
+
   image: string = this.images[0];
   account: Account = new Account();
   public complaintForm: any;
@@ -41,11 +41,11 @@ export class HandleComplaintComponent {
     private formBuilder: FormBuilder
   ) {
 
-    this.account =  accountSvc.getCached(Config.CUSTOMERID);
-     this.complaintForm = this.formBuilder.group({
-      email: ['', ],
+    this.account = accountSvc.getCached(Config.CUSTOMERID);
+    this.complaintForm = this.formBuilder.group({
+      email: ['',],
       tel: ['', Validators.compose([ValidationService.phoneValidator])],
-      complaintMsg: ['', ]
+      complaintMsg: ['',]
     });
   }
 

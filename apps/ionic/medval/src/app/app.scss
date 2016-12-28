@@ -14,99 +14,117 @@
 // automatically applied to the <body> element in the app.
 //Global Styles
 .metricHeading {
-    text-align: center;
-    padding: 15% 15% 0 15%;
-    font-size: 1.5em;
+  text-align: center;
+  padding: 15% 15% 0 15%;
+  font-size: 1.5em;
 }
 
 .feedback {
-    height: 20%;
-    max-height: 30%;
-    border: 1px solid orange;
+  height: 20%;
+  max-height: 30%;
+  border: 1px solid orange;
 }
 
 //Common App Background
 .content-md,
 &.content-wp,
 &.content-ios {
-    background-color: color($colors, white);
+  background-color: color($colors, white);
 }
 
 .has-header {
-    top: 56px;
+  top: 56px;
 }
 
 .border {
-    border: 2px solid color($colors, green);
+  border: 2px solid color($colors, green);
 }
 
 .font-large {
-    font-size: xx-large;
+  font-size: xx-large;
 }
 
 //Override ios border on header
 .toolbar-background-ios {
-    border-bottom-width: 0px;
+  border-bottom-width: 0px;
 }
 
 .ion-icon {
-    font-size: 1em;
+  font-size: 1em;
 }
 
 .item-clean {
-    border: 0 none;
-    background: transparent;
+  border: 0 none;
+  background: transparent;
 }
+
 
 /*Custom label*/
+
 .cstm-label {
-    font-size: 1.2em !important;
+  font-size: 1.2em !important;
 }
+
 
 /*Custom label padding*/
+
 .cstm-label-pdng {
-    padding-left: 0.625em;
+  padding-left: 0.625em;
 }
+
 
 /*Custom textarea with height 8em*/
+
 .cstm-textarea-h-8 {
-    height: 8em;
+  height: 8em;
 }
+
 
 /*margin top 3em*/
+
 .m-t-3 {
-    margin-top: 3em !important;
+  margin-top: 3em !important;
 }
+
 
 /*margin-top 4em*/
+
 .m-t-4 {
-    margin-top: 4em !important;
+  margin-top: 4em !important;
 }
+
 
 /*margin-top 5em*/
+
 .m-t-5 {
-    margin-top: 5em;
+  margin-top: 5em;
 }
+
 
 /*margin right 0.5em*/
+
 .m-r-05 {
-    margin-right: 0.5em;
+  margin-right: 0.5em;
 }
 
+
 /*moved unused classes from start.with.survey.option.component.scss*/
+
 .question {
   font-style: italic;
   color: color($colors, revvolvepurple);
   font-size: 1.2em;
 }
 
+
 /*moved unused classes from top.influencer.component.scss*/
+
 .ion-textarea {
-    border: 1px solid #e0e0e0;
+  border: 1px solid #e0e0e0;
 }
 
 .selected-icon {
-    position: absolute;
-    top: 0em;
-    right: 0em;
+  position: absolute;
+  top: 0em;
+  right: 0em;
 }

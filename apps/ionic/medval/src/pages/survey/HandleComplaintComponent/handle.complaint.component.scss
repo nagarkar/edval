@@ -2,17 +2,21 @@
   background-color: color($colors, light);
 }
 
+
 /*handle complaint custom footer list*/
+
 .hc-cstm-footer-list {
-    width: 24em;
-    text-align: center;
-    margin: 0 auto !important;
-    background-color: #f4f4f4;
+  width: 24em;
+  text-align: center;
+  margin: 0 auto !important;
+  background-color: #f4f4f4;
 }
 
+
 /*handle complaint custom textarea*/
+
 .hc-cstm-textarea {
-    height: 5em;
-    padding-left: 0.625em;
-    padding-right: 1em;
+  height: 5em;
+  padding-left: 0.625em;
+  padding-right: 1em;
 }
