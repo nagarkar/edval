@@ -11,8 +11,8 @@
           <ion-row center *ngFor="let i of rows">
             <ion-col *ngFor="let metric of displayMetrics | slice:(i*numCols):(i+1)*numCols; let j = index;">
               <div class="pos-rel">
-                <ion-badge *ngIf="metric['isSelected']" class="new-badge">{{rankedMetrics.indexOf(metric) + 1}}</ion-badge>
-                <button ion-button (click)="registerRank(metric)" class="card-title new-btn" [ngClass]="{'new-btn-pressed': metric['isSelected']}">
+                <ion-badge *ngIf="metric['isSelected']" class="cstm-badge">{{rankedMetrics.indexOf(metric) + 1}}</ion-badge>
+                <button ion-button round (click)="registerRank(metric)" class="card-title cstm-btn" [ngClass]="{'cstm-btn-pressed': metric['isSelected']}">
                   {{metric.properties[displayAttribute] ? metric.properties[displayAttribute] :  metric.properties.metricName}}
                 </button>
               </div>
