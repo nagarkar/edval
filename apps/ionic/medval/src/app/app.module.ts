@@ -4,7 +4,6 @@ import {IonicApp, IonicModule} from "ionic-angular";
 import {MyApp} from "./app.component";
 import {LoginComponent} from "../pages/login/login.component";
 import {Utils} from "../shared/stuff/utils";
-import {Config} from "../shared/aws/config";
 import {AccessTokenService} from "../shared/aws/access.token.service";
 import {AccountComponent} from "../pages/account/account.component";
 import {DashboardComponent} from "../pages/dashboard/dashboard.component";
@@ -12,11 +11,11 @@ import {StaffComponent} from "../pages/staff/staff.component";
 import {TermComponent} from "../pages/dashboard/terms/term.component";
 import {PolicyComponent} from "../pages/dashboard/policy/policy.component";
 import {HttpModule, JsonpModule} from "@angular/http";
-import {RatingComponent} from "../shared/rating/rating.component";
+import {RatingComponent} from "../shared/components/rating/rating.component";
 import {StartComponent} from "../pages/survey/start/start.component";
 import {ThanksComponent} from "../pages/survey/thanks/thanks.component";
 import {StaffEditComponent} from "../pages/staff/staff.edit.component";
-import {CarouselComponent} from "../pages/survey/carousel/carousel.component";
+import {CarouselComponent} from "../shared/components/carousel/carousel.component";
 import {PickStaffComponent} from "../pages/survey/pickstaff/pickstaff.component";
 import {LiveStaffService} from "../services/staff/live";
 import {MockStaffService} from "../services/staff/mock";
@@ -27,8 +26,7 @@ import {AccountService} from "../services/account/delegator";
 import {LiveSessionService} from "../services/session/live";
 import {MockSessionService} from "../services/session/mock";
 import {SessionService} from "../services/session/delegator";
-import {FeedbackComponent} from "../shared/feedback/feedback.component";
-import {HeaderComponent} from "../shared/header/header.component";
+import {HeaderComponent} from "../shared/components/header/header.component";
 import {MetricService} from "../services/metric/delegator";
 import {MockMetricService} from "../services/metric/mock";
 import {LiveMetricService} from "../services/metric/live";
@@ -39,11 +37,11 @@ import {SettingsComponent} from "../pages/settings/settings.component";
 import {MetricSummaryComponent} from "../pages/metricsetup/metric.summary.component";
 import {MetricDetailComponent} from "../pages/metricsetup/metric.detail.component";
 import {ServiceFactory} from "../services/service.factory";
-import {SurveySelectionComponent} from "../pages/survey/surveyselection/surveyselection.component";
+import {SurveySelectionComponent} from "../pages/survey/start/surveyselection.component";
 import {SurveyService} from "../services/survey/delegator";
 import {MockSurveyService} from "../services/survey/mock";
 import {LiveSurveyService} from "../services/survey/live";
-import {StartWithSurveyOption} from "../pages/survey/startWithSurveyOption/start.with.survey.option.component";
+import {StartWithSurveyOption} from "../pages/survey/start/start.with.survey.option.component";
 import {TopInfluencerComponent} from "../pages/survey/TopInfluencerComponent/top.influencer.component";
 import {HandleComplaintComponent} from "../pages/survey/HandleComplaintComponent/handle.complaint.component";
 import {SingleMetricComponent} from "../pages/survey/singlemetric/single.metric.component";
@@ -52,9 +50,11 @@ import {MultimetricComponent} from "../pages/survey/multimetric/multimetric.comp
 import {RequestReviewComponent2} from "../pages/survey/RequestReviewComponent2/requestreview.component2";
 import {CustomerTextEmailComponent} from "../pages/survey/RequestReviewComponent2/customer.text.email.component";
 import {SReplacer} from "../pipes/SReplacer";
-import {RotatingCarousel} from "../pages/survey/rotatingcarousel/rotatingcarousel.component";
-import {WheelComponent} from "../shared/wheel/wheel.component";
-import {FooterComponent} from "../shared/footer/footer.component";
+import {RotatingCarousel} from "../shared/components/rotatingcarousel/rotatingcarousel.component";
+import {WheelComponent} from "../shared/components/wheel/wheel.component";
+import {FooterComponent} from "../shared/components/footer/footer.component";
+import {NgIdleModule} from "@ng-idle/core";
+import {Config} from "../shared/config";
 
 enableProdMode();
 
@@ -96,7 +96,6 @@ enableProdMode();
     RequestReviewComponent2,
     SingleMetricComponent,
     PickStaffComponent,
-    FeedbackComponent,
     ToplineForStaffComponent,
     MultimetricComponent,
 
@@ -112,7 +111,8 @@ enableProdMode();
   imports: [
     IonicModule.forRoot(MyApp),
     HttpModule,
-    JsonpModule
+    JsonpModule,
+    NgIdleModule.forRoot(),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -149,7 +149,6 @@ enableProdMode();
     RequestReviewComponent2,
     SingleMetricComponent,
     PickStaffComponent,
-    FeedbackComponent,
     ToplineForStaffComponent,
     MultimetricComponent,
 

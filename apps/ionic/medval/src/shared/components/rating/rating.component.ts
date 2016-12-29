@@ -1,17 +1,6 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  trigger,
-  state,
-  style,
-  transition,
-  animate
-} from '@angular/core';
-
-import {Utils} from "../stuff/utils";
+import {Component, Input, Output, EventEmitter, trigger, state, style, transition, animate} from "@angular/core";
 import {Icon} from "ionic-angular";
+import {Utils} from "../../stuff/utils";
 
 @Component({
   selector: 'rating',
@@ -119,24 +108,4 @@ export class RatingComponent {
       Utils.log("Reset hasBeenSelected: {0}", this.popped.toString());
     }, 1300);
   }
-
-  /*
-  public isActiveIcon(idx: number) {
-    let ret = (this.popped) && (idx < this.ratingValue);
-    if (ret) {
-   Utils.log("isActiveIcon value : {0}", ret);
-    }
-    return ret;
-  }
-
-  public iconClass(idx: number) {
-    let ret = (idx < this.ratingValue) ? "onState" : "offState";
-   Utils.log("iconClass value : {0} for index {1}", ret, idx);
-    return ret;
-  }
-
-  public iconStyle(idx: number) {
-    return "";//(idx < this.ratingValue) ? "z-index:2" : "display:none";
-  }
-  */
 }

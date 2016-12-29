@@ -2,6 +2,8 @@ import {Session} from "../session/schema";
 import {Utils} from "../../shared/stuff/utils";
 import {Survey, ComponentIf, FnIf} from "./schema";
 import {MetricService} from "../metric/delegator";
+import {SurveyPage} from "../../pages/survey/survey.page";
+import {SReplacer} from "../../pipes/SReplacer";
 
 /** Annotation to register the component */
 export function RegisterComponent(constructor: Function) {
@@ -13,15 +15,13 @@ export function RegisterFunction(constructor: Function) {
   SurveyNavigator.registerFn(constructor.name, Object.create(constructor.prototype));
 }
 
-export interface ISurveyComponent {}
-
 export interface ISurveyFunction {
   canExecute(surveyNavigator: SurveyNavigator, params?: {}): boolean;
   execute(surveyNavigator: SurveyNavigator, params?: {}): string|number;
 }
 
 export interface NavigationTarget {
-  component: ISurveyComponent;
+  component: SurveyPage;
   params:{};
 }
 

@@ -1,6 +1,5 @@
-import {Injectable} from '@angular/core';
-
-import {Session} from './schema';
+import {Injectable} from "@angular/core";
+import {Session} from "./schema";
 import {DelegatingService} from "../../shared/service/delegating.service";
 import {MockSessionService} from "./mock";
 import {LiveSessionService} from "./live";

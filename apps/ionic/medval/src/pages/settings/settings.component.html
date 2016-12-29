@@ -1,25 +1,26 @@
 <mdval-header [title]="'Settings'"></mdval-header>
-<ion-content padding>
+<ion-content padding class="copypaste">
   <ion-title>Mock State</ion-title>
-  <ion-item>
-    <ion-label>Session</ion-label>
-    <ion-checkbox color="dark" [(ngModel)]="sessionIsMock"></ion-checkbox>
-  </ion-item>
-  <ion-item>
-    <ion-label>Staff</ion-label>
-    <ion-checkbox color="dark" [(ngModel)]="staffIsMock"></ion-checkbox>
-  </ion-item>
-  <ion-item>
-    <ion-label>Metric</ion-label>
-    <ion-checkbox color="dark" [(ngModel)]="metricIsMock"></ion-checkbox>
-  </ion-item>
-  <ion-item>
-    <ion-label>Account</ion-label>
-    <ion-checkbox color="dark" [(ngModel)]="accountIsMock"></ion-checkbox>
+  <ion-item *ngFor="let key of keys">
+    <ion-label>{{key}}</ion-label>
+    <ion-checkbox color="dark" [(ngModel)]="mockData[key]"></ion-checkbox>
   </ion-item>
   <ion-title>CORS</ion-title>
   <ion-item>
     <ion-label>Service URL</ion-label>
     <ion-input [(ngModel)]="serviceUrl"></ion-input>
   </ion-item>
+  <ion-title>Metric Questions/Data</ion-title>
+  <ion-grid *ngFor="let metric of metrics">
+    <ion-row>Metric ID: {{metric.metricId}}</ion-row>
+    <ion-row>Parent Metric ID: {{metric.parentMetricId}}</ion-row>
+    <ion-row>Subject: {{metric.subject}}</ion-row>
+    <ion-row>Question: {{metric.properties.question | sReplacer}}</ion-row>
+    <ion-row *ngIf="sReplacerData[metric.metricId]">Question with staff: {{metric.properties.question | sReplacer:sReplacerData[metric.metricId]}}</ion-row>
+    <ion-row>Conversation Setup: {{metric.properties.conversationSetup | sReplacer}}</ion-row>
+    <ion-row>Improvement: {{metric.properties.improvement | sReplacer}}</ion-row>
+    <ion-row *ngIf="sReplacerData[metric.metricId]">Improvement with staff: {{metric.properties.improvement | sReplacer:sReplacerData[metric.metricId]}}</ion-row>
+    <ion-row>Positive Impact: {{metric.properties.positiveImpact | sReplacer}}</ion-row>
+    <ion-row *ngIf="sReplacerData[metric.metricId]">Positive Impact with staff: {{metric.properties.positiveImpact | sReplacer:sReplacerData[metric.metricId]}}</ion-row>
+  </ion-grid>
 </ion-content>

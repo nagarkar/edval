@@ -17,8 +17,14 @@
               Your feedback <b>is always anonymous</b>
             </ion-item>
           </ion-list>
-          <div *ngFor="let survey of surveys; let idx = index;">
-            <button ion-button medium color="primary" (click)="pickSurvey(idx);">
+          <div *ngIf="defaultOnly">
+            <button style="width:10em" ion-button large color="primary" (click)="pickSurvey('default');">
+              <div class="card-title">Begin!</div>
+            </button>
+            <div>It will take just a minute!</div>
+          </div>
+          <div *ngIf="!defaultOnly">
+            <button *ngFor="let survey of surveys; let idx = index;" ion-button medium color="primary" (click)="pickSurvey(survey.id);">
               <div class="card-title">{{survey.properties.timeCommitment}}. Lets do this!</div>
             </button>
           </div>

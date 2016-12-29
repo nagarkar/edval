@@ -32,9 +32,21 @@
 .content-md, &.content-wp, &.content-ios {
     background-color: color($colors, white);
 }
+
 .has-header {
-  top: 56px;
+  padding-top: 4em;
 }
+
+.separator-bottom {
+  border-bottom: 0.55px solid #c8c7cc; padding-bottom: 1em
+}
+
+.feedback-text {
+  padding-left: .3em;
+  padding-right: 1em;
+  border: solid .05em green;
+}
+
 .border {
   border: 2px solid color($colors, green);
 }

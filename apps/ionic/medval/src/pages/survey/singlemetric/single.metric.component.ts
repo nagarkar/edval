@@ -1,13 +1,15 @@
 import {Component, ViewChild} from "@angular/core";
 import {Metric, MetricValue} from "../../../services/metric/schema";
 import {Utils} from "../../../shared/stuff/utils";
-import {RatingComponent} from "../../../shared/rating/rating.component";
+import {RatingComponent} from "../../../shared/components/rating/rating.component";
 import {StaffService} from "../../../services/staff/delegator";
-import {SurveyNavigator, ISurveyComponent, RegisterComponent} from "../../../services/survey/survey.navigator";
+import {SurveyNavigator, RegisterComponent} from "../../../services/survey/survey.navigator";
 import {NavParams, NavController} from "ionic-angular";
 import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
 import {SurveyNavUtils} from "../SurveyNavUtils";
+import {Idle} from "@ng-idle/core";
+import {SurveyPage} from "../survey.page";
 
 @Component({
   selector: 'single-metric',
@@ -16,20 +18,23 @@ import {SurveyNavUtils} from "../SurveyNavUtils";
 })
 
 @RegisterComponent
-export class SingleMetricComponent implements ISurveyComponent {
+export class SingleMetricComponent extends SurveyPage {
 
   currentMetric: Metric;
 
   @ViewChild(RatingComponent) inputComponent: RatingComponent;
 
   constructor(
+    idle: Idle,
+    utils: Utils,
+    navCtrl: NavController,
+    sessionSvc: SessionService,
     params: NavParams,
-    private navCtrl: NavController,
-    private utils: Utils,
     private staffSvc: StaffService,
-    private sessionSvc: SessionService,
     private metricSvc: MetricService
   ) {
+    super(utils, navCtrl, sessionSvc, idle);
+
     this.getMetricById(params.get("metricId"));
   }
 

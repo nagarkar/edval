@@ -3,32 +3,36 @@ import {NavController, Modal, ModalController} from "ionic-angular";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
-import {SurveyNavUtils} from "../SurveyNavUtils";
 import {CustomerTextEmailComponent} from "./customer.text.email.component";
 import {SessionProperties} from "../../../services/session/schema";
 import {InAppBrowser} from "ionic-native";
+import {Idle} from "@ng-idle/core";
+import {SurveyPage} from "../survey.page";
 
 @Component({
   templateUrl: 'requestreview.component2.html',
 })
 
 @RegisterComponent
-export class RequestReviewComponent2 {
+export class RequestReviewComponent2 extends SurveyPage {
 
   public reviewMsg: string;
   private browser : InAppBrowser = null;
 
   constructor(
-    private sessionSvc: SessionService,
-    private navCtrl: NavController,
+    idle: Idle,
+    utils: Utils,
+    navCtrl: NavController,
+    sessionSvc: SessionService,
     private modalCtrl: ModalController,
-    private utils: Utils
   ) {
+
+    super(utils, navCtrl, sessionSvc, idle);
   }
 
   public navigateToNext() {
     // TODO Process the reviewMsg
-    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl, this.utils);
+    super.navigateToNext();
   }
 
   googleReview() {
@@ -59,7 +63,7 @@ export class RequestReviewComponent2 {
     this.saveReview('google');
   }
 
-  saveReview(reviewSite: string) {
+  private saveReview(reviewSite: string) {
     let message = 'Email or text me easy-to-use instructions for providing a review!';
     let reviewData = this.sessionSvc.getCurrentSession().properties.reviewData;
     if (reviewData.email || reviewData.phone) {
@@ -79,7 +83,7 @@ export class RequestReviewComponent2 {
   private updateSessionReviewData(email: string, phone: string, preferredReviewSite: string) {
     let props: SessionProperties = this.sessionSvc.getCurrentSession().properties;
     props.reviewData.email = email;
-    props.reviewData.email = email;
+    props.reviewData.phone = phone;
     if (!props.reviewData.preferredReviewSite) {
       props.reviewData.preferredReviewSite = [];
     }

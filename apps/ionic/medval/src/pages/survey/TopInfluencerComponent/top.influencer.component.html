@@ -4,22 +4,22 @@
     <ion-grid>
       <ion-row>
         <ion-col width-40>
-          <img src={{leftImage}}>
+          <img style="height:100%" src={{leftImage}}>
         </ion-col>
-        <ion-col class="text-center new-card-md">
+        <ion-col style="padding-top:1em" text-center class="new-card-md">
           <h1 style="margin-top:0px; margin-bottom:2px"><b>{{message}}</b></h1>
           <ion-grid class="pos-rel">
             <ion-row center *ngFor="let i of rows">
               <ion-col  *ngFor="let metric of displayMetrics | slice:(i*numCols):(i+1)*numCols; let j = index;">
                 <div class="row responsive-md pos-rel">
                   <!--button *ngIf="metric['isSelected']" class="selected-icon" ion-button color="green"><ion-icon name="checkmark"></ion-icon></button-->
-                  <ion-badge *ngIf="metric['isSelected']" class="new-badge">{{rankedMetrics.indexOf(metric) + 1}}</ion-badge>
+                  <ion-badge *ngIf="isSelected(metric)" class="new-badge">{{rankedMetrics.indexOf(metric) + 1}}</ion-badge>
                   <button ion-button
                           (click)="registerRank(metric)"
                           class="card-title new-btn"
-                          [ngClass]="{'new-btn-pressed': metric['isSelected']}"
+                          [ngClass]="{'new-btn-pressed': isSelected(metric)}"
                           style="white-space: normal;">
-                    {{metric.properties[displayAttribute] ? metric.properties[displayAttribute] :  metric.properties.metricName}}
+                    {{(metric.properties[displayAttribute] ? metric.properties[displayAttribute] :  metric.properties.metricName) | sReplacer}}
                   </button>
                 </div>
               </ion-col>

@@ -3,7 +3,7 @@ import {NavController} from "ionic-angular";
 import {Staff} from "../../services/staff/schema";
 import {Utils} from "../../shared/stuff/utils";
 import {StaffService} from "../../services/staff/delegator";
-import {MedvalComponent} from "../../shared/stuff/medval.component";
+import {AdminComponent} from "../admin.component";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {StaffEditComponent} from "./staff.edit.component";
 
@@ -11,7 +11,7 @@ import {StaffEditComponent} from "./staff.edit.component";
   templateUrl: 'staff.component.html',
   providers: [ ]
 })
-export class StaffComponent extends MedvalComponent  {
+export class StaffComponent extends AdminComponent  {
 
   // Dummy staff and staff member to avoid blowing up the view on startup.
   public staffList: Staff[] = [Staff.newStaffMember()];

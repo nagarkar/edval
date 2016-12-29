@@ -1,11 +1,19 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from "@angular/core";
 import {
-  ActionSheetController, AlertController, LoadingController, Alert, ToastController,
-  ModalController, Modal, Platform, NavController, Loading
+  ActionSheetController,
+  AlertController,
+  LoadingController,
+  Alert,
+  ToastController,
+  ModalController,
+  Modal,
+  Platform,
+  NavController,
+  Loading
 } from "ionic-angular";
 import {CameraOptions, Camera, SpinnerDialog} from "ionic-native";
 import {ErrorType} from "./error.types";
-import {Config} from "../aws/config";
+import {Config} from "../config";
 
 @Injectable()
 export class Utils {

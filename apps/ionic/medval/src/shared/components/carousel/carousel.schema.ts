@@ -1,4 +1,4 @@
-import {Utils} from "../../../shared/stuff/utils";
+import {Utils} from "../../stuff/utils";
 export class SlideItem {
   idx?: number;
   username?: string;

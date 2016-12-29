@@ -3,7 +3,7 @@
  simpler, since JSON doesn't allow you to specify the type explicitly.
  */
 import {Utils} from "../../shared/stuff/utils";
-import {Config} from "../../shared/aws/config";
+import {Config} from "../../shared/config";
 export class Type {}
 
 export class NPSType extends Type {

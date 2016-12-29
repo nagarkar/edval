@@ -1,6 +1,6 @@
-import {Config} from "./config";
 import {Injectable, EventEmitter} from "@angular/core";
 import {Utils} from "../stuff/utils";
+import {Config} from "../config";
 declare let AWS:any;
 declare let AWSCognito:any;
 

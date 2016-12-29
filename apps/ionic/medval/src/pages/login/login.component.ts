@@ -1,4 +1,4 @@
-import {Component, EventEmitter} from "@angular/core";
+import {Component} from "@angular/core";
 import {FormGroup, Validators, FormControl} from "@angular/forms";
 import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService, AuthResult} from "../../shared/aws/access.token.service";
@@ -29,6 +29,12 @@ export class LoginComponent {
   }
 
   public login() {
+
+    // TODO Remove before launch
+    this.navigateToDashboardPage();
+    if (1 == 1) return;
+    // TODO end
+
 
     let username: string = this.loginForm.controls[ 'username' ].value.trim();
     let password: string = this.loginForm.controls[ 'password' ].value.trim();

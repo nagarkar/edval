@@ -1,12 +1,14 @@
 import {Component} from "@angular/core";
-import {Config} from "../../shared/aws/config";
-import {Session} from "../../services/session/schema";
 import {Utils} from "../../shared/stuff/utils";
 import {NavController} from "ionic-angular";
-import {LoginComponent} from "../login/login.component";
 import {Staff} from "../../services/staff/schema";
 import {Metric} from "../../services/metric/schema";
-import {Account} from "../../services/account/schema";
+import {Config} from "../../shared/config";
+import {SessionService} from "../../services/session/delegator";
+import {MetricService} from "../../services/metric/delegator";
+import {StaffService} from "../../services/staff/delegator";
+import {AccountService} from "../../services/account/delegator";
+import {SReplacerDataMap} from "../../pipes/SReplacer";
 
 @Component({
   selector:'settings',
@@ -15,38 +17,28 @@ import {Account} from "../../services/account/schema";
 
 export class SettingsComponent {
 
-  constructor(private utils: Utils, private navCtrl: NavController) {}
+  mockData: {};
+  keys: string[] = [];
+  metrics: Metric[] = [];
+  sReplacerData: {[key: string] : SReplacerDataMap} = {};
 
-  get sessionIsMock() {
-    return Config.isMockData(new Session());
+  constructor(
+    private utils: Utils,
+    private navCtrl: NavController,
+    private sessionsvc: SessionService,
+    private metricsvc: MetricService,
+    private staffsvc: StaffService,
+    private accountsvc: AccountService) {
+
+    this.mockData = Config.MOCK_DATA;
+    this.keys = Object.keys(this.mockData);
+
+    this.metrics = metricsvc.listCached();
+    this.sReplacerData = this.constructSReplacerMap();
   }
 
-  set sessionIsMock(state: boolean) {
-    Config.setUseMockData(new Session(), state);
-  }
-
-  get metricIsMock() {
-    return Config.isMockData(new Metric());
-  }
-
-  set metricIsMock(state: boolean) {
-    Config.setUseMockData(new Metric(), state);
-  }
-
-  get staffIsMock() {
-    return Config.isMockData(new Staff());
-  }
-
-  set staffIsMock(state: boolean) {
-    Config.setUseMockData(new Staff(), state);
-  }
-
-  get accountIsMock() {
-    return Config.isMockData(new Account());
-  }
-
-  set accountIsMock(state: boolean) {
-    Config.setUseMockData(new Account(), state);
+  setValue(key: string, event: any) {
+    console.log('');
   }
 
   get serviceUrl() {
@@ -57,47 +49,19 @@ export class SettingsComponent {
     Config.baseUrl = url;
   }
 
-  /*
-  flipMode(key) {
-    switch(key) {
-      case 'session':
-        Config.flipMockData(new Session());
-        break;
-      case 'staff':
-        Config.flipMockData(new Staff());
-        break;
-      case 'metric':
-        Config.flipMockData(new Metric());
-        break;
-      case 'account':
-        Config.flipMockData(new Account());
-        break;
-      default:
-         this.utils.presentInvalidEntryAlert("Unrecognized setting {0}", key);
-    }
-  }
-
-  isMock(key) {
-    switch(key) {
-      case 'session':
-        Config.isMockData(new Session());
-        break;
-      case 'staff':
-        Config.isMockData(new Staff());
-        break;
-      case 'metric':
-        Config.isMockData(new Metric());
-        break;
-      case 'account':
-        Config.isMockData(new Account());
-        break;
-      default:
-        this.utils.presentInvalidEntryAlert("Unrecognized setting {0}", key);
-    }
-  }
-  */
-
-  public gotoHome() {
-    this.navCtrl.setRoot(LoginComponent);
+  private constructSReplacerMap(): {[key: string] : SReplacerDataMap} {
+    let staffList = this.staffsvc.listCached();
+    let replacerMap: {[key: string] : SReplacerDataMap} = {};
+    this.metrics.forEach((metric: Metric) => {
+      let replacerData: SReplacerDataMap = {};
+      replacerData.metric = metric;
+      replacerData.role = metric.getRoleSubject();
+      let staffListForRole = staffList.filter((staff: Staff) => {return staff.role == replacerData.role;})
+      if (staffListForRole.length > 0) {
+        replacerData.staff = staffListForRole[0];
+      }
+      replacerMap[metric.metricId] = replacerData;
+    })
+    return replacerMap;
   }
 }

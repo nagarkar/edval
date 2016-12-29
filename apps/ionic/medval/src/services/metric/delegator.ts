@@ -1,8 +1,7 @@
-import {Injectable} from '@angular/core';
-
-import {Metric} from './schema';
+import {Injectable} from "@angular/core";
+import {Metric} from "./schema";
 import {DelegatingService} from "../../shared/service/delegating.service";
-import { MockMetricService} from "./mock";
+import {MockMetricService} from "./mock";
 import {LiveMetricService} from "./live";
 import {Utils} from "../../shared/stuff/utils";
 import {RegisterService} from "../service.factory";

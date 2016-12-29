@@ -21,6 +21,29 @@
   <ion-grid class="carousel-selected-items">
     <ion-row text-center>
       <ion-col>
+        <span *ngFor="let selectedItem of selectedItems">
+          <div class="selected-item">
+            <button ion-button color="danger" (click)="removeItem(selectedItem)"><ion-icon name="close"></ion-icon>
+            </button>
+            <img src="{{selectedItem.imgUrl}}" class="image" />
+          </div>
+        </span>
+        <div *ngIf="selectedItems.length < 3" class="selected-item">
+          <img src="assets/img/placeholder.png" class="image" />
+          <div style="position: absolute;top: .7em;left: 1em; left: 1em; right: 1em; font-size: 1.5em;">{{selectedItems.length + 1}}</div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row text-center>
+      <ion-col>
+        <button ion-button color="green" [disabled]="selectedItems.length != 0" (click)="finished()">I don't see the right people in the list</button>
+        <button ion-button color="green" [disabled]="selectedItems.length == 0" (click)="finished()">Done</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<!--
         <div [ngSwitch]="selectedItems.length">
           <div *ngSwitchCase="0">
             <div class="selected-item">
@@ -37,12 +60,5 @@
             </span>
           </div>
         </div>
-      </ion-col>
-    </ion-row>
-    <ion-row text-center>
-      <ion-col>
-        <button ion-button color="green" (click)="finished()">Next</button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-content>
+
+-->

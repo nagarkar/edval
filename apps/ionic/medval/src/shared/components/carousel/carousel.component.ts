@@ -1,7 +1,7 @@
 import {Component, ViewChild, Input, Output, EventEmitter, Renderer, OnChanges, SimpleChanges} from "@angular/core";
 import {Slides} from "ionic-angular";
 import {SlideItem} from "./carousel.schema";
-import {Utils} from "../../../shared/stuff/utils";
+import {Utils} from "../../stuff/utils";
 
 @Component({
   selector: 'carousel',

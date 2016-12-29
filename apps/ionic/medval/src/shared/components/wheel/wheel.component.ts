@@ -1,4 +1,5 @@
 import {Component, Output, EventEmitter, Input} from "@angular/core";
+import {ViewController, AlertController, NavParams} from "ionic-angular";
 
 declare var Winwheel: (options?: any, drawWheel?: boolean) => void;
 
@@ -13,7 +14,8 @@ export class WheelComponent {
   wheel: any;
   wheelSpinning = false;
 
-  @Output() animationDone = new EventEmitter();
+  @Output() animationDone = new EventEmitter<any>();
+
   @Input() set options(options: any) {
     this._options = options;
     Object.assign(this._options, {
@@ -22,12 +24,13 @@ export class WheelComponent {
     });
   };
 
-  constructor () {
+  constructor (private viewctrl: ViewController, private alertctrl: AlertController, navParams: NavParams) {
     this.id = 'canvas' + Math.floor(Math.random() * 1000);
-    this._options = Object.assign({}, WheelComponent.DEFAULT_OPTIONS, {
-      canvasId: this.id,
-      callbackFinished : () => {this.done()}
-    });
+    if (navParams.get('options')) {
+      this.options = navParams.get('options');
+    } else {
+      this.options = WheelComponent.DEFAULT_OPTIONS;
+    }
   }
 
   ngOnInit() {
@@ -51,10 +54,49 @@ export class WheelComponent {
   }
 
   done() {
-    var winningSegment = this.wheel.getIndicatedSegment();
-    // Do basic alert of the segment text. You would probably want to do something more interesting with this information.
-    this.animationDone.emit(winningSegment);
+    var segment = this.wheel.getIndicatedSegment();
+    this.animationDone.emit(segment);
     this.disable();
+    let data = { 'segment': segment};
+    setTimeout(() => {
+      if (segment.win) {
+        this.presentAlertPrompt(()=>{
+            this.viewctrl.dismiss(data);
+          },
+          "You WON the " + data.segment.text + "!!! Please pick up your winnings from the front-desk and enjoy!",
+          "I collected the winnings!"
+        );
+      } else {
+        this.presentAlertPrompt(()=>{
+            this.viewctrl.dismiss(data);
+          },
+          "Sorry, we hope you win next time!",
+          "Thanks for your feedback!"
+        );
+
+      }
+    }, 2000); // just pause for a few secs.
+  }
+
+  private presentAlertPrompt(onselect: (result: string | any) => void, title: string, dismissText: string) {
+    let alert = this.alertctrl.create({
+      title: title,
+      buttons: [
+        {
+          text: dismissText,
+          handler: (data: any) => {
+            onselect(data);
+          }
+        }
+      ],
+      cssClass:"bottom-10",
+      enableBackdropDismiss:false
+    });
+    alert.present({
+      animate:true,
+      easing:'ease-in',
+      duration:100
+    });
   }
 
   disable() {

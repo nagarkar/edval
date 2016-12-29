@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-navbar color="revvolve" style="margin:0;padding:0">
+    <ion-title *ngIf="title" text-center>{{title}}</ion-title>
+    <ion-title *ngIf="!title" text-center>
+      <img src="assets/img/header-logo.jpg" style="height:1.7em" alt="">
+    </ion-title>
+    <ion-buttons *ngIf="home != ''"  end>
+      <button ion-button icon-only (click)="goHome()">
+        <ion-icon name="code" style="float:right;width:40px;padding:5px"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>

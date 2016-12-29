@@ -3,8 +3,8 @@ import {AccessTokenService, AuthResult} from "../aws/access.token.service";
 import {Http, Response, RequestOptionsArgs, Headers} from "@angular/http";
 import {ErrorType} from "./error.types";
 import {Injectable} from "@angular/core";
-import {Config} from "../aws/config";
-import 'rxjs/add/operator/toPromise';
+import {Config} from "../config";
+import "rxjs/add/operator/toPromise";
 
 @Injectable()
 export class HttpClient<T> {

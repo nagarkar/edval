@@ -6,7 +6,7 @@
         <img style="width:90%" src="http://www.nicephotomag.com/wp-content/uploads/2009/06/uniracer_2009_0409_1435_20_149.jpg">
       </ion-col>
       <ion-col class="text-center">
-        <h1 style="margin-top:0; margin-bottom:2px"><b>Did something go wrong?</b></h1>
+        <h1 style="margin-top:0; margin-bottom:2px"><b>{{title}}</b></h1>
         <br/>
         <h2 style="margin-top:0;margin-bottom:2em;font-size:1.5em">
           We're sorry if you had a bad experience
@@ -30,11 +30,11 @@
         <ion-textarea
           style="height: 5em;padding-left: 10px;padding-right: 1em;"
           placeholder="E.g. Getting an appointment was painful."
-          [(ngModel)]="complaintMsg">
+          [(ngModel)]="complaintDetails">
         </ion-textarea>
       </ion-item>
     </ion-row>
-    <button ion-button (click)="navigateToNext()">I don’t have time right now</button>
+    <button ion-button (click)="navigateToNext()">{{complaintDetails? 'Done' : 'I don’t have time right now' }}</button>
   </div>
 </ion-content>
 <ion-footer>

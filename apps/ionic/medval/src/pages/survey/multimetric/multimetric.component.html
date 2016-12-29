@@ -1,15 +1,18 @@
 <mdval-header [home]="survey"></mdval-header>
 <ion-content padding style="text-align:center">
+  <ion-fab *ngIf="done" right middle>
+    <button (click)="navigateToNext()" ion-fab><ion-icon name="fastforward"></ion-icon></button>
+  </ion-fab>
   <div style="text-align:center;margin-top: 3em">
     <ion-row>
       <ion-col>
-        <ion-row>
-          <ion-label style="margin: 0; font-size: 1.75em;">{{message}}</ion-label>
+        <ion-row class="separator-bottom">
+          <ion-label style="margin: 0; font-size: 1.75em;">{{message | sReplacer}}<br/><span style="font-size: .75em">(tap and move sliders to choose)</span></ion-label>
         </ion-row>
-        <ion-row style="padding:1em 1em 0 1em" *ngFor="let metric of displayMetrics; let idx = index">
+        <ion-row style="padding:.5em .5em 0 .5em" *ngFor="let metric of displayMetrics; let idx = index">
           <ion-col>
             <ion-card text-center *ngIf="metric.isNpsType()" style="font-size: 1.4em">
-              <span>{{metric.properties.question}}</span>
+              <span>{{metric.properties.positiveImpact | sReplacer}}</span>
               <ion-range
                 style="padding-top: 1.1em"
                 (ionChange)="setValue($event, metric)"

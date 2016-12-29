@@ -6,15 +6,15 @@ import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {MockAccountService} from "../../services/account/mock";
 import {LiveAccountService} from "../../services/account/live";
-import {MedvalComponent} from "../../shared/stuff/medval.component";
-import {Config} from "../../shared/aws/config";
+import {AdminComponent} from "../admin.component";
+import {Config} from "../../shared/config";
 
 @Component({
   templateUrl: './account.component.html',
   providers: [ AccountService, MockAccountService, LiveAccountService ]
 })
 
-export class AccountComponent extends MedvalComponent {
+export class AccountComponent extends AdminComponent {
 
   constructor(protected tokenProvider: AccessTokenService,
               public navCtrl: NavController,

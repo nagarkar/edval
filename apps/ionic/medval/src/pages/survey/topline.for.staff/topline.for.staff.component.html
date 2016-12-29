@@ -1,38 +1,27 @@
 <mdval-header [home]="survey"></mdval-header>
 
 <ion-content padding text-center>
-  <ion-grid style="padding-top:3em">
-    <ion-row *ngFor="let data of displayData; let idx = index" wrap center>
-      <ion-col offset-10 width-20>
-        <img class="border" src="{{data.staff.properties?.photoUrl}}" alt="{{data.staff.displayName}}">
+  <ion-grid *ngIf="displayData.length > 0" style="max-height:100%; padding-top:3em">
+    <ion-row *ngFor="let data of displayData; let idx = index">
+      <ion-col width-20>
+        <img class="border" [ngStyle]="styles.img" src="{{data.staff.properties?.photoUrl}}" alt="{{data.staff.displayName}}">
       </ion-col>
       <ion-col style="font-size: 2em">
-          <span>{{data.metric.properties.question | sReplacer:data}}</span>
-          <p text-center *ngIf="data.metric.isNpsType()">
+          <span [ngStyle]="styles.text">{{data.metric.properties.question | sReplacer:data}}</span>
+          <p [ngStyle]="styles.text" text-center *ngIf="data.metric.isNpsType()">
             <rating (ratingValueChange)="onSelection(data, $event);"
                     [ratingMax]="data.metric.properties.definition.npsType.range"
                     [ratingValue]="1"></rating>
           </p>
-          <p text-center *ngIf="data.metric.isTextType()">
-            <textFeedback (textValueChange)="onSelection(data, $event);" ></textFeedback>
-          </p>
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ion-label *ngIf="displayData.length == 0">
+    Looks like this survey is misconfigured.
+    The selected staff or their corresponding roles do not have a numeric top-line metric.
+  </ion-label>
 </ion-content>
-<ion-footer>
-  <ion-navbar style="margin:0;padding:0">
-    <div style="margin-left:30%">
-      <ion-list style="margin:0px">
-        <ion-item class="reassure">
-          <ion-icon name="lock" item-left></ion-icon>
-          Your feedback <b>is always anonymous</b>
-        </ion-item>
-      </ion-list>
-    </div>
-  </ion-navbar>
-</ion-footer>
-
+<mdval-footer [reassure]="true"></mdval-footer>
 <!--
 <ion-content class="card-background-page">
   <mdval-header></mdval-header>

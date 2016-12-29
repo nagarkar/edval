@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from "@angular/core";
 import {Survey} from "./schema";
 import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
-import {Config} from "../../shared/aws/config";
+import {Config} from "../../shared/config";
 import {AbstractMockService} from "../../shared/service/abstract.mock.service";
 
 @Injectable()
@@ -50,12 +50,6 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         showWheel: true,
       },
       workflow:[
-        {
-          component:"PickStaffComponent",
-          params: {
-            roles: ["Orthodontic Assistant", "MD", "FrontOffice"]
-          }
-        },
         {
           component:"SingleMetricComponent",
           params:{
@@ -215,17 +209,22 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         {
           component:"PickStaffComponent",
           params: {
-            roles: ["MD", "OrthoAssitant"]
+            roles: ["MD", "OrthoAssitant"],
+            displayCount: 5
           }
         },
         {
           component:"ToplineForStaffComponent",
-          executeIf: 'session.properties.selectedStaffUserNames.length > 0'
+          executeIf: 'session.properties.selectedStaffUserNames.length > 0',
+          params: {
+            displayCount: 5
+          }
         },
         {
           component:"MultimetricComponent",
           params: {
-            message:'Tell us about how the doctor & staff are doing',
+            message:`staffSvc.getOnly('MD') == null ? 'About the doctors at ' + account.properties.customerName
+              : 'Tell us more about ' + staffSvc.getOnly('MD').displayName`,
             metricIds: [
               '2861045b4984805ae23df729dad97b',
               '861045b4984805ae213df729dad97b',
@@ -237,12 +236,24 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         {
           component:"MultimetricComponent",
           params: {
-            message:'Tell us about the front-desk and other support staff',
+            message:"Tell us about the front-desk",
             metricIds: [
               '95a8659497274ffe9f8fb14fa45b21e5',
               '6e0f99cdd7a34a058ff2fb22fbe51738',
               '0f99cdd7a34a058ff2fb22fbe51738',
               '34182735427d4f2eba99eb0acb66078f',
+            ]
+          }
+        },
+        {
+          component:"MultimetricComponent",
+          params: {
+            message:"'Tell us how the assistants (' + staffSvc.getStaffFirstNamesInRole('Orthodontic Assistant') + ') are doing'",
+            metricIds: [
+              '2861045b4985ae23df729dad97b',
+              '861045b4984ae213df729dad97b',
+              '1045b4984ae213df729dad97b',
+              '045b498ae213df729dad97b',
             ]
           }
         },
@@ -266,7 +277,10 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         },
         {
           component:"HandleComplaintComponent",
-          isTerminal:true
+          isTerminal:true,
+          params: {
+            title: "account.properties.customerName + ' can do better'"
+          }
         },
       ]
     }));

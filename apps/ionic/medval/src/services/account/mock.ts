@@ -1,9 +1,8 @@
-import {Injectable} from '@angular/core';
-
-import { Account } from './schema';
+import {Injectable} from "@angular/core";
+import {Account} from "./schema";
 import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
-import {Config} from "../../shared/aws/config";
+import {Config} from "../../shared/config";
 import {AbstractMockService} from "../../shared/service/abstract.mock.service";
 
 @Injectable()

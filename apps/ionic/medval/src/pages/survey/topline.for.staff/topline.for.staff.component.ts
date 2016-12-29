@@ -1,15 +1,16 @@
 import {Component, ViewChild} from "@angular/core";
 import {Metric, MetricValue} from "../../../services/metric/schema";
 import {Utils} from "../../../shared/stuff/utils";
-import {RatingComponent} from "../../../shared/rating/rating.component";
+import {RatingComponent} from "../../../shared/components/rating/rating.component";
 import {Staff} from "../../../services/staff/schema";
 import {StaffService} from "../../../services/staff/delegator";
-import {SurveyNavigator, ISurveyComponent, RegisterComponent} from "../../../services/survey/survey.navigator";
+import {SurveyNavigator, RegisterComponent} from "../../../services/survey/survey.navigator";
 import {NavParams, NavController} from "ionic-angular";
 import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
 import {SurveyNavUtils} from "../SurveyNavUtils";
-import {SReplacer} from "../../../pipes/SReplacer";
+import {SurveyPage} from "../survey.page";
+import {Idle} from "@ng-idle/core";
 
 export interface dataInterface {staff: Staff, metric: Metric, value?: string};
 
@@ -20,23 +21,48 @@ export interface dataInterface {staff: Staff, metric: Metric, value?: string};
 })
 
 @RegisterComponent
-export class ToplineForStaffComponent implements ISurveyComponent {
+export class ToplineForStaffComponent extends SurveyPage {
 
   displayData: Array<dataInterface> = [];
+
+  styles: any = {};
 
   @ViewChild(RatingComponent) inputComponent: RatingComponent;
 
   constructor(
+    idle: Idle,
+    utils: Utils,
+    navCtrl: NavController,
+    sessionSvc: SessionService,
     params: NavParams,
-    private navCtrl: NavController,
-    private utils: Utils,
     private staffSvc: StaffService,
-    private sessionSvc: SessionService,
     private metricSvc: MetricService
   ) {
 
+    super(utils, navCtrl, sessionSvc, idle);
+
     let staffNames: string[] = sessionSvc.getCurrentSession().properties.selectedStaffUserNames;
     let displayCount = params.get('displayCount') || staffNames.length;
+    let imgStyleMap = {
+      1:'100%',
+        2:'85%',
+        3:'70%',
+        4:'60%',
+        5:'40%'
+    }
+    this.styles.img = {
+      width: imgStyleMap[Math.min(displayCount, staffNames.length)]
+    }
+    let textStyleMap = {
+      1:'1em',
+      2:'1em',
+      3:'.9m',
+      4:'.8em',
+      5:'.7em'
+    }
+    this.styles.text = {
+      'font-size': textStyleMap[Math.min(displayCount, staffNames.length)]
+    }
     if(staffNames.length == 0) {
       this.navigateToNext();
     }
@@ -48,6 +74,9 @@ export class ToplineForStaffComponent implements ISurveyComponent {
       if (rootMetrics.length == 0) {
         rootMetrics = metricSvc.getRootMetricsForSubject(Metric.createRoleSubject(role));
       }
+      rootMetrics.filter((rootMetric: Metric)=> {
+        return rootMetric.isNpsType();
+      })
       if (rootMetrics.length == 0) {
         continue;
       }

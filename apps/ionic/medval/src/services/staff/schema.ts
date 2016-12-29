@@ -1,4 +1,4 @@
-import {Config} from "../../shared/aws/config";
+import {Config} from "../../shared/config";
 import {Utils} from "../../shared/stuff/utils";
 export class Staff {
 
@@ -14,11 +14,27 @@ export class Staff {
     title?: string;
     firstName?: string;
     lastName?: string;
+    sex?: string;
     photoUrl?: string;
     email?: string;
     phoneNumber?: string;
   }
 
+  posessivePronoun() {
+    if(this.properties.sex == "male") {
+      return "his";
+    } else {
+      return "her";
+    }
+  }
+
+  personalPronoun (midSentence: boolean) {
+    if (this.properties.sex == "male") {
+      return midSentence ? "he" : "He";
+    } else {
+      return midSentence ? "she" : "She";
+    }
+  }
   toString() {
     return Utils.stringify(this);
   }

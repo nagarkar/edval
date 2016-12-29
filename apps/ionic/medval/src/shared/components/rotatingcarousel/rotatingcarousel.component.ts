@@ -1,6 +1,6 @@
-import { Component, Input, Output, EventEmitter, ElementRef } from '@angular/core';
+import {Component, Input, Output, EventEmitter, ElementRef} from "@angular/core";
 import {SlideItem} from "../carousel/carousel.schema";
-import {Utils} from "../../../shared/stuff/utils";
+import {Utils} from "../../stuff/utils";
 
 @Component({
   selector: 'rotating-carousel',
@@ -29,9 +29,10 @@ export class RotatingCarousel {
   }
 
   get selectedItems(): Array<SlideItem> {
-    return this.items.filter((value: SlideItem)=>{
+    let selectedItems: Array<SlideItem> = this.items.filter((value: SlideItem)=>{
       return value.isSelected;
     })
+    return selectedItems;
   }
 
   constructor(private eleRef: ElementRef) {

@@ -1,5 +1,5 @@
 import {AbstractService} from "../../shared/service/abstract.service";
-import {Config} from "../../shared/aws/config";
+import {Config} from "../../shared/config";
 import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {Injectable} from "@angular/core";

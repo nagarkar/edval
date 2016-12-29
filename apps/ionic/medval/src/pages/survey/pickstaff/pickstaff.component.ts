@@ -1,37 +1,43 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component} from "@angular/core";
 import {Utils} from "../../../shared/stuff/utils";
 import {StaffService} from "../../../services/staff/delegator";
-import {SlideItem} from "../carousel/carousel.schema";
+import {SlideItem} from "../../../shared/components/carousel/carousel.schema";
 import {Staff} from "../../../services/staff/schema";
-import {CarouselComponent} from "../carousel/carousel.component";
 import {NavController, NavParams} from "ionic-angular";
 import {LoginComponent} from "../../login/login.component";
 import {SessionService} from "../../../services/session/delegator";
-import {ServiceFactory} from "../../../services/service.factory";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
-import {SurveyNavUtils} from "../SurveyNavUtils";
+import {SurveyPage} from "../survey.page";
+import {Idle} from "@ng-idle/core";
 
 @Component({
   templateUrl:'pickstaff.component.html'
 })
 
 @RegisterComponent
-export class PickStaffComponent {
+export class PickStaffComponent extends SurveyPage {
 
   private roles: string[] = [];
   slides: SlideItem[] = [];
   slideToStaffMap: Map<number, Staff> = new Map<number, Staff>();
 
   selectedStaff: Set<Staff> = new Set<Staff>();
+  displayCount: number = 3;
 
   constructor(
-    private utils: Utils,
-    private navCtrl: NavController,
-    private sessionSvc: SessionService,
+    idle: Idle,
+    utils: Utils,
+    navCtrl: NavController,
+    sessionSvc: SessionService,
     private staffSvc: StaffService,
-    navParams: NavParams) {
+    params: NavParams) {
 
-    this.roles = navParams.get("roles") || [];
+    super(utils, navCtrl, sessionSvc, idle);
+    //SurveyNavUtils.setIdleWatch(idle, () => {utils.setRoot(navCtrl, StartWithSurveyOption);})
+
+    this.displayCount = params.get('displayCount') || 3;
+
+    this.roles = params.get("roles") || [];
     this.setupSlides();
   }
 
@@ -41,36 +47,32 @@ export class PickStaffComponent {
 
   /** Click handler for the flat carousel. */
   selectStaff(slideitem: SlideItem) {
-    const staff: Staff = this.slideToStaffMap.get(slideitem.idx);
-    Utils.log("In Pickstaff.selectStaff with item {0}\n {1}\n",
-      Utils.stringify(slideitem),
-      Utils.stringify(staff))
-    if (slideitem.isSelected) {
-      this.selectedStaff.add(staff);
-    } else {
-      this.selectedStaff.delete(staff);
-    }
-    Utils.log("Selected staff {0} in pickstaff.", staff.username);
-    if (this.selectedStaff.size > 2) {
-      this.navigateToNext();
-    }
+    this.processSelection(slideitem, false);
+  }
+
+  imageClick(slideitem: SlideItem) {
+    this.processSelection(slideitem, true);
   }
 
   /** Click handler for the rotating carousel. */
-  imageClick(slideitem: SlideItem) {
+  processSelection(slideitem: SlideItem, updateSelected: boolean) {
     const staff: Staff = this.slideToStaffMap.get(slideitem.idx);
     Utils.log("In Pickstaff.selectStaff with item {0}\n {1}\n",
       Utils.stringify(slideitem),
       Utils.stringify(staff))
     if (!slideitem.isSelected) {
-      slideitem.isSelected = true;
+      if (updateSelected) {
+        slideitem.isSelected = true;
+      }
       this.selectedStaff.add(staff);
     } else {
-      slideitem.isSelected = false;
+      if (updateSelected) {
+        slideitem.isSelected = false;
+      }
       this.selectedStaff.delete(staff);
     }
     Utils.log("Image click staff {0} in pickstaff.", staff.username);
-    if (this.selectedStaff.size > 2) {
+    if (this.selectedStaff.size >= this.displayCount) {
       this.navigateToNext();
     }
   }
@@ -112,9 +114,7 @@ export class PickStaffComponent {
   }
 
   public navigateToNext() {
-    if (this.sessionSvc.hasCurrentSession()) {
-      this.sessionSvc.getCurrentSession().setStaffUsernames(Staff.getUsernames(this.selectedStaff));
-    }
-    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl, this.utils);
+    this.sessionSvc.getCurrentSession().setStaffUsernames(Staff.getUsernames(this.selectedStaff));
+    super.navigateToNext();
   }
 }

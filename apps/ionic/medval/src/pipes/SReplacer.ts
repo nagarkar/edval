@@ -1,20 +1,23 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from "@angular/core";
 import {Staff} from "../services/staff/schema";
 import {Metric} from "../services/metric/schema";
 import {Session} from "../services/session/schema";
-import {Role, Account} from "../services/account/schema";
+import {Account} from "../services/account/schema";
 import {AccountService} from "../services/account/delegator";
-import {Config} from "../shared/aws/config";
+import {Config} from "../shared/config";
 import {Utils} from "../shared/stuff/utils";
+import {StaffService} from "../services/staff/delegator";
 
 declare function compile(src);
 
 export interface SReplacerDataMap {
   session?: Session;
   staff?: Staff;
-  role?: Role;
+  role?: string;
   metric?: Metric;
-  account: Account;
+  account?: Account;
+  accountSvc?: AccountService;
+  staffSvc?: StaffService;
 }
 
 @Pipe({name: 'sReplacer'})
@@ -22,11 +25,17 @@ export class SReplacer implements PipeTransform {
 
   static expressionMap: Map<string, Function> = new Map<string, Function>();
 
+  static EMPTY_STRING_FUNCTION = function() {
+    return '';
+  }
+
   dataPack: SReplacerDataMap;
 
-  constructor(private accountSvc: AccountService) {
+  constructor(private accountSvc: AccountService, private staffSvc?: StaffService) {
     this.dataPack = {
-      account: accountSvc.getCached(Config.CUSTOMERID)
+      account: accountSvc.getCached(Config.CUSTOMERID),
+      accountSvc: accountSvc,
+      staffSvc: staffSvc,
     }
   }
 
@@ -34,6 +43,8 @@ export class SReplacer implements PipeTransform {
     let func: Function = SReplacer.getFunctionForExpression(expression);
     let localDataMap: SReplacerDataMap = {
       account: this.dataPack.account,
+      accountSvc: this.dataPack.accountSvc,
+      staffSvc: (dataMap && dataMap.staffSvc)? dataMap.staffSvc : this.dataPack.staffSvc,
       session: dataMap? dataMap.session : null,
       role: dataMap? dataMap.role: null,
       metric: dataMap? dataMap.metric: null,
@@ -43,6 +54,9 @@ export class SReplacer implements PipeTransform {
   }
 
   private static getFunctionForExpression(expression: string): Function {
+    if (expression == null) {
+      return SReplacer.EMPTY_STRING_FUNCTION;
+    }
     const cleanExpression = expression.trim();
     let func = SReplacer.expressionMap.get(cleanExpression);
     if (!func) {

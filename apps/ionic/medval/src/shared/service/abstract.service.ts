@@ -5,7 +5,7 @@ import {HttpClient} from "../stuff/http.client";
 import {Utils} from "../stuff/utils";
 import {ServiceInterface} from "./interface.service";
 import {Http} from "@angular/http";
-import {Config} from "../aws/config";
+import {Config} from "../config";
 
 
 export abstract class AbstractService<T> implements ServiceInterface<T> {

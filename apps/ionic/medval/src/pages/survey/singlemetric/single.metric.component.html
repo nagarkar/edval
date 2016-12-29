@@ -1,31 +1,21 @@
 <mdval-header [home]="survey"></mdval-header>
 <ion-content class="card-background-page">
-  <ion-card>
+  <ion-card *ngIf="currentMetric.isNpsType()">
     <img src="https://notalwaysrelated.com/wp-content/uploads/2016/03/Family-Photo-1024x683.jpg"/>
     <div class="card-conversation-setup">{{currentMetric?.properties?.conversationSetup | sReplacer}}</div>
     <div class="card-title">{{currentMetric?.properties?.question | sReplacer}}</div>
-    <p text-center class="card-subtitle" *ngIf="currentMetric.isNpsType()">
+    <p text-center class="card-subtitle">
       <rating (ratingValueChange)="onSelection($event);"
               [ratingMax]="currentMetric.properties.definition.npsType.range"
               [ratingValue]="1"></rating>
     </p>
-    <p text-center *ngIf="currentMetric.isTextType()">
-      <textFeedback (textValueChange)="onSelection($event);" ></textFeedback>
-    </p>
   </ion-card>
+  <ion-label *ngIf="!currentMetric.isNpsType()">
+    Looks like this survey is misconfigured.
+    The metric to be displayed on this screen is not a numeric metric.
+  </ion-label>
 </ion-content>
-<ion-footer>
-  <ion-navbar style="margin:0;padding:0">
-    <div style="margin-left:30%">
-      <ion-list style="margin:0px">
-        <ion-item class="reassure">
-          <ion-icon name="lock" item-left></ion-icon>
-          Your feedback <b>is always anonymous</b>
-        </ion-item>
-      </ion-list>
-    </div>
-  </ion-navbar>
-</ion-footer>
+<mdval-footer [reassure]="true"></mdval-footer>
 
 <!--
 <div class="image">

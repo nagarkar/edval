@@ -2,7 +2,7 @@ import {SurveyNavigator, NavigationTarget} from "../../services/survey/survey.na
 import {ThanksComponent} from "./thanks/thanks.component";
 import {NavController} from "ionic-angular";
 import {Utils} from "../../shared/stuff/utils";
-import {Config} from "../../shared/aws/config";
+import {Config} from "../../shared/config";
 
 export class SurveyNavUtils {
   public static navigateOrTerminate(navigator: SurveyNavigator, navCtrl: NavController, utils: Utils, ...terminationMessage: string[]) {

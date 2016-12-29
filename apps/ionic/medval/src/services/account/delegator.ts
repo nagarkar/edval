@@ -1,6 +1,5 @@
-import {Injectable} from '@angular/core';
-
-import { Account } from './schema';
+import {Injectable} from "@angular/core";
+import {Account} from "./schema";
 import {DelegatingService} from "../../shared/service/delegating.service";
 import {MockAccountService} from "./mock";
 import {LiveAccountService} from "./live";

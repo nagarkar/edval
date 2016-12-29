@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "0.0.47",
+    "@ng-idle/core": "^2.0.0-beta.4",
     "del": "^2.2.2",
     "del-cli": "^0.2.1",
     "imagemin-cli": "^3.0.0",
