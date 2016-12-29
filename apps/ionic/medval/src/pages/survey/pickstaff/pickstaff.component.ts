@@ -73,7 +73,10 @@ export class PickStaffComponent extends SurveyPage {
     }
     Utils.log("Image click staff {0} in pickstaff.", staff.username);
     if (this.selectedStaff.size >= this.displayCount) {
-      this.navigateToNext();
+      setTimeout(() => {
+        this.navigateToNext();
+      }, 1000)
+
     }
   }
 
