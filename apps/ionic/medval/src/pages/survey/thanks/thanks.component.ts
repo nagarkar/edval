@@ -1,5 +1,5 @@
-import {Component, trigger, animate, transition, state, style} from "@angular/core";
-import {NavController, NavParams, Modal, ModalController, AlertController} from "ionic-angular";
+import {Component} from "@angular/core";
+import {NavController, NavParams, Modal, ModalController} from "ionic-angular";
 import {Config} from "../../../shared/config";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";

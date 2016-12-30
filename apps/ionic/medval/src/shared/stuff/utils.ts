@@ -299,7 +299,7 @@ export class Utils {
   }
 
   public forwardAnimation(): any {
-    if (Config.PAGE_TRANSITION_ANIMATION) {
+    if (Config.ANIMATE_PAGE_TRANSITIONS) {
       return {
         animate: true,
         direction: 'forward',

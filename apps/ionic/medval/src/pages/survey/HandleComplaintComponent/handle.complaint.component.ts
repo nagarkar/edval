@@ -10,7 +10,6 @@ import {Account} from "../../../services/account/schema";
 import {Idle} from "@ng-idle/core";
 import {SurveyPage} from "../survey.page";
 import {SReplacer} from "../../../pipes/SReplacer";
-import {StaffService} from "../../../services/staff/delegator";
 
 @Component({
   templateUrl: 'handle.complaint.component.html',

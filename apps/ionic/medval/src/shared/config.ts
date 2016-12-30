@@ -7,15 +7,19 @@ export class Config {
   private static _baseUrl: string = "http://localhost:8090";
 
   /* TODO this should not be hardcoded */
-  public static CUSTOMERID : string = "OMC";
+  static CUSTOMERID : string = "OMC";
 
-  public static readonly SHOW_JOKES: boolean = true;
-  public static readonly TIME_PER_JOKE: number = 10000;
+  static readonly ANIMATE_MODALS = false;
+  static ANIMATE_PAGE_TRANSITIONS: boolean = false;
+  static PAGE_TRANSITION_TIME: number = 1 * 1000;
 
-  public static LAST_SWEEPSTAKE_MILLIS: number = Date.now();
+  static readonly SHOW_JOKES: boolean = true;
+  static readonly TIME_PER_JOKE: number = 10000;
+
+  static LAST_SWEEPSTAKE_MILLIS: number = Date.now();
   // TODO Set this to 15 * 60 * 1000 before launch.
-  public static readonly MINUTES_BETWEEN_SWEEPSTAKES: number = 0;
-  public static readonly TIMEOUT_AFTER_SHOWING_YOU_WON_MESSAGE: number = 5 * 60 * 1000;
+  static readonly MINUTES_BETWEEN_SWEEPSTAKES: number = 0;
+  static readonly TIMEOUT_AFTER_SHOWING_YOU_WON_MESSAGE: number = 5 * 60 * 1000;
 
   public static POOL_DATA = {
     UserPoolId : 'us-east-1_WRjTRJPkD', // Your user pool metricId here
@@ -24,12 +28,8 @@ export class Config {
 
   static REFRESH_ACCESS_TOKEN: number = 30 * 60 * 1000;
 
-  static PAGE_TRANSITION_TIME: number = 1 * 1000;
-
-  static PAGE_TRANSITION_ANIMATION: boolean = false;
-
-  static SURVEY_PAGE_IDLE_SECONDS: number = 30;
-  static SURVEY_PAGE_TIMEOUT_SECONDS: number = 30;
+  static SURVEY_PAGE_IDLE_SECONDS: number = 60;
+  static SURVEY_PAGE_TIMEOUT_SECONDS: number = 60;
 
   static MOCK_DATA : {[key: string]: boolean} = {
     "Session": true,

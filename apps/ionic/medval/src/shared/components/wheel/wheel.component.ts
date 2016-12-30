@@ -1,5 +1,6 @@
 import {Component, Output, EventEmitter, Input} from "@angular/core";
 import {ViewController, AlertController, NavParams} from "ionic-angular";
+import {Config} from "../../config";
 
 declare var Winwheel: (options?: any, drawWheel?: boolean) => void;
 
@@ -93,7 +94,7 @@ export class WheelComponent {
       enableBackdropDismiss:false
     });
     alert.present({
-      animate:true,
+      animate: Config.ANIMATE_MODALS,
       easing:'ease-in',
       duration:100
     });

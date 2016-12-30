@@ -26,7 +26,6 @@
       <ion-row *ngIf="whatToShow == 'joke' && showJokes">
         <ion-col width-100 text-center>
           <img [ngStyle]="joke.style" src={{joke.url}}/>
-          <div>Laughter is the best medicine</div>
         </ion-col>
       </ion-row>
       <ion-row *ngIf="whatToShow == 'wheel' && showWheel" padding>

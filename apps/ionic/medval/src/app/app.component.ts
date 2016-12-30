@@ -9,7 +9,6 @@ import {LoginComponent} from "../pages/login/login.component";
 import {DashboardComponent} from "../pages/dashboard/dashboard.component";
 import {SurveySelectionComponent} from "../pages/survey/start/surveyselection.component";
 import {SettingsComponent} from "../pages/settings/settings.component";
-import {ThanksComponent} from "../pages/survey/thanks/thanks.component";
 
 
 @Component({

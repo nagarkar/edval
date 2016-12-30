@@ -3,7 +3,6 @@ import {Utils} from "../../shared/stuff/utils";
 import {Survey, ComponentIf, FnIf} from "./schema";
 import {MetricService} from "../metric/delegator";
 import {SurveyPage} from "../../pages/survey/survey.page";
-import {SReplacer} from "../../pipes/SReplacer";
 
 /** Annotation to register the component */
 export function RegisterComponent(constructor: Function) {

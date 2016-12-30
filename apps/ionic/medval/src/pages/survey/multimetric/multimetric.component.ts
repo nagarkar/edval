@@ -7,11 +7,8 @@ import {RegisterComponent} from "../../../services/survey/survey.navigator";
 import {SurveyNavUtils} from "../SurveyNavUtils";
 import {MetricService} from "../../../services/metric/delegator";
 import {Metric} from "../../../services/metric/schema";
-import {ObjectCycler} from "../../../shared/stuff/object.cycler";
 import {Idle} from "@ng-idle/core";
 import {SurveyPage} from "../survey.page";
-import {Config} from "../../../shared/config";
-import {StaffService} from "../../../services/staff/delegator";
 import {SReplacerDataMap} from "../../../pipes/SReplacer";
 
 @Component({
