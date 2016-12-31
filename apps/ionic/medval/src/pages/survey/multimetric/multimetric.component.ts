@@ -9,7 +9,7 @@ import {MetricService} from "../../../services/metric/delegator";
 import {Metric} from "../../../services/metric/schema";
 import {Idle} from "@ng-idle/core";
 import {SurveyPage} from "../survey.page";
-import {SReplacerDataMap} from "../../../pipes/SReplacer";
+import {SReplacerDataMap} from "../../../pipes/sreplacer";
 
 @Component({
   templateUrl: 'multimetric.component.html',

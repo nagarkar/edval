@@ -1,34 +1,35 @@
 <mdval-header></mdval-header>
-<ion-content stlyle="padding:30% 0 0 0">
-  <div style="text-align:center;margin-top: 4em">
+<ion-content>
+  <div class="m-t-4" text-center>
     <ion-row>
       <ion-col width-40>
         <!--img src="http://img.picturequotes.com/2/26/25637/when-you-know-better-you-do-better-quote-1.jpg"/-->
         <img src={{leftImage}}>
       </ion-col>
-      <ion-col class="text-center">
-        <p class="centeredHeading">
-          <h1 style="margin-top:0; margin-bottom:2px"><b>{{'account.properties.customerName' | sReplacer}}</b></h1>
-          <h2 style="margin-top:0;font-style: italic">appreciates&nbsp;your help!</h2>
-          <br/>
-          <ion-list>
-            <ion-item class="reassure">
-              <ion-icon name="lock" item-left></ion-icon>
+      <ion-col>
+        <h1 class="m-b-0"><b>{{'account.properties.customerName' | sReplacer}}</b></h1>
+        <h2><em>appreciates&nbsp;your help!</em></h2>
+        <br/>
+        <ion-list>
+          <ion-item color="light" no-lines>
+            <ion-icon name="lock" item-left></ion-icon>
+            <ion-list no-margin>
               Your feedback <b>is always anonymous</b>
-            </ion-item>
-          </ion-list>
-          <div *ngIf="defaultOnly">
-            <button style="width:10em" ion-button large color="primary" (click)="pickSurvey('default');">
-              <div class="card-title">Begin!</div>
-            </button>
-            <div>It will take just a minute!</div>
-          </div>
-          <div *ngIf="!defaultOnly">
-            <button *ngFor="let survey of surveys; let idx = index;" ion-button medium color="primary" (click)="pickSurvey(survey.id);">
-              <div class="card-title">{{survey.properties.timeCommitment}}. Lets do this!</div>
-            </button>
-          </div>
-        <button class="nothanks" ion-button medium clear (click)="noThanks();">No Thanks. I can't give feedback today.</button>
+            </ion-list>
+          </ion-item>
+        </ion-list>
+        <br/>
+        <div *ngIf="defaultOnly">
+          <button ion-button large color="primary" class='wide-btn' (click)="pickSurvey('default');">
+            <div class="card-title">Begin!</div>
+          </button>
+          <div>It will take just a minute!</div>
+        </div>
+        <div *ngIf="!defaultOnly">
+          <button *ngFor="let survey of surveys; let idx = index;" ion-button medium color="primary" (click)="pickSurvey(survey.id);">
+            <div class="card-title">{{survey.properties.timeCommitment}}. Lets do this!</div>
+          </button>
+        </div>
       </ion-col>
     </ion-row>
   </div>

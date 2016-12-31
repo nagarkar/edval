@@ -1,54 +1,63 @@
 <mdval-header [home]="survey"></mdval-header>
 <ion-content padding>
-  <div style="text-align:center;margin-top: 4em">
+  <div text-center class="m-t-4">
+    <form [formGroup]="complaintForm">
     <ion-row>
-      <ion-col width-30>
-        <img style="width:90%" src="http://www.nicephotomag.com/wp-content/uploads/2009/06/uniracer_2009_0409_1435_20_149.jpg">
+      <ion-col width-33>
+        <ion-row>
+          <ion-col>
+            <img src="http://www.nicephotomag.com/wp-content/uploads/2009/06/uniracer_2009_0409_1435_20_149.jpg">
+          </ion-col>
+        </ion-row>
       </ion-col>
-      <ion-col class="text-center">
-        <h1 style="margin-top:0; margin-bottom:2px"><b>{{title}}</b></h1>
-        <br/>
-        <h2 style="margin-top:0;margin-bottom:2em;font-size:1.5em">
+      <ion-col text-center>
+        <h1 *ngIf="title" class="m-b-1 .m-t-0p5"><b>{{title}}</b></h1>
+        <h2 class="font-40">
           We're sorry if you had a bad experience
         </h2>
-        <br/>
-        <br/>
-        <h3 style="margin-top:0;font-size:1.4em">
-          {{'Would you like a telephone/email follow-up from ' + account.properties.contactName + '? Your feedback remains anonymous'}}
+        <h3 class="m-t-1 font-40">
+          {{ account.properties.contactName + " would like to follow-up with you"}}
         </h3>
-        <ion-item>
-          <ion-input width-60 class="email" type="email" placeholder="youremail@gmail.com"></ion-input>
-          <ion-input width-40 type="tel" placeholder="206-555-5555"></ion-input>
-        </ion-item>
+        <ion-row responsive-sm>
+          <ion-col width-60>
+            <ion-item>
+              <ion-input clearOnEdit clearInput [(ngModel)]="email" [formControlName]="'email'" class="email" type="email" placeholder="youremail@gmail.com"></ion-input>
+            </ion-item>
+            <div class="alert subdued" *ngIf="!complaintForm.controls['email'].valid">(e.g.: abc@zyx.com)</div>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-input clearOnEdit clearInput [ngModel]="phone | phoneFormat" (ngModelChange)="phone=$event" [formControlName]="'phone'" type="tel" placeholder="206-555-5555"></ion-input>
+            </ion-item>
+            <div class="alert subdued" *ngIf="!complaintForm.controls['phone'].valid">(e.g.: (206) 443-3323</div>
+            <div class="alert subdued" *ngIf="complaintForm.controls['phone'].valid">&nbsp;</div>
+          </ion-col>
+        </ion-row>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-item>
-        <ion-label style="padding-left: 10px;margin-top: 2em;font-size: 1.2em;" stacked>
+        <ion-label class="cstm-label cstm-label-pdng" stacked>
           {{'Tell us the most important thing ' + account.properties.customerName + ' needs to fix'}}
         </ion-label>
         <ion-textarea
-          style="height: 5em;padding-left: 10px;padding-right: 1em;"
+          class="hc-cstm-textarea"
+          rows="7"
           placeholder="E.g. Getting an appointment was painful."
-          [(ngModel)]="complaintDetails">
+          [(ngModel)]="complaintMsg"
+          [formControlName]="'complaintMsg'">
         </ion-textarea>
       </ion-item>
     </ion-row>
-    <button ion-button (click)="navigateToNext()">{{complaintDetails? 'Done' : 'I don’t have time right now' }}</button>
+    <ion-row>
+      <ion-col>
+        <button large ion-button (click)="navigateToNext()">{{ (informationProvided) ? "Thank you!" : "Skip" }}</button>
+      </ion-col>
+    </ion-row>
+    </form>
   </div>
 </ion-content>
-<ion-footer>
-  <ion-navbar style="margin:0;padding:0">
-    <div style="margin-left:30%">
-      <ion-list style="margin:0px">
-        <ion-item class="reassure">
-          <ion-icon name="lock" item-left></ion-icon>
-          Your feedback <b>is always anonymous</b>
-        </ion-item>
-      </ion-list>
-    </div>
-  </ion-navbar>
-</ion-footer>
+<mdval-footer [reassure]="true"></mdval-footer>
 
 
 

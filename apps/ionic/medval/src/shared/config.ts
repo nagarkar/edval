@@ -6,6 +6,8 @@ export class Config {
 
   private static _baseUrl: string = "http://localhost:8090";
 
+  static readonly DEFAULT_CITY_CODE = "206"
+
   /* TODO this should not be hardcoded */
   static CUSTOMERID : string = "OMC";
 

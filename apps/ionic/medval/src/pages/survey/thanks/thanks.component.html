@@ -6,13 +6,12 @@
         <ion-col width-33>
           <img src="assets/img/thankyou.jpg"/>
         </ion-col>
-        <ion-col text-center style="padding: 1% 1% 1% 2%;">
+        <ion-col text-center>
           <ion-row>
             <ion-col>
               <div *ngFor="let msg of message; let idx = index;">
-                <h1 *ngIf="idx == 0">{{msg}}</h1>
-                <br *ngIf="idx > 0"/>
-                <h4 *ngIf="idx > 0">{{msg}}</h4>
+                <h1 class="m-t-0" *ngIf="idx == 0">{{msg}}</h1>
+                <h4 class="m-t-0" *ngIf="idx > 0">{{msg}}</h4>
               </div>
             </ion-col>
           </ion-row>

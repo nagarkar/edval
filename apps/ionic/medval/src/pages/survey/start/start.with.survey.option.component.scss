@@ -1,13 +1,7 @@
-.question {
-  font-style: italic;
-  color: color($colors, revvolvepurple);
-  font-size: 1.2em;
-}
-
-.reassure {
-  background-color: color($colors, light);
-}
-
 .nothanks {
   color: color($colors, revvolvepurple);
+}
+
+button.wide-btn {
+  width: 10em;
 }

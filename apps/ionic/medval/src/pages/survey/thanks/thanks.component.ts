@@ -4,7 +4,7 @@ import {Config} from "../../../shared/config";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
 import {ObjectCycler} from "../../../shared/stuff/object.cycler";
-import {SReplacer} from "../../../pipes/SReplacer";
+import {SReplacer} from "../../../pipes/sreplacer";
 import {AccountService} from "../../../services/account/delegator";
 import {Idle, DEFAULT_INTERRUPTSOURCES} from "@ng-idle/core";
 import {Subject} from "rxjs";

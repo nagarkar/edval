@@ -8,7 +8,7 @@ import {SessionService} from "../../services/session/delegator";
 import {MetricService} from "../../services/metric/delegator";
 import {StaffService} from "../../services/staff/delegator";
 import {AccountService} from "../../services/account/delegator";
-import {SReplacerDataMap} from "../../pipes/SReplacer";
+import {SReplacerDataMap} from "../../pipes/sreplacer";
 
 @Component({
   selector:'settings',

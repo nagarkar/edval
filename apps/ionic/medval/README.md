@@ -5,6 +5,8 @@
 * Node.js 4.2.2 or later
 * Typescript 2.0 (npm install typescript -g; direct your IDE to use this)
 
+## Icon and splash files
+* If you run ionic resources, it may changes the config.xml file and remove ios/android files. You may have to do some careful planning, but the best approach is to run it on a mac, try to generate both android and ios at the same time.
 
 ## Setup
 
