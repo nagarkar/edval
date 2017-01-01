@@ -9,7 +9,7 @@ export class Config {
   static readonly DEFAULT_CITY_CODE = "206"
 
   /* TODO this should not be hardcoded */
-  static CUSTOMERID : string = "OMC";
+  static CUSTOMERID : string; // = "OMC";
 
   static readonly ANIMATE_MODALS = false;
   static ANIMATE_PAGE_TRANSITIONS: boolean = false;
@@ -23,9 +23,19 @@ export class Config {
   static readonly MINUTES_BETWEEN_SWEEPSTAKES: number = 0;
   static readonly TIMEOUT_AFTER_SHOWING_YOU_WON_MESSAGE: number = 5 * 60 * 1000;
 
-  public static POOL_DATA = {
-    UserPoolId : 'us-east-1_WRjTRJPkD', // Your user pool metricId here
-    ClientId : 's8koda3rkc3rsjt3fdlvdnvia' // Your client metricId here
+  static readonly AWS_CONFIG = {
+    region: 'us-east-1',
+    logGroupName: 'revvolve/client',
+    IDENTITY_POOL_ID: 'us-east-1:ee9bbe7d-c315-4c88-baaa-4f32e1ee541d',
+    USER_POOL_ID : 'us-east-1_WRjTRJPkD', // Your user pool metricId here
+    ClientId: 's8koda3rkc3rsjt3fdlvdnvia', // Your client metricId here
+    LOG_BATCH_SIZE: 2
+  }
+
+
+  static POOL_DATA = {
+    UserPoolId : Config.AWS_CONFIG.USER_POOL_ID,
+    ClientId : Config.AWS_CONFIG.ClientId,
   };
 
   static REFRESH_ACCESS_TOKEN: number = 30 * 60 * 1000;
@@ -47,7 +57,7 @@ export class Config {
 
   static set baseUrl(url: string) {
     Config._baseUrl = url;
-    Utils.log("BaseUrl set to {0} and pingUrl set to {1}", url, Config.pingUrl);
+    Utils.error("BaseUrl set to {0} and pingUrl set to {1}", url, Config.pingUrl);
   }
 
   static get pingUrl() {

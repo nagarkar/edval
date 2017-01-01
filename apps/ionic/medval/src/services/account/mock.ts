@@ -15,7 +15,6 @@ export class MockAccountService extends AbstractMockService<Account> {
     accessProvider: AccessTokenService) {
 
     super(utils, accessProvider);
-    Utils.log("created " + typeof this);
   }
 
   reset() {
@@ -42,7 +41,7 @@ export class MockAccountService extends AbstractMockService<Account> {
       properties: {
         logo: "assets/img/logo.jpg",
         contactName: "Dr. Megha",
-        customerName: "Orthodontic Excellence",
+        accountName: "Orthodontic Excellence",
         address: {
         }
       }}));

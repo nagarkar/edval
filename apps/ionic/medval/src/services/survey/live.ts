@@ -15,7 +15,6 @@ export class LiveSurveyService extends AbstractService<Survey> {
     accessProvider: AccessTokenService) {
 
     super(utils, accessProvider, http, new Survey());
-    Utils.log("created account account");
   }
 
   getId(member: Survey): string {

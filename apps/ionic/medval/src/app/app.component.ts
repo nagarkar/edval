@@ -9,6 +9,7 @@ import {LoginComponent} from "../pages/login/login.component";
 import {DashboardComponent} from "../pages/dashboard/dashboard.component";
 import {SurveySelectionComponent} from "../pages/survey/start/surveyselection.component";
 import {SettingsComponent} from "../pages/settings/settings.component";
+import {Config} from "../shared/config";
 
 
 @Component({
@@ -29,7 +30,10 @@ export class MyApp {
       new AnyDetractors();
       new StrongPromoter();
       new StrongDetractor();
-      serviceFactory.resetRegisteredServices(); // this needs to be done first, esp in mock mode.
+      if (!window['REVVOLVE_PROD_ENV']) {
+        Config.CUSTOMERID = "OMC";
+        serviceFactory.resetRegisteredServices(); // this needs to be done first, esp in mock mode.
+      }
       HeaderComponent.HOME_MAP = {
         'login': LoginComponent,
         'dashboard': DashboardComponent,

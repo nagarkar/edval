@@ -45,7 +45,6 @@ export class SessionService extends DelegatingService<Session> {
   closeCurrentSession() {
     this.getCurrentSession().close();
     super.update(this.getCurrentSession());
-    Utils.log("Setting session to null. Session: {0}", Utils.stringify(this.getCurrentSession()));
     this.surveyNavigator = null;
   }
 
@@ -53,7 +52,7 @@ export class SessionService extends DelegatingService<Session> {
     if (this.hasCurrentSession()) {
       this.getCurrentSession().addNavigatedLocation(location);
     } else {
-      Utils.log("Attempted to call recordNavigatedLocationInCurrentSession with null currentSession");
+      Utils.error("SessionService.recordNavigatedLocationInCurrentSession(): Attempted to call recordNavigatedLocationInCurrentSession with null currentSession");
     }
   }
 

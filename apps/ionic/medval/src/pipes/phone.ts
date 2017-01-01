@@ -1,5 +1,4 @@
 import {Pipe} from "@angular/core";
-import {Config} from "../shared/config";
 
 /**
  * Takes a phone number with 10, 11 or 12 digits and any number of spaces, dashes, + signs or brackets.

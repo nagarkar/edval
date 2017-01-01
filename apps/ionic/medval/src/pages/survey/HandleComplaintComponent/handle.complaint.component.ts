@@ -11,7 +11,6 @@ import {Idle} from "@ng-idle/core";
 import {SurveyPage} from "../survey.page";
 import {SReplacer} from "../../../pipes/sreplacer";
 import {FormGroup, FormControl, Validators} from "@angular/forms";
-import {ValidationService} from "../../../shared/components/validation/validation.service";
 
 @Component({
   templateUrl: 'handle.complaint.component.html',
@@ -81,7 +80,7 @@ export class HandleComplaintComponent extends SurveyPage {
     //TODO Save email, phone and text to session.
 
     super.navigateToNext(
-      "account.properties.customerName + ' wants to do better'",
+      "account.properties.accountName + ' wants to do better'",
       "Your feedback is invaluable");
   }
 }

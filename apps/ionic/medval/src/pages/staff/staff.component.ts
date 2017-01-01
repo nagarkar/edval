@@ -94,7 +94,7 @@ export class StaffComponent extends AdminComponent  {
       )
       .catch(err => {
         this.utils.presentTopToast(err || "Could not get staff list!");
-        Utils.log(err)
+        Utils.error("StaffComponnet.getStaffList(): {0}", err);
       });
   }
 

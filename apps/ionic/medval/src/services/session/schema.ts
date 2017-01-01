@@ -3,6 +3,7 @@ import {Utils} from "../../shared/stuff/utils";
 
 export class SessionProperties {
   surveyId?: string;
+  timestamp: number;
   selectedStaffUserNames: Array<string> = [];
   selectedRoles: Array<string> = []
   staffMetricValues:Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
@@ -19,14 +20,13 @@ export class Session {
   customerId: string;
   sessionId: string;
   patientId?: string;
-  timestamp: number;
   entityStatus: string;
   properties: SessionProperties = new SessionProperties();
 
   constructor() {
     this.sessionId = Utils.guid("s");
     this.patientId = Utils.guid("p");
-    this.timestamp = Utils.getTime();
+    this.properties.timestamp = Utils.getTime();
   }
 
   close() {

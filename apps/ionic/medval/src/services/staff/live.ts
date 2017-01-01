@@ -15,7 +15,6 @@ export class LiveStaffService extends AbstractService<Staff> {
     accessProvider: AccessTokenService) {
 
     super(utils, accessProvider, http, new Staff());
-    Utils.log("created account account");
   }
 
   getId(member: Staff): string {

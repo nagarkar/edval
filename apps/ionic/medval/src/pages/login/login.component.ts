@@ -31,28 +31,25 @@ export class LoginComponent {
   public login() {
 
     // TODO Remove before launch
-    this.navigateToDashboardPage();
-    if (1 == 1) return;
+    //this.navigateToDashboardPage();
+    //if (1 == 1) return;
     // TODO end
 
 
     let username: string = this.loginForm.controls[ 'username' ].value.trim();
     let password: string = this.loginForm.controls[ 'password' ].value.trim();
 
-    Utils.log("Presenting loading");
     let loading: Loading = this.utils.presentLoading(2000);
-    Utils.log("finished presenting loading");
 
     // Start new session and dismiss loading screen on success/failure (this dismiss step is required for ios/not for web)
     let subscription: Subject<AuthResult> = this.authProvider.startNewSession(username, password).subscribe(
       (token: AuthResult) => {
-        Utils.log("in subscribe success");
         this.navigateToDashboardPage();
         subscription.unsubscribe();
         loading.dismissAll();
       },
       (err) => {
-        Utils.log("in subscribe error:"+err);
+        Utils.error("LoginComponent.login().startNewSession:" + err);
         this.utils.presentTopToast("Login Failed with error: " + err + ". Please try again!");
         loading.dismissAll();
       },

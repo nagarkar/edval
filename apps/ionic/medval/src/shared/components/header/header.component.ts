@@ -19,12 +19,7 @@ export class HeaderComponent {
   /** '' home tells this component not to show the home icon **/
   @Input() home: string;
 
-  constructor(
-    private navCtrl: NavController,
-    private utils: Utils // instance required for navigation.
-  ) {
-    Utils.log("Created header");
-  }
+  constructor(private navCtrl: NavController, private utils: Utils) { }
 
   goHome() {
     this.utils.setRoot(this.navCtrl, HeaderComponent.HOME_MAP[this.home] || HeaderComponent.DEFAULT_HOME);

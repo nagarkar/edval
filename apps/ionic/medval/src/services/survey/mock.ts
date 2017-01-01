@@ -15,7 +15,6 @@ export class MockSurveyService extends AbstractMockService<Survey> {
     accessProvider: AccessTokenService) {
 
     super(utils, accessProvider);
-    Utils.log("created survey)");
   }
 
   reset() {
@@ -223,7 +222,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         {
           component:"MultimetricComponent",
           params: {
-            message:`staffSvc.getOnly('MD') == null ? 'About the doctors at ' + account.properties.customerName
+            message:`staffSvc.getOnly('MD') == null ? 'About the doctors at ' + account.properties.accountName
               : 'Tell us more about ' + staffSvc.getOnly('MD').displayName`,
             metricIds: [
               '2861045b4984805ae23df729dad97b',
@@ -279,7 +278,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           component:"HandleComplaintComponent",
           isTerminal:true,
           params: {
-            title: "account.properties.customerName + ' can do better'"
+            title: "account.properties.accountName + ' can do better'"
           }
         },
       ]

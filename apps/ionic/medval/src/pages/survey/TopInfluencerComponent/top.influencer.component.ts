@@ -129,7 +129,7 @@ export class TopInfluencerComponent extends SurveyPage {
         this.numSelections,
         ")",
         " things ",
-        this.account.properties.customerName,
+        this.account.properties.accountName,
         " does really well?"
       ].join('');
     } else {
@@ -138,7 +138,7 @@ export class TopInfluencerComponent extends SurveyPage {
         this.numSelections,
         ")",
         "things ",
-        this.account.properties.customerName,
+        this.account.properties.accountName,
         " should improve!"
       ].join('');
     }

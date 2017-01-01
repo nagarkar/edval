@@ -18,10 +18,7 @@ export class ServiceFactory {
 
   private serviceMap: Map<string, ServiceInterface<any>> = new Map<string, ServiceInterface<any>>();
 
-  public ServiceFactory(injector: Injector) {
-    ServiceFactory.serviceConstructors.forEach((constructor: Function)=>{
-      this.serviceMap.set(constructor.name, injector.get(constructor));
-    })
+  constructor(private injector: Injector) {
   }
 
   registerService(instance: ServiceInterface<any>) {
@@ -29,9 +26,15 @@ export class ServiceFactory {
   }
 
   resetRegisteredServices() {
-    Utils.log("Reseting registered services");
+    if (this.serviceMap.size == 0) {
+      ServiceFactory.serviceConstructors.forEach((constructor: Function) => {
+        this.serviceMap.set(constructor.name, this.injector.get(constructor));
+      });
+    }
     this.serviceMap.forEach((value: ServiceInterface<any>)=>{
-      value.reset();
+      if (value) {
+        value.reset();
+      }
     })
   }
 

@@ -57,9 +57,6 @@ export class PickStaffComponent extends SurveyPage {
   /** Click handler for the rotating carousel. */
   processSelection(slideitem: SlideItem, updateSelected: boolean) {
     const staff: Staff = this.slideToStaffMap.get(slideitem.idx);
-    Utils.log("In Pickstaff.selectStaff with item {0}\n {1}\n",
-      Utils.stringify(slideitem),
-      Utils.stringify(staff))
     if (!slideitem.isSelected) {
       if (updateSelected) {
         slideitem.isSelected = true;
@@ -71,7 +68,6 @@ export class PickStaffComponent extends SurveyPage {
       }
       this.selectedStaff.delete(staff);
     }
-    Utils.log("Image click staff {0} in pickstaff.", staff.username);
     if (this.selectedStaff.size >= this.displayCount) {
       setTimeout(() => {
         this.navigateToNext();
@@ -103,7 +99,6 @@ export class PickStaffComponent extends SurveyPage {
           })
           .map<SlideItem>((staff: Staff): SlideItem => {
             this.slideToStaffMap.set(count, staff);
-            Utils.log("In setup slides, wtih staff: {0}", Utils.stringify(staff));
             return <SlideItem>{
               idx: count++,
               heading: staff.displayName,

@@ -28,14 +28,13 @@ export class AccountComponent extends AdminComponent {
 
   ngOnInit(): void {
     super.ngOnInit();
-    Utils.log("Calling account account to get account");
     this.accountSvc.get(Config.CUSTOMERID)
       .then((account: Account) => {
         this.account = account;
       })
       .catch(err => {
+        Utils.error(err);
         this.utils.presentTopToast(err || "Could not retrieve Account");
-        Utils.log(err)
       });
   }
 

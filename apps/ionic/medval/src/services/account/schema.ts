@@ -8,9 +8,9 @@ export class Account {
 
   customerId: string;
   properties : {
-    customerName: string,
-    contactName: string,
-    logo: string,
+    accountName?: string,
+    contactName?: string,
+    logo?: string,
     address: {
       street1?: string;
       street2?: string;
@@ -27,7 +27,7 @@ export class Account {
 
   constructor() {
     this.properties = {
-      customerName: "",
+      accountName: "",
       contactName: '',
       logo: '',
       address: {}

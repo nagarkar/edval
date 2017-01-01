@@ -81,7 +81,7 @@ export class MetricSummaryComponent implements OnInit{
       this.updateAll(toUpdate);
 
     } catch(error) {
-      Utils.log("Error in ")
+      Utils.error("MetricSummaryComponent: {0}", error)
     } finally {
       this.navCtrl.pop();
     }

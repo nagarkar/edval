@@ -16,7 +16,6 @@ export class MockStaffService extends AbstractMockService<Staff> {
     accessProvider: AccessTokenService) {
 
     super(utils, accessProvider);
-    Utils.log("created staff account)");
   }
 
   reset() {
