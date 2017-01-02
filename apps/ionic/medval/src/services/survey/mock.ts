@@ -1,9 +1,10 @@
 import {Injectable} from "@angular/core";
-import {Survey} from "./schema";
+import {Survey, WorkflowElement} from "./schema";
 import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {Config} from "../../shared/config";
 import {AbstractMockService} from "../../shared/service/abstract.mock.service";
+import {ErrorType} from "../../shared/stuff/error.types";
 
 @Injectable()
 export class MockSurveyService extends AbstractMockService<Survey> {
@@ -29,7 +30,11 @@ export class MockSurveyService extends AbstractMockService<Survey> {
     return member.id = id;
   }
 
-  public mockData() : Map<string, Survey> {
+  validate(surveys: Survey[]): Error[] {
+    return MockSurveyService.validateSurveys(surveys);
+  }
+
+  mockData() : Map<string, Survey> {
     return MockSurveyService.surveyMap;
   }
 
@@ -40,8 +45,8 @@ export class MockSurveyService extends AbstractMockService<Survey> {
       id: "default",
       entityStatus: "ACTIVE",
       properties: {
-        name: "CAHPS Survey",
-        purpose: "CAHPS-equivalent survey",
+        name: "Short Survey",
+        purpose: "Continuous Measurement",
         timeCommitment: "I have a minute"
       },
       workflowProperties: {
@@ -50,53 +55,57 @@ export class MockSurveyService extends AbstractMockService<Survey> {
       },
       workflow:[
         {
+          id: 'start',
           component:"SingleMetricComponent",
           params:{
             metricId: "root"
           },
         },
         {
+          id: 'detractor',
           fn:"StrongDetractor",
           params:{
             metricId: "root"
           },
           navigateOnResult: {
-            "false": 2,
-            "true": 1
+            "false": 'happy',
+            "true": 'unhappy'
           }
         },
         {
+          id:'unhappy',
           component:"HandleComplaintComponent",
           isTerminal:true
         },
         {
+          id:'happy',
           fn:"StrongPromoter",
           params:{
             metricId: "root"
           },
           navigateOnResult: {
-            "false": 1,
-            "true": 2
+            "false": "things.done.poorly",
+            "true": "things.done.well"
           }
         },
         {
+          id:'things.done.poorly',
           component:"TopInfluencerComponent",
           params: {
             valueOrderDesc: false,
-            maxMetrics:4,
-            rootMetricId: null,
+            maxMetrics:4
           },
-          isTerminal:true
         },
         {
+          id:'things.done.well',
           component:"TopInfluencerComponent",
           params: {
             valueOrderDesc: true,
-            maxMetrics: 4,
-            rootMetricId: null
+            maxMetrics: 4
           }
         },
         {
+          id:'request.review',
           component:"RequestReviewComponent2",
           isTerminal:true
         }
@@ -107,9 +116,9 @@ export class MockSurveyService extends AbstractMockService<Survey> {
       id: "twominute",
       entityStatus: "ACTIVE",
       properties: {
-        name: "Short Survey",
-        purpose: "2 minute in-visit survey",
-        timeCommitment: "I have 2 minutes"
+        name: "Medium Sized Survey",
+        purpose: "In-visit survey",
+        timeCommitment: "I have 2-3 minutes"
       },
       workflowProperties: {
         showJokes: true,
@@ -117,47 +126,50 @@ export class MockSurveyService extends AbstractMockService<Survey> {
       },
       workflow:[
         {
-          component:"ToplineForStaffComponent",
-          executeIf: 'session.properties.selectedStaffUserNames.length > 0'
-        },
-        {
+          id:'start',
           component:"SingleMetricComponent",
           params:{
             metricId: "root"
           },
         },
         {
+          id:'strong.detractor.score',
           fn:"StrongDetractor",
           params:{
             metricId: "root"
           },
           navigateOnResult: {
-            "false": 2,
-            "true": 1
+            "false": "pick.staff",
+            "true": "unhappy"
           }
         },
         {
+          id:'unhappy',
           component:"HandleComplaintComponent",
           isTerminal:true
         },
         {
+          id:'pick.staff',
           component:"PickStaffComponent",
           params: {
             roles: ["MD", "Orthodontic Assitant"]
           }
         },
         {
+          id:'staff.nps',
           component:"ToplineForStaffComponent",
           executeIf: 'session.properties.selectedStaffUserNames.length > 0'
         },
         {
+          id:'any.detractors',
           fn:"AnyDetractors",
           navigateOnResult: {
-            "false": 1,
-            "true": -3
+            "false": "things.done.poorly",
+            "true": "unhappy"
           }
         },
         {
+          id:'things.done.poorly',
           component:"TopInfluencerComponent",
           params: {
             valueOrderDesc: false,
@@ -166,6 +178,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           },
         },
         {
+          id:'things.done.well',
           component:"TopInfluencerComponent",
           params: {
             valueOrderDesc: true,
@@ -174,13 +187,15 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
+          id:'all.promoter.scores',
           fn: "AllPromoters",
           navigateOnResult: {
-            "true": 1,
-            "false": Infinity // end if false.
+            "true": "request.review",
+            "false": Infinity.toString() // end if false.
           }
         },
         {
+          id:'request.review',
           component:"RequestReviewComponent2",
           isTerminal:true
         },
@@ -191,21 +206,24 @@ export class MockSurveyService extends AbstractMockService<Survey> {
       id: "full",
       entityStatus: "ACTIVE",
       properties: {
-        name: "Full Survey",
-        purpose: "5 minute survey (provide every six months)",
-        timeCommitment: "I have 5 minutes"
+        name: "Full Survey with CAHPS",
+        purpose: "Six month survey",
+        timeCommitment: "I have 5-6 minutes"
       },
       workflowProperties: {
         showJokes: true,
+        showWheel: true,
       },
       workflow:[
         {
+          id:'start',
           component:"SingleMetricComponent",
           params:{
             metricId: "root"
           },
         },
         {
+          id:'pick.staff',
           component:"PickStaffComponent",
           params: {
             roles: ["MD", "OrthoAssitant"],
@@ -213,6 +231,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
+          id:'staff.nps',
           component:"ToplineForStaffComponent",
           executeIf: 'session.properties.selectedStaffUserNames.length > 0',
           params: {
@@ -220,6 +239,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
+          id: 'md.metrics',
           component:"MultimetricComponent",
           params: {
             message:`staffSvc.getOnly('MD') == null ? 'About the doctors at ' + account.properties.accountName
@@ -233,6 +253,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
+          id: 'front.desk.metrics',
           component:"MultimetricComponent",
           params: {
             message:"Tell us about the front-desk",
@@ -245,6 +266,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
+          id: 'assistant.metrics',
           component:"MultimetricComponent",
           params: {
             message:"'Tell us how the assistants (' + staffSvc.getStaffFirstNamesInRole('Orthodontic Assistant') + ') are doing'",
@@ -257,24 +279,28 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
+          id: 'all.promoters',
           fn:"AllPromoters",
           navigateOnResult: {
-            "false": 2,
-            "true": 1
+            "false": "any.detractors",
+            "true": "happy"
           }
         },
         {
+          id: 'happy',
           component:"RequestReviewComponent2",
           isTerminal:true
         },
         {
+          id: 'any.detractors',
           fn:"AnyDetractors",
           navigateOnResult: {
             "false": Infinity,
-            "true": 1
+            "true": "unhappy"
           }
         },
         {
+          id: 'unhappy',
           component:"HandleComplaintComponent",
           isTerminal:true,
           params: {
@@ -283,6 +309,30 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         },
       ]
     }));
+    let errors = MockSurveyService.validateSurveys(Array.from(map.values()));
+    if (errors.length > 0) {
+      Utils.error(errors.toString());
+    };
     return map;
+  }
+
+  static validateSurveys(surveys: Survey[]): Error[] {
+    let errors: Error[] = [];
+    surveys.forEach((survey: Survey)=>{
+      if (!survey.id) {
+        errors.push((new Error(Utils.format("Survey has null id. Survey: {0}", Utils.stringify(survey)))));
+      }
+      let ids: Set<string> = new Set<string>();
+      survey.workflow.forEach((value: WorkflowElement)=> {
+        if (ids.has(value.id)) {
+          errors.push(ErrorType.EntityValidationError("Duplicate id found; a dup elements is: {0} in survey id {1}",
+            Utils.stringify(value), survey.id));
+        }
+        if (!value['fn'] && !value['component']) {
+          errors.push(ErrorType.EntityValidationError("workflow elements must have either 'component' or 'fn' attribute"));
+        }
+      })
+    })
+    return errors;
   }
 }

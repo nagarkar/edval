@@ -1,6 +1,6 @@
 import {Session} from "../session/schema";
 import {Utils} from "../../shared/stuff/utils";
-import {Survey, ComponentIf, FnIf} from "./schema";
+import {Survey, ComponentIf, FnIf, WorkflowElement} from "./schema";
 import {MetricService} from "../metric/delegator";
 import {SurveyPage} from "../../pages/survey/survey.page";
 
@@ -43,6 +43,8 @@ export class SurveyNavigator {
    */
   private lastResult : any;
 
+  private idToProgCounter: Map<string, number> = new Map<string, number>();
+
   get previousResult(): any {
     return this.lastResult;
   }
@@ -53,6 +55,7 @@ export class SurveyNavigator {
 
   constructor(public session: Session, public survey: Survey, public metricSvc: MetricService) {
     Utils.assertTrue(session.properties.surveyId == survey.id);
+    this.idToProgCounter = this.createIdToProgCounter(this.survey.workflow);
   }
 
   /**
@@ -81,6 +84,14 @@ export class SurveyNavigator {
     return this.getNavigationTarget();
   }
 
+  private createIdToProgCounter(workflow: WorkflowElement[]): Map<string, number> {
+    let ret: Map<string, number> = new Map<string, number>();
+    workflow.forEach((element: WorkflowElement, index: number)=> {
+      ret.set(element.id, index);
+    });
+    return ret;
+  }
+
   private shouldExecute(step: ComponentIf): boolean {
     if (!step.executeIf) {
       return true;
@@ -97,7 +108,7 @@ export class SurveyNavigator {
   private processFunction(step: FnIf): void {
     Utils.assertFalse(step.isTerminal && step.navigateOnResult);
     let fn: ISurveyFunction = SurveyNavigator.fnMap.get(step.fn);
-    let jump: number = null;
+    let jump: string = null;
     if (fn.canExecute(this, step.params)) {
       this.lastResult = fn.execute(this, step.params);
       if (step.navigateOnResult) {
@@ -105,12 +116,12 @@ export class SurveyNavigator {
       }
     }
     if (jump){
-      this.progCounter += (jump - 1); // -1 because we've already incremented the pc in the main loop.
+      this.progCounter = this.idToProgCounter.get(jump);
     }
   }
 
   /** Unless the step is a terminal step, increments the program counter. */
-  private incrementOrTerminateProgramCounter(step: ComponentIf | FnIf) : void {
+  private incrementOrTerminateProgramCounter(step: WorkflowElement) : void {
     if (step.isTerminal) {
       this.progCounter = SurveyNavigator.TERMINAL;
     } else {

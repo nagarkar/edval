@@ -16,7 +16,7 @@ export class Survey {
     timeCommitment?: string;
   };
   workflowProperties: any;
-  workflow: ComponentIf[] |FnIf[];
+  workflow: WorkflowElement[];
 
   toString() {
     return Utils.stringify(this);
@@ -27,8 +27,8 @@ export class Survey {
   }
 }
 
-export interface ComponentIf {
-  component:string,
+export interface WorkflowElement {
+  id: string,
   params?: {
     metricId?: string,
     staffId?: string,
@@ -36,22 +36,18 @@ export interface ComponentIf {
     sampleSize?: number,
     metrics?: Array<string>
   },
+  isTerminal?: boolean
+}
+
+export interface ComponentIf extends WorkflowElement {
+  component:string,
   executeIf?: string,
   navigateOnException?: number,
-  isTerminal?: boolean
 };
 
-export interface FnIf {
+export interface FnIf extends WorkflowElement{
   fn:string,
-  params?: {
-    metricId?: string,
-    staffId?: string,
-    roles?: Array<string>,
-    sampleSize?: number,
-    metrics?: Array<string>
-  },
   navigateOnResult?: {
-    [res: string]: number;
+    [res: string]: string;
   },
-  isTerminal?: boolean
 };

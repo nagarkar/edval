@@ -1,7 +1,5 @@
 import {EventEmitter} from "@angular/core";
 import {ServiceInterface} from "./interface.service";
-import {AbstractService} from "./abstract.service";
-import {AbstractMockService} from "./abstract.mock.service";
 
 declare let REVVOLVE_PROD_ENV: boolean;
 
@@ -14,8 +12,8 @@ export abstract class DelegatingService<T> implements ServiceInterface<T> {
   public onDelete: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(
-    private mockService: AbstractMockService<T>,
-    private liveService: AbstractService<T>) {
+    private mockService: ServiceInterface<T>,
+    private liveService: ServiceInterface<T>) {
 
     this.subscribeToEventsFor(this.getDelegate());
   }
@@ -77,6 +75,11 @@ export abstract class DelegatingService<T> implements ServiceInterface<T> {
 
   delete(id: string): Promise<boolean> {
     return this.getDelegate().delete(id);
+  }
+
+  /** Override this method to implmeent validations */
+  validate(members: T[]): Error[] {
+    return this.getDelegate().validate(members);
   }
 
   private subscribeToEventsFor(delegate: ServiceInterface<T>) {

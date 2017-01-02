@@ -3,11 +3,13 @@
   <div class="m-t-4" text-center>
     <ion-grid>
       <ion-row>
+        <!--
         <ion-col width-40>
           <img style="height:100%" src={{leftImage}}>
         </ion-col>
+        -->
         <ion-col text-center class="new-card-md p-t-1">
-          <h1 class="m-b-2"><b>{{message}}</b></h1>
+          <h1><b>{{message}}</b></h1>
           <ion-grid class="pos-rel">
             <ion-row *ngFor="let i of rows">
               <ion-col  *ngFor="let metric of displayMetrics | slice:(i*numCols):(i+1)*numCols; let j = index;">

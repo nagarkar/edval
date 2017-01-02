@@ -129,7 +129,12 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
         });
   }
 
-  public getInstance(): T {
+  /** Override this method to implement validations */
+  validate(members: T[]): Error[] {
+    return [];
+  }
+
+  getInstance(): T {
     return this.instance;
   }
 

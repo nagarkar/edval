@@ -23,4 +23,6 @@ export interface ServiceInterface<T> {
    * context, etc.
    */
   reset(): void;
+
+  validate(members: T[]): Error[];
 }

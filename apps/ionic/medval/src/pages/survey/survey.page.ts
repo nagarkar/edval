@@ -21,6 +21,7 @@ export class SurveyPage {
       })
       idle.watch();
     }
+    sessionSvc.recordNavigatedLocationInCurrentSession(Utils.getObjectName(this));
   }
 
   public navigateToNext(...terminationMessage: string[]) {

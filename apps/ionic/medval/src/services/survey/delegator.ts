@@ -14,8 +14,4 @@ export class SurveyService extends DelegatingService<Survey> {
 
     super(mockService, liveService);
   }
-
-  getId(member: Survey): string {
-    return member.id;
-  }
 }

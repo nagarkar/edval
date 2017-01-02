@@ -89,7 +89,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
           : 'Are the Orthodontic Assistants friendly and courteous?'`,
         metricName: 'FriendlycourteousMD',
         positiveImpact: `staff ? staff.displayName + ' is friendly. ' + staff.personalPronoun() + ' treats me with the utmost respect'
-            : 'The Orthodontic Assistants are friendly. They treat me with the utmost respect'`,
+            : 'The Orthodontic Assistants are friendly and respectful'`,
         improvement: "(staff ? staff.displayName : 'The Orthodontic Assistants') + ' could be more friendly and courteous'",
         definition: {
           npsType: {
@@ -126,7 +126,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         metricName: 'Treatment progress',
         question: `(staff ? 'Does ' + staff.displayName : 'Do the Orthodontic Assistants ') + ' keep you well-informed about progress & answer your questions?'`,
         positiveImpact: `staff ? staff.displayName + ' keeps me informed of treatment progress & answers my questions' 
-          : "The Orthodontic Assistants answer my questions and get the doctor involved if they can't"`,
+          : "The Orthodontic Assistants answer my questions and keep the doctor involved"`,
         improvement: "(staff ? staff.displayName : 'The Orthodontic Assistants') + ' could do a better job addressing my questions and concerns'",
         definition: {
           npsType: {
@@ -263,9 +263,9 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:FrontOffice",
       properties: {
         metricName: 'FinancialCoordination',
-        question: 'Did the Financial Coordinator present financial information clearly & concisely',
-        positiveImpact: 'The Financial Coordinator presented financial information clearly & concisely',
-        improvement: 'The front office staff needs to be more professional and helpful!',
+        question: 'Did the Financial Coordinator present information clearly & concisely',
+        positiveImpact: 'The Financial Coordinator presented information clearly & concisely',
+        improvement: 'The front office staff needs to be more professional and helpful',
         definition: {
           npsType: {
             range: 11
@@ -281,7 +281,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       properties: {
         metricName: 'Was it easy and convenient to book an appointment?',
         question: 'Do you usually get an appointment at a time and location convenient to you?',
-        positiveImpact: "It's always easy to book an appointment!",
+        positiveImpact: "It's always easy to book an appointment",
         improvement: "Please make it easier to get convenient appointments",
         definition: {
           npsType: {
@@ -299,7 +299,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         metricName: 'Once you arrived, did you see your doctor on time?',
         question: 'Do you usually wait less than 5 minutes after you arrive for your appointment?',
         positiveImpact: 'My wait time is always less than 5 minutes after I arrive',
-        improvement: 'I had to wait too long in the waiting area. Please get organized!',
+        improvement: 'I had to wait too long in the waiting area. Please get organized',
         definition: {
           npsType: {
             range: 11
@@ -316,7 +316,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         metricName: 'cleanliness',
         question: 'Was the reception area comfortable & clean?',
         positiveImpact: 'The reception area is comfortable & clean',
-        improvement: 'Please keep the reception area comfortable & clean!',
+        improvement: 'Please keep the reception area comfortable & clean',
         definition: {
           npsType: {
             range: 11

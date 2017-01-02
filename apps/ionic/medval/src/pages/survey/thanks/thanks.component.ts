@@ -54,6 +54,13 @@ export class ThanksComponent {
     private utils: Utils
     ) {
 
+    sessionSvc.recordNavigatedLocationInCurrentSession(Utils.getObjectName(this));
+
+    // TODO remove
+    this.closeSession();
+    if (1==1) return;
+    // TODO END
+
     this.setupIdleTimeout();
     this.message = this.constructMessage(navParams.get('message'));
     if (this.message.length < 2) {
@@ -112,9 +119,7 @@ export class ThanksComponent {
   }
 
   private closeSession() {
-    if (this.sessionSvc.hasCurrentSession()) {
-      this.sessionSvc.closeCurrentSession();
-    }
+    this.sessionSvc.closeCurrentSession();
     this.utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultOnly: true})
   }
 

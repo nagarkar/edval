@@ -46,7 +46,8 @@ export class TopInfluencerComponent extends SurveyPage {
     private accountSvc: AccountService,
     private metricSvc: MetricService) {
 
-    super(utils, navCtrl, sessionSvc, idle);
+    //TODO Add back idle.
+    super(utils, navCtrl, sessionSvc);
 
     this.account = accountSvc.getCached(Config.CUSTOMERID);
 
@@ -115,31 +116,35 @@ export class TopInfluencerComponent extends SurveyPage {
   /** Gets drilldown metrics for current root metric, shuffles result, and then picks top N items */
   private setupDisplayMetrics(metricSvc: MetricService) {
     let drilldownMetrics: Metric[] = metricSvc.getCachedNpsDrilldownMetrics(this.rootMetricId);
+    drilldownMetrics = this.removeMeasuredMetrics(drilldownMetrics);
     Utils.shuffle(drilldownMetrics);
-    drilldownMetrics = drilldownMetrics.slice(0, Math.min(this.maxMetrics, drilldownMetrics.length))
+    drilldownMetrics = drilldownMetrics.slice(0, Math.min(this.maxMetrics, drilldownMetrics.length));
     return drilldownMetrics.sort((a:Metric, b:Metric) => {
       return b.properties[this.displayAttribute].length - a.properties[this.displayAttribute].length
     });
   }
 
+  private removeMeasuredMetrics(drilldownMetrics: Metric[]): Metric[] {
+    if (!this.sessionSvc.hasCurrentSession()) {
+      Utils.error("TopInfluencerComponent.removeMeasuredMetrics(): No current session found")
+      return;
+    }
+    let metricIds: Set<string> = this.sessionSvc.getCurrentSession().getAllMetricIdsAsSet();
+    return drilldownMetrics.filter((metric: Metric) => {
+      return !metricIds.has(metric.metricId);
+    })
+  }
+
   private constructMessage(): string {
     if (this.valueOrderDesc) {
       return [
-        "What are the top (",
-        this.numSelections,
-        ")",
-        " things ",
-        this.account.properties.accountName,
-        " does really well?"
+        "What are the top ", this.numSelections, " things ",
+        this.account.properties.accountName, " does well?"
       ].join('');
     } else {
       return [
-        "Tell us the top (",
-        this.numSelections,
-        ")",
-        "things ",
-        this.account.properties.accountName,
-        " should improve!"
+        "What are the top ", this.numSelections, " things ",
+        this.account.properties.accountName, " should improve?"
       ].join('');
     }
   }

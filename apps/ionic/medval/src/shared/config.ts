@@ -44,7 +44,7 @@ export class Config {
   static SURVEY_PAGE_TIMEOUT_SECONDS: number = 60;
 
   static MOCK_DATA : {[key: string]: boolean} = {
-    "Session": true,
+    "Session": false,
     "Metric": true,
     "Account": true,
     "Staff": true,

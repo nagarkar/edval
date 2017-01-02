@@ -14,7 +14,7 @@ import {
 import {CameraOptions, Camera, SpinnerDialog} from "ionic-native";
 import {ErrorType} from "./error.types";
 import {Config} from "../config";
-import {AWSLogging} from "../aws/aws.logging";
+import {AwsClient} from "../aws/aws.client";
 
 @Injectable()
 export class Utils {
@@ -45,16 +45,12 @@ export class Utils {
     if (console) {
       console.error(fmsg);
     }
-    if (Utils.SERVER) {
-      Utils.SERVER.logEvent(message);
-    }
+    AwsClient.logEvent(message);
   }
 
   static logToAws(message: string, ...args: string[]) : void {
     let fmsg = Utils.format(message, ...args);
-    if (Utils.SERVER) {
-      Utils.SERVER.logEvent(message);
-    }
+    AwsClient.logEvent(message);
   }
 
   static assert(object: any) {
@@ -131,14 +127,6 @@ export class Utils {
     }
     return array;
   }
-
-  static SERVER: AWSLogging;
-
-  private static periodicLoggingTimer = setInterval(()=> {
-    if (Utils.SERVER) {
-      Utils.SERVER.flush();
-    }
-  }, 5 * 60 * 1000)
 
   static throw(format:string, ...args: string[]) {
     throw ErrorType.UnsupportedOperation(this.format(format, ...args));

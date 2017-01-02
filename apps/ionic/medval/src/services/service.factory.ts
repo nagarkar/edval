@@ -1,6 +1,5 @@
 import {ServiceInterface} from "../shared/service/interface.service";
 import {Injectable, Injector} from "@angular/core";
-import {Utils} from "../shared/stuff/utils";
 
 declare let REVVOLVE_PROD_ENV: boolean;
 

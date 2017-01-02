@@ -1,8 +1,8 @@
 import {Injectable, EventEmitter} from "@angular/core";
 import {Utils} from "../stuff/utils";
 import {Config} from "../config";
-import {AWSLogging} from "./aws.logging";
 import {ServiceFactory} from "../../services/service.factory";
+import {AwsClient} from "./aws.client";
 declare let AWSCognito:any;
 declare let AWS:any;
 
@@ -36,15 +36,13 @@ export class AccessTokenService {
   }
 
   public logout() : void {
-    if (Utils.SERVER) {
-      Utils.SERVER.flush();
-    }
+    AwsClient.flushLogs();
     this._cognitoUser = null;
     this.clearAuthenticatingIntervalTimerIfValid();
     this.completeEvents();
     this.reinitializeEvents();
     Config.CUSTOMERID = null;
-    Utils.SERVER = null;
+    AwsClient.clearEverything();
   }
 
   private completeEvents(): void {
@@ -122,6 +120,10 @@ export class AccessTokenService {
           region: Config.AWS_CONFIG.region
         });
 
+        if (!initializeAttributes) {
+          return;
+        }
+
         me._cognitoUser.getUserAttributes((err, result) => {
           if (err) {
             Utils.log(Utils.format("Error while trying to get cognito user attributes for user {0} , error: {1}",
@@ -132,7 +134,7 @@ export class AccessTokenService {
               console.log(Utils.format('attribute {0}  has value {1}', result[i].getName(), result[i].getValue()));
               if (result[i].getName() == "custom:organizationName") {
                 Config.CUSTOMERID = result[i].getValue();
-                Utils.SERVER = new AWSLogging();
+                AwsClient.reInitialize();
                 me.serviceFactory.resetRegisteredServices();
               }
             }

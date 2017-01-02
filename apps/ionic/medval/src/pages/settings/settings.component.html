@@ -3,7 +3,7 @@
   <ion-title>Mock State</ion-title>
   <ion-item *ngFor="let key of keys">
     <ion-label>{{key}}</ion-label>
-    <ion-checkbox color="dark" [(ngModel)]="mockData[key]"></ion-checkbox>
+    <ion-checkbox color="dark" (change)="mockData[key]"></ion-checkbox>
   </ion-item>
   <ion-title>CORS</ion-title>
   <ion-item>

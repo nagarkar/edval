@@ -2,8 +2,8 @@ import {MetricValue, Metric} from "../metric/schema";
 import {Utils} from "../../shared/stuff/utils";
 
 export class SessionProperties {
+  patientId: string;
   surveyId?: string;
-  timestamp: number;
   selectedStaffUserNames: Array<string> = [];
   selectedRoles: Array<string> = []
   staffMetricValues:Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
@@ -13,20 +13,21 @@ export class SessionProperties {
   aggregationProcessed: boolean;
   navigatedLocation?: string[] = [];
   reviewData: {email?: string, phone?: string, message?: string, preferredReviewSite?: string[]} = {};
+
+  constructor() {
+    this.patientId = Utils.guid("p");
+  }
 }
 
 export class Session {
 
   customerId: string;
   sessionId: string;
-  patientId?: string;
   entityStatus: string;
   properties: SessionProperties = new SessionProperties();
 
   constructor() {
-    this.sessionId = Utils.guid("s");
-    this.patientId = Utils.guid("p");
-    this.properties.timestamp = Utils.getTime();
+    this.sessionId = "" + Utils.getTime();
   }
 
   close() {
@@ -50,6 +51,19 @@ export class Session {
     this.properties.orgMetricValues.forEach((value: MetricValue[])=> {returnValue.push(...value);});
     this.properties.staffMetricValues.forEach((value: MetricValue[])=> {returnValue.push(...value);});
     this.properties.roleMetricValues.forEach((value: MetricValue[])=> {returnValue.push(...value);});
+    return returnValue;
+  }
+
+  public getAllMetricIdsAsSet(): Set<string> {
+    let returnValue: Set<string> = new Set<string>();
+    let doForEach = (value: MetricValue[])=> {
+      value.forEach((mvalue: MetricValue)=> {
+        returnValue.add(mvalue.metricId);
+      })
+    };
+    this.properties.orgMetricValues.forEach(doForEach);
+    this.properties.staffMetricValues.forEach(doForEach);
+    this.properties.roleMetricValues.forEach(doForEach);
     return returnValue;
   }
 

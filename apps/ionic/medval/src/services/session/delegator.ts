@@ -2,7 +2,6 @@ import {Injectable} from "@angular/core";
 import {Session} from "./schema";
 import {DelegatingService} from "../../shared/service/delegating.service";
 import {MockSessionService} from "./mock";
-import {LiveSessionService} from "./live";
 import {ErrorType} from "../../shared/stuff/error.types";
 import {MetricValue} from "../metric/schema";
 import {Utils} from "../../shared/stuff/utils";
@@ -10,6 +9,8 @@ import {SurveyNavigator} from "../survey/survey.navigator";
 import {SurveyService} from "../survey/delegator";
 import {MetricService} from "../metric/delegator";
 import {RegisterService} from "../service.factory";
+import {DDBSessionService} from "./ddb";
+import {Config} from "../../shared/config";
 
 @Injectable()
 @RegisterService
@@ -19,11 +20,12 @@ export class SessionService extends DelegatingService<Session> {
 
   constructor(
     mockService: MockSessionService,
-    liveService: LiveSessionService,
+    liveService: DDBSessionService,
     private surveyService: SurveyService,
     private metricSvc: MetricService) {
 
     super(mockService, liveService);
+    super.setMockMode(Config.MOCK_DATA["Session"])
   }
 
   hasCurrentSession(): boolean {
@@ -38,13 +40,15 @@ export class SessionService extends DelegatingService<Session> {
     let session: Session = new Session();
     session.properties.surveyId = surveyId;
     this.surveyNavigator = new SurveyNavigator(session, this.surveyService.getCached(surveyId), this.metricSvc);
-    super.create(session);
     return session;
   }
 
   closeCurrentSession() {
+    if (!this.hasCurrentSession()) {
+      return;
+    }
+    super.create(this.getCurrentSession());
     this.getCurrentSession().close();
-    super.update(this.getCurrentSession());
     this.surveyNavigator = null;
   }
 
@@ -74,14 +78,6 @@ export class SessionService extends DelegatingService<Session> {
 
   listCached(): Session[] {
    throw ErrorType.UnsupportedOperation("listCached");
-  }
-
-  create(TMember: Session): Promise<Session> {
-    return Promise.reject(ErrorType.UnsupportedOperation("create"));
-  }
-
-  update(TMember: Session): Promise<Session> {
-    return Promise.reject(ErrorType.UnsupportedOperation("update"));
   }
 
   delete(id: string): Promise<boolean> {

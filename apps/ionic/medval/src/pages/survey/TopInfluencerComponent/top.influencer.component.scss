@@ -9,16 +9,41 @@
 /*Custom badge*/
 
 .cstm-badge {
-  padding: .25em;
+  padding: .2em;
   width: 1.5em;
   height: 1.5em;
   line-height: 0.88em !important;
   border-radius: 50%;
   text-align: center;
-  font-size: 1em;
+  font-size: 2em;
   position: absolute;
-  top: 0em;
-  left: 0em;
+  top: -.2em;
+  left: 1.2em;
   z-index: 10;
   border: 0.063em solid #fff;
+}
+
+/*Custom button*/
+
+.cstm-btn {
+  padding: 0em .5em 0em .5em;
+  margin: .5em 1em .5em 1em;
+  height: 6.5em;
+  width: auto;
+  font-size: 1.8em;
+  line-height: 1.6em;
+  white-space: normal;
+  background-color: color($colors, revvolve2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 1, 0.9), 0 6px 20px 0 rgba(100, 47, 47, 0.19);
+  border-radius: 2em !important;
+  span {
+    padding: .5em 0 .5em 0;
+  }
+}
+
+
+/*Custom button pressed*/
+
+.cstm-btn-pressed {
+  box-shadow: inset 0 0 0 1px rgba(81, 1, 1, 0.2), inset 0 5px 30px rgba(100, 47, 47, 0.19);
 }

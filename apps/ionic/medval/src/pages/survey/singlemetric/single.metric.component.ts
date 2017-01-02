@@ -33,7 +33,9 @@ export class SingleMetricComponent extends SurveyPage {
     private staffSvc: StaffService,
     private metricSvc: MetricService
   ) {
-    super(utils, navCtrl, sessionSvc, idle);
+
+    //TODO Add back idle.
+    super(utils, navCtrl, sessionSvc);
 
     this.getMetricById(params.get("metricId"));
   }

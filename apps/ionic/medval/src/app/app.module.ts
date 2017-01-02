@@ -57,6 +57,7 @@ import {NgIdleModule} from "@ng-idle/core";
 import {Config} from "../shared/config";
 import {ValidationComponent} from "../shared/components/validation/validation.component";
 import {PhonePipe} from "../pipes/phone";
+import {DDBSessionService} from "../services/session/ddb";
 
 enableProdMode();
 
@@ -175,7 +176,7 @@ enableProdMode();
     AccountService, MockAccountService, LiveAccountService,
     LiveSessionService, MockSessionService, SessionService,
     LiveMetricService, MockMetricService, MetricService,
-    LiveSurveyService, MockSurveyService, SurveyService,
+    LiveSurveyService, MockSurveyService, SurveyService, DDBSessionService,
     ServiceFactory
   ]
 })
