@@ -3,7 +3,6 @@ import {Session} from "./schema";
 import {DelegatingService} from "../../shared/service/delegating.service";
 import {MockSessionService} from "./mock";
 import {ErrorType} from "../../shared/stuff/error.types";
-import {MetricValue} from "../metric/schema";
 import {Utils} from "../../shared/stuff/utils";
 import {SurveyNavigator} from "../survey/survey.navigator";
 import {SurveyService} from "../survey/delegator";
@@ -58,10 +57,6 @@ export class SessionService extends DelegatingService<Session> {
     } else {
       Utils.error("SessionService.recordNavigatedLocationInCurrentSession(): Attempted to call recordNavigatedLocationInCurrentSession with null currentSession");
     }
-  }
-
-  addToCurrentSession(subject: string, metricValue: MetricValue) {
-    this.getCurrentSession().addMetricValue(subject, metricValue);
   }
 
   get(id: string, dontuseCache?: boolean) : Promise<Session> {

@@ -6,8 +6,8 @@ export class SessionProperties {
   surveyId?: string;
   selectedStaffUserNames: Array<string> = [];
   selectedRoles: Array<string> = []
-  staffMetricValues:Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
-  roleMetricValues:Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
+  staffMetricValues: Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
+  roleMetricValues: Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
   orgMetricValues: Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
   endTime: number;
   aggregationProcessed: boolean;

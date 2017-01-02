@@ -160,7 +160,7 @@ export class TopInfluencerComponent extends SurveyPage {
       } else {
         value = Math.floor(range * offset * (index + 1));
       }
-      this.sessionSvc.addToCurrentSession(metric.subject, new MetricValue(metric.metricId, ''+value));
+      this.sessionSvc.getCurrentSession().addMetricValue(metric.subject, new MetricValue(metric.metricId, '' + value));
     })
     setTimeout(()=>{
       this.navigateToNext();

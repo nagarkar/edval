@@ -31,7 +31,7 @@ export class RequestReviewComponent2 extends SurveyPage {
   }
 
   public navigateToNext() {
-    // TODO Process the reviewMsg
+    this.sessionSvc.getCurrentSession().properties.reviewData.message = this.reviewMsg;
     super.navigateToNext();
   }
 
@@ -49,7 +49,7 @@ export class RequestReviewComponent2 extends SurveyPage {
             this.browser = new InAppBrowser(url, '_blank', options);
           },
           err => {
-            Utils.error("InAppBrowser loaderror Event Error: " + err);
+            Utils.error("InAppBrowser Error: " + err);
           });
       setTimeout(() => {
         this.browser.close();
