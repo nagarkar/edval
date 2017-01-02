@@ -57,8 +57,8 @@ export class ThanksComponent {
     sessionSvc.recordNavigatedLocationInCurrentSession(Utils.getObjectName(this));
 
     // TODO remove
-    this.closeSession();
-    if (1==1) return;
+    //this.closeSession();
+    //if (1==1) return;
     // TODO END
 
     this.setupIdleTimeout();

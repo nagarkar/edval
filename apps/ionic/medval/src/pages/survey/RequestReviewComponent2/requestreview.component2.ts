@@ -75,7 +75,9 @@ export class RequestReviewComponent2 extends SurveyPage {
       phone: reviewData.phone
     });
     profileModal.onDidDismiss((data) =>{
-      this.updateSessionReviewData(data.email, data.phone, reviewSite);
+      if (data) {
+        this.updateSessionReviewData(data.email, data.phone, reviewSite);
+      }
     });
     profileModal.present(); //profileModal.
   }
