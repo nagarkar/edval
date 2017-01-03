@@ -2,7 +2,7 @@ import {Component} from "@angular/core";
 import {Utils} from "../../shared/stuff/utils";
 import {Staff} from "../../services/staff/schema";
 import {StaffService} from "../../services/staff/delegator";
-import {NavParams, NavController} from "ionic-angular";
+import {NavParams, NavController, AlertController, ActionSheetController, ToastController} from "ionic-angular";
 import {final} from "../../app/app.module";
 import {MockStaffService} from "../../services/staff/mock";
 import {LiveStaffService} from "../../services/staff/live";
@@ -21,10 +21,12 @@ export class StaffEditComponent {
   isEdit: boolean;
 
   constructor(
-    private utils: Utils,
+    private actionSheetCtrl: ActionSheetController,
+    private toastCtrl: ToastController,
     private staffSvc: StaffService,
     private params: NavParams,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    private alertCtrl: AlertController
   ) {
       this.isEdit = params.get("staffMember");
       if (this.isEdit) {
@@ -35,13 +37,13 @@ export class StaffEditComponent {
   }
 
   public collectUrl() {
-    this.utils.collectUrl((value) => {
+    Utils.collectUrl(this.alertCtrl, this.actionSheetCtrl, (value) => {
       this.staffMember.properties.photoUrl = value;
     });
   }
 
   public cancel() {
-    this.utils.pop(this.navCtrl);
+    this.navCtrl.pop();
   }
 
   public add() {
@@ -57,11 +59,11 @@ export class StaffEditComponent {
     };
     resultPromise
       .then(() => {
-        this.utils.pop(this.navCtrl);
+        this.navCtrl.pop();
       })
       .catch((reason) => {
-        this.utils.presentTopToast(reason || "Could not update Staff Member", 3000);
-        this.utils.pop(this.navCtrl);
+        Utils.presentTopToast(this.toastCtrl, reason || "Could not update Staff Member", 3000);
+        this.navCtrl.pop();
       });
   }
 
@@ -73,7 +75,7 @@ export class StaffEditComponent {
       s.role && s.role.length > 0;
 
     if (!isValid) {
-      this.utils.presentInvalidEntryAlert("Please provide all values");
+      Utils.presentInvalidEntryAlert(this.alertCtrl, "Please provide all values");
     }
     return isValid;
   }

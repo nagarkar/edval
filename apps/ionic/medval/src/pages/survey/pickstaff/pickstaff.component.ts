@@ -3,7 +3,7 @@ import {Utils} from "../../../shared/stuff/utils";
 import {StaffService} from "../../../services/staff/delegator";
 import {SlideItem} from "../../../shared/components/carousel/carousel.schema";
 import {Staff} from "../../../services/staff/schema";
-import {NavController, NavParams} from "ionic-angular";
+import {NavController, NavParams, LoadingController} from "ionic-angular";
 import {LoginComponent} from "../../login/login.component";
 import {SessionService} from "../../../services/session/delegator";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
@@ -28,11 +28,12 @@ export class PickStaffComponent extends SurveyPage {
     idle: Idle,
     utils: Utils,
     navCtrl: NavController,
+    loadingCtrl: LoadingController,
     sessionSvc: SessionService,
     private staffSvc: StaffService,
     params: NavParams) {
 
-    super(utils, navCtrl, sessionSvc, idle);
+    super(loadingCtrl, navCtrl, sessionSvc, idle);
     //SurveyNavUtils.setIdleWatch(idle, () => {utils.setRoot(navCtrl, StartWithSurveyOption);})
 
     this.displayCount = params.get('displayCount') || 3;
@@ -42,7 +43,7 @@ export class PickStaffComponent extends SurveyPage {
   }
 
   gotoLogin() {
-    this.utils.setRoot(this.navCtrl, LoginComponent);
+    this.navCtrl.setRoot(LoginComponent);
   }
 
   /** Click handler for the flat carousel. */

@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NavController} from "ionic-angular";
+import {NavController, ActionSheetController, AlertController, ToastController} from "ionic-angular";
 import {Account} from "../../services/account/schema";
 import {AccountService} from "../../services/account/delegator";
 import {Utils} from "../../shared/stuff/utils";
@@ -16,12 +16,14 @@ import {Config} from "../../shared/config";
 
 export class AccountComponent extends AdminComponent {
 
-  constructor(protected tokenProvider: AccessTokenService,
-              public navCtrl: NavController,
-              protected utils: Utils,
+  constructor(private actionSheetCtrl: ActionSheetController,
+              private alertCtrl: AlertController,
+              private toastCtrl: ToastController,
+              tokenProvider: AccessTokenService,
+              navCtrl: NavController,
               private accountSvc : AccountService,
   ) {
-    super(tokenProvider, navCtrl, utils);
+    super(tokenProvider, navCtrl);
   }
 
   public account: Account = new Account();
@@ -34,7 +36,7 @@ export class AccountComponent extends AdminComponent {
       })
       .catch(err => {
         Utils.error(err);
-        this.utils.presentTopToast(err || "Could not retrieve Account");
+        Utils.presentTopToast(this.toastCtrl, err || "Could not retrieve Account");
       });
   }
 
@@ -43,7 +45,7 @@ export class AccountComponent extends AdminComponent {
   }
 
   public collectUrl() {
-    this.utils.collectUrl((value) => {
+    Utils.collectUrl(this.alertCtrl, this.actionSheetCtrl, (value): void => {
       this.account.properties.logo = value;
     })
   }
@@ -51,10 +53,10 @@ export class AccountComponent extends AdminComponent {
   private save() {
     this.accountSvc.update(this.account)
       .then((res) => {
-        this.utils.presentTopToast('Information saved successfully!.');
+        Utils.presentTopToast(this.toastCtrl, 'Information saved successfully!.');
       })
       .catch((errResp) => {
-        this.utils.presentTopToast(errResp || "Could not save Account");
+        Utils.presentTopToast(this.toastCtrl, errResp || "Could not save Account");
       })
   }
 }

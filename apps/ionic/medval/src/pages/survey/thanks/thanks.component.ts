@@ -50,9 +50,7 @@ export class ThanksComponent {
     private accountSvc: AccountService,
     private navCtrl: NavController,
     private modalctrl: ModalController,
-    navParams: NavParams,
-    private utils: Utils
-    ) {
+    navParams: NavParams) {
 
     sessionSvc.recordNavigatedLocationInCurrentSession(Utils.getObjectName(this));
 
@@ -120,7 +118,7 @@ export class ThanksComponent {
 
   private closeSession() {
     this.sessionSvc.closeCurrentSession();
-    this.utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultOnly: true})
+    this.navCtrl.setRoot(StartWithSurveyOption, {defaultOnly: true})
   }
 
   private constructMessage(input: any): string[] {

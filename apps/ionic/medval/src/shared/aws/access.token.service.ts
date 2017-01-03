@@ -3,6 +3,7 @@ import {Utils} from "../stuff/utils";
 import {Config} from "../config";
 import {ServiceFactory} from "../../services/service.factory";
 import {AwsClient} from "./aws.client";
+import {AlertController} from "ionic-angular";
 declare let AWSCognito:any;
 declare let AWS:any;
 
@@ -25,7 +26,7 @@ export class AccessTokenService {
 
   private authenticatingIntervalTimer : number = 0;
 
-  constructor(private utils: Utils, private serviceFactory: ServiceFactory) {}
+  constructor(private serviceFactory: ServiceFactory, private alertCtrl: AlertController) {}
 
   public getAuthResult() : AuthResult {
     return this.authResult;
@@ -150,7 +151,8 @@ export class AccessTokenService {
         // password and required attributes, if any, to complete
         // authentication.
 
-        me.utils.presentAlertPrompt(
+        Utils.presentAlertPrompt(
+          me.alertCtrl,
           (data) => {
             me._cognitoUser.completeNewPasswordChallenge(data.password, {"email": data.email}, this);
           },
@@ -169,7 +171,8 @@ export class AccessTokenService {
       mfaRequired: function(codeDeliveryDetails) {
         // MFA is required to complete user authentication.
         // Get the code from user and call
-        me.utils.presentAlertPrompt(
+        Utils.presentAlertPrompt(
+          me.alertCtrl,
           (data) => {
             me._cognitoUser.sendMFACode(data.value, this)
           },

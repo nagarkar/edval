@@ -1,5 +1,5 @@
 import {Utils} from "../../shared/stuff/utils";
-import {NavController} from "ionic-angular";
+import {NavController, LoadingController} from "ionic-angular";
 import {SurveyNavUtils} from "./SurveyNavUtils";
 import {SessionService} from "../../services/session/delegator";
 import {Idle, DEFAULT_INTERRUPTSOURCES} from "@ng-idle/core";
@@ -9,7 +9,7 @@ import {Config} from "../../shared/config";
 
 export class SurveyPage {
 
-  constructor(protected utils: Utils, protected navCtrl: NavController, protected sessionSvc: SessionService, idle?: Idle) {
+  constructor(protected loadingCtrl: LoadingController, protected navCtrl: NavController, protected sessionSvc: SessionService, idle?: Idle) {
     if (idle) {
       idle.setIdle(Config.SURVEY_PAGE_IDLE_SECONDS);
       idle.setTimeout(Config.SURVEY_PAGE_TIMEOUT_SECONDS);
@@ -25,10 +25,10 @@ export class SurveyPage {
   }
 
   public navigateToNext(...terminationMessage: string[]) {
-    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl, this.utils, ...terminationMessage);
+    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.loadingCtrl, this.navCtrl, ...terminationMessage);
   }
 
   protected onIdleTimeout() {
-    this.utils.setRoot(this.navCtrl, StartWithSurveyOption);
+    this.navCtrl.setRoot(StartWithSurveyOption);
   }
 }

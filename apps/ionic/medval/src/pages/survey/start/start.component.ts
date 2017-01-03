@@ -18,12 +18,7 @@ export class StartComponent {
   ];
   leftImage: string;
   account: Account;
-  constructor(
-    private navCtrl: NavController,
-    private utils: Utils,
-    tokenProvider: AccessTokenService,
-    private sessionSvc: SessionService
-  ) {
+  constructor(private navCtrl: NavController, private sessionSvc: SessionService) {
     this.leftImage = this.images[0];
     setInterval(()=> {
       this.cycleImage();
@@ -34,7 +29,7 @@ export class StartComponent {
   }
 
   gotoLogin() {
-    this.utils.setRoot(this.navCtrl, LoginComponent);
+    this.navCtrl.setRoot(LoginComponent);
   }
 
   noThanks() {
@@ -46,7 +41,7 @@ export class StartComponent {
 
   pickStaff(){
     setTimeout(()=> {
-      this.utils.setRoot(this.navCtrl, PickStaffComponent, {directPage: true});
+      this.navCtrl.setRoot(PickStaffComponent, {directPage: true});
     }, 1000)
 
   }

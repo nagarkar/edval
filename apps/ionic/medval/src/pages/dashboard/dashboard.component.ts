@@ -18,9 +18,7 @@ import {StartWithSurveyOption} from "../survey/start/start.with.survey.option.co
 
 export class DashboardComponent {
 
-  constructor(private navCtrl: NavController,
-    private accessTokenProvider: AccessTokenService,
-    private utils: Utils) {
+  constructor(private navCtrl: NavController, private accessTokenProvider: AccessTokenService) {
   }
 
   gotoHome(): void {
@@ -32,44 +30,48 @@ export class DashboardComponent {
   }
 
   openNavAccountPage() {
-    this.goto(AccountComponent);
+    this.push(AccountComponent);
   }
 
   gotoStaffPage() {
-    this.goto(StaffComponent);
+    this.push(StaffComponent);
   }
 
   gotoMetricsPage() {
-    this.goto(MetricSummaryComponent);
+    this.push(MetricSummaryComponent);
   }
 
   gotoBusinessHealthPage() {
-    this.goto(AllTrendsComponent);
+    this.push(AllTrendsComponent);
   }
 
   gotoSurveyPage() {
-    this.utils.setRoot(this.navCtrl, StartWithSurveyOption);
+    this.setRoot(StartWithSurveyOption);
   }
 
   openNavGetHelpPage() {
-    this.goto(LoginComponent);
+    this.push(LoginComponent);
   }
 
   openNavTermsPage() {
-    this.goto(TermComponent);
+    this.push(TermComponent);
   }
 
   openNavPrivacyPage() {
-    this.goto(PolicyComponent);
+    this.push(PolicyComponent);
   }
 
   logout(){
     this.accessTokenProvider.logout();
-    this.utils.setRoot(this.navCtrl, LoginComponent);
+    this.setRoot(LoginComponent);
   }
 
-  private goto(component: any) : void {
-    this.utils.push(this.navCtrl, component);
+  private push(component: any) : void {
+    this.navCtrl.push(component);
+  }
+
+  private setRoot(component) {
+    this.navCtrl.setRoot(component, {}, Utils.forwardAnimation());
   }
 }
 

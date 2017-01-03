@@ -19,11 +19,7 @@ export class MetricSummaryComponent implements OnInit{
 
   standardRoles: Role[] = [];
 
-  constructor(
-    private utils: Utils,
-    private navCtrl: NavController,
-    private metricSvc: MetricService,
-    private accountSvc: AccountService) {
+  constructor(private navCtrl: NavController, private metricSvc: MetricService, private accountSvc: AccountService) {
 
     this.accountSvc.get(Config.CUSTOMERID)
       .then((account: Account) =>{

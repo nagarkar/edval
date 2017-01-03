@@ -281,7 +281,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       properties: {
         metricName: 'Was it easy and convenient to book an appointment?',
         question: 'Do you usually get an appointment at a time and location convenient to you?',
-        positiveImpact: "It's always easy to book an appointment",
+        positiveImpact: `It's always easy to book an appointment`,
         improvement: "Please make it easier to get convenient appointments",
         definition: {
           npsType: {

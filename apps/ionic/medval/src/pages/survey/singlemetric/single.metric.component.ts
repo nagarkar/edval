@@ -4,7 +4,7 @@ import {Utils} from "../../../shared/stuff/utils";
 import {RatingComponent} from "../../../shared/components/rating/rating.component";
 import {StaffService} from "../../../services/staff/delegator";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
-import {NavParams, NavController} from "ionic-angular";
+import {NavParams, NavController, LoadingController} from "ionic-angular";
 import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
 import {Idle} from "@ng-idle/core";
@@ -27,6 +27,7 @@ export class SingleMetricComponent extends SurveyPage {
     idle: Idle,
     utils: Utils,
     navCtrl: NavController,
+    loadingCtrl: LoadingController,
     sessionSvc: SessionService,
     params: NavParams,
     private staffSvc: StaffService,
@@ -34,7 +35,7 @@ export class SingleMetricComponent extends SurveyPage {
   ) {
 
     //TODO Add back idle.
-    super(utils, navCtrl, sessionSvc);
+    super(loadingCtrl, navCtrl, sessionSvc);
 
     this.getMetricById(params.get("metricId"));
   }

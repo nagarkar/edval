@@ -25,7 +25,7 @@ export class SurveySelectionComponent implements OnInit {
 
   pickSurvey(id: string) {
     this.sessionSvc.newCurrentSession(id);
-    this.utils.setRoot(this.navCtrl, StartComponent, {directPage: true});
+    this.navCtrl.setRoot(StartComponent, {directPage: true});
   }
 
   ngOnInit() {

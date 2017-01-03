@@ -22,13 +22,7 @@ export class SettingsComponent {
   metrics: Metric[] = [];
   sReplacerData: {[key: string] : SReplacerDataMap} = {};
 
-  constructor(
-    private utils: Utils,
-    private navCtrl: NavController,
-    private sessionsvc: SessionService,
-    private metricsvc: MetricService,
-    private staffsvc: StaffService,
-    private accountsvc: AccountService) {
+  constructor(private metricsvc: MetricService, private staffsvc: StaffService, private accountsvc: AccountService) {
 
     this.mockData = Config.MOCK_DATA;
     this.keys = Object.keys(this.mockData);

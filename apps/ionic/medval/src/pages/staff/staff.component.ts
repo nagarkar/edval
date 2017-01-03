@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NavController} from "ionic-angular";
+import {NavController, AlertController, ModalController, ToastController} from "ionic-angular";
 import {Staff} from "../../services/staff/schema";
 import {Utils} from "../../shared/stuff/utils";
 import {StaffService} from "../../services/staff/delegator";
@@ -17,12 +17,14 @@ export class StaffComponent extends AdminComponent  {
   public staffList: Staff[] = [Staff.newStaffMember()];
 
   constructor(
-    protected tokenProvider: AccessTokenService,
-    public navCtrl: NavController,
-    protected utils: Utils,
+    navCtrl: NavController,
+    tokenProvider: AccessTokenService,
+    private alertCtrl: AlertController,
+    private toastCtrl: ToastController,
+    private modalCtrl: ModalController,
     private staffSvc : StaffService) {
 
-    super(tokenProvider, navCtrl, utils);
+    super(tokenProvider, navCtrl);
   }
 
   ngOnInit(): void {
@@ -32,41 +34,41 @@ export class StaffComponent extends AdminComponent  {
   }
 
   public cancel() {
-    this.utils.pop(this.navCtrl);
+    this.navCtrl.pop();
   }
 
   public add() {
     if (!this.currentUserIsAdmin()) {
-      this.utils.presentInvalidEntryAlert("Only administrators can add users");
+      Utils.presentInvalidEntryAlert(this.alertCtrl, "Only administrators can add users");
       return;
     }
-    this.utils.presentProfileModal(StaffEditComponent, {})
+    Utils.presentProfileModal(this.modalCtrl, StaffEditComponent, {})
   }
 
   public edit(staff : Staff) {
     if (!this.currentUserIs(staff.username) && !this.currentUserIsAdmin()) {
-      this.utils.presentInvalidEntryAlert("You can only edit your own data!");
+      Utils.presentInvalidEntryAlert(this.alertCtrl, "You can only edit your own data!");
       return;
     }
-    this.utils.presentProfileModal(StaffEditComponent, {staffMember: staff});
+    Utils.presentProfileModal(this.modalCtrl, StaffEditComponent, {staffMember: staff});
   }
 
   public delete(staffMember: Staff) {
     if (!this.currentUserIsAdmin()) {
-      this.utils.presentInvalidEntryAlert("Only administrators can delete users");
+      Utils.presentInvalidEntryAlert(this.alertCtrl, "Only administrators can delete users");
       return;
     }
-    this.utils.showLoadingBar();
+    Utils.showLoadingBar();
     this.staffSvc.delete(staffMember.username)
       .then((deleted: boolean) : void => {
         if (deleted) {
           this.staffList = this.staffList.filter((el: Staff) => {
             return el.username != staffMember.username
           });
-          this.utils.presentTopToast("Deleted", 3000)
+          Utils.presentTopToast(this.toastCtrl, "Deleted", 3000)
         }
       })
-      .catch((err) => this.utils.presentTopToast(err || "Could not delete staff member", 3000))
+      .catch((err) => Utils.presentTopToast(this.toastCtrl, err || "Could not delete staff member", 3000))
   }
 
   //TODO Fix this.
@@ -93,7 +95,7 @@ export class StaffComponent extends AdminComponent  {
         this.staffList = staffMap
       )
       .catch(err => {
-        this.utils.presentTopToast(err || "Could not get staff list!");
+        Utils.presentTopToast(this.toastCtrl, err || "Could not get staff list!");
         Utils.error("StaffComponnet.getStaffList(): {0}", err);
       });
   }

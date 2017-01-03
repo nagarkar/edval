@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NavController, NavParams} from "ionic-angular";
+import {NavController, NavParams, LoadingController} from "ionic-angular";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
@@ -28,6 +28,7 @@ export class MultimetricComponent extends SurveyPage {
     idle: Idle,
     utils: Utils,
     navCtrl: NavController,
+    loadingCtrl: LoadingController,
     sessionSvc: SessionService,
     navParams: NavParams,
     tokenProvider: AccessTokenService,
@@ -35,7 +36,7 @@ export class MultimetricComponent extends SurveyPage {
     private metricSvc: MetricService,
     ) {
 
-    super(utils, navCtrl, sessionSvc, idle);
+    super(loadingCtrl, navCtrl, sessionSvc, idle);
     //this.sReplacerDataPack = {
 //      staffSvc: staffSvc
   //  }
@@ -67,6 +68,6 @@ export class MultimetricComponent extends SurveyPage {
   }
 
   public navigateToNext() {
-    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl, this.utils);
+    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.loadingCtrl, this.navCtrl);
   }
 }

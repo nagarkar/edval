@@ -1,5 +1,5 @@
 import {Component, Input} from "@angular/core";
-import {NavController, NavParams} from "ionic-angular";
+import {NavController, NavParams, LoadingController} from "ionic-angular";
 import {LoginComponent} from "../../login/login.component";
 import {Utils} from "../../../shared/stuff/utils";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
@@ -29,6 +29,7 @@ export class StartWithSurveyOption extends SurveySelectionComponent {
   account: Account = new Account();
   constructor(
     navCtrl: NavController,
+    private loadingCtrl: LoadingController,
     utils: Utils,
     tokenProvider: AccessTokenService,
     surveySvc: SurveyService,
@@ -51,11 +52,11 @@ export class StartWithSurveyOption extends SurveySelectionComponent {
     })
   }
   gotoLogin() {
-    this.utils.setRoot(this.navCtrl, LoginComponent);
+    this.navCtrl.setRoot(LoginComponent);
   }
 
   noThanks() {
-    this.utils.setRoot(this.navCtrl, ThanksComponent, {message: ["That's ok, maybe next time!"]});
+    this.navCtrl.setRoot(ThanksComponent, {message: ["That's ok, maybe next time!"]});
   }
 
   pickSurvey(id: string){
@@ -63,6 +64,6 @@ export class StartWithSurveyOption extends SurveySelectionComponent {
       this.sessionSvc.closeCurrentSession();
     }
     this.sessionSvc.newCurrentSession(id);
-    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl, this.utils);
+    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.loadingCtrl, this.navCtrl);
   }
 }

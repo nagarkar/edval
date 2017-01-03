@@ -8,7 +8,6 @@ import {
   ModalController,
   Modal,
   Platform,
-  NavController,
   Loading
 } from "ionic-angular";
 import {CameraOptions, Camera, SpinnerDialog} from "ionic-native";
@@ -19,8 +18,7 @@ import {AwsClient} from "../aws/aws.client";
 @Injectable()
 export class Utils {
 
-  constructor(private actionSheetCtrl: ActionSheetController,
-              private alertCtrl: AlertController,
+  constructor(private alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
               private toastCtrl: ToastController,
               private modalCtrl: ModalController,
@@ -150,14 +148,14 @@ export class Utils {
     })
   }
 
-  presentProfileModal(component: any, parameters: {}) : Modal {
-    let profileModal : Modal = this.modalCtrl.create(component, parameters);
+  static presentProfileModal(modalCtrl: ModalController, component: any, parameters: {}) : Modal {
+    let profileModal : Modal = modalCtrl.create(component, parameters);
     profileModal.present(); //profileModal.
     return profileModal;
   }
 
-  presentTopToast(message: string, delay?: number) {
-    let toast = this.toastCtrl.create({
+  static presentTopToast(toastCtrl: ToastController, message: string, delay?: number) {
+    let toast = toastCtrl.create({
       message: message || 'Success!',
       duration: delay || 3000,
       position: 'top'
@@ -165,17 +163,17 @@ export class Utils {
     toast.present();
   }
 
-  presentLoading(duration?: number): Loading {
-    let loading = this.loadingCtrl.create({
+  static presentLoading(loadingCtrl: LoadingController, duration?: number): Loading {
+    let loading = loadingCtrl.create({
       spinner: 'ios',
-      duration: duration || 5000,
+      duration: duration || null,
       dismissOnPageChange: true
     });
     loading.present();
     return loading;
   }
 
-  uploadImage() : Promise<string> {
+  static uploadImage() : Promise<string> {
     return new Promise((resolve, reject) => {
       let options: CameraOptions = {
         destinationType: 0, //Camera.DestinationType.DATA_URL
@@ -190,8 +188,8 @@ export class Utils {
     })
   }
 
-  showLoading(message?: string, delay?: number) {
-    let loading = this.loadingCtrl.create({
+  static showLoading(loadingCtrl: LoadingController, message?: string, delay?: number) {
+    let loading = loadingCtrl.create({
       spinner: 'hide',
       content: message || 'Loading...'
     });
@@ -201,9 +199,13 @@ export class Utils {
     }, delay || 1000);
   }
 
-  collectUrl(onselect: (result: string | any) => void, onerror?: () => void) {
+  static collectUrl(
+    alertCtrl: AlertController,
+    actionSheetCtrl: ActionSheetController,
+    onselect: (result: string | any) => void,
+    onerror?: () => void) {
 
-    let actionSheet = this.actionSheetCtrl.create({
+    let actionSheet = actionSheetCtrl.create({
       title: 'PhotoUpload',
       buttons: [
         {
@@ -222,7 +224,7 @@ export class Utils {
           text: 'Image link/url',
           icon: 'attach',
           handler: (res: any) => {
-            this.presentURLPrompt(onselect);
+            Utils.presentURLPrompt(alertCtrl, onselect);
           }
         },
         {
@@ -238,8 +240,8 @@ export class Utils {
     actionSheet.present();
   }
 
-  presentInvalidEntryAlert(message: string, ...args: string[]) {
-    let alert : Alert = this.alertCtrl.create({
+  static presentInvalidEntryAlert(alertCtrl: AlertController, message: string, ...args: string[]) {
+    let alert : Alert = alertCtrl.create({
       title: 'Are you sure?',
       subTitle: Utils.format(message, ...args),
       buttons: ['Dismiss']
@@ -247,8 +249,8 @@ export class Utils {
     alert.present();
   }
 
-  presentProceedCancelPrompt(onselect: (result: string | any) => void, subtitle: string) {
-    let alert = this.alertCtrl.create({
+  static presentProceedCancelPrompt(alertCtrl: AlertController, onselect: (result: string | any) => void, subtitle: string) {
+    let alert = alertCtrl.create({
       title: 'Are you sure?',
       subTitle: subtitle,
       buttons: [
@@ -267,9 +269,12 @@ export class Utils {
     alert.present();
   }
 
+  static presentAlertPrompt(
+    alertCtrl: AlertController,
+    onselect: (result: string | any) => void,
+    title?: string, inputs?: [{name: string, placeholder:string}]) {
 
-  presentAlertPrompt(onselect: (result: string | any) => void, title?: string, inputs?: [{name: string, placeholder:string}]) {
-    let alert = this.alertCtrl.create({
+    let alert = alertCtrl.create({
       title: title || '',
       inputs: inputs,
       buttons: [
@@ -291,15 +296,15 @@ export class Utils {
     alert.present();
   }
 
-  showLoadingBar() {
+  static showLoadingBar() {
     SpinnerDialog.show('Processing', 'Please wait..');
   }
 
-  hideLoadingBar() {
+  static hideLoadingBar() {
     SpinnerDialog.hide();
   }
 
-  isWebView(): boolean {
+  static isWebView(): boolean {
     if (window && !window.hasOwnProperty('cordova')) {
       return true;
     } else {
@@ -307,28 +312,27 @@ export class Utils {
     }
   }
 
-  isDesktop() : boolean {
-    return this.platform.is("core");
+  static isDesktop(platform: Platform) : boolean {
+    return platform.is("core");
   }
 
-  isTablet() : boolean {
-    return this.platform.is("tablet");
+  static isTablet(platform: Platform) : boolean {
+    return platform.is("tablet");
   }
 
-  isAndroid() : boolean {
-    return this.platform.is("android");
+  static isAndroid(platform: Platform) : boolean {
+    return platform.is("android");
   }
 
-  isIos() : boolean {
-    return this.platform.is("ios");
+  static isIos(platform: Platform) : boolean {
+    return platform.is("ios");
   }
 
-  forwardAnimation(): any {
+  static forwardAnimation(): any {
     if (Config.ANIMATE_PAGE_TRANSITIONS) {
       return {
         animate: true,
         direction: 'forward',
-        animation: this.isAndroid() ? "md-transition" : "ios-transition",
         duration: 1000,
         easing: 'ease-in'
       }
@@ -338,20 +342,8 @@ export class Utils {
     };
   }
 
-  push(navCtrl: NavController, component: any, params?: any) {
-    navCtrl.push(component, params || {}, this.forwardAnimation());
-  }
-
-  setRoot(navCtrl: NavController, component: any, params?: any) {
-    navCtrl.setRoot(component, params || {}, this.forwardAnimation());
-  }
-
-  pop(navCtrl: NavController) {
-    navCtrl.pop(this.forwardAnimation());
-  }
-
-  private presentURLPrompt(onselect: (result: string | any) => void,) {
-    let alert = this.alertCtrl.create({
+  private static presentURLPrompt(alertCtrl, onselect: (result: string | any) => void,) {
+    let alert = alertCtrl.create({
       title: 'Provide a URL!',
       inputs: [
         {

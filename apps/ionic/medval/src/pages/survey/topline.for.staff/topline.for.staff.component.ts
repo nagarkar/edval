@@ -5,7 +5,7 @@ import {RatingComponent} from "../../../shared/components/rating/rating.componen
 import {Staff} from "../../../services/staff/schema";
 import {StaffService} from "../../../services/staff/delegator";
 import {SurveyNavigator, RegisterComponent} from "../../../services/survey/survey.navigator";
-import {NavParams, NavController} from "ionic-angular";
+import {NavParams, NavController, LoadingController} from "ionic-angular";
 import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
 import {SurveyPage} from "../survey.page";
@@ -49,12 +49,13 @@ export class ToplineForStaffComponent extends SurveyPage {
     idle: Idle,
     utils: Utils,
     navCtrl: NavController,
+    loadingCtrl: LoadingController,
     sessionSvc: SessionService,
     params: NavParams,
     private staffSvc: StaffService,
     private metricSvc: MetricService) {
 
-    super(utils, navCtrl, sessionSvc, idle);
+    super(loadingCtrl, navCtrl, sessionSvc, idle);
 
     let staffNames: string[] = sessionSvc.getCurrentSession().properties.selectedStaffUserNames;
     if(staffNames.length == 0) {

@@ -1,18 +1,18 @@
 import {SurveyNavigator, NavigationTarget} from "../../services/survey/survey.navigator";
 import {ThanksComponent} from "./thanks/thanks.component";
-import {NavController} from "ionic-angular";
+import {NavController, LoadingController} from "ionic-angular";
 import {Utils} from "../../shared/stuff/utils";
 import {Config} from "../../shared/config";
 
 export class SurveyNavUtils {
-  public static navigateOrTerminate(navigator: SurveyNavigator, navCtrl: NavController, utils: Utils, ...terminationMessage: string[]) {
-    utils.presentLoading();
+  public static navigateOrTerminate(navigator: SurveyNavigator, loadingCtrl: LoadingController, navCtrl: NavController, ...terminationMessage: string[]) {
+    Utils.presentLoading(loadingCtrl);
     setTimeout(()=>{
       let navigationTarget: NavigationTarget = navigator.getNavigationTarget();
       if (navigationTarget == null) {
-        utils.setRoot(navCtrl, ThanksComponent, {message: terminationMessage});
+        navCtrl.setRoot(ThanksComponent, {message: terminationMessage});
       } else {
-        utils.setRoot(navCtrl, navigationTarget.component, navigationTarget.params);
+        navCtrl.setRoot(navigationTarget.component, navigationTarget.params);
       }
     }, Config.PAGE_TRANSITION_TIME)
   }

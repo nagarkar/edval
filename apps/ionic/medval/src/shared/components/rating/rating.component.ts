@@ -42,7 +42,7 @@ export class RatingComponent {
   private popped = false;
   @Output() ratingValueChange : EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(private utils: Utils) { }
+  constructor() { }
 
   @Input()
   get ratingValue() : number {

@@ -13,12 +13,11 @@ import {Config} from "../shared/config";
 export abstract class AdminComponent implements OnInit {
 
   constructor(protected  tokenProvider: AccessTokenService,
-              protected  navCtrl: NavController,
-              protected  utils: Utils) { }
+              protected  navCtrl: NavController) { }
 
   ngOnInit() {
     if(!Config.isMockData(new Session()) && !this.tokenProvider.getAuthResult()) {
-      this.utils.setRoot(this.navCtrl, LoginComponent)
+      this.navCtrl.setRoot(LoginComponent, {}, Utils.forwardAnimation());
     }
   }
 

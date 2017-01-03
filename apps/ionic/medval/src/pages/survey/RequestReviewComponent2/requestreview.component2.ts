@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NavController, Modal, ModalController} from "ionic-angular";
+import {NavController, Modal, ModalController, LoadingController} from "ionic-angular";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
@@ -25,9 +25,10 @@ export class RequestReviewComponent2 extends SurveyPage {
     navCtrl: NavController,
     sessionSvc: SessionService,
     private modalCtrl: ModalController,
+    loadingCtrl: LoadingController,
   ) {
 
-    super(utils, navCtrl, sessionSvc, idle);
+    super(loadingCtrl, navCtrl, sessionSvc, idle);
   }
 
   public navigateToNext() {

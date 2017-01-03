@@ -35,7 +35,7 @@ export class CarouselComponent implements OnChanges {
   }
   sliderOptions:any;
 
-  constructor(private utils: Utils, private renderer: Renderer) {}
+  constructor(private renderer: Renderer) {}
 
   ngOnChanges(changes: SimpleChanges) {
     this.setSlideOptions(false);

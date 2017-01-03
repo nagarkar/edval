@@ -3,7 +3,7 @@ import {FormGroup, Validators, FormControl} from "@angular/forms";
 import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService, AuthResult} from "../../shared/aws/access.token.service";
 import {DashboardComponent} from "../dashboard/dashboard.component";
-import {NavController, Loading} from "ionic-angular";
+import {NavController, LoadingController, ToastController} from "ionic-angular";
 import {SettingsComponent} from "../settings/settings.component";
 import {ServiceFactory} from "../../services/service.factory";
 import {Subject} from "rxjs";
@@ -21,9 +21,9 @@ export class LoginComponent {
 
   constructor(
     private navCtrl: NavController,
-    private authProvider: AccessTokenService,
-    private serviceFactory: ServiceFactory,
-    private utils: Utils) {
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
+    private authProvider: AccessTokenService) {
 
     authProvider.logout();
   }
@@ -39,18 +39,22 @@ export class LoginComponent {
     let username: string = this.loginForm.controls[ 'username' ].value.trim();
     let password: string = this.loginForm.controls[ 'password' ].value.trim();
 
-    let loading: Loading = this.utils.presentLoading(2000);
+    console.log("Before loading create: " + Date.now());
+    let loading = this.loadingCtrl.create({spinner: 'ios', dismissOnPageChange: true});
+    console.log("After loading create: " + Date.now());
 
     // Start new session and dismiss loading screen on success/failure (this dismiss step is required for ios/not for web)
     let subscription: Subject<AuthResult> = this.authProvider.startNewSession(username, password).subscribe(
       (token: AuthResult) => {
+        console.log("After Authresult: " + Date.now());
         this.navigateToDashboardPage();
+        console.log("After navigate to dashboard: " + Date.now());
         subscription.unsubscribe();
         loading.dismissAll();
       },
       (err) => {
         Utils.error("LoginComponent.login().startNewSession:" + err);
-        this.utils.presentTopToast("Login Failed with error: " + err + ". Please try again!");
+        Utils.presentTopToast(this.toastCtrl, "Login Failed with error: " + err + ". Please try again!");
         loading.dismissAll();
       },
       () => {
@@ -60,7 +64,7 @@ export class LoginComponent {
 
   private navigateToDashboardPage() {
     Utils.log("about to navigate to dashboard");
-    this.utils.setRoot(this.navCtrl, DashboardComponent);
+    this.navCtrl.setRoot(DashboardComponent);
   }
 
   public gotoHome() {

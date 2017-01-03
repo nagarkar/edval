@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NavController, NavParams} from "ionic-angular";
+import {NavController, NavParams, LoadingController} from "ionic-angular";
 import {Config} from "../../../shared/config";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
@@ -43,11 +43,12 @@ export class TopInfluencerComponent extends SurveyPage {
     sessionSvc: SessionService,
     utils: Utils,
     navCtrl: NavController,
+    loadingCtrl: LoadingController,
     private accountSvc: AccountService,
     private metricSvc: MetricService) {
 
     //TODO Add back idle.
-    super(utils, navCtrl, sessionSvc);
+    super(loadingCtrl, navCtrl, sessionSvc);
 
     this.account = accountSvc.getCached(Config.CUSTOMERID);
 
@@ -168,6 +169,6 @@ export class TopInfluencerComponent extends SurveyPage {
   }
 
   public navigateToNext() {
-    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl, this.utils);
+    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.loadingCtrl, this.navCtrl);
   }
 }

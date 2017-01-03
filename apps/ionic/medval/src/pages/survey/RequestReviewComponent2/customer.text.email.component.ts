@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
-import {NavParams, ViewController, NavController} from "ionic-angular";
+import {NavParams, ViewController, NavController, LoadingController} from "ionic-angular";
 import {FormGroup, FormBuilder, Validators, AbstractControl, FormControl} from "@angular/forms";
 import {SurveyPage} from "../survey.page";
 import {Idle} from "@ng-idle/core";
@@ -33,9 +33,9 @@ export class CustomerTextEmailComponent extends SurveyPage {
 
   constructor(
     utils: Utils, navCtrl: NavController, sessionSvc: SessionService, idle: Idle, // For SurveyPage
-    navParams: NavParams, private viewCtrl: ViewController, private formBuilder: FormBuilder) {
+    navParams: NavParams, loadingCtrl: LoadingController, private viewCtrl: ViewController, private formBuilder: FormBuilder) {
 
-    super(utils, navCtrl, sessionSvc, idle);
+    super(loadingCtrl, navCtrl, sessionSvc, idle);
 
     this.message = navParams.get('message') || 'Please provide your email and text.';
     this.phone = navParams.get('phone') || '';
