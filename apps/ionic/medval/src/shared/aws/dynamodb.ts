@@ -11,7 +11,7 @@ export class DynamoDB {
 
     this.dynamodb = new AWS.DynamoDB.DocumentClient({
       credentials: AWS.config.credentials,
-      region: Config.AWS_CONFIG.region
+      region: Config.AWS_CONFIG.REGION
     });
   }
 

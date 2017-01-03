@@ -13,7 +13,7 @@ export class AWSLogging {
     this.logStreamName = Config.CUSTOMERID;
     this.cloudwatch = new AWS.CloudWatchLogs({
       credentials: AWS.config.credentials,
-      region: Config.AWS_CONFIG.region,
+      region: Config.AWS_CONFIG.REGION,
     });
     this.updateNextSequenceToken();
   }
@@ -37,7 +37,7 @@ export class AWSLogging {
 
   private logToAws(events) {
     this.cloudwatch.putLogEvents({
-      logGroupName: Config.AWS_CONFIG.logGroupName,
+      logGroupName: Config.AWS_CONFIG.LOG_GROUP_NAME,
       logStreamName: this.logStreamName,
       sequenceToken: this.nextSequenceToken,
       logEvents: events
@@ -55,7 +55,7 @@ export class AWSLogging {
   updateNextSequenceToken() {
 
     var params = {
-      logGroupName: Config.AWS_CONFIG.logGroupName,
+      logGroupName: Config.AWS_CONFIG.LOG_GROUP_NAME,
       descending: true,
       limit: 1,
       logStreamNamePrefix: this.logStreamName,
@@ -65,25 +65,24 @@ export class AWSLogging {
     this.cloudwatch.describeLogStreams(params, (err, data) => {
       if (err) {
         console.log([err.name, err.message].join(":"))
+        return;
       }
-      else {
-        if (data.length == 0) {
-          let params = {
-            logGroupName: Config.AWS_CONFIG.logGroupName,
-            logStreamName: this.logStreamName
-          };
-          this.cloudwatch.createLogStream(params, (err: Error, data)=> {
-            if (err) {
-              console.log(err.name + ':' + err.message + ":" + err.stack);
-            } else {
-              setTimeout(()=> {
-                this.updateNextSequenceToken();
-              }, 3000);
-            }
-          });
-        } else {
-          this.nextSequenceToken = data.logStreams[0].uploadSequenceToken;
-        }
+      if (data.length == 0) {
+        let params = {
+          logGroupName: Config.AWS_CONFIG.LOG_GROUP_NAME,
+          logStreamName: this.logStreamName
+        };
+        this.cloudwatch.createLogStream(params, (err: Error, data)=> {
+          if (err) {
+            console.log(err.name + ':' + err.message + ":" + err.stack);
+          } else {
+            setTimeout(()=> {
+              this.updateNextSequenceToken();
+            }, 3000);
+          }
+        });
+      } else {
+        this.nextSequenceToken = data.logStreams[0].uploadSequenceToken;
       }
     });
   }

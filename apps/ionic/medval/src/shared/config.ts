@@ -24,22 +24,18 @@ export class Config {
   static readonly TIMEOUT_AFTER_SHOWING_YOU_WON_MESSAGE: number = 5 * 60 * 1000;
 
   static readonly AWS_CONFIG = {
-    region: 'us-east-1',
-    COGNITO_REGION:'us-west-2',
-    logGroupName: 'revvolve/client',
-    //IDENTITY_POOL_ID: 'us-east-1:ee9bbe7d-c315-4c88-baaa-4f32e1ee541d',
-    //USER_POOL_ID : 'us-east-1_WRjTRJPkD', // Your user pool metricId here
-    //ClientId: 's8koda3rkc3rsjt3fdlvdnvia', // Your client metricId here
+    REGION: 'us-east-1',
+    LOG_GROUP_NAME: 'revvolve/client',
     IDENTITY_POOL_ID: 'us-east-1:ee9bbe7d-c315-4c88-baaa-4f32e1ee541d',
-    USER_POOL_ID : 'us-west-2_oZLn7gsTz', // Your user pool metricId here
-    ClientId: '2ftsu3f0r1214l8jo1dmjdcjho', // Your client metricId here
+    USER_POOL_ID : 'us-east-1_WRjTRJPkD', // Your user pool metricId here
+    CLIENT_ID: 's8koda3rkc3rsjt3fdlvdnvia', // Your client metricId here
     LOG_BATCH_SIZE: 2
   }
 
 
   static POOL_DATA = {
     UserPoolId : Config.AWS_CONFIG.USER_POOL_ID,
-    ClientId : Config.AWS_CONFIG.ClientId,
+    ClientId : Config.AWS_CONFIG.CLIENT_ID,
   };
 
   static REFRESH_ACCESS_TOKEN: number = 30 * 60 * 1000;

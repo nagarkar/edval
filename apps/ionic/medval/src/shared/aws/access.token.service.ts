@@ -53,10 +53,15 @@ export class AccessTokenService {
     fn: (result: AuthResult, err: any)=> void) {
     this.callback = fn;
     this._username = username;
-    var authenticationData = {
+    var authenticationData: {Username: string, Password: string} = {
       Username : username,
       Password : password,
     };
+
+    if (this.sameUserAuthenticatingWithinShortPeriod(authenticationData)) {
+      this.callback(this.authResult, null);
+      return;
+    }
 
     this.authenticationDetails =
       new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
@@ -96,6 +101,7 @@ export class AccessTokenService {
     this._cognitoUser.authenticateUser(this.authenticationDetails, {
       onSuccess: (session) => {
         Utils.log("AccessTokenSvc.onSuccess");
+        me.authenticationDetails['lastLoggedInTime'] = Date.now();
         me.authResult = new AuthResult(
           session.getAccessToken().getJwtToken(),
           session.getIdToken().getJwtToken());
@@ -108,7 +114,7 @@ export class AccessTokenService {
               'cognito-idp.us-east-1.amazonaws.com/us-east-1_WRjTRJPkD': session.getIdToken().getJwtToken()
             }
           }),
-          region: Config.AWS_CONFIG.region
+          region: Config.AWS_CONFIG.REGION
         });
         Utils.log("After aws.config.update");
 
@@ -173,6 +179,13 @@ export class AccessTokenService {
     if (this.authenticatingIntervalTimer != 0) {
       clearInterval(this.authenticatingIntervalTimer);
     }
+  }
+
+  private sameUserAuthenticatingWithinShortPeriod(authenticationData: {Username: string; Password: string}) {
+    return this.authenticationDetails
+      && this.authenticationDetails['username'] == authenticationData.Username
+      && this.authenticationDetails['password'] == authenticationData.Password
+      && +this.authenticationDetails['lastLoggedInTime'] + 70 * 60 * 10000 > Date.now();
   }
 }
 
