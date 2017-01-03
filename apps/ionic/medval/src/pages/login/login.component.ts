@@ -43,19 +43,19 @@ export class LoginComponent {
 
     // Start new session and dismiss loading screen on success/failure (this dismiss step is required for ios/not for web)
     this.authProvider.startNewSession(this.username, this.password,
-        (token: AuthResult, err: any): void => {
-          if(token) {
-            console.log("After Authresult: " + Date.now());
-            this.navigateToDashboardPage();
-            console.log("After navigate to dashboard: " + Date.now());
-            loading.dismissAll();
-          }
-          if(err) {
-            Utils.error("LoginComponent.login().startNewSession:" + err);
-            Utils.presentTopToast(this.toastCtrl, "Login Failed with error: " + err + ". Please try again!");
-            loading.dismissAll();
-          }
-        });
+      (token: AuthResult, err: any): void => {
+        if(token) {
+          console.log("After Authresult: " + Date.now());
+          this.navigateToDashboardPage();
+          console.log("After navigate to dashboard: " + Date.now());
+          loading.dismissAll();
+        }
+        if(err) {
+          Utils.error("LoginComponent.login().startNewSession:" + err);
+          Utils.presentTopToast(this.toastCtrl, "Login Failed with error: " + err + ". Please try again!");
+          loading.dismissAll();
+        }
+      });
   }
 
   private navigateToDashboardPage() {

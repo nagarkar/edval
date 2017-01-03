@@ -1,20 +1,23 @@
 <mdval-header [title]="'Login'" [home]="'settings'"></mdval-header>
 <ion-content padding class="login-page">
-  <div class="revvolve-logo m-t-4" text-center>
+  <div class="revvolve-logo" text-center style="margin-top:4em">
     <img src="assets/img/logo.png" alt="">
   </div>
-
-  <div text-center>
-		<ion-item>
-		  <ion-label color="darkgrey" fixed>Username</ion-label>
-		  <ion-input [(ngModel)]="username" type="text"></ion-input>
-		</ion-item>
-		<ion-item>
-		  <ion-label color="darkgrey" fixed>Password</ion-label>
-		  <ion-input [(ngModel)]="password" type="password"></ion-input>
-		</ion-item>
-		<div padding>
-		  <button [disabled]="invalid()" ion-button color="revvolve" block (click)="login()">Sign In</button>
-		</div>
+  <div class="form-container">
+      <ion-item>
+        <ion-label color="darkgrey" fixed>Username</ion-label>
+        <ion-input type="text" [(ngModel)]="username"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="darkgrey" fixed>Password</ion-label>
+        <ion-input type="password" [(ngModel)]="password"></ion-input>
+      </ion-item>
+      <div padding>
+        <!--
+        TODO: Add back the disabled condition (doesn't seem to work for some reason)
+        button ion-button color="primary" block type="submit" [disabled]="!loginForm.valid">Sign In -->
+        <button ion-button color="revvolve" block type="submit" (click)="login()">Sign In
+        </button>
+      </div>
   </div>
 </ion-content>
