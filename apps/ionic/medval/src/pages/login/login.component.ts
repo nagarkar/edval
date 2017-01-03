@@ -40,26 +40,25 @@ export class LoginComponent {
     let password: string = this.loginForm.controls[ 'password' ].value.trim();
 
     console.log("Before loading create: " + Date.now());
-    let loading = this.loadingCtrl.create({spinner: 'ios', dismissOnPageChange: true});
+    let loading = this.loadingCtrl.create({spinner: 'ios', duration: 4000, dismissOnPageChange: true});
+    loading.present();
     console.log("After loading create: " + Date.now());
 
     // Start new session and dismiss loading screen on success/failure (this dismiss step is required for ios/not for web)
-    let subscription: Subject<AuthResult> = this.authProvider.startNewSession(username, password).subscribe(
-      (token: AuthResult) => {
-        console.log("After Authresult: " + Date.now());
-        this.navigateToDashboardPage();
-        console.log("After navigate to dashboard: " + Date.now());
-        subscription.unsubscribe();
-        loading.dismissAll();
-      },
-      (err) => {
-        Utils.error("LoginComponent.login().startNewSession:" + err);
-        Utils.presentTopToast(this.toastCtrl, "Login Failed with error: " + err + ". Please try again!");
-        loading.dismissAll();
-      },
-      () => {
-        loading.dismissAll();
-      });
+    this.authProvider.startNewSession(username, password,
+        (token: AuthResult, err: any): void => {
+          if(token) {
+            console.log("After Authresult: " + Date.now());
+            this.navigateToDashboardPage();
+            console.log("After navigate to dashboard: " + Date.now());
+            loading.dismissAll();
+          }
+          if(err) {
+            Utils.error("LoginComponent.login().startNewSession:" + err);
+            Utils.presentTopToast(this.toastCtrl, "Login Failed with error: " + err + ". Please try again!");
+            loading.dismissAll();
+          }
+        });
   }
 
   private navigateToDashboardPage() {

@@ -1,4 +1,4 @@
-import {Injectable, EventEmitter} from "@angular/core";
+import {Injectable } from "@angular/core";
 import {Utils} from "../stuff/utils";
 import {Config} from "../config";
 import {ServiceFactory} from "../../services/service.factory";
@@ -21,8 +21,7 @@ export class AccessTokenService {
   private userPool: any = null;
   //private error: Error = null;
 
-  loginEvent: EventEmitter<AuthResult> = new EventEmitter<AuthResult>();
-  //loginFailed: EventEmitter = new EventEmitter();
+  private callback: (result?: AuthResult, err?: any) => void;
 
   private authenticatingIntervalTimer : number = 0;
 
@@ -40,26 +39,16 @@ export class AccessTokenService {
     AwsClient.flushLogs();
     this._cognitoUser = null;
     this.clearAuthenticatingIntervalTimerIfValid();
-    this.completeEvents();
-    this.reinitializeEvents();
     Config.CUSTOMERID = null;
     AwsClient.clearEverything();
-  }
-
-  private completeEvents(): void {
-    this.loginEvent.complete();
-    //this.loginFailed.complete();
-  }
-
-  private reinitializeEvents(): void {
-    this.loginEvent = new EventEmitter<AuthResult>();
   }
 
   public supposedToBeLoggedIn(): boolean {
     return this._cognitoUser !== null;
   }
 
-  public startNewSession(username : string, password : string): EventEmitter<AuthResult> {
+  public startNewSession(username : string, password : string, fn: (result: AuthResult, err: any)=> void) {
+    this.callback = fn;
     this._username = username;
     var authenticationData = {
       Username : username,
@@ -80,8 +69,6 @@ export class AccessTokenService {
     this._cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
     this.startAuthenticatingUser(true);
     this.startAuthenticatingUserAtIntervals();
-
-    return this.loginEvent;
   }
 
    get cognitoUser(): any {
@@ -105,10 +92,10 @@ export class AccessTokenService {
     var me = this;
     this._cognitoUser.authenticateUser(this.authenticationDetails, {
       onSuccess: (session) => {
+        Utils.log("AccessTokenSvc.onSuccess");
         me.authResult = new AuthResult(
           session.getAccessToken().getJwtToken(),
           session.getIdToken().getJwtToken());
-        me.loginEvent.emit(me.authResult);
 
         // See https://goo.gl/xJsiHp for detailed discussion of how to get credentials.
         AWS.config.update({
@@ -120,6 +107,7 @@ export class AccessTokenService {
           }),
           region: Config.AWS_CONFIG.region
         });
+        Utils.log("After aws.config.update");
 
         if (!initializeAttributes) {
           return;
@@ -134,6 +122,7 @@ export class AccessTokenService {
             for (let i = 0; i < result.length; i++) {
               console.log(Utils.format('attribute {0}  has value {1}', result[i].getName(), result[i].getValue()));
               if (result[i].getName() == "custom:organizationName") {
+                me.callback(me.authResult);
                 Config.CUSTOMERID = result[i].getValue();
                 AwsClient.reInitialize();
                 me.serviceFactory.resetRegisteredServices();
@@ -143,8 +132,7 @@ export class AccessTokenService {
         });
       },
       onFailure: (err) => {
-        //this.error = err;
-        me.loginEvent.error(err);
+        me.callback(null, err);
       },
       newPasswordRequired: function(userAttributes, requiredAttributes) {
         // User was signed up by an admin and must provide new
