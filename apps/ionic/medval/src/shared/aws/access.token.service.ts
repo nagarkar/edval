@@ -1,9 +1,8 @@
-import {Injectable } from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Utils} from "../stuff/utils";
 import {Config} from "../config";
 import {ServiceFactory} from "../../services/service.factory";
 import {AwsClient} from "./aws.client";
-import {AlertController} from "ionic-angular";
 declare let AWSCognito:any;
 declare let AWS:any;
 
@@ -25,7 +24,7 @@ export class AccessTokenService {
 
   private authenticatingIntervalTimer : number = 0;
 
-  constructor(private serviceFactory: ServiceFactory, private alertCtrl: AlertController) {}
+  constructor(private serviceFactory: ServiceFactory) {}
 
   public getAuthResult() : AuthResult {
     return this.authResult;
@@ -47,7 +46,10 @@ export class AccessTokenService {
     return this._cognitoUser !== null;
   }
 
-  public startNewSession(username : string, password : string, fn: (result: AuthResult, err: any)=> void) {
+  public startNewSession(
+    username : string,
+    password : string,
+    fn: (result: AuthResult, err: any)=> void) {
     this.callback = fn;
     this._username = username;
     var authenticationData = {
@@ -119,11 +121,12 @@ export class AccessTokenService {
               me._username, err));
           }
           if (result) {
+            Utils.log('Got userattrbute result with {0} results', result.length);
             for (let i = 0; i < result.length; i++) {
-              console.log(Utils.format('attribute {0}  has value {1}', result[i].getName(), result[i].getValue()));
               if (result[i].getName() == "custom:organizationName") {
                 me.callback(me.authResult);
                 Config.CUSTOMERID = result[i].getValue();
+                Utils.log('Got userattrbute customerid {0}', Config.CUSTOMERID);
                 AwsClient.reInitialize();
                 me.serviceFactory.resetRegisteredServices();
               }
@@ -138,36 +141,12 @@ export class AccessTokenService {
         // User was signed up by an admin and must provide new
         // password and required attributes, if any, to complete
         // authentication.
-
-        Utils.presentAlertPrompt(
-          me.alertCtrl,
-          (data) => {
-            me._cognitoUser.completeNewPasswordChallenge(data.password, {"email": data.email}, this);
-          },
-          "Please choose a new password",
-          [
-            {
-              name: 'password',
-              placeholder: 'New Password:'
-            },
-            {
-              name: 'email',
-              placeholder: 'Your Email Address:'
-            }
-          ]);
+        alert('new password required');
       },
       mfaRequired: function(codeDeliveryDetails) {
         // MFA is required to complete user authentication.
         // Get the code from user and call
-        Utils.presentAlertPrompt(
-          me.alertCtrl,
-          (data) => {
-            me._cognitoUser.sendMFACode(data.value, this)
-          },
-          "Provide MFA", [{
-            name: 'value',
-            placeholder: 'Provide an MFA code:'
-          }]);
+        alert('mfa required');
       }
     });
   }

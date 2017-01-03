@@ -5,8 +5,6 @@ import {AccessTokenService, AuthResult} from "../../shared/aws/access.token.serv
 import {DashboardComponent} from "../dashboard/dashboard.component";
 import {NavController, LoadingController, ToastController} from "ionic-angular";
 import {SettingsComponent} from "../settings/settings.component";
-import {ServiceFactory} from "../../services/service.factory";
-import {Subject} from "rxjs";
 
 @Component({
   templateUrl: 'login.component.html'
@@ -14,10 +12,8 @@ import {Subject} from "rxjs";
 
 export class LoginComponent {
 
-  loginForm = new FormGroup({
-    'username': new FormControl('', Validators.required),
-    'password': new FormControl('', Validators.required)
-  });
+  username: string;
+  password: string;
 
   constructor(
     private navCtrl: NavController,
@@ -28,6 +24,10 @@ export class LoginComponent {
     authProvider.logout();
   }
 
+  invalid() {
+    return this.username == null || this.password == null;
+  }
+
   public login() {
 
     // TODO Remove before launch
@@ -36,16 +36,13 @@ export class LoginComponent {
     // TODO end
 
 
-    let username: string = this.loginForm.controls[ 'username' ].value.trim();
-    let password: string = this.loginForm.controls[ 'password' ].value.trim();
-
     console.log("Before loading create: " + Date.now());
-    let loading = this.loadingCtrl.create({spinner: 'ios', duration: 4000, dismissOnPageChange: true});
+    let loading = this.loadingCtrl.create();
     loading.present();
-    console.log("After loading create: " + Date.now());
+    console.log("After loading presented: " + Date.now());
 
     // Start new session and dismiss loading screen on success/failure (this dismiss step is required for ios/not for web)
-    this.authProvider.startNewSession(username, password,
+    this.authProvider.startNewSession(this.username, this.password,
         (token: AuthResult, err: any): void => {
           if(token) {
             console.log("After Authresult: " + Date.now());

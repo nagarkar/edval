@@ -1,6 +1,5 @@
 import {Component, Input} from "@angular/core";
 import {NavController} from "ionic-angular";
-import {Utils} from "../../stuff/utils";
 
 /**
  * Shows the header, including the account logo. If not logged in, logo is not shown.

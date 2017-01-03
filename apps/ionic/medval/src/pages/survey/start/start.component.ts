@@ -3,7 +3,6 @@ import {NavController} from "ionic-angular";
 import {LoginComponent} from "../../login/login.component";
 import {PickStaffComponent} from "../pickstaff/pickstaff.component";
 import {Utils} from "../../../shared/stuff/utils";
-import {AccessTokenService} from "../../../shared/aws/access.token.service";
 import {SessionService} from "../../../services/session/delegator";
 import {Account} from "../../../services/account/schema";
 
