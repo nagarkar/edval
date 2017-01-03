@@ -25,10 +25,14 @@ export class Config {
 
   static readonly AWS_CONFIG = {
     region: 'us-east-1',
+    COGNITO_REGION:'us-west-2',
     logGroupName: 'revvolve/client',
+    //IDENTITY_POOL_ID: 'us-east-1:ee9bbe7d-c315-4c88-baaa-4f32e1ee541d',
+    //USER_POOL_ID : 'us-east-1_WRjTRJPkD', // Your user pool metricId here
+    //ClientId: 's8koda3rkc3rsjt3fdlvdnvia', // Your client metricId here
     IDENTITY_POOL_ID: 'us-east-1:ee9bbe7d-c315-4c88-baaa-4f32e1ee541d',
-    USER_POOL_ID : 'us-east-1_WRjTRJPkD', // Your user pool metricId here
-    ClientId: 's8koda3rkc3rsjt3fdlvdnvia', // Your client metricId here
+    USER_POOL_ID : 'us-west-2_oZLn7gsTz', // Your user pool metricId here
+    ClientId: '2ftsu3f0r1214l8jo1dmjdcjho', // Your client metricId here
     LOG_BATCH_SIZE: 2
   }
 

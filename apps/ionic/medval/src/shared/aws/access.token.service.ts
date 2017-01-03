@@ -3,6 +3,7 @@ import {Utils} from "../stuff/utils";
 import {Config} from "../config";
 import {ServiceFactory} from "../../services/service.factory";
 import {AwsClient} from "./aws.client";
+import {AlertController} from "ionic-angular";
 declare let AWSCognito:any;
 declare let AWS:any;
 
@@ -24,7 +25,7 @@ export class AccessTokenService {
 
   private authenticatingIntervalTimer : number = 0;
 
-  constructor(private serviceFactory: ServiceFactory) {}
+  constructor(private alertCtrl: AlertController, private serviceFactory: ServiceFactory) {}
 
   public getAuthResult() : AuthResult {
     return this.authResult;
@@ -122,15 +123,17 @@ export class AccessTokenService {
           }
           if (result) {
             Utils.log('Got userattrbute result with {0} results', result.length);
-            for (let i = 0; i < result.length; i++) {
-              if (result[i].getName() == "custom:organizationName") {
+            // TODO: When this goes beyond one customer, need to assign an organization name to each login.
+            //for (let i = 0; i < result.length; i++) {
+            //  if (result[i].getName() == "custom:organizationName") {
                 me.callback(me.authResult);
-                Config.CUSTOMERID = result[i].getValue();
+                //Config.CUSTOMERID = result[i].getValue();
+                Config.CUSTOMERID = "OMC";
                 Utils.log('Got userattrbute customerid {0}', Config.CUSTOMERID);
                 AwsClient.reInitialize();
                 me.serviceFactory.resetRegisteredServices();
-              }
-            }
+            //  }
+            //}
           }
         });
       },
@@ -141,7 +144,22 @@ export class AccessTokenService {
         // User was signed up by an admin and must provide new
         // password and required attributes, if any, to complete
         // authentication.
-        alert('new password required');
+        Utils.presentAlertPrompt(
+          me.alertCtrl,
+          (data) => {
+            me._cognitoUser.completeNewPasswordChallenge(data.password, {"email": data.email}, this);
+          },
+          "Please choose a new password",
+          [
+            {
+              name: 'password',
+              placeholder: 'New Password:'
+            },
+            {
+              name: 'email',
+              placeholder: 'Your Email Address:'
+            }
+          ]);
       },
       mfaRequired: function(codeDeliveryDetails) {
         // MFA is required to complete user authentication.
