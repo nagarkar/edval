@@ -1,4 +1,5 @@
 import { Component, AfterViewChecked, AfterViewInit } from '@angular/core';
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
 import { NavController } from 'ionic-angular';
 import { StartComponent } from "../start/start.component";
@@ -14,9 +15,17 @@ import { Account } from "../../../services/account/schema";
 
 import { Validators, FormBuilder } from '@angular/forms';
 import { ValidationService } from '../../../shared/components/validator/validation.service';
+import { EmailProviderService } from '../../../services/common/emailProvider/emailProvider.service';
+import { EmailProvider } from '../../../services/common/emailProvider/schema';
 
 @Component({
   templateUrl: 'handle.complaint.component.html',
+  providers: [EmailProviderService],
+  styles: [`
+    ng2-auto-complete {
+      display: block; width: 100%;
+    }
+  `]
 })
 
 @RegisterComponent
@@ -38,9 +47,10 @@ export class HandleComplaintComponent {
     private sessionSvc: SessionService,
     private navCtrl: NavController,
     private utils: Utils,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private emailProviderService: EmailProviderService,
+    private domSanitizer: DomSanitizer
   ) {
-
     this.account = accountSvc.getCached(Config.CUSTOMERID);
     this.complaintForm = this.formBuilder.group({
       email: ['',],
@@ -57,5 +67,10 @@ export class HandleComplaintComponent {
       "We're sorry if had a bad experience",
       "'The folks at '+ account.properties.customerName + ' want to do better'",
       "Rest assured that your feedback, although nameless, will help");
+  }
+
+  renderEmailProvider = (emailProvider: EmailProvider): SafeHtml => {
+    let html = `<b style='width:100%'>${emailProvider.name}</b>`;
+    return this.domSanitizer.bypassSecurityTrustHtml(html);
   }
 }

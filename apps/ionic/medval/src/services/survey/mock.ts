@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Survey} from "./schema";
-import {Utils} from "../../shared/stuff/utils";
-import {AccessTokenService} from "../../shared/aws/access.token.service";
-import {Config} from "../../shared/aws/config";
-import {AbstractMockService} from "../../shared/service/abstract.mock.service";
+import { Injectable } from '@angular/core';
+import { Survey } from "./schema";
+import { Utils } from "../../shared/stuff/utils";
+import { AccessTokenService } from "../../shared/aws/access.token.service";
+import { Config } from "../../shared/aws/config";
+import { AbstractMockService } from "../../shared/service/abstract.mock.service";
 
 @Injectable()
 export class MockSurveyService extends AbstractMockService<Survey> {
@@ -30,12 +30,12 @@ export class MockSurveyService extends AbstractMockService<Survey> {
     return member.id = id;
   }
 
-  public mockData() : Map<string, Survey> {
+  public mockData(): Map<string, Survey> {
     return MockSurveyService.surveyMap;
   }
 
-  private static mockMap() : Map<string, Survey> {
-    let map : Map<string, Survey> = new Map<string, Survey>();
+  private static mockMap(): Map<string, Survey> {
+    let map: Map<string, Survey> = new Map<string, Survey>();
     map.set("default", Object.assign(new Survey(), {
       customerId: Config.CUSTOMERID,
       id: "default",
@@ -49,22 +49,35 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         showJokes: true,
         showWheel: true,
       },
-      workflow:[
+      workflow: [
         {
-          component:"PickStaffComponent",
+          component: "HandleComplaintComponent",
+          isTerminal: true
+        },
+        {
+          component: "TopInfluencerComponent",
+          params: {
+            valueOrderDesc: false,
+            maxMetrics: 4,
+            rootMetricId: null,
+          },
+          isTerminal: true
+        },
+        {
+          component: "PickStaffComponent",
           params: {
             roles: ["MD", "OrthoAssitant"]
           }
         },
         {
-          component:"SingleMetricComponent",
-          params:{
+          component: "SingleMetricComponent",
+          params: {
             metricId: "root"
           },
         },
         {
-          fn:"StrongDetractor",
-          params:{
+          fn: "StrongDetractor",
+          params: {
             metricId: "root"
           },
           navigateOnResult: {
@@ -73,12 +86,8 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
-          component:"HandleComplaintComponent",
-          isTerminal:true
-        },
-        {
-          fn:"StrongPromoter",
-          params:{
+          fn: "StrongPromoter",
+          params: {
             metricId: "root"
           },
           navigateOnResult: {
@@ -87,16 +96,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
-          component:"TopInfluencerComponent",
-          params: {
-            valueOrderDesc: false,
-            maxMetrics:4,
-            rootMetricId: null,
-          },
-          isTerminal:true
-        },
-        {
-          component:"TopInfluencerComponent",
+          component: "TopInfluencerComponent",
           params: {
             valueOrderDesc: true,
             maxMetrics: 4,
@@ -104,8 +104,8 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
-          component:"RequestReviewComponent2",
-          isTerminal:true
+          component: "RequestReviewComponent2",
+          isTerminal: true
         }
       ]
     }));
@@ -122,26 +122,26 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         showJokes: true,
         showWheel: true,
       },
-      workflow:[
+      workflow: [
         {
-          component:"PickStaffComponent",
+          component: "PickStaffComponent",
           params: {
             roles: ["MD", "OrthoAssitant"]
           }
         },
         {
-          component:"ToplineForStaffComponent",
+          component: "ToplineForStaffComponent",
           executeIf: 'session.properties.selectedStaffUserNames.length > 0'
         },
         {
-          component:"SingleMetricComponent",
-          params:{
+          component: "SingleMetricComponent",
+          params: {
             metricId: "root"
           },
         },
         {
-          fn:"StrongDetractor",
-          params:{
+          fn: "StrongDetractor",
+          params: {
             metricId: "root"
           },
           navigateOnResult: {
@@ -150,36 +150,36 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
-          component:"HandleComplaintComponent",
-          isTerminal:true
+          component: "HandleComplaintComponent",
+          isTerminal: true
         },
         {
-          component:"PickStaffComponent",
+          component: "PickStaffComponent",
           params: {
             roles: ["MD", "OrthoAssitant"]
           }
         },
         {
-          component:"ToplineForStaffComponent",
+          component: "ToplineForStaffComponent",
           executeIf: 'session.properties.selectedStaffUserNames.length > 0'
         },
         {
-          fn:"AnyDetractors",
+          fn: "AnyDetractors",
           navigateOnResult: {
             "false": 1,
             "true": -3
           }
         },
         {
-          component:"TopInfluencerComponent",
+          component: "TopInfluencerComponent",
           params: {
             valueOrderDesc: false,
-            maxMetrics:4,
+            maxMetrics: 4,
             rootMetricId: null,
           },
         },
         {
-          component:"TopInfluencerComponent",
+          component: "TopInfluencerComponent",
           params: {
             valueOrderDesc: true,
             maxMetrics: 4,
@@ -194,8 +194,8 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
-          component:"RequestReviewComponent2",
-          isTerminal:true
+          component: "RequestReviewComponent2",
+          isTerminal: true
         },
       ]
     }));
@@ -211,27 +211,27 @@ export class MockSurveyService extends AbstractMockService<Survey> {
       workflowProperties: {
         showJokes: true,
       },
-      workflow:[
+      workflow: [
         {
-          component:"SingleMetricComponent",
-          params:{
+          component: "SingleMetricComponent",
+          params: {
             metricId: "root"
           },
         },
         {
-          component:"PickStaffComponent",
+          component: "PickStaffComponent",
           params: {
             roles: ["MD", "OrthoAssitant"]
           }
         },
         {
-          component:"ToplineForStaffComponent",
+          component: "ToplineForStaffComponent",
           executeIf: 'session.properties.selectedStaffUserNames.length > 0'
         },
         {
-          component:"MultimetricComponent",
+          component: "MultimetricComponent",
           params: {
-            message:'Tell us about how the doctor & staff are doing',
+            message: 'Tell us about how the doctor & staff are doing',
             metricIds: [
               '2861045b4984805ae23df729dad97b',
               '861045b4984805ae213df729dad97b',
@@ -241,9 +241,9 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
-          component:"MultimetricComponent",
+          component: "MultimetricComponent",
           params: {
-            message:'Tell us about the front-desk and other support staff',
+            message: 'Tell us about the front-desk and other support staff',
             metricIds: [
               '95a8659497274ffe9f8fb14fa45b21e5',
               '6e0f99cdd7a34a058ff2fb22fbe51738',
@@ -253,26 +253,26 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
-          fn:"AllPromoters",
+          fn: "AllPromoters",
           navigateOnResult: {
             "false": 2,
             "true": 1
           }
         },
         {
-          component:"RequestReviewComponent2",
-          isTerminal:true
+          component: "RequestReviewComponent2",
+          isTerminal: true
         },
         {
-          fn:"AnyDetractors",
+          fn: "AnyDetractors",
           navigateOnResult: {
             "false": Infinity,
             "true": 1
           }
         },
         {
-          component:"HandleComplaintComponent",
-          isTerminal:true
+          component: "HandleComplaintComponent",
+          isTerminal: true
         },
       ]
     }));
