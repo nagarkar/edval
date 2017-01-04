@@ -15,7 +15,7 @@ import {Config} from "../shared/config";
   template: `<ion-nav [root]="rootPage" [rootParams]="rootParams"></ion-nav>`
 })
 export class MyApp {
-  rootPage = LoginComponent;
+  rootPage = StartWithSurveyOption;
   rootParams = {defaultOnly: true}
 
   constructor(platform: Platform, serviceFactory: ServiceFactory) {

@@ -37,6 +37,27 @@ export class RequestReviewComponent2 extends SurveyPage {
     super.navigateToNext();
   }
 
+  browserScript: string = ""+
+    "if (!window.location) {" +
+      "window.alert('no window.location');" +
+      "  window.console.log('no window.location');" +
+      "  return;" +
+    "};" +
+    "window.console.log('Window href: ' + window.location.href);" +
+    "window.alert('Window href: ' + window.location.href);" +
+    "if (window.location.href && window.onhashchange) {" +
+      "window.onhashchange = function(event) {" +
+      "  let hash = new String(window.location.hash);" +
+      "  window.console.log('hash: ' + hash);" +
+      "  window.alert('hash: ' + hash);" +
+      "  if (hash.indexOf('lrd') < 0) {" +
+      "    window.console.log('Thank you for providing a review for Orthodontic Excellence!');" +
+      "    window.alert('Thank you for providing a review for Orthodontic Excellence!');" +
+      "    window.close();" +
+      "  };" +
+      "};" +
+    "};";
+
   googleReview() {
     let abtest: boolean = Math.random() > 0.5;
     if (abtest) {
@@ -44,52 +65,62 @@ export class RequestReviewComponent2 extends SurveyPage {
       let url = 'https://www.google.com/search?q=orthodontic+excellence+coal+creek+parkeway&oq=orthodontic+excellence+coal+creek+parkeway&aqs=chrome..69i57.8959j0j1&sourceid=chrome&ie=UTF-8#lrd=0x5490691ef2188207:0xb56b7b88cd8157c3,3,';
       let options = 'location=no,toolbar=yes,hardwareback=no,clearcache=yes,clearsessioncache=yes,closebuttoncaption=Back';
       this.browser = new InAppBrowser(url, '_blank', options);
-
-      this.browser.on("loaderror")
-        .subscribe(
-          (res) => {
-            let options = 'location=no,toolbar=yes,hardwareback=no,closebuttoncaption=Back';
-            this.browser = new InAppBrowser(url, '_system', options);
-          },
-          err => {
-            Utils.error("InAppBrowser Error: " + err);
-          });
-        setTimeout(() => {
-          let fn: string = `
-            if (!window) {
-              alert('no window');
-              return;
-            }
-            if (!window.location) {
-              alert('no window.location');
-              return;
-            }
-            alert('Window href: ' + window.location.href);
-            if (window.location.href) {
-              window.onhashchange = () => {
-                let hash = new String(window.location.hash);
-                alert('hash: ' + hash);
-                if (hash.indexOf('lrd') < 0) {
-                  alert('Thank you for providing a review for Orthodontic Excellence!');
-                  window.close();
-                }
-              }
-            }
-          `;
-        this.browser.executeScript({
-          code: fn
-        }).then((data) => {
-          alert(Utils.format('done script injection with data: {0}, stringified: {1}' + data, Utils.stringify(data)));
-        }).catch((err)=> {
-          alert(err);
+      this.setupScriptInjection();
+      this.browser.on("loaderror").subscribe(
+        (res) => {
+          let options = 'location=no,toolbar=yes,hardwareback=no,closebuttoncaption=Back';
+          this.browser = new InAppBrowser(url, '_blank', options);
+          this.setupScriptInjection();
+        },
+        err => {
+          Utils.error("InAppBrowser Error: " + err);
         });
+      setTimeout(() => {
         this.browser.close();
       }, Config.REVIEW_TIME_MINUTES * 60 * 1000);
     } else {
       this.saveReview('google');
     }
   }
-
+  private setupScriptInjection() {
+    this.browser.on('loadstart').subscribe((event)=>{
+      if (event.url.match("http://www.smilewithbraces.com")) {
+        this.browser.close();
+        return;
+      }
+    })
+    this.browser.on('loadstop').subscribe(
+        (event)=> {
+          if (event.url.match("http://www.smilewithbraces.com")) {
+            this.browser.close();
+            return;
+          }
+          console.log('event: ' + event.type + ":" + event.url);
+          //if (window.oldhash && (!window.location.hash || window.location.hash == '')) {window.close();}
+          this.browser.executeScript({
+            code  : '' +
+            'window.console.log("INJECTED SCRIPT");' +
+            //'window.alert("Injected Script" + window.location.href + ":" + window.location.hash);' +
+            'window.setInterval(function(){' +
+              'window.console.log("hashes:" + window.oldhash + ":new" + window.location.hash);' +
+              'if (window.oldhash && (!window.location.hash || window.location.hash == "")) {' +
+                'window.open("http://www.smilewithbraces.com", "_self");' +
+              '};' +
+              'window.oldhash = window.location.hash;' +
+            '}, 50);'
+          }).then((data) => {
+            console.log(Utils.format('done script injection with data: {0}, stringified: {1}' + data, Utils.stringify(data)));
+            setInterval(()=> {
+              if (this.browser['needsClosing']) {
+                this.browser.close()
+              }
+            }, 50);
+          }).catch((err)=> {
+            console.log(err);
+          });
+        }
+    )
+  }
   facebookReview() {
     this.saveReview('google');
   }
