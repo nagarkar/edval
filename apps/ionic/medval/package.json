@@ -10,7 +10,7 @@
     "ionic:serve": "ionic-app-scripts serve",
     "cleancss": "ionic-app-scripts cleancss // Doesn't do much.",
     "android:prod": "npm run web:prod && cordova build android --release",
-    "ios:prod": "npm run build && npm run uglify:deljsmap && cordova build ios --release",
+    "ios:prod": ". ./scripts/gitpull.sh && npm run build && npm run uglify:deljsmap && cordova build ios --release",
     "web:prod": "npm run uglify:deljsmap",
     "uglify:deljsmap": "npm run uglify && npm run deljsmap",
     "uglify": "npm run uglifymain && npm run uglifyawssdk",
