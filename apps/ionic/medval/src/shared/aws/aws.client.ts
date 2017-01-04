@@ -6,7 +6,7 @@ export class AwsClient {
   private static SERVER: AWSLogging;
   private static DDB: DynamoDB;
 
-  private static periodicLoggingTimer = setInterval(()=> {
+  static periodicLoggingTimer = setInterval(()=> {
     if (AwsClient.SERVER) {
       AwsClient.SERVER.flush();
     }

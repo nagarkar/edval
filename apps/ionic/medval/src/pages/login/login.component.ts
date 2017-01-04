@@ -1,5 +1,4 @@
 import {Component} from "@angular/core";
-import {FormGroup, Validators, FormControl} from "@angular/forms";
 import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService, AuthResult} from "../../shared/aws/access.token.service";
 import {DashboardComponent} from "../dashboard/dashboard.component";
@@ -21,7 +20,6 @@ export class LoginComponent {
     private toastCtrl: ToastController,
     private authProvider: AccessTokenService) {
 
-    authProvider.logout();
   }
 
   invalid() {

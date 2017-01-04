@@ -62,7 +62,6 @@ export class DashboardComponent {
   }
 
   logout(){
-    this.accessTokenProvider.logout();
     this.setRoot(LoginComponent);
   }
 

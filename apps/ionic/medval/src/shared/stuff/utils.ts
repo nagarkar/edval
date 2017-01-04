@@ -47,8 +47,7 @@ export class Utils {
   }
 
   static logToAws(message: string, ...args: string[]) : void {
-    let fmsg = Utils.format(message, ...args);
-    AwsClient.logEvent(message);
+    AwsClient.logEvent(Utils.format(message, ...args));
   }
 
   static assert(object: any) {
