@@ -46,6 +46,9 @@ export class Config {
   static THANKS_PAGE_IDLE_SECONDS: number = 30;
   static THANKS_PAGE_TIMEOUT_SECONDS: number = 30;
 
+  //TODO: Increase for launch to 3
+  static REVIEW_TIME_MINUTES: number = 1;
+
   static MOCK_DATA : {[key: string]: boolean} = {
     "Session": false,
     "Metric": true,

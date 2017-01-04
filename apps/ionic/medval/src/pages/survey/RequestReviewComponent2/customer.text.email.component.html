@@ -1,33 +1,30 @@
-<mdval-header [title]="'Tell us how to remind you!'" [home]="''"></mdval-header>
-<ion-content padding>
-  <div style="text-align:center;margin-top: 4em">
-    <div class="cstm-grid">
-      <ion-row style="margin-top: 3em">
-        <ion-col>
-          <form [formGroup]="myForm" (submit)="dismiss()">
-            <ion-label style="padding-left: .2em;font-size: 1.5em; text-align: left;" stacked>{{message}}</ion-label>
-            <ion-item>
-              <ion-label stacked>Email</ion-label>
-              <ion-input [(ngModel)]="email" width-60 class="email" type="email" placeholder="youremail@gmail.com"
-                         formControlName="email">
-              </ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label stacked>Phone (Text me!)</ion-label>
-              <ion-input [(ngModel)]="phone" width-40 type="tel" placeholder="206-555-5555"
-                         formControlName="phone">
-              </ion-input>
-            </ion-item>
-            <div class="alert alert-danger" *ngIf="ready && !myForm.controls['phone'].valid">Provide a valid phone number, (for e.g.: 206 555 5555).</div>
-            <div class="alert alert-danger" *ngIf="ready && !myForm.controls['email'].valid">Provide a valid email, (for e.g.: you@gmail.com)  or
-              <div><a href="#" (click)="clearEmail()">clear</a></div>
-            </div>
-            <ion-row style="margin-top: 2em; text-align: right;">
-              <button type="submit" ion-button small>{{ready ? "I'm done!" : "No Thanks!"}}</button>
-            </ion-row>
-          </form>
-        </ion-col>
-      </ion-row>
-    </div>
+<ion-content text-center>
+  <div class="cstm-grid">
+    <ion-row style="margin-top: 3em">
+      <ion-col>
+        <form [formGroup]="myForm" (submit)="dismiss()">
+          <ion-label style="padding-left: .2em;font-size: 1.5em; text-align: left;" stacked>{{message}}</ion-label>
+          <ion-item>
+            <ion-label stacked>Email</ion-label>
+            <ion-input [(ngModel)]="email" width-60 class="email" type="email" placeholder="youremail@gmail.com"
+                       formControlName="email">
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label stacked>Phone (Text me!)</ion-label>
+            <ion-input [(ngModel)]="phone" width-40 type="tel" placeholder="206-555-5555"
+                       formControlName="phone">
+            </ion-input>
+          </ion-item>
+          <div class="alert alert-danger" *ngIf="ready && !myForm.controls['phone'].valid">Provide a valid phone number, (for e.g.: 206 555 5555).</div>
+          <div class="alert alert-danger" *ngIf="ready && !myForm.controls['email'].valid">Provide a valid email, (for e.g.: you@gmail.com)  or
+            <div><a href="#" (click)="clearEmail()">clear</a></div>
+          </div>
+          <ion-row style="margin-top: 2em; text-align: right;">
+            <button type="submit" ion-button small>{{ready ? "I'm done!" : "No Thanks!"}}</button>
+          </ion-row>
+        </form>
+      </ion-col>
+    </ion-row>
   </div>
 </ion-content>
