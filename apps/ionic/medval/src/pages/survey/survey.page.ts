@@ -29,6 +29,6 @@ export class SurveyPage {
   }
 
   protected onIdleTimeout() {
-    this.navCtrl.setRoot(StartWithSurveyOption);
+    this.navCtrl.setRoot(StartWithSurveyOption, {defaultOnly: true});
   }
 }
