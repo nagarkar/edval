@@ -38,26 +38,14 @@ export class StaffComponent extends AdminComponent  {
   }
 
   public add() {
-    if (!this.currentUserIsAdmin()) {
-      Utils.presentInvalidEntryAlert(this.alertCtrl, "Only administrators can add users");
-      return;
-    }
     Utils.presentProfileModal(this.modalCtrl, StaffEditComponent, {})
   }
 
   public edit(staff : Staff) {
-    if (!this.currentUserIs(staff.username) && !this.currentUserIsAdmin()) {
-      Utils.presentInvalidEntryAlert(this.alertCtrl, "You can only edit your own data!");
-      return;
-    }
     Utils.presentProfileModal(this.modalCtrl, StaffEditComponent, {staffMember: staff});
   }
 
   public delete(staffMember: Staff) {
-    if (!this.currentUserIsAdmin()) {
-      Utils.presentInvalidEntryAlert(this.alertCtrl, "Only administrators can delete users");
-      return;
-    }
     Utils.showLoadingBar();
     this.staffSvc.delete(staffMember.username)
       .then((deleted: boolean) : void => {

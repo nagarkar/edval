@@ -71,7 +71,8 @@ export class StaffEditComponent {
     let s = this.staffMember;
     let isValid : boolean =
       s.username && s.username.length > 0 &&
-      s.properties.photoUrl && s.properties.photoUrl.length > 0 &&
+      s.properties.firstName && s.properties.firstName.length > 0 &&
+      //s.properties.photoUrl && s.properties.photoUrl.length > 0 &&
       s.role && s.role.length > 0;
 
     if (!isValid) {
