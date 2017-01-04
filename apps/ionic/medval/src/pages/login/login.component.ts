@@ -40,7 +40,7 @@ export class LoginComponent {
     console.log("After loading presented: " + Date.now());
 
     // Start new session and dismiss loading screen on success/failure (this dismiss step is required for ios/not for web)
-    this.authProvider.startNewSession(this.username, this.password,
+    this.authProvider.startNewSession(this.username.toLowerCase(), this.password,
       (token: AuthResult, err: any): void => {
         if(token) {
           console.log("After Authresult: " + Date.now());
