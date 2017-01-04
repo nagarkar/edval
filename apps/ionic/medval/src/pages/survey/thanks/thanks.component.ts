@@ -105,8 +105,8 @@ export class ThanksComponent {
 
 
   private setupIdleTimeout() {
-    this.idle.setIdle(Config.SURVEY_PAGE_IDLE_SECONDS);
-    this.idle.setTimeout(Config.SURVEY_PAGE_TIMEOUT_SECONDS);
+    this.idle.setIdle(Config.THANKS_PAGE_IDLE_SECONDS);
+    this.idle.setTimeout(Config.THANKS_PAGE_TIMEOUT_SECONDS);
     this.idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
 
     let subscription: Subject<number> = this.idle.onTimeout.subscribe(() => {
@@ -137,6 +137,10 @@ export class ThanksComponent {
 
   private static getDefaultOptions(giftMessage: string, costPerUse: number, award: number): {} {
 
+    let ret: any = {
+      giftMessage: giftMessage
+    }
+
     let giftSegment = {'fillStyle' : '#eae56f', 'text': giftMessage, win: true};
     let noWinSegments = [
       {'fillStyle' : '#89f26e', 'text' : 'No Luck'},
@@ -151,7 +155,7 @@ export class ThanksComponent {
     let winSlots = 3;
     let numSegments = winSlots * (1 + loseSlotsPerWinSlots);
 
-    let ret: any = {
+    ret = Object.assign(ret, {
       'numSegments': numSegments,   // Specify number of segments.
       'outerRadius': 212,  // Set radius to so wheel fits the background.
       'innerRadius': 40,  // Set inner radius to make wheel hollow.
@@ -162,7 +166,7 @@ export class ThanksComponent {
         'duration' : 5,
         'spins'    : 8
       }
-    };
+    });
     let segments: any[] = [];
     for(let i = 0; i < winSlots; i++) {
       segments.push(giftSegment);

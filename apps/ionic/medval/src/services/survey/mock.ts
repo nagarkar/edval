@@ -51,7 +51,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
       },
       workflowProperties: {
         showJokes: true,
-        showWheel: true,
+        showWheel: true
       },
       workflow:[
         {
@@ -122,7 +122,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
       },
       workflowProperties: {
         showJokes: true,
-        showWheel: true,
+        showWheel: false,
       },
       workflow:[
         {
@@ -211,8 +211,10 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         timeCommitment: "I have 5-6 minutes"
       },
       workflowProperties: {
-        showJokes: true,
+        showJokes: false,
         showWheel: true,
+        award:10,
+        costPerUse: 2
       },
       workflow:[
         {

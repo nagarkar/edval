@@ -43,6 +43,9 @@ export class Config {
   static SURVEY_PAGE_IDLE_SECONDS: number = 60;
   static SURVEY_PAGE_TIMEOUT_SECONDS: number = 60;
 
+  static THANKS_PAGE_IDLE_SECONDS: number = 30;
+  static THANKS_PAGE_TIMEOUT_SECONDS: number = 30;
+
   static MOCK_DATA : {[key: string]: boolean} = {
     "Session": false,
     "Metric": true,

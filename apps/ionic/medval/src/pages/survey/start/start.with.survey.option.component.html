@@ -1,4 +1,4 @@
-<mdval-header></mdval-header>
+<mdval-header [leftHome]="'surveyinternal'"></mdval-header>
 <ion-content>
   <div class="m-t-4" text-center>
     <ion-row>
@@ -27,7 +27,7 @@
         </div>
         <div *ngIf="!defaultOnly">
           <button *ngFor="let survey of surveys; let idx = index;" ion-button medium color="primary" (click)="pickSurvey(survey.id);">
-            <div class="card-title">{{survey.properties.timeCommitment}}. Lets do this!</div>
+            <div class="card-title">{{survey.properties.timeCommitment}}</div>
           </button>
         </div>
       </ion-col>

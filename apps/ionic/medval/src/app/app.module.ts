@@ -12,7 +12,6 @@ import {TermComponent} from "../pages/dashboard/terms/term.component";
 import {PolicyComponent} from "../pages/dashboard/policy/policy.component";
 import {HttpModule, JsonpModule} from "@angular/http";
 import {RatingComponent} from "../shared/components/rating/rating.component";
-import {StartComponent} from "../pages/survey/start/start.component";
 import {ThanksComponent} from "../pages/survey/thanks/thanks.component";
 import {StaffEditComponent} from "../pages/staff/staff.edit.component";
 import {CarouselComponent} from "../shared/components/carousel/carousel.component";
@@ -37,7 +36,6 @@ import {SettingsComponent} from "../pages/settings/settings.component";
 import {MetricSummaryComponent} from "../pages/metricsetup/metric.summary.component";
 import {MetricDetailComponent} from "../pages/metricsetup/metric.detail.component";
 import {ServiceFactory} from "../services/service.factory";
-import {SurveySelectionComponent} from "../pages/survey/start/surveyselection.component";
 import {SurveyService} from "../services/survey/delegator";
 import {MockSurveyService} from "../services/survey/mock";
 import {LiveSurveyService} from "../services/survey/live";
@@ -92,9 +90,7 @@ enableProdMode();
 
     /** Survey Components */
     RatingComponent,
-    SurveySelectionComponent,
     ThanksComponent,
-    StartComponent,
     StartWithSurveyOption,
     TopInfluencerComponent,
     HandleComplaintComponent,
@@ -146,9 +142,7 @@ enableProdMode();
 
     /** Survey Components */
     RatingComponent,
-    SurveySelectionComponent,
     ThanksComponent,
-    StartComponent,
     StartWithSurveyOption,
     TopInfluencerComponent,
     HandleComplaintComponent,

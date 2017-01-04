@@ -11,7 +11,7 @@ declare var Winwheel: (options?: any, drawWheel?: boolean) => void;
 export class WheelComponent {
 
   private id: string;
-  private _options: any = {};
+  _options: any = {};
   wheel: any;
   wheelSpinning = false;
 

@@ -7,7 +7,6 @@ import {AllPromoters, StrongDetractor, StrongPromoter, AnyDetractors} from "../s
 import {HeaderComponent} from "../shared/components/header/header.component";
 import {LoginComponent} from "../pages/login/login.component";
 import {DashboardComponent} from "../pages/dashboard/dashboard.component";
-import {SurveySelectionComponent} from "../pages/survey/start/surveyselection.component";
 import {SettingsComponent} from "../pages/settings/settings.component";
 import {Config} from "../shared/config";
 
@@ -16,7 +15,7 @@ import {Config} from "../shared/config";
   template: `<ion-nav [root]="rootPage" [rootParams]="rootParams"></ion-nav>`
 })
 export class MyApp {
-  rootPage = StartWithSurveyOption;
+  rootPage = LoginComponent;
   rootParams = {defaultOnly: true}
 
   constructor(platform: Platform, serviceFactory: ServiceFactory) {
@@ -38,7 +37,7 @@ export class MyApp {
         'login': LoginComponent,
         'dashboard': DashboardComponent,
         'survey': StartWithSurveyOption,
-        'surveyinternal': SurveySelectionComponent,
+        'surveyinternal': StartWithSurveyOption,
         'settings': SettingsComponent
       }
       HeaderComponent.DEFAULT_HOME = LoginComponent;
