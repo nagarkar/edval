@@ -139,13 +139,13 @@ export class TopInfluencerComponent extends SurveyPage {
   private constructMessage(): string {
     if (this.valueOrderDesc) {
       return [
-        "What are the top ", this.numSelections, " things ",
+        "What are the ", this.numSelections, " things ",
         this.account.properties.accountName, " does well?"
       ].join('');
     } else {
       return [
-        "What are the top ", this.numSelections, " things ",
-        this.account.properties.accountName, " should improve?"
+        "What are the ", this.numSelections, " things ",
+        this.account.properties.accountName, " can improve?"
       ].join('');
     }
   }
