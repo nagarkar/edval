@@ -68,7 +68,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
             metricId: "root"
           },
           navigateOnResult: {
-            "false": 'happy',
+            "false": 'things.done.well',
             "true": 'unhappy'
           }
         },
@@ -78,14 +78,11 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           isTerminal:true
         },
         {
-          id:'happy',
-          fn:"StrongPromoter",
-          params:{
-            metricId: "root"
-          },
-          navigateOnResult: {
-            "false": "things.done.poorly",
-            "true": "things.done.well"
+          id:'things.done.well',
+          component:"TopInfluencerComponent",
+          params: {
+            valueOrderDesc: true,
+            maxMetrics: 4
           }
         },
         {
@@ -97,11 +94,14 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           },
         },
         {
-          id:'things.done.well',
-          component:"TopInfluencerComponent",
-          params: {
-            valueOrderDesc: true,
-            maxMetrics: 4
+          id:'happy',
+          fn:"StrongPromoter",
+          params:{
+            metricId: "root"
+          },
+          navigateOnResult: {
+            "false": Infinity.toString(),
+            "true": "request.review"
           }
         },
         {
