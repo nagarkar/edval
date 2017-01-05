@@ -11,6 +11,7 @@ import {Idle} from "@ng-idle/core";
 import {SurveyPage} from "../survey.page";
 import {SReplacer} from "../../../pipes/sreplacer";
 import {FormGroup, FormControl, Validators} from "@angular/forms";
+import {EmailProviderService} from '../../../services/common/emailProvider/emailProvider.service';
 
 @Component({
   templateUrl: 'handle.complaint.component.html',
@@ -36,6 +37,7 @@ export class HandleComplaintComponent extends SurveyPage {
   email: string;
   phone: string;
   complaintMsg: string;
+  filteredEmail: any[];
 
   get informationProvided() {
     let email = this.complaintForm.controls['email'];
@@ -55,7 +57,8 @@ export class HandleComplaintComponent extends SurveyPage {
     navParams: NavParams,
     sessionSvc: SessionService,
     tokenProvider: AccessTokenService,
-    accountSvc: AccountService
+    accountSvc: AccountService,
+    private emailProviderService: EmailProviderService
   ) {
     super(loadingCtrl, navCtrl, sessionSvc, idle);
 
@@ -84,4 +87,34 @@ export class HandleComplaintComponent extends SurveyPage {
       "account.properties.accountName + ' wants to do better'",
       "Your feedback is invaluable");
   }
+
+  getEmail(event) {
+    let query = event.query;        
+    this.emailProviderService.findEmailProviders().then(emails => {
+      this.filteredEmail = this.filterEmail(query, emails);
+    });
+  }
+
+  filterEmail(query, emails: any[]):any[] {
+    let filterData : any[] = [];
+    filterData = emails;
+    let arr = query.split("@");
+    let data;   
+    if(query.indexOf("@") > 1){
+      data = filterData.filter(ep => ep.name.toLowerCase().includes(("@" + arr[1]).toLowerCase()));
+      let len = data.length; 
+      for(let i=0;i<len;i++){
+        data[i].name = arr[0]+data[i].name;
+      }
+      filterData = [];
+      return data;
+    }
+    else{
+      return data=[];
+    }
+  }
+
+  onSelectEmail(value){
+    this.email = value;
+  }    
 }
