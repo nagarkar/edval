@@ -1,12 +1,12 @@
 <mdval-header [home]="'survey'"></mdval-header>
 <ion-content padding>
-  <div style="text-align:center;margin-top: 5em">
+  <div class="m-t-5" text-center>
     <ion-row class="separator-bottom" center>
       <ion-col class="text-center">
-        <h1 style="margin-top:0; margin-bottom:0.125em"><b>Thanks! Sounds like <br/>{{'account.properties.accountName'| sReplacer}}<br/>did OK!</b></h1>
+        <h2><b>Thanks! Sounds like {{'account.properties.accountName'| sReplacer}} did OK!</b></h2>
         <br/>
-        <h4 style="margin-top:0; margin-bottom:0.5em; color: darkslateblue"><b>Want to help {{'account.properties.contactName'| sReplacer}} and her team with an Online Review?</b></h4>
-        <h6 color="black" style="margin-top:0; margin-bottom:0.5em;"><b>(we make it easy!)</b></h6>
+        <h4 class="m-t-0" color="darkslateblue">Want to help {{'account.properties.contactName'| sReplacer}} and her team with an Online Review?</h4>
+        <h6 color="black" class="m-t-0">(we'll make it easy!)</h6>
         <ion-row center>
           <ion-col>
             <img src="http://www.temperaturepronwvalley.com/images/Google-Review-Button-.png" (click)="googleReview()" height="40em" style="margin-left: 1.2em" />
@@ -16,11 +16,11 @@
           </ion-col>
         </ion-row>
       </ion-col>
-      <ion-col width-33>
+      <ion-col class="m-p-0" width-33>
         <img style="width:90%" src="http://www.medpreps.com/wp-content/uploads/2012/08/interview-strength.jpg">
       </ion-col>
     </ion-row>
-    <ion-row baseline style="margin-top: 3em">
+    <ion-row baseline>
       <ion-col width-80>
         <ion-item>
             <ion-label color="black" style="margin-top:0em; padding-left: 0em;font-size: 1em;" stacked>

@@ -1,23 +1,23 @@
 <ion-header>
-  <ion-navbar color="revvolve" class="p-t-1">
-    <ion-row baseline>
+  <ion-navbar color="revvolve">
+    <ion-row>
       <ion-col width-10 *ngIf="leftHome">
         <ion-buttons>
           <button ion-button icon-only (click)="goLeftHome()">
-            <ion-icon name="code" style="float:right;width:40px;padding:5px"></ion-icon>
+            <ion-icon name="code"></ion-icon>
           </button>
         </ion-buttons>
       </ion-col>
-      <ion-col>
+      <ion-col class="nopadding">
         <ion-title *ngIf="title" text-center>{{title}}</ion-title>
         <ion-title *ngIf="!title" text-center>
-          <img src="assets/img/header-logo.jpg" style="height:1.7em" alt="">
+          <img src="assets/img/header-logo.jpg" style="height:2.3rem" alt="">
         </ion-title>
       </ion-col>
       <ion-col width-10>
         <ion-buttons end>
           <button ion-button icon-only (click)="goHome()">
-            <ion-icon name="code" style="float:right;width:40px;padding:5px"></ion-icon>
+            <ion-icon name="code"></ion-icon>
           </button>
         </ion-buttons>
       </ion-col>

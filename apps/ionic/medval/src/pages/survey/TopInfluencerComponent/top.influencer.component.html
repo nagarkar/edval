@@ -1,34 +1,26 @@
 <mdval-header [home]="'survey'"></mdval-header>
 <ion-content padding text-center>
-  <div class="m-t-4" text-center>
-    <ion-grid>
-      <ion-row>
-        <!--
-        <ion-col width-40>
-          <img style="height:100%" src={{leftImage}}>
-        </ion-col>
-        -->
-        <ion-col text-center class="new-card-md p-t-1">
-          <h1><b>{{message}}</b></h1>
-          <ion-grid class="pos-rel">
-            <ion-row *ngFor="let i of rows">
-              <ion-col  *ngFor="let metric of displayMetrics | slice:(i*numCols):(i+1)*numCols; let j = index;">
-                <div class="row responsive-md pos-rel">
-                  <ion-badge *ngIf="isSelected(metric)" class="cstm-badge">{{rankedMetrics.indexOf(metric) + 1}}</ion-badge>
-                  <button ion-button
-                          round
-                          (click)="registerRank(metric)"
-                          class="card-title cstm-btn"
-                          [ngClass]="{'cstm-btn-pressed': isSelected(metric)}">
-                    {{(metric.properties[displayAttribute] ? metric.properties[displayAttribute] :  metric.properties.metricName) | sReplacer}}
-                  </button>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
+  <ion-grid class="m-t-1" text-center>
+    <ion-row text-center>
+      <ion-col>
+        <br/>
+        <h2><b>{{message}}</b></h2>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let i of rows">
+      <ion-col  *ngFor="let metric of displayMetrics | slice:(i*numCols):(i+1)*numCols; let j = index;">
+        <div>
+          <ion-badge *ngIf="isSelected(metric)" class="cstm-badge">{{rankedMetrics.indexOf(metric) + 1}}</ion-badge>
+          <button ion-button
+                  round
+                  (click)="registerRank(metric)"
+                  class="card-title cstm-btn"
+                  [ngClass]="{'cstm-btn-pressed': isSelected(metric)}">
+            {{(metric.properties[displayAttribute] ? metric.properties[displayAttribute] :  metric.properties.metricName) | sReplacer}}
+          </button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 <mdval-footer></mdval-footer>

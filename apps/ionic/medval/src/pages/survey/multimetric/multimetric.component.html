@@ -1,20 +1,19 @@
-<mdval-header [home]="'survey'"></mdval-header>
-<ion-content padding style="text-align:center">
+<ion-content padding text-center>
   <ion-fab class="xl" *ngIf="done" right middle>
     <button (click)="navigateToNext()" ion-fab><ion-icon name="fastforward"></ion-icon></button>
   </ion-fab>
-  <div style="text-align:center;margin-top: 3em">
+  <ion-grid text-center>
     <ion-row>
       <ion-col>
         <ion-row class="separator-bottom">
-          <ion-label style="margin: 0; font-size: 1.75em;">{{message | sReplacer}}<br/><span style="font-size: .75em">(tap or slide to choose)</span></ion-label>
+          <ion-label style="margin: 0; font-size: 2rem;">{{message | sReplacer}}<br/><span style="font-size: .75em">(tap or slide to choose)</span></ion-label>
         </ion-row>
-        <ion-row style="padding:.5em .5em 0 .5em" *ngFor="let metric of displayMetrics; let idx = index">
+        <ion-row style="padding:.5rem 0 0 0" *ngFor="let metric of displayMetrics; let idx = index">
           <ion-col>
-            <ion-card text-center *ngIf="metric.isNpsType()" style="font-size: 1.4em">
+            <ion-card text-center *ngIf="metric.isNpsType()" style="font-size: 1.7rem">
               <span>{{metric.properties.positiveImpact | sReplacer}}</span>
               <ion-range
-                style="padding-top: 1.1em"
+                style="padding-top: 1.1rem"
                 (ionChange)="setValue($event, metric)"
                 min="1"
                 pin=true
@@ -23,13 +22,13 @@
                 debounce=3000
                 color="revvolve2">
 
-                <ion-label style="font-size: .8em; padding-right: 1em;color:darkolivegreen" range-left>Strongly<br/>Disagree</ion-label>
-                <ion-label style="font-size: .8em; padding-left: 1em;color:darkolivegreen" range-right>Strongly<br/>Agree</ion-label>
+                <ion-label style="font-size: 1.3rem; padding-right: 1rem;color:darkolivegreen" range-left>Strongly<br/>Disagree</ion-label>
+                <ion-label style="font-size: 1.3rem; padding-left: 1rem;color:darkolivegreen" range-right>Strongly<br/>Agree</ion-label>
               </ion-range>
             </ion-card>
           </ion-col>
         </ion-row>
       </ion-col>
     </ion-row>
-  </div>
+  </ion-grid>
 </ion-content>

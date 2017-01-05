@@ -6,7 +6,7 @@
       <ion-col width-20>
         <img class="border" [ngStyle]="styles.img" src="{{data.staff.properties?.photoUrl}}" alt="{{data.staff.displayName}}">
       </ion-col>
-      <ion-col style="font-size: 2em">
+      <ion-col style="font-size: 2rem">
           <span [ngStyle]="styles.text">{{data.metric.properties.question | sReplacer:data}}</span>
           <p [ngStyle]="styles.text" text-center *ngIf="data.metric.isNpsType()">
             <rating (ratingValueChange)="onSelection(data, $event);"

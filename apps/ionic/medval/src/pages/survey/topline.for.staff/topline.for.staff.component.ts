@@ -28,19 +28,19 @@ export class ToplineForStaffComponent extends SurveyPage {
   styles: any = {};
 
   imgStyleMap = {
-    1:'100%',
-    2:'85%',
-    3:'70%',
-    4:'60%',
-    5:'40%'
+    1:'90%',
+    2:'80%',
+    3:'65%',
+    4:'55%',
+    5:'33%'
   };
 
   textStyleMap = {
-    1:'1em',
-    2:'1em',
-    3:'.9m',
-    4:'.8em',
-    5:'.7em'
+    1:'2rem',
+    2:'2rem',
+    3:'1.8rem',
+    4:'1.6rem',
+    5:'1.4rem'
   };
 
   @ViewChild(RatingComponent) inputComponent: RatingComponent;
