@@ -21,7 +21,7 @@
         <ion-row responsive-sm>
           <ion-col width-60>
             <autoComplete-email  [(ngModel)]="email"  formControlName="email" required [suggestions]="filteredEmail" (completeMethod)="getEmail($event)" [size]="30"
-              placeholder="youremail@gmail.com" [minLength]= "1" (onSelect)="onSelectEmail($event)"  field="name">
+              placeholder="youremail@gmail.com" [minLength]= "3" (onSelect)="onSelectEmail($event)"  field="name">
              </autoComplete-email>
             <div class="alert subdued" *ngIf="!complaintForm.controls['email'].valid && complaintForm.controls['email'].touched">(e.g.: abc@zyx.com)</div>
           </ion-col>

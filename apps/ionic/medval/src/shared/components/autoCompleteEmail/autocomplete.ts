@@ -146,7 +146,7 @@ export class AutoComplete implements AfterViewInit,DoCheck,AfterViewChecked,Cont
       this.hide();
     }
         
-    if(value.length >= this.minLength) {
+    if(value.length > this.minLength) {
       //Cancel the search request if user types within the timeout
       if(this.timeout) {
         clearTimeout(this.timeout);

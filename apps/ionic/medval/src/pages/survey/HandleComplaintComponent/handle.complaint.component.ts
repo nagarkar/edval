@@ -100,7 +100,7 @@ export class HandleComplaintComponent extends SurveyPage {
     filterData = emails;
     let arr = query.split("@");
     let data;   
-    if(query.indexOf("@") > 1){
+    if(query.indexOf("@") > 0){
       data = filterData.filter(ep => ep.name.toLowerCase().includes(("@" + arr[1]).toLowerCase()));
       let len = data.length; 
       for(let i=0;i<len;i++){
