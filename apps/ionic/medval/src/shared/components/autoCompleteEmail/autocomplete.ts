@@ -10,26 +10,21 @@ export const AUTOCOMPLETE_VALUE_ACCESSOR: any = {
 @Component({
   selector: 'autoComplete-email',
   template: `
-    <span [ngClass]="{'ui-autocomplete':true,'ui-autocomplete-dd':dropdown}" [ngStyle]="style" [class]="styleClass">
+    <span [ngClass]="{'ui-autocomplete':true}" [ngStyle]="style" [class]="styleClass">
       <ion-item><ion-input clearOnEdit clearInput type="email" [ngStyle]="inputStyle" [class]="inputStyleClass" autocomplete="off"
-        [value]="value ? value : null" (input)="onInput($event)" (keydown)="onKeydown($event)" (focus)="onFocus()" (blur)="onBlur()"
-        [placeholder]="placeholder" [attr.size]="size" [attr.maxlength]="maxlength" [attr.readonly]="readonly" [disabled]="disabled"
-        [ngClass]="{'ui-autocomplete-input':true,'ui-autocomplete-dd-input':dropdown}"
-        ></ion-input></ion-item>
+        [value]="value ? value : null" (input)="onInput($event)"  (focus)="onFocus()"
+        [placeholder]="placeholder" [attr.size]="size" [attr.maxlength]="maxlength" [attr.readonly]="readonly"
+        [ngClass]=""></ion-input></ion-item>
       <div class="ui-autocomplete-panel" [style.display]="panelVisible ? 'block' : 'none'" [style.width]="appendTo ? 'auto' : '100%'" [style.max-height]="scrollHeight">
         <ul class="ui-autocomplete-list ui-widget-content">
-          <li *ngFor="let option of suggestions" [ngClass]="{'ui-autocomplete-list-item ui-corner-all':true,'ui-state-highlight':(highlightOption==option)}"
-            (mouseenter)="highlightOption=option" (mouseleave)="highlightOption=null" (click)="selectItem(option)">
+          <li *ngFor="let option of suggestions" [ngClass]="{'ui-autocomplete-list-item ui-corner-all':true}"
+             (click)="selectItem(option)">
             <span>{{field ? option[field] : option}}</span>
           </li>
         </ul>
       </div>
     </span>
     `,
-  host: {
-    '[class.ui-inputwrapper-filled]': 'filled',
-    '[class.ui-inputwrapper-focus]': 'focus'
-  },
   providers: [DomHandler,AUTOCOMPLETE_VALUE_ACCESSOR],
 })
 export class AutoComplete implements AfterViewInit,DoCheck,AfterViewChecked,ControlValueAccessor {
@@ -49,8 +44,6 @@ export class AutoComplete implements AfterViewInit,DoCheck,AfterViewChecked,Cont
   @Input() placeholder: string;
     
   @Input() readonly: number;
-        
-  @Input() disabled: boolean;
     
   @Input() maxlength: number;
     
@@ -64,15 +57,9 @@ export class AutoComplete implements AfterViewInit,DoCheck,AfterViewChecked,Cont
     
   @Output() onSelect: EventEmitter<any> = new EventEmitter();
     
-  @Output() onUnselect: EventEmitter<any> = new EventEmitter();
-    
-  @Output() onDropdownClick: EventEmitter<any> = new EventEmitter();
-    
   @Input() field: string;
     
   @Input() scrollHeight: string = '200px';
-    
-  @Input() dropdown: boolean;
     
   value: any;
     
@@ -94,13 +81,7 @@ export class AutoComplete implements AfterViewInit,DoCheck,AfterViewChecked,Cont
     
   suggestionsUpdated: boolean;
     
-  highlightOption: any;
-    
-  highlightOptionChanged: boolean;
-    
   focus: boolean = false;
-    
-  dropdownFocus: boolean = false;
     
   filled: boolean;
     
@@ -142,19 +123,10 @@ export class AutoComplete implements AfterViewInit,DoCheck,AfterViewChecked,Cont
       this.align();
       this.suggestionsUpdated = false;
     }
-        
-    if(this.highlightOptionChanged) {
-      let listItem = this.domHandler.findSingle(this.panel, 'li.ui-state-highlight');
-      if(listItem) {
-        this.domHandler.scrollInView(this.panel, listItem);
-      }
-      this.highlightOptionChanged = false;
-    }
   }
     
   writeValue(value: any) : void {
     this.value = value;
-    this.filled = this.value && this.value != '';
   }
     
   registerOnChange(fn: Function): void {
@@ -164,16 +136,12 @@ export class AutoComplete implements AfterViewInit,DoCheck,AfterViewChecked,Cont
   registerOnTouched(fn: Function): void {
     this.onModelTouched = fn;
   }
-    
-  setDisabledState(val: boolean): void {
-    this.disabled = val;
-  }
 
   onInput(event) {
     let value = event.target.value;
     this.value = value;
     this.onModelChange(value);
-  
+
     if(value.length === 0) {
       this.hide();
     }
@@ -188,10 +156,6 @@ export class AutoComplete implements AfterViewInit,DoCheck,AfterViewChecked,Cont
         this.search(event, value);
         }, this.delay);
     }
-    else {
-      this.suggestions = null;
-    }
-    this.updateFilledState();
   }
     
   search(event: any, query: string) {
@@ -234,131 +198,10 @@ export class AutoComplete implements AfterViewInit,DoCheck,AfterViewChecked,Cont
     this.panelVisible = false;
   }
     
-  handleDropdownClick(event) {
-    this.onDropdownClick.emit({
-      originalEvent: event,
-      query: this.input.value
-    });
-  }
-    
-  removeItem(item: any) {
-    let itemIndex = this.domHandler.index(item);
-    let removedValue = this.value.splice(itemIndex, 1)[0];
-    this.onUnselect.emit(removedValue);
-    this.onModelChange(this.value);
-  }
-    
-  onKeydown(event) {
-    if(this.panelVisible) {
-      let highlightItemIndex = this.findOptionIndex(this.highlightOption);
-            
-      switch(event.which) {
-        //down
-        case 40:
-          if(highlightItemIndex != -1) {
-            var nextItemIndex = highlightItemIndex + 1;
-            if(nextItemIndex != (this.suggestions.length)) {
-              this.highlightOption = this.suggestions[nextItemIndex];
-              this.highlightOptionChanged = true;
-            }
-          }
-          else {
-            this.highlightOption = this.suggestions[0];
-          }
-
-          event.preventDefault();
-          break;
-        //up
-        case 38:
-          if(highlightItemIndex > 0) {
-            let prevItemIndex = highlightItemIndex - 1;
-            this.highlightOption = this.suggestions[prevItemIndex];
-            this.highlightOptionChanged = true;
-          }
-                    
-          event.preventDefault();
-          break;
-                
-        //enter
-        case 13:
-          if(this.highlightOption) {
-            //console.log("key enter")
-            this.selectItem(this.highlightOption);
-            this.hide();
-          }
-          event.preventDefault();
-          break;
-
-          //escape
-          case 27:
-            this.hide();
-            event.preventDefault();
-            break;
-
-          //tab
-          case 9:
-            if(this.highlightOption) {
-              this.selectItem(this.highlightOption);
-            }
-            this.hide();
-            break;
-      } 
-    } 
-    else {
-      if(event.which === 40 && this.suggestions) {
-      this.search(event,event.target.value);
-      }
-    }
-  }
-    
   onFocus() {
     this.focus = true;
   }
-    
-  onBlur() {
-    this.focus = false;
-    this.onModelTouched();
-  }
-    
-  onDropdownFocus() {
-    this.dropdownFocus = true;
-  }
-    
-  onDropdownBlur() {
-    this.dropdownFocus = false;
-  }
-    
-  isSelected(val: any): boolean {
-    let selected: boolean = false;
-    if(this.value && this.value.length) {
-      for(let i = 0; i < this.value.length; i++) {
-        if(this.domHandler.equals(this.value[i], val)) {
-          selected = true;
-          break;
-        }
-      }
-    }
-    return selected;
-  }
-    
-  findOptionIndex(option): number {        
-    let index: number = -1;
-    if(this.suggestions) {
-      for(let i = 0; i < this.suggestions.length; i++) {
-        if(this.domHandler.equals(option, this.suggestions[i])) {
-          index = i;
-          break;
-        }
-      }
-    } 
 
-    return index;
-  }
-    
-  updateFilledState() {
-    this.filled = this.input && this.input.value != '';
-  }
-    
   ngOnDestroy() {
     if(this.documentClickListener) {
       this.documentClickListener();

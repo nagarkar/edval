@@ -8,20 +8,6 @@
   display: inline-block;
 }
 
-.ui-autocomplete-container .ng-valid {
-  padding-right: 8px;
-  border-bottom: 1px solid #dedede;
-  border-bottom-color: #32db64;
-  box-shadow: inset 0 -1px 0 0 #32db64;
-}
-
-.ui-autocomplete-container .ng-invalid {
-  padding-right: 8px;
-  border-bottom: 1px solid #dedede;
-  border-bottom-color: #f53d3d;
-  box-shadow: inset 0 -1px 0 0 #f53d3d;
-}
-
 .ui-autocomplete-panel {
   position: absolute;
   overflow: auto;
@@ -29,14 +15,11 @@
 
 .ui-autocomplete-panel .ui-autocomplete-list {
   padding: 0.4em;
-  border: 1px solid #ddd;
+  border: 0.1em solid lightgrey;
 }
 
 .ui-autocomplete-panel .ui-autocomplete-list-item {
-  border: 0 none;
-  cursor: pointer;
-  font-weight: normal;
-  margin: 1px 0;
+  margin: 0.1em 0;
   padding: 0.186em 0.313em;
   text-align: left;
 }
@@ -44,6 +27,5 @@
   box-sizing: border-box;
 }
 .ui-widget-content {
-  background: #ffffff;
-  color: #222222;
+  background: white;
 }
