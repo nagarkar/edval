@@ -1,3 +1,4 @@
+/*AutoCompleteEmail has been derived from http://www.primefaces.org/primeng/#/autocomplete*/
 import {Component, ElementRef, AfterViewInit, AfterViewChecked, DoCheck, Input, Output, EventEmitter, IterableDiffers, Renderer, forwardRef} from '@angular/core';
 import {DomHandler} from '../../../shared/components/autoCompleteEmail/domhandler';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
