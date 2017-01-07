@@ -60,11 +60,11 @@ export class SessionService extends DelegatingService<Session> {
   }
 
   get(id: string, dontuseCache?: boolean) : Promise<Session> {
-    return Promise.reject(ErrorType.UnsupportedOperation("get"));
+    return Promise.reject<Session>(ErrorType.UnsupportedOperation("get"));
   }
 
   list(dontuseCache?: boolean): Promise<Session[]> {
-    return Promise.reject(ErrorType.UnsupportedOperation("list"));
+    return Promise.reject<Session[]>(ErrorType.UnsupportedOperation("list"));
   }
 
   getCached(id: string) :  Session{
@@ -76,6 +76,6 @@ export class SessionService extends DelegatingService<Session> {
   }
 
   delete(id: string): Promise<boolean> {
-    return Promise.reject(ErrorType.UnsupportedOperation("delete"));
+    return Promise.reject<boolean>(ErrorType.UnsupportedOperation("delete"));
   }
 }

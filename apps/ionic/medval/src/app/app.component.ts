@@ -14,7 +14,7 @@ import {Config} from "../shared/config";
 @Component({
   template: `<ion-nav [root]="rootPage" [rootParams]="rootParams"></ion-nav>`
 })
-export class MyApp {
+export class RevvolveApp {
   rootPage = StartWithSurveyOption;
   rootParams = {defaultOnly: true}
 

@@ -1,7 +1,7 @@
 //import { RouterModule }   from '@angular/router';
-import {NgModule, enableProdMode} from "@angular/core";
+import {NgModule} from "@angular/core";
 import {IonicApp, IonicModule} from "ionic-angular";
-import {MyApp} from "./app.component";
+import {RevvolveApp} from "./app.component";
 import {LoginComponent} from "../pages/login/login.component";
 import {Utils} from "../shared/stuff/utils";
 import {AccessTokenService} from "../shared/aws/access.token.service";
@@ -57,11 +57,11 @@ import {ValidationComponent} from "../shared/components/validation/validation.co
 import {PhonePipe} from "../pipes/phone";
 import {DDBSessionService} from "../services/session/ddb";
 
-enableProdMode();
+//enableProdMode();
 
 @NgModule({
   declarations: [
-    MyApp,
+    RevvolveApp,
 
     /** Pipes **/
     SReplacer,
@@ -110,14 +110,14 @@ enableProdMode();
     MetricDetailComponent
   ],
   imports: [
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(RevvolveApp),
     HttpModule,
     JsonpModule,
     NgIdleModule.forRoot(),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
+    RevvolveApp,
 
     /** Shared components **/
     HeaderComponent,

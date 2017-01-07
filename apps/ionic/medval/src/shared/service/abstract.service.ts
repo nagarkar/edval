@@ -58,7 +58,7 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
     }
 
     return this.httpClient.get(this.getPath(), id)
-      .then((value: Array<T>) => {
+      .then((value: T) => {
         this.updateCache(value, this.getPath(), id);
         return value;
       });

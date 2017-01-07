@@ -11,7 +11,7 @@ import {SurveyPage} from "../survey.page";
 import {Config} from "../../../shared/config";
 
 @Component({
-  templateUrl: 'requestreview.component2.html',
+  templateUrl: './requestreview.component2.html',
 })
 
 @RegisterComponent

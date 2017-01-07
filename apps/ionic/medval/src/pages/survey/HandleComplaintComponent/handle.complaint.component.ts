@@ -13,7 +13,7 @@ import {SReplacer} from "../../../pipes/sreplacer";
 import {FormGroup, FormControl, Validators} from "@angular/forms";
 
 @Component({
-  templateUrl: 'handle.complaint.component.html',
+  templateUrl: './handle.complaint.component.html',
 })
 
 @RegisterComponent

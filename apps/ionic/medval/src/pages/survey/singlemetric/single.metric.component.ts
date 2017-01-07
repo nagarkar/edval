@@ -12,7 +12,7 @@ import {SurveyPage} from "../survey.page";
 
 @Component({
   selector: 'single-metric',
-  templateUrl: 'single.metric.component.html',
+  templateUrl: './single.metric.component.html',
   //pipes: [SReplacer]
 })
 

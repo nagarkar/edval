@@ -1,7 +1,7 @@
 import {Component, Input} from "@angular/core";
 
 @Component({
-  templateUrl: 'footer.component.html',
+  templateUrl: './footer.component.html',
   selector: 'mdval-footer'
 })
 export class FooterComponent {

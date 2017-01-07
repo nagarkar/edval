@@ -5,7 +5,7 @@ import {Config} from "../../config";
 declare var Winwheel: (options?: any, drawWheel?: boolean) => void;
 
 @Component({
-  templateUrl: 'wheel.component.html',
+  templateUrl: './wheel.component.html',
   selector:'wheel'
 })
 export class WheelComponent {

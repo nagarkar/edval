@@ -13,7 +13,7 @@ import {SettingsComponent} from "../settings/settings.component";
 import {StartWithSurveyOption} from "../survey/start/start.with.survey.option.component";
 
 @Component({
-  templateUrl: 'dashboard.component.html'
+  templateUrl: './dashboard.component.html'
 })
 
 export class DashboardComponent {

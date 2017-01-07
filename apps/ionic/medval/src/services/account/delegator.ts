@@ -22,14 +22,14 @@ export class AccountService extends DelegatingService<Account> {
   }
 
   list(): Promise<Account[]> {
-    return Promise.reject(ErrorType.UnsupportedOperation("list"));
+    return Promise.reject<Account[]>(ErrorType.UnsupportedOperation("list"));
   }
 
   create(TMember: Account): Promise<Account> {
-    return Promise.reject(ErrorType.UnsupportedOperation("create"));
+    return Promise.reject<Account>(ErrorType.UnsupportedOperation("create"));
   }
 
   delete(id: string): Promise<boolean> {
-    return Promise.reject(ErrorType.UnsupportedOperation("delete"));
+    return Promise.reject<boolean>(ErrorType.UnsupportedOperation("delete"));
   }
 }

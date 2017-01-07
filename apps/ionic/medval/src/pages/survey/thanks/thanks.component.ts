@@ -12,7 +12,7 @@ import {StartWithSurveyOption} from "../start/start.with.survey.option.component
 import {WheelComponent} from "../../../shared/components/wheel/wheel.component";
 
 @Component({
-  templateUrl: 'thanks.component.html'
+  templateUrl: './thanks.component.html'
 })
 export class ThanksComponent {
 

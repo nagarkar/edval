@@ -6,7 +6,7 @@ import {NavController, LoadingController, ToastController} from "ionic-angular";
 import {SettingsComponent} from "../settings/settings.component";
 
 @Component({
-  templateUrl: 'login.component.html'
+  templateUrl: './login.component.html'
 })
 
 export class LoginComponent {

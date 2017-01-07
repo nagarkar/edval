@@ -14,7 +14,7 @@ import {SurveyPage} from "../survey.page";
 import {Idle} from "@ng-idle/core";
 
 @Component({
-  templateUrl: 'top.influencer.component.html',
+  templateUrl: './top.influencer.component.html',
   //pipes: [SReplacer]
 })
 

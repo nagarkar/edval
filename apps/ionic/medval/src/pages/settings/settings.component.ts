@@ -9,7 +9,7 @@ import {SReplacerDataMap} from "../../pipes/sreplacer";
 
 @Component({
   selector:'settings',
-  templateUrl:'settings.component.html'
+  templateUrl:'./settings.component.html'
 })
 
 export class SettingsComponent {

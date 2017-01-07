@@ -5,7 +5,7 @@ import {Utils} from "../../stuff/utils";
 
 @Component({
   selector: 'carousel',
-  templateUrl: 'carousel.component.html'
+  templateUrl: './carousel.component.html'
 })
 export class CarouselComponent implements OnChanges {
   items: Array<SlideItem> = [];

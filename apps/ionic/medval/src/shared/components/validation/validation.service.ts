@@ -10,9 +10,9 @@ export class ValidationService {
   }
 
   static EmailValidator: ValidatorFn = Validators.pattern(
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    '/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/');
 
-  static PhoneValidator: ValidatorFn = Validators.pattern(/^\([0-9]{3})([0-9]{3})([0-9]{4})$/);
+  static PhoneValidator: ValidatorFn = Validators.pattern('/^\([0-9]{3})([0-9]{3})([0-9]{4})$/');
 
   static emailregex = /^[(]{0,1}[0-9]{3}[)\.\- ]{0,1}[0-9]{3}[\.\- ]{0,1}[0-9]{4}$/;
   static phoneValidator(control: FormControl): {[key: string]: any} {

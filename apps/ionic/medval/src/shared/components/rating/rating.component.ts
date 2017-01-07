@@ -4,7 +4,7 @@ import {Utils} from "../../stuff/utils";
 
 @Component({
   selector: 'rating',
-  templateUrl: 'rating.component.html',
+  templateUrl: './rating.component.html',
   animations: [
     trigger('ratingPicked', [
 

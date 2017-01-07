@@ -8,7 +8,7 @@ import {MockStaffService} from "../../services/staff/mock";
 import {LiveStaffService} from "../../services/staff/live";
 
 @Component({
-  templateUrl: "staff.edit.component.html",
+  templateUrl: "./staff.edit.component.html",
   providers: [ StaffService, MockStaffService, LiveStaffService]
 })
 

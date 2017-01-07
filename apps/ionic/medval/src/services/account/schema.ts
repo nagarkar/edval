@@ -7,7 +7,9 @@ export class Role {
 export class Account {
 
   customerId: string;
+  lockingVersion: string;
   properties : {
+    verticalId?: string,
     accountName?: string,
     contactName?: string,
     logo?: string,

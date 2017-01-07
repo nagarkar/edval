@@ -12,7 +12,7 @@ import {SurveyPage} from "../survey.page";
 import {SReplacerDataMap} from "../../../pipes/sreplacer";
 
 @Component({
-  templateUrl: 'multimetric.component.html',
+  templateUrl: './multimetric.component.html',
 })
 
 @RegisterComponent

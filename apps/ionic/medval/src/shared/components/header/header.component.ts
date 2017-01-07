@@ -5,7 +5,7 @@ import {NavController} from "ionic-angular";
  * Shows the header, including the account logo. If not logged in, logo is not shown.
  */
 @Component({
-  templateUrl: 'header.component.html',
+  templateUrl: './header.component.html',
   selector: 'mdval-header'
 })
 export class HeaderComponent {

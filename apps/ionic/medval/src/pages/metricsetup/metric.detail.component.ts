@@ -2,8 +2,8 @@ import {Component, OnInit, Input, EventEmitter, Output, ChangeDetectionStrategy}
 import {Metric, NPSType} from "../../services/metric/schema";
 import {MetricBush} from "./metric.summary.component";
 @Component({
-  templateUrl:'metric.detail.component.html',
-  selector:'metric-detail',
+  templateUrl: './metric.detail.component.html',
+  selector: 'metric-detail',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 

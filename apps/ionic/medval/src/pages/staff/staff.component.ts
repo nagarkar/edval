@@ -8,7 +8,7 @@ import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {StaffEditComponent} from "./staff.edit.component";
 
 @Component({
-  templateUrl: 'staff.component.html',
+  templateUrl: './staff.component.html',
   providers: [ ]
 })
 export class StaffComponent extends AdminComponent  {

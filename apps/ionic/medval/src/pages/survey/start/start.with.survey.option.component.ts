@@ -12,7 +12,7 @@ import {SurveyNavUtils} from "../SurveyNavUtils";
 import {Survey} from "../../../services/survey/schema";
 
 @Component({
-  templateUrl: 'start.with.survey.option.component.html'
+  templateUrl: './start.with.survey.option.component.html'
 })
 
 export class StartWithSurveyOption {

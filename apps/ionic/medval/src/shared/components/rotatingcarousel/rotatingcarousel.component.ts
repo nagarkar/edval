@@ -4,7 +4,7 @@ import {Utils} from "../../stuff/utils";
 
 @Component({
   selector: 'rotating-carousel',
-  templateUrl: "rotatingcarousel.component.html"
+  templateUrl: "./rotatingcarousel.component.html"
 })
 export class RotatingCarousel {
   private currentDeg: number = 0;

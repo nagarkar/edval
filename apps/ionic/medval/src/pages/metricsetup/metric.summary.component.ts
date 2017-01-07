@@ -7,7 +7,7 @@ import {Metric} from "../../services/metric/schema";
 import {Account, Role} from "../../services/account/schema";
 import {Config} from "../../shared/config";
 @Component({
-  templateUrl:'metric.summary.component.html',
+  templateUrl:'./metric.summary.component.html',
   selector:'metric-setup'
 })
 
@@ -84,7 +84,7 @@ export class MetricSummaryComponent implements OnInit{
   }
 
   private processMetrics(metrics: Metric[]) {
-    let subjects: Set<string> = new Set();
+    let subjects: Set<string> = new Set<string>();
     metrics.forEach((metric:Metric)=>{
       subjects.add(metric.subject);
     });

@@ -9,3 +9,4 @@ src/*.js
 .tmp
 plugins
 platforms
+coverage

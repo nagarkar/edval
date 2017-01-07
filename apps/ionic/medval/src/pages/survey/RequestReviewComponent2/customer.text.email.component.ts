@@ -8,7 +8,7 @@ import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
 
 @Component({
-  templateUrl: 'customer.text.email.component.html',
+  templateUrl: './customer.text.email.component.html',
 })
 
 @RegisterComponent
