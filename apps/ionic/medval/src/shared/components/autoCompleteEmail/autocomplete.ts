@@ -214,4 +214,4 @@ export class AutoComplete implements AfterViewInit,DoCheck,AfterViewChecked,Cont
   }
 }
 
-export class AutoCompleteModule { }
+//export class AutoCompleteModule { }
