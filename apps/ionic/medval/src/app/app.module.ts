@@ -56,6 +56,8 @@ import {Config} from "../shared/config";
 import {ValidationComponent} from "../shared/components/validation/validation.component";
 import {PhonePipe} from "../pipes/phone";
 import {DDBSessionService} from "../services/session/ddb";
+import {AutoComplete} from '../shared/components/autoCompleteEmail/autocomplete';
+import {EmailProviderService} from '../services/common/emailProvider/emailProvider.service';
 
 //enableProdMode();
 
@@ -74,6 +76,7 @@ import {DDBSessionService} from "../services/session/ddb";
     RotatingCarousel,
     WheelComponent,
     ValidationComponent,
+    AutoComplete,
 
     /** Common **/
     LoginComponent,
@@ -171,7 +174,7 @@ import {DDBSessionService} from "../services/session/ddb";
     LiveSessionService, MockSessionService, SessionService,
     LiveMetricService, MockMetricService, MetricService,
     LiveSurveyService, MockSurveyService, SurveyService, DDBSessionService,
-    ServiceFactory
+    ServiceFactory, EmailProviderService
   ]
 })
 
