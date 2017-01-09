@@ -3,9 +3,12 @@ import {inject} from "@angular/core/testing";
 import {TestUtils} from "../../test";
 import {RevvolveApp} from "../../app/app.component";
 import {ServiceInterface} from "../service/interface.service";
+import {Config} from "../config";
+import {AbstractService} from "../service/abstract.service";
 import {Utils} from "../stuff/utils";
 
 export interface TestData<T> {
+  defaultNumberOfEntities?:number;
   create?: T[];
   updateConfig?: {
     update: (entity: T, index: number)=> boolean; // Return true if
@@ -17,13 +20,13 @@ export class ServiceTest <T> {
 
   static authResult = null;
   static creds = {
-    username: 'celeron',
-    password: 'passWord@1'
+    username: 'uitests',
+    password: '123123'
   }
 
   originalTimeout;
   svc: ServiceInterface<T>;
-  private lastListedEntities: T[];
+  private knownEntityList: T[];
 
   constructor(private svcConstr: Function, private testData?: TestData<T>) {
 
@@ -33,16 +36,17 @@ export class ServiceTest <T> {
       return;
     }
 
-    this.testList();
-    this.testDeleteAll();
-    this.testList(0 /* Expected Count after delete */);
-    if (testData && testData.create) {
+    this.testList('initial list');
+    if (testData && testData.create && testData.create.length > 0) {
+      // Always delete everything before creating.
+      this.testDeleteAll();
+      this.testList('after delete');
       this.testCreateAll();
-      this.testList(this.testData.create.length /* Expected Count */);
+      this.testList('after create');
     }
     if (testData && testData.updateConfig) {
       this.testUpdate();
-      this.testList(this.testData.create.length /* Expected Count */);
+      this.testList('after update');
     }
   }
 
@@ -79,14 +83,22 @@ export class ServiceTest <T> {
     }
   }
 
-  private testList(expectedCount?: number, verificationFn?: ((data: T, index: number) => void), oldData?: T[]) {
-    it(Utils.format('List, expectedCount: {0}, for service {1}', expectedCount, this.svcConstr["name"]), (done)=> {
+  private testList(tag: string, verificationFn?: ((data: T, index: number) => void), oldData?: T[]) {
+    it(Utils.format('List for service {0}, tag:{1}', this.svcConstr["name"], tag), (done)=> {
+      let expectedCount = null;
+      if (this.knownEntityList) {
+        expectedCount = this.knownEntityList.length;
+      } else if (this.testData.create) {
+        expectedCount = this.testData.create.length;
+      } else if (this.testData.defaultNumberOfEntities) {
+        expectedCount = this.testData.defaultNumberOfEntities;
+      }
+      Utils.log("Test Parameters: {0}; knownEntityList: {1}; defaultNumberOfEntities: {2}",
+        expectedCount, Utils.stringify(this.knownEntityList), this.testData.defaultNumberOfEntities);
       inject([this.svcConstr], (svc) => {
         svc.list().then((entities: T[]) => {
-          if (!this.lastListedEntities) {
-            this.lastListedEntities = entities;
-          }
-          if (expectedCount) {
+          this.knownEntityList = entities;
+          if (expectedCount !== null) {
             expect(entities.length).toEqual(expectedCount);
           }
           if (verificationFn) {
@@ -105,10 +117,11 @@ export class ServiceTest <T> {
   private testDeleteAll() {
 
     it('Delete All-' + this.svcConstr["name"], (done: DoneFn)=> {
-      let data = this.lastListedEntities;
+      let data = this.knownEntityList;
       let doneCount = 0;
       setTimeout(()=> {
         if (doneCount == data.length) {
+          this.knownEntityList = [];
           done();
         }
       }, 3 * 1000);
@@ -128,6 +141,7 @@ export class ServiceTest <T> {
 
   private testCreateAll() {
     it('Create All-' + this.svcConstr["name"], (done: DoneFn)=> {
+      this.knownEntityList = null; // this becomes invalid as we are creating new entities.
       let data = this.testData.create;
       let doneCount = 0;
       setTimeout(()=> {
@@ -152,7 +166,7 @@ export class ServiceTest <T> {
   private testUpdate() {
 
     it('Update All-' + this.svcConstr["name"], (done: DoneFn)=> {
-      let data: T[] = this.testData.create;
+      let data: T[] = this.knownEntityList;
       let updateFn = this.testData.updateConfig.update;
       let verifyFn = this.testData.updateConfig.verify || ((data: T, index: number)=>{});
       let doneCount = 0;

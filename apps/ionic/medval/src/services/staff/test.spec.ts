@@ -5,6 +5,7 @@ import {ServiceTest, TestData} from "../../shared/test/service.test";
 
 let data: Array<Staff> = Array.from(MockStaffService.mockMap().values());
 let testData: TestData<Staff> = {
+  defaultNumberOfEntities: data.length,
   create: data,
   updateConfig: {
     update: ((staff: Staff, index: number) => {

@@ -126,19 +126,15 @@ export class AccessTokenService {
               me._username, err));
           }
           if (result) {
-            // TODO: When this goes beyond one customer, need to assign an organization name to each login.
-            //for (let i = 0; i < result.length; i++) {
-            //  if (result[i].getName() == "custom:organizationName") {
+            for (let i = 0; i < result.length; i++) {
+              if (result[i].getName() == "custom:organizationName") {
                 me.callback(AccessTokenService.authResult);
-                //Config.CUSTOMERID = result[i].getValue();
-                if (!AbstractService.TEST_MODE) {
-                  Config.CUSTOMERID = "OMC"; // or whatever you got from cognito.
-                }
+                Config.CUSTOMERID = result[i].getValue();
                 Utils.log('Got userattrbute customerid {0}', Config.CUSTOMERID);
                 AwsClient.reInitialize();
                 me.serviceFactory.resetRegisteredServices();
-            //  }
-            //}
+              }
+            }
           }
         });
       },

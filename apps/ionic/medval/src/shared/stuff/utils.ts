@@ -31,7 +31,7 @@ export class Utils {
     return Utils.date.getTime();
   }
 
-  static log(message: string, ...args: string[]) : void {
+  static log(message: string, ...args: any[]) : void {
     let fmsg = Utils.format(message, ...args);
     if (console && window['REVVOLVE_PROD_ENV'] == false) {
       console.log(fmsg);

@@ -9,7 +9,7 @@ export class Config {
   static readonly DEFAULT_CITY_CODE = "206"
 
   /* TODO this should not be hardcoded */
-  static CUSTOMERID : string; // = "OMC";
+  static CUSTOMERID : string;
 
   static readonly ANIMATE_MODALS = false;
   static ANIMATE_PAGE_TRANSITIONS: boolean = false;
