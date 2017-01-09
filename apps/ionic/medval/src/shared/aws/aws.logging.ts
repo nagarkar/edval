@@ -67,7 +67,7 @@ export class AWSLogging {
         console.log([err.name, err.message].join(":"))
         return;
       }
-      if (data.length == 0) {
+      if (data.logStreams.length == 0) {
         let params = {
           logGroupName: Config.AWS_CONFIG.LOG_GROUP_NAME,
           logStreamName: this.logStreamName
