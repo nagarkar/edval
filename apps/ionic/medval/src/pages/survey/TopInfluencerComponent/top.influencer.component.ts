@@ -140,12 +140,12 @@ export class TopInfluencerComponent extends SurveyPage {
     if (this.valueOrderDesc) {
       return [
         "What are the ", this.numSelections, " things ",
-        this.account.properties.accountName, " does well?"
+        this.account.properties.customerName, " does well?"
       ].join('');
     } else {
       return [
         "What are the ", this.numSelections, " things ",
-        this.account.properties.accountName, " can improve?"
+        this.account.properties.customerName, " can improve?"
       ].join('');
     }
   }

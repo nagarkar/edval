@@ -244,7 +244,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           id: 'md.metrics',
           component:"MultimetricComponent",
           params: {
-            message:`staffSvc.getOnly('MD') == null ? 'About the doctors at ' + account.properties.accountName
+            message:`staffSvc.getOnly('MD') == null ? 'About the doctors at ' + account.properties.customerName
               : 'Tell us more about ' + staffSvc.getOnly('MD').displayName`,
             metricIds: [
               '2861045b4984805ae23df729dad97b',
@@ -306,7 +306,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           component:"HandleComplaintComponent",
           isTerminal:true,
           params: {
-            title: "account.properties.accountName + ' can do better'"
+            title: "account.properties.customerName + ' can do better'"
           }
         },
       ]

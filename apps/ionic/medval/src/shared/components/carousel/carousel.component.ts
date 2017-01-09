@@ -2,6 +2,7 @@ import {Component, ViewChild, Input, Output, EventEmitter, Renderer, OnChanges, 
 import {Slides} from "ionic-angular";
 import {SlideItem} from "./carousel.schema";
 import {Utils} from "../../stuff/utils";
+import {clearInterval} from "timers";
 
 @Component({
   selector: 'carousel',

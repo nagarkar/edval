@@ -11,6 +11,10 @@ import {Config} from "../config";
 export abstract class AbstractService<T> implements ServiceInterface<T> {
 
   private static DEFAULT_CACHE_AGE = 10*60*1000; // 10 minutes.
+
+  // Visible for Testing
+  static TEST_MODE: boolean = false;
+
   private timeKeeper: Date = new Date();
   private cache: Map<string, T | Array<T>> = new Map<string, T | Array<T>> ();
   private lastCacheClearMillis: number;
@@ -125,7 +129,7 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
           this.deleteCachedValue(this.getPath(), id);
           this.deleteCachedValue(this.getPath());
           this.onDelete.emit(id);
-          return true;
+          return Promise.resolve(true);
         });
   }
 
@@ -139,7 +143,7 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
   }
 
   protected checkGate() : void {
-    if (!this.inMockMode() && !this.accessProvider.supposedToBeLoggedIn()) {
+    if (!AbstractService.TEST_MODE && !this.inMockMode() && !this.accessProvider.supposedToBeLoggedIn()) {
       ErrorType.throwNotLoggedIn();
     }
   }

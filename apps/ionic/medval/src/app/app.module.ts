@@ -56,6 +56,8 @@ import {Config} from "../shared/config";
 import {ValidationComponent} from "../shared/components/validation/validation.component";
 import {PhonePipe} from "../pipes/phone";
 import {DDBSessionService} from "../services/session/ddb";
+import {EmailProviderService} from "../shared/service/email.provider.service";
+import {AutoCompleteModule} from "../shared/components/autocomplete/autocomplete";
 
 //enableProdMode();
 
@@ -114,6 +116,7 @@ import {DDBSessionService} from "../services/session/ddb";
     HttpModule,
     JsonpModule,
     NgIdleModule.forRoot(),
+    AutoCompleteModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -171,7 +174,8 @@ import {DDBSessionService} from "../services/session/ddb";
     LiveSessionService, MockSessionService, SessionService,
     LiveMetricService, MockMetricService, MetricService,
     LiveSurveyService, MockSurveyService, SurveyService, DDBSessionService,
-    ServiceFactory
+    ServiceFactory,
+    EmailProviderService
   ]
 })
 

@@ -51,8 +51,8 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "org",
       properties: {
-        conversationSetup: "'Your overall rating for ' + account.properties.accountName + ''",
-        question: "'Would you recommend ' + account.properties.accountName + ' to your friends and family?'",
+        conversationSetup: "'Your overall rating for ' + account.properties.customerName + ''",
+        question: "'Would you recommend ' + account.properties.customerName + ' to your friends and family?'",
         metricName: "",
         metricDescription: "Organization Level Metric. This metric is always present by default and cannot be deleted",
         definition: {
@@ -69,7 +69,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:Orthodontic Assistant",
       properties: {
         question: `staff ? 'How would you rate ' + staff.displayName + ' as an Orthodontic Assistant?'
-          : 'How would you rate the Orthodontic Assistants at ' + account.properties.accountName + '?'`,
+          : 'How would you rate the Orthodontic Assistants at ' + account.properties.customerName + '?'`,
         metricName: "NPS Metric for Role Orthodontic Assistant",
         definition: {
           npsType: {
@@ -162,7 +162,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:MD",
       properties: {
         question: `'Would you recommend ' 
-          + (staff ? staff.displayName : ('the doctors at ' + account.properties.accountName)) 
+          + (staff ? staff.displayName : ('the doctors at ' + account.properties.customerName)) 
           + ' to your friends and family?'`,
         metricName: "NPS Metric for Role MD",
         definition: {
@@ -197,7 +197,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:MD",
       properties: {
         metricName: 'Doctor Skill',
-        question: "'Do you feel the doctor(s) at ' + account.properties.accountName + ' are skillful in providing treatment?'",
+        question: "'Do you feel the doctor(s) at ' + account.properties.customerName + ' are skillful in providing treatment?'",
         positiveImpact: "The doctor is skilled in providing orthodontic treatment",
         improvement: "The doctor could be more skillful when treating patients",
         definition: {

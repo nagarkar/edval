@@ -1,7 +1,6 @@
 import {Utils} from "./utils";
 import {AccessTokenService, AuthResult} from "../aws/access.token.service";
 import {Http, Response, RequestOptionsArgs, Headers} from "@angular/http";
-import {ErrorType} from "./error.types";
 import {Injectable} from "@angular/core";
 import {Config} from "../config";
 import "rxjs/add/operator/toPromise";
@@ -77,7 +76,7 @@ export class HttpClient<T> {
 
   private extractData = (res: Response): any => {
     // Workaround for the fact the content type may be wrong
-    Utils.log('in extract data' + Utils.stringify(res));
+    //Utils.log('in extract data' + Utils.stringify(res));
     let body: any;
     if (res.headers.get('content-type') == "application/json") {
       //this.utils.log("Extracted data res.json: " + Utils.stringify(res.json()));
@@ -92,8 +91,8 @@ export class HttpClient<T> {
         }
       } catch(error) {
         body = res.text();
-        Utils.log('in extract data, error {0} occurred' + error);
-        Utils.log('in extract data, response was: {0}, with text {1}' + res, res.text());
+        Utils.error('in extract data, error {0} occurred' + error);
+        Utils.error('in extract data, response was: {0}, with text {1}' + res, res.text());
       }
     }
     return body;
@@ -116,10 +115,7 @@ export class HttpClient<T> {
   }
 
   private createRequestOptionsArgs() : RequestOptionsArgs {
-    if (!this.tokenProvider.getAuthResult()) {
-      ErrorType.throwNotLoggedIn();
-    }
-    let result : AuthResult = this.tokenProvider.getAuthResult();
+    let result : AuthResult = AccessTokenService.authResult;
     return {
       headers: new Headers({
         'X-AccessToken': result.accessToken,

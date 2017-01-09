@@ -101,7 +101,7 @@ export class Utils {
    * @param format
    * @returns {string}
    */
-  static format(format: string, ...args: string[]) {
+  static format(format: string, ...args: any[]) {
     return (new String(format)).replace(/{(\d+)}/g, function(match, number) {
       return typeof args[number] != 'undefined'
         ? args[number]

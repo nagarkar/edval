@@ -20,10 +20,17 @@
         </h3>
         <ion-row responsive-sm>
           <ion-col width-60>
+            <!--
             <ion-item>
               <ion-input clearOnEdit clearInput [(ngModel)]="email" [formControlName]="'email'" class="email" type="email" placeholder="youremail@gmail.com"></ion-input>
             </ion-item>
             <div class="alert subdued" *ngIf="!complaintForm.controls['email'].valid">(e.g.: abc@zyx.com)</div>
+            -->
+            <autoComplete-email  [(ngModel)]="email"  formControlName="email" required placeholder="youremail@gmail.com"
+              [suggestions]="filteredEmail" (completeMethod)="getEmail($event)" [size]="30" [minLength]= "3"
+               (onSelect)="onSelectEmail($event)" field="name">
+            </autoComplete-email>
+            <div class="alert subdued" *ngIf="!complaintForm.controls['email'].valid && complaintForm.controls['email'].touched">(e.g.: abc@zyx.com)</div>
           </ion-col>
           <ion-col>
             <ion-item>
@@ -38,7 +45,7 @@
     <ion-row>
       <ion-item>
         <ion-label class="m-t-4 cstm-label cstm-label-pdng" stacked>
-          {{'Tell us the most important thing ' + account.properties.accountName + ' needs to fix'}}
+          {{'Tell us the most important thing ' + account.properties.customerName + ' needs to fix'}}
         </ion-label>
         <ion-textarea
           class="hc-cstm-textarea"

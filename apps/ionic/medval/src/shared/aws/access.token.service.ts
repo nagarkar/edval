@@ -4,6 +4,7 @@ import {Config} from "../config";
 import {ServiceFactory} from "../../services/service.factory";
 import {AwsClient} from "./aws.client";
 import {AlertController} from "ionic-angular";
+import {AbstractService} from "../service/abstract.service";
 declare let AWSCognito:any;
 declare let AWS:any;
 
@@ -17,19 +18,16 @@ export class AccessTokenService {
   private _cognitoUser : any = null;
   private _username : string = null;
   private authenticationDetails: any = null;
-  private authResult: AuthResult = null;
   private userPool: any = null;
-  //private error: Error = null;
+
+  // Visible for Testing
+  static authResult: AuthResult = null;
 
   private callback: (result?: AuthResult, err?: any) => void;
 
   private authenticatingIntervalTimer : number = 0;
 
   constructor(private alertCtrl: AlertController, private serviceFactory: ServiceFactory) {}
-
-  public getAuthResult() : AuthResult {
-    return this.authResult;
-  }
 
   public getUserName() : string {
     return this._username;
@@ -59,7 +57,7 @@ export class AccessTokenService {
     };
 
     if (this.sameUserAuthenticatingWithinShortPeriod(authenticationData)) {
-      this.callback(this.authResult, null);
+      this.callback(AccessTokenService.authResult, null);
       return;
     }
 
@@ -102,7 +100,7 @@ export class AccessTokenService {
       onSuccess: (session) => {
         Utils.log("AccessTokenSvc.onSuccess");
         me.authenticationDetails['lastLoggedInTime'] = Date.now();
-        me.authResult = new AuthResult(
+        AccessTokenService.authResult = new AuthResult(
           session.getAccessToken().getJwtToken(),
           session.getIdToken().getJwtToken());
 
@@ -128,13 +126,14 @@ export class AccessTokenService {
               me._username, err));
           }
           if (result) {
-            Utils.log('Got userattrbute result with {0} results', result.length);
             // TODO: When this goes beyond one customer, need to assign an organization name to each login.
             //for (let i = 0; i < result.length; i++) {
             //  if (result[i].getName() == "custom:organizationName") {
-                me.callback(me.authResult);
+                me.callback(AccessTokenService.authResult);
                 //Config.CUSTOMERID = result[i].getValue();
-                Config.CUSTOMERID = "OMC";
+                if (!AbstractService.TEST_MODE) {
+                  Config.CUSTOMERID = "OMC"; // or whatever you got from cognito.
+                }
                 Utils.log('Got userattrbute customerid {0}', Config.CUSTOMERID);
                 AwsClient.reInitialize();
                 me.serviceFactory.resetRegisteredServices();

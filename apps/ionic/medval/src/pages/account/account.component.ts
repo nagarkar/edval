@@ -3,7 +3,6 @@ import {NavController, ActionSheetController, AlertController, ToastController} 
 import {Account} from "../../services/account/schema";
 import {AccountService} from "../../services/account/delegator";
 import {Utils} from "../../shared/stuff/utils";
-import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {MockAccountService} from "../../services/account/mock";
 import {LiveAccountService} from "../../services/account/live";
 import {AdminComponent} from "../admin.component";
@@ -19,11 +18,10 @@ export class AccountComponent extends AdminComponent {
   constructor(private actionSheetCtrl: ActionSheetController,
               private alertCtrl: AlertController,
               private toastCtrl: ToastController,
-              tokenProvider: AccessTokenService,
               navCtrl: NavController,
               private accountSvc : AccountService,
   ) {
-    super(tokenProvider, navCtrl);
+    super(navCtrl);
   }
 
   public account: Account = new Account();

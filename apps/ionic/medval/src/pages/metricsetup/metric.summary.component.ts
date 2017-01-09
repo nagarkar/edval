@@ -4,7 +4,7 @@ import {Utils} from "../../shared/stuff/utils";
 import {MetricService} from "../../services/metric/delegator";
 import {AccountService} from "../../services/account/delegator";
 import {Metric} from "../../services/metric/schema";
-import {Account, Role} from "../../services/account/schema";
+import {Account} from "../../services/account/schema";
 import {Config} from "../../shared/config";
 @Component({
   templateUrl:'./metric.summary.component.html',
@@ -17,7 +17,7 @@ export class MetricSummaryComponent implements OnInit{
 
   private allIds: Set<string> = new Set<string>();
 
-  standardRoles: Role[] = [];
+  standardRoles: string[] = [];
 
   constructor(private navCtrl: NavController, private metricSvc: MetricService, private accountSvc: AccountService) {
 
@@ -95,8 +95,8 @@ export class MetricSummaryComponent implements OnInit{
 
   private createSubjectMetricMap(subjects: Set<string>) {
     this.subjectMetricMap.set("org", new MetricBush("org"));
-    this.standardRoles.forEach((role:Role)=>{
-      let roleSubj: string = Metric.createRoleSubject(role.roleId);
+    this.standardRoles.forEach((role:string)=>{
+      let roleSubj: string = Metric.createRoleSubject(role);
       this.subjectMetricMap.set(roleSubj, new MetricBush(Metric.createRoleSubject(roleSubj)));
     });
     subjects.forEach((subject: string)=>{

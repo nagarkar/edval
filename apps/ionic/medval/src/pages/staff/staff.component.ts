@@ -1,10 +1,9 @@
 import {Component} from "@angular/core";
-import {NavController, AlertController, ModalController, ToastController} from "ionic-angular";
+import {NavController, ModalController, ToastController} from "ionic-angular";
 import {Staff} from "../../services/staff/schema";
 import {Utils} from "../../shared/stuff/utils";
 import {StaffService} from "../../services/staff/delegator";
 import {AdminComponent} from "../admin.component";
-import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {StaffEditComponent} from "./staff.edit.component";
 
 @Component({
@@ -18,13 +17,11 @@ export class StaffComponent extends AdminComponent  {
 
   constructor(
     navCtrl: NavController,
-    tokenProvider: AccessTokenService,
-    private alertCtrl: AlertController,
     private toastCtrl: ToastController,
     private modalCtrl: ModalController,
     private staffSvc : StaffService) {
 
-    super(tokenProvider, navCtrl);
+    super(navCtrl);
   }
 
   ngOnInit(): void {
@@ -59,18 +56,6 @@ export class StaffComponent extends AdminComponent  {
       .catch((err) => Utils.presentTopToast(this.toastCtrl, err || "Could not delete staff member", 3000))
   }
 
-  //TODO Fix this.
-  private currentUserIsAdmin() : boolean {
-    let loggedInUser : string = this.tokenProvider.getUserName();
-    let admins : Staff[] = this.staffList.filter((staff) => {
-      return staff.role == "ADMIN" && staff.username == loggedInUser;
-    })
-    if (admins && admins.length == 1) {
-      return true;
-    }
-    return false;
-  }
-
   private listenToUpdatesAndRefresh() {
     this.staffSvc.onUpdate.subscribe(()=>this.getStaffList());
     this.staffSvc.onDelete.subscribe(()=>this.getStaffList());
@@ -86,9 +71,5 @@ export class StaffComponent extends AdminComponent  {
         Utils.presentTopToast(this.toastCtrl, err || "Could not get staff list!");
         Utils.error("StaffComponnet.getStaffList(): {0}", err);
       });
-  }
-
-  private currentUserIs(username: string) {
-    return this.tokenProvider.getUserName() == username;
   }
 }

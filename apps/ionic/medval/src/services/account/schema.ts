@@ -1,16 +1,12 @@
 import {Utils} from "../../shared/stuff/utils";
 
-export class Role {
-  roleId: string;
-  roleName: string;
-}
 export class Account {
 
   customerId: string;
   lockingVersion: string;
   properties : {
     verticalId?: string,
-    accountName?: string,
+    customerName?: string,
     contactName?: string,
     logo?: string,
     address: {
@@ -21,38 +17,31 @@ export class Account {
       city?:string;
       state?:string;
       country?: string;
+    },
+    configuration?: {
+      [key: string] : string
     }
   };
-  configuration?: {
-    [key: string] : string
-  }
+
 
   constructor() {
     this.properties = {
-      accountName: "",
+      customerName: "",
       contactName: '',
       logo: '',
       address: {}
     };
-    this.configuration = {};
+    this.properties.configuration = {};
   }
 
   toString() {
     return Utils.stringify(this);
   }
 
-  getStandardRoles(): Role[] {
-    let roles: Role[] = [];
-    if (!this.configuration["STANDARD_ROLES"]) {
+  getStandardRoles(): string[] {
+    let roles: string[] = [];
+    if (!this.properties.configuration["STANDARD_ROLES"]) {
       return roles;
-    }
-    let parsedRoles = JSON.parse(this.configuration["STANDARD_ROLES"]);
-    if (Array.isArray(parsedRoles)) {
-      roles = (parsedRoles as Array<Role>).map((role: any) => {
-        return Object.assign<Role, any>(new Role(), role);
-      })
-    } else {
-      roles = [Object.assign<Role, any>(new Role(), parsedRoles)];
     }
     return roles;
   }

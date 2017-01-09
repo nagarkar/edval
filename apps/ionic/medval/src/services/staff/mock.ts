@@ -9,7 +9,7 @@ import {AbstractMockService} from "../../shared/service/abstract.mock.service";
 @Injectable()
 export class MockStaffService extends AbstractMockService<Staff> {
 
-  private static staffMap: Map<string, Staff> = MockStaffService.mockMap();
+  private static staffMap: Map<string, Staff>;
 
   constructor(
     utils: Utils,
@@ -31,11 +31,13 @@ export class MockStaffService extends AbstractMockService<Staff> {
   }
 
   public mockData() : Map<string, Staff> {
+    if (!MockStaffService.staffMap) {
+      MockStaffService.staffMap = MockStaffService.mockMap();
+    }
     return MockStaffService.staffMap;
   }
 
-
-  private static mockMap() : Map<string, Staff> {
+  static mockMap() : Map<string, Staff> {
     let map : Map<string, Staff> = new Map<string, Staff>();
     map.set("ermania", Object.assign(new Staff(), {
       customerId: Config.CUSTOMERID,
