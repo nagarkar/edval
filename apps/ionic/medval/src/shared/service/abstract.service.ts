@@ -101,6 +101,11 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
 
     return this.httpClient.post(this.getPath(), member)
       .then((value: T) => {
+        if (value === null || value === undefined) {
+          Utils.error("Failed to create member {0} at AbstracteService.create, for class {1}",
+            member, this.constructor.name);
+          return;
+        }
         this.updateCache(value, this.getPath(), this.getId(value));
         this.deleteCachedValue(this.getPath());
         this.onCreate.emit(value);

@@ -13,7 +13,8 @@ export interface TestData<T> {
   updateConfig?: {
     update: (entity: T, index: number)=> boolean; // Return true if
     verify?: (entity: T, index: number)=> void;
-  }
+  };
+  cleanup?: boolean;
 }
 
 export class ServiceTest <T> {
@@ -27,8 +28,9 @@ export class ServiceTest <T> {
   originalTimeout;
   svc: ServiceInterface<T>;
   private knownEntityList: T[];
+  private entitiesCreated = false;
 
-  constructor(private svcConstr: Function, private testData?: TestData<T>) {
+  constructor(private svcConstr?: Function, private testData?: TestData<T>) {
 
     this.setupBeforeAndAfterEach();
 
@@ -37,16 +39,19 @@ export class ServiceTest <T> {
     }
 
     this.testList('initial list');
-    if (testData && testData.create && testData.create.length > 0) {
+    if (testData.create && testData.create.length > 0) {
       // Always delete everything before creating.
       this.testDeleteAll();
       this.testList('after delete');
       this.testCreateAll();
       this.testList('after create');
     }
-    if (testData && testData.updateConfig) {
+    if (testData.updateConfig) {
       this.testUpdate();
       this.testList('after update');
+    }
+    if (testData.cleanup) {
+      this.testDeleteAll("Cleanup");
     }
   }
 
@@ -86,10 +91,10 @@ export class ServiceTest <T> {
   private testList(tag: string, verificationFn?: ((data: T, index: number) => void), oldData?: T[]) {
     it(Utils.format('List for service {0}, tag:{1}', this.svcConstr["name"], tag), (done)=> {
       let expectedCount = null;
-      if (this.knownEntityList) {
-        expectedCount = this.knownEntityList.length;
-      } else if (this.testData.create) {
+      if (this.entitiesCreated) {
         expectedCount = this.testData.create.length;
+      } else if (this.knownEntityList) {
+        expectedCount = this.knownEntityList.length;
       } else if (this.testData.defaultNumberOfEntities) {
         expectedCount = this.testData.defaultNumberOfEntities;
       }
@@ -114,9 +119,9 @@ export class ServiceTest <T> {
     });
   }
 
-  private testDeleteAll() {
+  private testDeleteAll(tag?: string) {
 
-    it('Delete All-' + this.svcConstr["name"], (done: DoneFn)=> {
+    it(Utils.format('Delete All- {0}, for {1}', tag? tag: "", this.svcConstr["name"]), (done: DoneFn)=> {
       let data = this.knownEntityList;
       let doneCount = 0;
       setTimeout(()=> {
@@ -147,6 +152,7 @@ export class ServiceTest <T> {
       setTimeout(()=> {
         if (doneCount == data.length) {
           done();
+          this.entitiesCreated = true;
         }
       }, 3 * 1000);
       inject([this.svcConstr], (svc: ServiceInterface<T>) => {
@@ -155,7 +161,7 @@ export class ServiceTest <T> {
             .catch((err: any)=> {
               done.fail(err);
             })
-            .then(()=>{
+            .then((result: T)=>{
               doneCount++;
             })
         })

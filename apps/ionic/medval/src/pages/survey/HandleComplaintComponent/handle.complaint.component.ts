@@ -37,6 +37,8 @@ export class HandleComplaintComponent extends SurveyPage {
   email: string;
   phone: string;
   complaintMsg: string;
+
+  // Email autocomplete
   filteredEmail: any[];
 
   get informationProvided() {
@@ -82,7 +84,11 @@ export class HandleComplaintComponent extends SurveyPage {
 
   navigateToNext() {
     //TODO Save email, phone and text to session.
-
+    if (this.sessionSvc.hasCurrentSession()) {
+      this.sessionSvc.getCurrentSession().properties.complaintData = {
+        email: this.email, phone: this.phone, message: this.complaintMsg
+      }
+    }
     super.navigateToNext(
       "account.properties.customerName + ' wants to do better'",
       "Your feedback is invaluable");

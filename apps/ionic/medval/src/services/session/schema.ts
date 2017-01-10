@@ -1,18 +1,26 @@
 import {MetricValue, Metric} from "../metric/schema";
 import {Utils} from "../../shared/stuff/utils";
 
+export interface ReviewData {
+  email?: string,
+  phone?: string,
+  message?: string,
+  preferredReviewSite?: Array<string>
+}
+
 export class SessionProperties {
   patientId: string;
   surveyId?: string;
   selectedStaffUserNames: Array<string> = [];
-  selectedRoles: Array<string> = []
+  selectedRoles: Array<string> = [];
   staffMetricValues: Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
   roleMetricValues: Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
   orgMetricValues: Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
   endTime: number;
   aggregationProcessed: boolean;
-  navigatedLocation?: string[] = [];
-  reviewData: {email?: string, phone?: string, message?: string, preferredReviewSite?: string[]} = {};
+  navigatedLocations?: Array<string> = [];
+  reviewData: ReviewData = {};
+  complaintData: ReviewData = {};
 
   constructor() {
     this.patientId = Utils.guid("p");
@@ -84,7 +92,7 @@ export class Session {
   }
 
   addNavigatedLocation(location: string) {
-    this.properties.navigatedLocation.push(location);
+    this.properties.navigatedLocations.push(location);
   }
 
   public getMetricValue(subject: string, metricId: string): string {
