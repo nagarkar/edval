@@ -38,7 +38,7 @@ export class Utils {
     }
   }
 
-  static error(message: string, ...args: string[]) : void {
+  static error(message: string, ...args: any[]) : void {
     let fmsg = Utils.format(message, ...args);
     if (console) {
       console.error(fmsg);
