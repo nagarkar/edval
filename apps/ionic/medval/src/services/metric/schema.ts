@@ -15,6 +15,7 @@ export class TextType extends Type {
 }
 
 export class MetricValue {
+
   constructor (public metricId: string, public metricValue: string) { };
 
   toString() {

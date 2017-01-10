@@ -14,7 +14,7 @@ export class LiveMetricService extends AbstractService<Metric> {
     http: Http,
     accessProvider: AccessTokenService) {
 
-    super(utils, accessProvider, http, new Metric());
+    super(utils, accessProvider, http, Metric);
     Utils.log("Created LiveMetricService: " + typeof this);
   }
 

@@ -15,7 +15,7 @@ export class LiveSurveyService extends AbstractService<Survey> {
     http: Http,
     accessProvider: AccessTokenService) {
 
-    super(utils, accessProvider, http, new Survey());
+    super(utils, accessProvider, http, Survey);
   }
 
   getId(member: Survey): string {

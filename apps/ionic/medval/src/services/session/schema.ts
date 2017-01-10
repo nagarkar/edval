@@ -1,5 +1,6 @@
 import {MetricValue, Metric} from "../metric/schema";
 import {Utils} from "../../shared/stuff/utils";
+import {Type} from "class-transformer";
 
 export interface ReviewData {
   email?: string,
@@ -13,8 +14,11 @@ export class SessionProperties {
   surveyId?: string;
   selectedStaffUserNames: Array<string> = [];
   selectedRoles: Array<string> = [];
+  @Type(() => Map)
   staffMetricValues: Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
+  @Type(() => Map)
   roleMetricValues: Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
+  @Type(() => Map)
   orgMetricValues: Map<string, MetricValue[]> = new Map<string, MetricValue[]>();
   endTime: number;
   aggregationProcessed: boolean;
@@ -32,6 +36,7 @@ export class Session {
   customerId: string;
   sessionId: string;
   entityStatus: string;
+  @Type(() => SessionProperties)
   properties: SessionProperties = new SessionProperties();
 
   constructor() {

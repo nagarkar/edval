@@ -17,7 +17,7 @@ export class LiveSessionService extends AbstractService<Session> {
     http: Http,
     accessProvider: AccessTokenService) {
 
-    super(utils, accessProvider, http, new Session());
+    super(utils, accessProvider, http, Session);
     Utils.log("Created LiveSessionService: " + typeof this);
   }
 

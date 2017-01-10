@@ -5,24 +5,8 @@ import {MockSessionService} from "./mock";
 import {LiveSessionService} from "./live";
 import {SessionService} from "./delegator";
 import {inject} from "@angular/core/testing";
-
-let testData: TestData<Session> = {
-  defaultNumberOfEntities: 0, // We create one session before each test.
-  create: [new Session()],
-  updateConfig: {
-    update: ((acc: Session)=> {
-      if (acc.customerId == Config.CUSTOMERID) {
-        acc.properties.aggregationProcessed = true;
-        return true;
-      }
-      return false;
-    }),
-    verify: ((acc: Session)=> {
-      expect(acc.properties.aggregationProcessed).toEqual(true);
-    }),
-  },
-  cleanup: true
-}
+import {MetricValue} from "../metric/schema";
+import {serialize, deserialize, classToPlain, plainToClass, deserializeArray} from "class-transformer";
 
 let assertNoCurrentSession = (svc: SessionService)=> {expect(svc.hasCurrentSession()).toEqual(false)}
 let assertCurrentSession = (svc: SessionService)=> {expect(svc.hasCurrentSession()).toEqual(true)}
@@ -42,6 +26,74 @@ let assertSessionClosed = (session: Session)=> {
   }
   return ret;
 }
+
+let testData: TestData<Session> = {
+  defaultNumberOfEntities: 0, // We create one session before each test.
+  create: [new Session()],
+  updateConfig: {
+    update: ((acc: Session)=> {
+      if (acc.customerId == Config.CUSTOMERID) {
+        let props = acc.properties;
+        props.aggregationProcessed = true;
+        props.surveyId = "default";
+        props.selectedStaffUserNames.push('user1');
+        props.selectedRoles.push('role1');
+        props.staffMetricValues.set('staff:sub', [new MetricValue('metricid', '10')]);
+        props.roleMetricValues.set('role:sub', [new MetricValue('metricid', '10')])
+        props.orgMetricValues.set('org:sub', [new MetricValue('metricid', '10')])
+        props.endTime = Date.now();
+        props.navigatedLocations.push('somelocation');
+        props.reviewData = {email: 'me@my.com', phone:'203000200', message:'somereview data'};
+        props.complaintData = {email: 'me@my.com', phone:'203000200', message:'somereview data'};
+        return true;
+      }
+      return false;
+    }),
+    verify: ((acc: Session)=> {
+      let props = acc.properties;
+      expect(props.aggregationProcessed).toEqual(true);
+      expect(props.surveyId).toEqual('default');
+      expect(props.selectedStaffUserNames).toEqual(['user1']);
+      expect(props.selectedRoles).toEqual(['role1']);
+      expect(props.staffMetricValues.size).toEqual(1);
+      expect(props.roleMetricValues.size).toEqual(1);
+      expect(props.orgMetricValues.size).toEqual(1);
+      expect(props.endTime).toBeDefined();
+      expect(props.navigatedLocations).toEqual(['somelocation']);
+      expect(props.reviewData).toEqual({email: 'me@my.com', phone:'203000200', message:'somereview data', preferredReviewSite: null})
+      expect(props.complaintData).toEqual({email: 'me@my.com', phone:'203000200', message:'somereview data', preferredReviewSite: null})
+    }),
+  },
+  cleanup: true
+}
+
+describe('serialization', ()=> {
+  it('serialization checks', (done)=> {
+    let session: Session = new Session();
+    let props = session.properties;
+    props.aggregationProcessed = true;
+    props.surveyId = "default";
+    props.selectedStaffUserNames.push('user1');
+    props.selectedRoles.push('role1');
+    props.staffMetricValues.set('staff:sub', [new MetricValue('metricid', '10')]);
+    props.roleMetricValues.set('role:sub', [new MetricValue('metricid', '10')])
+    props.orgMetricValues.set('org:sub', [new MetricValue('metricid', '10')])
+    props.endTime = Date.now();
+    props.navigatedLocations.push('somelocation');
+    props.reviewData = {email: 'me@my.com', phone: '203000200', message: 'somereview data'};
+    props.complaintData = {email: 'me@my.com', phone: '203000200', message: 'somereview data'};
+
+    let json: string = serialize(session);
+    let roundTripSession = deserialize<Session>(Session, json);
+    expect(roundTripSession).toEqual(session);
+
+    json = serialize([session]);
+    let roundTripSessionArr = deserializeArray<Session>(Session, json);
+    expect(roundTripSessionArr).toEqual([session]);
+
+    done();
+  });
+})
 
 describe ('Default State checks', ()=> {
   new ServiceTest<Session>();

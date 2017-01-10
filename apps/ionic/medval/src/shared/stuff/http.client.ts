@@ -1,9 +1,10 @@
-import {Utils} from "./utils";
+import {Utils, ClassType} from "./utils";
 import {AccessTokenService, AuthResult} from "../aws/access.token.service";
 import {Http, Response, RequestOptionsArgs, Headers} from "@angular/http";
 import {Injectable} from "@angular/core";
 import {Config} from "../config";
 import "rxjs/add/operator/toPromise";
+import {deserializeArray, deserialize, serialize, classToPlain} from "class-transformer";
 
 @Injectable()
 export class HttpClient<T> {
@@ -11,7 +12,7 @@ export class HttpClient<T> {
   constructor(
     private tokenProvider: AccessTokenService,
     private http: Http,
-    private instance: T) {
+    private clazz: ClassType<T>) {
   }
 
   /**
@@ -34,7 +35,6 @@ export class HttpClient<T> {
   }
    */
   public list<T>(path : string | '') : Promise<Array<T>> {
-    // TODO Revert line
     return this.http.get(Config.baseUrl + path, this.createRequestOptionsArgs())
       .toPromise()
       .then(this.extractData)
@@ -42,7 +42,6 @@ export class HttpClient<T> {
   }
 
   public get<T>(path : string, id: string | '') : Promise<T> {
-    // TODO Revert line
     return  this.http.get(Config.baseUrl + path + "/" + id, this.createRequestOptionsArgs())
       .toPromise()
       .then(this.extractData)
@@ -50,23 +49,20 @@ export class HttpClient<T> {
   }
 
   public put<T>(path : string, id: string | '', body: T) : Promise<T> {
-    // TODO Revert line
-    return this.http.put(Config.baseUrl + path + "/" + id, Utils.stringify(body), this.createRequestOptionsArgs())
+    return this.http.put(Config.baseUrl + path + "/" + id, serialize(body), this.createRequestOptionsArgs())
       .toPromise()
       .then(this.extractData)
       .catch(this.handleError);
   }
 
   public post<T>(path : string, body: T) : Promise<T> {
-    // TODO Revert line
-    return this.http.post(Config.baseUrl + path, Utils.stringify(body), this.createRequestOptionsArgs())
+    return this.http.post(Config.baseUrl + path, serialize(body), this.createRequestOptionsArgs())
       .toPromise()
       .then(this.extractData)
       .catch(this.handleError);
   }
 
   public delete(path : string, id: string | '') : Promise<boolean> {
-    // TODO Revert line
     return this.http.delete(Config.baseUrl + path + "/" + id,
       this.createRequestOptionsArgs())
       .toPromise()
@@ -74,20 +70,19 @@ export class HttpClient<T> {
       .catch(this.handleError);
   }
 
+
   private extractData = (res: Response): any => {
-    // Workaround for the fact the content type may be wrong
-    //Utils.log('in extract data' + Utils.stringify(res));
     let body: any;
     if (res.headers.get('content-type') == "application/json") {
-      //this.utils.log("Extracted data res.json: " + Utils.stringify(res.json()));
       try {
-        body = res.json();
+        body = res.json(); // try to parse it. This should always work, if not, handle the exception.
+        if (body.status && new String(body.status).toLowerCase() == "ok") {
+          return true;
+        }
         if (Array.isArray(body)) {
-          body = (body as Array<any>).map((value: any) =>{
-            return Object.assign<T, any>(this.newInstance(), value);
-          });
+          body = deserializeArray<T>(this.clazz, res.text());
         } else {
-          body = Object.assign<T, any>(this.newInstance(), body);
+          body = deserialize<T>(this.clazz, res.text());
         }
       } catch(error) {
         body = res.text();
@@ -99,19 +94,17 @@ export class HttpClient<T> {
   }
 
   private handleError  = (error: any): T | PromiseLike<T> => {
-    // In a real world app, we might use a remote logging infrastructure
     let errMsg: string;
-    Utils.log('in handle error' + Utils.stringify(error));
+    Utils.error('in handle error' + serialize(error));
     if (error instanceof Response) {
       const body = error.json() || '';
-      const err = body.error || Utils.stringify(body);
+      const err = body.error || serialize(body);
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
     } else {
       errMsg = error.message ? error.message : error.toString();
     }
     Utils.error(errMsg);
     return null;
-    //return Promise.reject<T>(errMsg);
   }
 
   private createRequestOptionsArgs() : RequestOptionsArgs {
@@ -130,6 +123,6 @@ export class HttpClient<T> {
 
 
   private newInstance(): T {
-    return Object.create(Object.getPrototypeOf(this.instance));
+    return new this.clazz();
   }
 }

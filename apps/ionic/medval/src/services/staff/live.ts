@@ -14,7 +14,7 @@ export class LiveStaffService extends AbstractService<Staff> {
     http: Http,
     accessProvider: AccessTokenService) {
 
-    super(utils, accessProvider, http, new Staff());
+    super(utils, accessProvider, http, Staff);
   }
 
   getId(member: Staff): string {

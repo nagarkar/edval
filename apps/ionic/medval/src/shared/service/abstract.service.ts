@@ -2,11 +2,10 @@ import {AccessTokenService} from "../aws/access.token.service";
 import {ErrorType} from "../stuff/error.types";
 import {EventEmitter} from "@angular/core";
 import {HttpClient} from "../stuff/http.client";
-import {Utils} from "../stuff/utils";
+import {Utils, ClassType} from "../stuff/utils";
 import {ServiceInterface} from "./interface.service";
 import {Http} from "@angular/http";
 import {Config} from "../config";
-
 
 export abstract class AbstractService<T> implements ServiceInterface<T> {
 
@@ -31,9 +30,9 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
     protected utils : Utils,
     protected accessProvider: AccessTokenService,
     http: Http,
-    private instance: T) {
+    private clazz: ClassType<T>) {
 
-    this.httpClient = new HttpClient(accessProvider, http, instance);
+    this.httpClient = new HttpClient<T>(accessProvider, http, clazz);
     this.lastCacheClearMillis = this.timeKeeper.getMilliseconds();
   }
 
@@ -144,7 +143,7 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
   }
 
   getInstance(): T {
-    return this.instance;
+    return new this.clazz();
   }
 
   protected checkGate() : void {

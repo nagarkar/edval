@@ -375,6 +375,7 @@ export class Utils {
     return new Function('item', 'return \`' + message + "\`");
   }
 
+
   private static serializer(replacer: (key: string, value: any) => any, cycleReplacer: any) {
     var stack: any[] = [], keys: any[] = []
 
@@ -397,3 +398,7 @@ export class Utils {
   }
 
 }
+
+export declare type ClassType<T> = {
+  new (...args: any[]): T;
+};
