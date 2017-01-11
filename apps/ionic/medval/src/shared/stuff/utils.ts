@@ -25,12 +25,6 @@ export class Utils {
               private platform: Platform) {
   }
 
-  static date = new Date();
-
-  static getTime() {
-    return Utils.date.getTime();
-  }
-
   static log(message: string, ...args: any[]) : void {
     let fmsg = Utils.format(message, ...args);
     if (console && window['REVVOLVE_PROD_ENV'] == false) {

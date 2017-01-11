@@ -10,6 +10,7 @@ import {MetricService} from "../metric/delegator";
 import {RegisterService} from "../service.factory";
 import {DDBSessionService} from "./ddb";
 import {Config} from "../../shared/config";
+import {LiveSessionService} from "./live";
 
 @Injectable()
 @RegisterService
@@ -19,12 +20,11 @@ export class SessionService extends DelegatingService<Session> {
 
   constructor(
     mockService: MockSessionService,
-    liveService: DDBSessionService,
+    liveService: LiveSessionService,
     private surveyService: SurveyService,
     private metricSvc: MetricService) {
 
     super(mockService, liveService);
-    super.setMockMode(Config.MOCK_DATA["Session"])
   }
 
   hasCurrentSession(): boolean {

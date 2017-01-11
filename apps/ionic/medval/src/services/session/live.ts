@@ -21,11 +21,11 @@ export class LiveSessionService extends AbstractService<Session> {
     Utils.log("Created LiveSessionService: " + typeof this);
   }
 
-  getPath(): string {
-    return "/api/customers" + "/" + Config.CUSTOMERID + "/session";
-  }
-
   getId(member: Session): string {
     return member.sessionId;
+  }
+
+  getPath(): string {
+    return "/api/customers" + "/" + Config.CUSTOMERID + "/session";
   }
 }

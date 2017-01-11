@@ -4,7 +4,7 @@ import {Utils} from "./stuff/utils";
 @Injectable()
 export class Config {
 
-  private static _baseUrl: string = "http://localhost:8090";
+  private static _baseUrl: string = "https://localhost:8091";
 
   static readonly DEFAULT_CITY_CODE = "206"
 

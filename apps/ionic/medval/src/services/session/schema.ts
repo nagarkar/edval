@@ -40,12 +40,12 @@ export class Session {
   properties: SessionProperties = new SessionProperties();
 
   constructor() {
-    this.sessionId = "" + Utils.getTime();
+    this.sessionId = "" + Date.now();
   }
 
   close() {
     this.entityStatus = "ACTIVE";
-    this.properties.endTime = Utils.getTime();
+    this.properties.endTime = Date.now();
     this.properties.aggregationProcessed = false;
   }
 
