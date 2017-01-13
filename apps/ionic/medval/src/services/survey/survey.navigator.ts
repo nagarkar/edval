@@ -3,6 +3,7 @@ import {Utils} from "../../shared/stuff/utils";
 import {Survey, ComponentIf, FnIf, WorkflowElement} from "./schema";
 import {MetricService} from "../metric/delegator";
 import {SurveyPage} from "../../pages/survey/survey.page";
+import {isNullOrUndefined} from "util";
 
 /** Annotation to register the component */
 export function RegisterComponent(constructor: Function) {
@@ -64,7 +65,7 @@ export class SurveyNavigator {
    * @returns {any} null return indicates completion of workflow
    */
   getNavigationTarget() : NavigationTarget {
-    if (this.progCounter == SurveyNavigator.TERMINAL || !this.hasMoreSteps()) {
+    if (isNullOrUndefined(this.progCounter) || this.progCounter == SurveyNavigator.TERMINAL || !this.hasMoreSteps()) {
       return null;
     }
 

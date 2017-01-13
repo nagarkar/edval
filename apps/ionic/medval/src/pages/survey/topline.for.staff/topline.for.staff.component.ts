@@ -28,19 +28,19 @@ export class ToplineForStaffComponent extends SurveyPage {
   styles: any = {};
 
   imgStyleMap = {
-    1:'90%',
-    2:'80%',
-    3:'65%',
-    4:'55%',
-    5:'33%'
+    1:'100%',
+    2:'85%',
+    3:'70%',
+    4:'60%',
+    5:'40%'
   };
 
   textStyleMap = {
-    1:'2rem',
-    2:'2rem',
-    3:'1.8rem',
-    4:'1.6rem',
-    5:'1.4rem'
+    1:'1.7em',
+    2:'1.6em',
+    3:'1.5em',
+    4:'1.5em',
+    5:'1.5em'
   };
 
   @ViewChild(RatingComponent) inputComponent: RatingComponent;
@@ -74,7 +74,9 @@ export class ToplineForStaffComponent extends SurveyPage {
     let navigator: SurveyNavigator = this.sessionSvc.surveyNavigator;
     navigator.session.addMetricValue(data.metric.subject, new MetricValue(data.metric.metricId, data.value));
     if (this.displayData.every((data: dataInterface) => {return data.value != null})) {
-      this.navigateToNext();
+      setTimeout(()=>{
+        this.navigateToNext();
+      }, 1000)
     }
   }
 

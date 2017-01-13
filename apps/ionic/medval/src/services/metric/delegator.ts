@@ -103,4 +103,8 @@ export class MetricService extends DelegatingService<Metric> {
   private getRootMetrics(metrics: Metric[]) : Array<Metric> {
     return Array<Metric>(...metrics.filter((metric: Metric) => {return !metric.parentMetricId}));
   }
+
+  getMetricById(metricId: string) {
+    return super.getCached(metricId);
+  }
 }

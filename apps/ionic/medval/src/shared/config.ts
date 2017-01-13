@@ -5,6 +5,7 @@ import {Utils} from "./stuff/utils";
 export class Config {
 
   private static _baseUrl: string = "https://localhost:8091";
+  //private static _baseUrl: string = "https://testapi.healthcaretech.io";
 
   static readonly DEFAULT_CITY_CODE = "206"
 
@@ -15,7 +16,6 @@ export class Config {
   static ANIMATE_PAGE_TRANSITIONS: boolean = false;
   static PAGE_TRANSITION_TIME: number = 1 * 1000;
 
-  static readonly SHOW_JOKES: boolean = true;
   static readonly TIME_PER_JOKE: number = 10000;
 
   static LAST_SWEEPSTAKE_MILLIS: number = Date.now();

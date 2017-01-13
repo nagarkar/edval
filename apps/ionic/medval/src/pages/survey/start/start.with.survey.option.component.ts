@@ -51,10 +51,10 @@ export class StartWithSurveyOption {
   ngOnInit() {
     this.surveySvc.list().then((surveys: Survey[]) => {
       this.surveys = surveys;
+      this.surveys.filter((survey: Survey)=> {
+        return survey.id == 'default';
+      })
     });
-    this.surveys.filter((survey: Survey)=> {
-      return survey.id == 'default';
-    })
   }
 
   gotoLogin() {

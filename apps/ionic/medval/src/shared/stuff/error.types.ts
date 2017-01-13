@@ -16,6 +16,10 @@ export class ErrorType {
     return new Error("ErrorType.NullNotAllowed:" + message);
   }
 
+  public static NullOrUndefinedNotAllowed(message?: string): Error {
+    return new Error("ErrorType.NullOrUndefinedNotAllowed:" + message);
+  }
+
   public static EntityValidationError(message?: string, ...args: string[]): Error {
     return new Error("EntityValidationError:" + message);
   }

@@ -129,6 +129,12 @@ export class Utils {
     }
   }
 
+  static throwIfNNOU(value: any, format?:string, ...args: string[]) {
+    if (Utils.nou(value)) {
+      throw ErrorType.NullOrUndefinedNotAllowed(this.format(format, ...args));
+    }
+  }
+
   static stringify(obj: any, replacer?: (key: string, value: any) => any, space?: string | number, cycleReplacer?: any) {
     return JSON.stringify(obj, Utils.serializer(replacer, cycleReplacer), space)
   }
@@ -391,6 +397,9 @@ export class Utils {
     }
   }
 
+  static nou(obj: any) {
+    return obj == null || obj == undefined;
+  }
 }
 
 export declare type ClassType<T> = {

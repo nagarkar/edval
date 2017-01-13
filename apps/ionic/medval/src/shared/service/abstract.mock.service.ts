@@ -55,16 +55,20 @@ export abstract class AbstractMockService<T> implements ServiceInterface<T> {
     return Promise.resolve(JSON.parse(Utils.stringify(member)));
   }
 
-  delete(id: string) : Promise<boolean> {
+  delete(id: string) : Promise<void> {
     //TODO Add assertion (npm install check-preconditions)
     this.deleteFromCache(id);
     this.onDelete.emit(id);
-    return Promise.resolve(true);
+    return Promise.resolve();
   }
 
   /** Override this method to implement validations */
   validate(members: T[]): Error[] {
     return [];
+  }
+
+  clearCache() {
+    this.mockData().clear();
   }
 
   private deleteFromCache(id: string) : void {

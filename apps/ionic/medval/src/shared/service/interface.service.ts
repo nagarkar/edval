@@ -12,9 +12,12 @@ export interface ServiceInterface<T> {
   getCached(id: string) : T;
   listCached() : Array<T>;
 
+  // Visible for Testing
+  clearCache(): void;
+
   update(member: T) : Promise<T>;
   create(member: T) : Promise<T>;
-  delete(id: string) : Promise<boolean>;
+  delete(id: string) : Promise<void>;
 
   getId(member: T) : string;
 

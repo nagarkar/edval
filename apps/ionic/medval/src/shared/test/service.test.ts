@@ -3,12 +3,12 @@ import {inject} from "@angular/core/testing";
 import {TestUtils} from "../../test";
 import {RevvolveApp} from "../../app/app.component";
 import {ServiceInterface} from "../service/interface.service";
-import {Config} from "../config";
-import {AbstractService} from "../service/abstract.service";
 import {Utils} from "../stuff/utils";
 
 export interface TestData<T> {
-  defaultNumberOfEntities?:number;
+  defaultNumberOfEntities?: number;
+  existingEntityIds?: string[],
+  noSupportForApiList?: boolean;
   create?: T[];
   updateConfig?: {
     update: (entity: T, index: number)=> boolean; // Return true if
@@ -38,6 +38,8 @@ export class ServiceTest <T> {
       return;
     }
 
+    this.testServiceInjectable();
+    this.testGetExistingEntities('Initial Get Entities');
     this.testList('initial list');
     if (testData.create && testData.create.length > 0) {
       // Always delete everything before creating.
@@ -88,34 +90,59 @@ export class ServiceTest <T> {
     }
   }
 
+  private testGetExistingEntities(tag: string) {
+    if (!this.testData.existingEntityIds) {
+      return;
+    }
+    it(Utils.format('Get for service {0}, tag:{1}', this.svcConstr["name"], tag), (done)=> {
+      let dataCount = this.testData.existingEntityIds.length;
+      let entityList: T[] = [];
+      setTimeout(()=> {
+        if (dataCount == 0) {
+          this.knownEntityList = entityList;
+          done();
+        }
+      }, 3 * 1000);
+      this.testData.existingEntityIds.forEach((id: string)=> {
+        this.svc.get(id).then((value: T)=>{
+          dataCount--;
+          entityList.push(value);
+        })
+      });
+    });
+  }
+
   private testList(tag: string, verificationFn?: ((data: T, index: number) => void), oldData?: T[]) {
+    if (this.testData.noSupportForApiList) {
+      return;
+    }
     it(Utils.format('List for service {0}, tag:{1}', this.svcConstr["name"], tag), (done)=> {
       let expectedCount = null;
       if (this.entitiesCreated) {
         expectedCount = this.testData.create.length;
       } else if (this.knownEntityList) {
         expectedCount = this.knownEntityList.length;
-      } else if (this.testData.defaultNumberOfEntities) {
+      } else if (!Utils.nou(this.testData.defaultNumberOfEntities)) {
         expectedCount = this.testData.defaultNumberOfEntities;
       }
       Utils.log("Test Parameters: {0}; knownEntityList: {1}; defaultNumberOfEntities: {2}",
         expectedCount, Utils.stringify(this.knownEntityList), this.testData.defaultNumberOfEntities);
-      inject([this.svcConstr], (svc) => {
-        svc.list().then((entities: T[]) => {
-          this.knownEntityList = entities;
-          if (expectedCount !== null) {
-            expect(entities.length).toEqual(expectedCount);
-          }
-          if (verificationFn) {
-            entities.forEach((entity: T, index: number)=> {
-              verificationFn(entity, index);
-            })
-          }
-          done();
-        }).catch((err: any)=> {
-          done.fail(err)
-        })
-      })();
+      let svc: ServiceInterface<T> = this.svc;
+      svc.list().then((entities: T[]) => {
+        this.expectArraysDefinedAndEqual(svc.listCached(), entities);
+        this.knownEntityList = entities;
+        if (expectedCount !== null) {
+          expect(entities.length).toEqual(expectedCount);
+        }
+        if (verificationFn) {
+          entities.forEach((entity: T, index: number)=> {
+            verificationFn(entity, index);
+          })
+        }
+        done();
+      }).catch((err: any)=> {
+        done.fail(err)
+      })
     });
   }
 
@@ -123,24 +150,24 @@ export class ServiceTest <T> {
 
     it(Utils.format('Delete All- {0}, for {1}', tag? tag: "", this.svcConstr["name"]), (done: DoneFn)=> {
       let data = this.knownEntityList;
-      let doneCount = 0;
+      let remaining = data.length;
       setTimeout(()=> {
-        if (doneCount == data.length) {
+        if (remaining == 0) {
           this.knownEntityList = [];
           done();
         }
       }, 3 * 1000);
-      inject([this.svcConstr], (svc: ServiceInterface<T>) => {
-        data.forEach((member: T) => {
-          svc.delete(svc.getId(member))
-            .catch((err: any)=> {
-              done.fail(err);
-            })
-            .then(()=> {
-              doneCount++;
-            })
-        })
-      })();
+      let svc: ServiceInterface<T> = this.svc;
+      data.forEach((member: T) => {
+        svc.delete(svc.getId(member))
+          .catch((err: any)=> {
+            done.fail(err);
+          })
+          .then(()=> {
+            expect(svc.getCached(svc.getId(member))).toBeUndefined();
+            remaining--;
+          })
+      })
     });
   }
 
@@ -148,24 +175,25 @@ export class ServiceTest <T> {
     it('Create All-' + this.svcConstr["name"], (done: DoneFn)=> {
       this.knownEntityList = null; // this becomes invalid as we are creating new entities.
       let data = this.testData.create;
-      let doneCount = 0;
+      let remaining = data.length;
       setTimeout(()=> {
-        if (doneCount == data.length) {
+        if (remaining == 0) {
           done();
           this.entitiesCreated = true;
         }
       }, 3 * 1000);
-      inject([this.svcConstr], (svc: ServiceInterface<T>) => {
-        data.forEach((member: T) => {
-          svc.create(member)
-            .catch((err: any)=> {
-              done.fail(err);
-            })
-            .then((result: T)=>{
-              doneCount++;
-            })
-        })
-      })();
+      let svc: ServiceInterface<T> = this.svc;
+      data.forEach((member: T) => {
+        svc.create(member)
+          .catch((err: any)=> {
+            done.fail(err);
+          })
+          .then((result: T)=>{
+            expect(result).toBeDefined();
+            expect(svc.getCached(svc.getId(result))).toBeDefined();
+            remaining--;
+          })
+      })
     });
   }
 
@@ -175,28 +203,28 @@ export class ServiceTest <T> {
       let data: T[] = this.knownEntityList;
       let updateFn = this.testData.updateConfig.update;
       let verifyFn = this.testData.updateConfig.verify || ((data: T, index: number)=>{});
-      let doneCount = 0;
+      let remaining = data.length;
       setTimeout(()=> {
-        if (doneCount == data.length) {
+        if (remaining == 0) {
           done();
         }
       }, 3 * 1000);
-      inject([this.svcConstr], (svc: ServiceInterface<T>) => {
-        data.forEach((member: T, index: number) => {
-          if (updateFn(member, index)) {
-            svc.update(member)
-              .catch((err: any)=> {
-                done.fail(err);
-              })
-              .then((value: T) => {
-                doneCount++;
-                verifyFn(value, index);
-              })
-          } else {
-            doneCount++;
-          }
-        })
-      })();
+      let svc: ServiceInterface<T> = this.svc;
+      data.forEach((member: T, index: number) => {
+        if (updateFn(member, index)) {
+          svc.update(member)
+            .catch((err: any)=> {
+              done.fail(err);
+            })
+            .then((value: T) => {
+              remaining--;
+              verifyFn(value, index);
+              verifyFn(svc.getCached(svc.getId(value)), index);
+            })
+        } else {
+          remaining--;
+        }
+      })
     });
   }
 
@@ -210,4 +238,23 @@ export class ServiceTest <T> {
     });
   }
 
+  private expectArraysDefinedAndEqual(arr1: Array<T>, arr2: Array<T>) {
+    expect(arr1).toBeDefined();
+    expect(arr2).toBeDefined();
+    let set1: Set<T> = new Set(arr1);
+    let set2: Set<T> = new Set(arr2);
+    expect(set1.size).toEqual(set2.size);
+    set1.forEach((value: T)=>{
+      expect(set2.has(value)).toEqual(true);
+    })
+  }
+
+  private testServiceInjectable() {
+    it('Service Injectable:' + this.svcConstr.name, (done)=>{
+      inject([this.svcConstr], (svc: ServiceInterface<T>) => {
+        this.svc = svc;
+        done();
+      })();
+    })
+  }
 }

@@ -25,9 +25,4 @@ export class LiveMetricService extends AbstractService<Metric> {
   getId(member: Metric): string {
     return member.metricId;
   }
-
-  reset() {
-    super.reset();
-    this.list();
-  }
 }

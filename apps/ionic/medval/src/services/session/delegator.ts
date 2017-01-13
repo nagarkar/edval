@@ -8,8 +8,6 @@ import {SurveyNavigator} from "../survey/survey.navigator";
 import {SurveyService} from "../survey/delegator";
 import {MetricService} from "../metric/delegator";
 import {RegisterService} from "../service.factory";
-import {DDBSessionService} from "./ddb";
-import {Config} from "../../shared/config";
 import {LiveSessionService} from "./live";
 
 @Injectable()
@@ -24,7 +22,7 @@ export class SessionService extends DelegatingService<Session> {
     private surveyService: SurveyService,
     private metricSvc: MetricService) {
 
-    super(mockService, liveService);
+    super(mockService, liveService, Session);
   }
 
   hasCurrentSession(): boolean {
@@ -75,7 +73,7 @@ export class SessionService extends DelegatingService<Session> {
    throw ErrorType.UnsupportedOperation("listCached");
   }
 
-  delete(id: string): Promise<boolean> {
-    return Promise.reject<boolean>(ErrorType.UnsupportedOperation("delete"));
+  delete(id: string): Promise<void> {
+    return Promise.reject<void>(ErrorType.UnsupportedOperation("delete"));
   }
 }

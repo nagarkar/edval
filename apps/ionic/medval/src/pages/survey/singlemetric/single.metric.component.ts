@@ -34,8 +34,7 @@ export class SingleMetricComponent extends SurveyPage {
     private metricSvc: MetricService
   ) {
 
-    //TODO Add back idle.
-    super(loadingCtrl, navCtrl, sessionSvc);
+    super(loadingCtrl, navCtrl, sessionSvc, idle);
 
     this.getMetricById(params.get("metricId"));
   }
@@ -53,6 +52,9 @@ export class SingleMetricComponent extends SurveyPage {
   public onSelection(data: string): void {
     this.sessionSvc.getCurrentSession().addMetricValue(
       this.currentMetric.subject, new MetricValue(this.currentMetric.metricId, data));
-    super.navigateToNext();
+    setTimeout(()=>{
+      super.navigateToNext();
+    }, 1000)
+
   }
 }

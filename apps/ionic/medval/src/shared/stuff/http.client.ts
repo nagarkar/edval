@@ -4,7 +4,8 @@ import {Http, Response, RequestOptionsArgs, Headers} from "@angular/http";
 import {Injectable} from "@angular/core";
 import {Config} from "../config";
 import "rxjs/add/operator/toPromise";
-import {deserializeArray, deserialize, serialize, classToPlain} from "class-transformer";
+import {deserializeArray, deserialize, serialize} from "class-transformer";
+import {ErrorType} from "./error.types";
 
 @Injectable()
 export class HttpClient<T> {
@@ -62,49 +63,54 @@ export class HttpClient<T> {
       .catch(this.handleError);
   }
 
-  public delete(path : string, id: string | '') : Promise<boolean> {
+  public delete(path : string, id: string | '') : Promise<void> {
     return this.http.delete(Config.baseUrl + path + "/" + id,
       this.createRequestOptionsArgs())
       .toPromise()
-      .then(this.extractData)
+      .then((res: Response) => {
+        if (this.extractData(res) != null) {
+          return;
+        } else {
+          Promise.reject('http.client delete failed');
+        }
+      })
       .catch(this.handleError);
   }
 
-
   private extractData = (res: Response): any => {
-    let body: any;
-    if (res.headers.get('content-type') == "application/json") {
-      try {
-        body = res.json(); // try to parse it. This should always work, if not, handle the exception.
-        if (body.status && new String(body.status).toLowerCase() == "ok") {
-          return true;
-        }
-        if (Array.isArray(body)) {
-          body = deserializeArray<T>(this.clazz, res.text());
-        } else {
-          body = deserialize<T>(this.clazz, res.text());
-        }
-      } catch(error) {
-        body = res.text();
-        Utils.error('in extract data, error {0} occurred' + error);
-        Utils.error('in extract data, response was: {0}, with text {1}' + res, res.text());
+    let body: any = null;
+    try {
+      if (res.headers.get('content-type') != "application/json") {
+        Utils.error("Unexpected condition; content type was not jSON");
+        Utils.throw("Unexpected condition; content type was not jSON");
       }
+      body = res.json(); // try to parse it. This should always work, if not, handle the exception.
+      if (body.status && new String(body.status).toLowerCase() == "ok") {
+        return true;
+      }
+      if (Array.isArray(body)) {
+        body = deserializeArray<T>(this.clazz, res.text());
+      } else {
+        body = deserialize<T>(this.clazz, res.text());
+      }
+    } catch(error) {
+      Utils.error('in extract data, error {0} occurred' + error);
+      Utils.error('in extract data, response was: {0}, with text {1}' + res, res.text());
     }
     return body;
   }
 
-  private handleError  = (error: any): T | PromiseLike<T> => {
+  private handleError  = (error: Response | any): T | PromiseLike<T> => {
     let errMsg: string;
-    Utils.error('in handle error' + serialize(error));
     if (error instanceof Response) {
       const body = error.json() || '';
-      const err = body.error || serialize(body);
+      const err = body.error || JSON.stringify(body);
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
     } else {
       errMsg = error.message ? error.message : error.toString();
     }
     Utils.error(errMsg);
-    return null;
+    return Promise.reject(errMsg);
   }
 
   private createRequestOptionsArgs() : RequestOptionsArgs {
@@ -120,7 +126,6 @@ export class HttpClient<T> {
       })
     }
   }
-
 
   private newInstance(): T {
     return new this.clazz();

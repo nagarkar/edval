@@ -31,6 +31,10 @@ export class DDBSessionService implements ServiceInterface<Session> {
     throw ErrorType.UnsupportedOperation("list not supported for sessions");
   }
 
+  clearCache() {
+    throw ErrorType.UnsupportedOperation("caching not supported for sessions");
+  }
+
   getCached(id: string): Session {
     throw ErrorType.UnsupportedOperation("get not supported for sessions");
   }
@@ -47,8 +51,8 @@ export class DDBSessionService implements ServiceInterface<Session> {
     return AwsClient.putSession(session);
   }
 
-  delete(id: string): Promise<boolean> {
-    throw ErrorType.UnsupportedOperation("delete not supported for sessions");
+  delete(id: string): Promise<void> {
+    return Promise.reject("delete not supported for sessions");
   }
 
   reset(): void { }

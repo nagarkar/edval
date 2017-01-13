@@ -57,7 +57,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         metricDescription: "Organization Level Metric. This metric is always present by default and cannot be deleted",
         definition: {
           npsType: {
-            range: 11
+            range: 5
           }
         }
       }
@@ -73,7 +73,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         metricName: "NPS Metric for Role Orthodontic Assistant",
         definition: {
           npsType: {
-            range: 11
+            range: 5
           }
         }
       }
@@ -93,7 +93,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         improvement: "(staff ? staff.displayName : 'The Orthodontic Assistants') + ' could be more friendly and courteous'",
         definition: {
           npsType: {
-            range: 11
+            range: 5
           }
         }
       }
@@ -112,7 +112,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
           : 'The Orthodontic Assistants should improve their medical skills'`,
         definition: {
           npsType: {
-            range: 11
+            range: 5
           }
         }
       }
@@ -130,7 +130,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         improvement: "(staff ? staff.displayName : 'The Orthodontic Assistants') + ' could do a better job addressing my concerns'",
         definition: {
           npsType: {
-            range: 11
+            range: 5
           }
         }
       }
@@ -150,7 +150,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
           : 'The Orthodontic Assistants should show genuine interest in patients'`,
         definition: {
           npsType: {
-            range: 11
+            range: 5
           }
         }
       }
@@ -167,7 +167,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         metricName: "NPS Metric for Role MD",
         definition: {
           npsType: {
-            range: 11
+            range: 5
           }
         }
       }
@@ -185,7 +185,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         improvement: "Be more friendly and courteous",
         definition: {
           npsType: {
-            range: 11
+            range: 5
           }
         }
       }
@@ -202,7 +202,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         improvement: "The doctor could be more skillful when treating patients",
         definition: {
           npsType: {
-            range: 11
+            range: 5
           }
         }
       }
@@ -219,7 +219,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         improvement: "Do a better job explaining the treatment-plan going forward",
         definition: {
           npsType: {
-            range: 11
+            range: 5
           }
         }
       }
@@ -236,7 +236,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         improvement: "The doctor could show more interest in patients",
         definition: {
           npsType: {
-            range: 11
+            range: 5
           }
         }
       }
@@ -251,7 +251,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         question: 'How would you rate the front-desk and other support staff?',
         definition: {
           npsType: {
-            range: 11
+            range: 5
           }
         }
       }
@@ -268,7 +268,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         improvement: 'Information about payment plans and costs could be presented more clearly',
         definition: {
           npsType: {
-            range: 11
+            range: 5
           }
         }
       }
@@ -285,7 +285,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         improvement: "You could make it easier to get convenient appointments",
         definition: {
           npsType: {
-            range: 11
+            range: 5
           }
         }
       }
@@ -302,7 +302,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         improvement: 'I had to wait too long in the waiting area',
         definition: {
           npsType: {
-            range: 11
+            range: 5
           }
         }
       }
@@ -319,7 +319,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         improvement: 'Sometimes, the reception area is not comfortable and/or clean',
         definition: {
           npsType: {
-            range: 11
+            range: 5
           }
         }
       }

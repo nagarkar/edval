@@ -8,7 +8,6 @@ import {HeaderComponent} from "../shared/components/header/header.component";
 import {LoginComponent} from "../pages/login/login.component";
 import {DashboardComponent} from "../pages/dashboard/dashboard.component";
 import {SettingsComponent} from "../pages/settings/settings.component";
-import {Config} from "../shared/config";
 
 @Component({
   template: `<ion-nav [root]="rootPage" [rootParams]="rootParams"></ion-nav>`

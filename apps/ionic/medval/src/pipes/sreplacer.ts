@@ -74,7 +74,6 @@ export class SReplacer implements PipeTransform {
     } catch(err) {
       console.log(err);
     }
-
     return res;
   }
 }

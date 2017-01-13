@@ -9,7 +9,7 @@
     </ion-row>
     <ion-row *ngFor="let i of rows">
       <ion-col  *ngFor="let metric of displayMetrics | slice:(i*numCols):(i+1)*numCols; let j = index;">
-        <div>
+        <div class="row responsive-md pos-rel">
           <ion-badge *ngIf="isSelected(metric)" class="cstm-badge">{{rankedMetrics.indexOf(metric) + 1}}</ion-badge>
           <button ion-button
                   round

@@ -33,6 +33,14 @@ import {NgIdleModule} from "@ng-idle/core";
 import {AbstractService} from "./shared/service/abstract.service";
 import {Config} from "./shared/config";
 
+// Setup Application Globlal variables
+window['REVVOLVE_PROD_ENV'] = false;
+AbstractService.TEST_MODE = true;
+Config.CUSTOMERID = "UITESTCUST";
+Config.baseUrl = 'http://localhost:8090'; // Can't use https due to chromium behavior (http://tinyurl.com/gn9pnnc)
+//Config.baseUrl = 'https://localhost:8091';
+
+
 // Unfortunately there's no typing for the `__karma__` variable. Just declare it as any.
 declare var __karma__: any;
 declare var require: any;
@@ -53,13 +61,6 @@ let context: any = require.context('./', true, /\.spec\.ts/);
 context.keys().map(context);
 // Finally, start Karma to run the tests.
 __karma__.start();
-
-// Setup Application Globlal variables
-window['REVVOLVE_PROD_ENV'] = false;
-AbstractService.TEST_MODE = true;
-Config.CUSTOMERID = "UITESTCUST";
-Config.baseUrl = 'http://localhost:8090'; // Can't use https due to chromium behavior (http://tinyurl.com/gn9pnnc)
-//Config.baseUrl = 'https://localhost:8091';
 
 export class TestUtils {
 

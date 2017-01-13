@@ -7,8 +7,7 @@ import {AdminComponent} from "../admin.component";
 import {StaffEditComponent} from "./staff.edit.component";
 
 @Component({
-  templateUrl: './staff.component.html',
-  providers: [ ]
+  templateUrl: './staff.component.html'
 })
 export class StaffComponent extends AdminComponent  {
 
@@ -45,13 +44,11 @@ export class StaffComponent extends AdminComponent  {
   public delete(staffMember: Staff) {
     Utils.showLoadingBar();
     this.staffSvc.delete(staffMember.username)
-      .then((deleted: boolean) : void => {
-        if (deleted) {
-          this.staffList = this.staffList.filter((el: Staff) => {
-            return el.username != staffMember.username
-          });
-          Utils.presentTopToast(this.toastCtrl, "Deleted", 3000)
-        }
+      .then(() => {
+        this.staffList = this.staffList.filter((el: Staff) => {
+          return el.username != staffMember.username
+        });
+        Utils.presentTopToast(this.toastCtrl, "Deleted", 3000)
       })
       .catch((err) => Utils.presentTopToast(this.toastCtrl, err || "Could not delete staff member", 3000))
   }

@@ -12,7 +12,7 @@ export class StaffService extends DelegatingService<Staff> {
     mockService: MockStaffService,
     liveService: LiveStaffService) {
 
-    super(mockService, liveService);
+    super(mockService, liveService, Staff);
   }
 
   getId(member: Staff): string {

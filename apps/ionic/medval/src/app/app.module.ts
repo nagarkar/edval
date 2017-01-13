@@ -1,5 +1,5 @@
 //import { RouterModule }   from '@angular/router';
-import {NgModule} from "@angular/core";
+import {NgModule, ErrorHandler} from "@angular/core";
 import {IonicApp, IonicModule} from "ionic-angular";
 import {RevvolveApp} from "./app.component";
 import {LoginComponent} from "../pages/login/login.component";
@@ -58,6 +58,7 @@ import {PhonePipe} from "../pipes/phone";
 import {DDBSessionService} from "../services/session/ddb";
 import {EmailProviderService} from "../shared/service/email.provider.service";
 import {AutoCompleteModule} from "../shared/components/autocomplete/autocomplete";
+import {CustomErrorHandler} from "../shared/stuff/custom.error.handler";
 
 //enableProdMode();
 
@@ -169,6 +170,7 @@ import {AutoCompleteModule} from "../shared/components/autocomplete/autocomplete
     { provide: Config, useClass: Config},
     { provide: Utils, useClass: Utils },
     { provide: AccessTokenService, useClass: AccessTokenService},
+    //{ provide: ErrorHandler, useClass: CustomErrorHandler },
     StaffService, MockStaffService, LiveStaffService,
     AccountService, MockAccountService, LiveAccountService,
     LiveSessionService, MockSessionService, SessionService,

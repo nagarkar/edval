@@ -3,10 +3,10 @@
   <div class="m-t-5" text-center>
     <ion-row class="separator-bottom" center>
       <ion-col class="text-center">
-        <h2><b>Thanks! Sounds like {{'account.properties.customerName'| sReplacer}} did OK!</b></h2>
+        <h2><b>Thanks! Sounds like {{'account.properties.customerName'| sReplacer}} is doing OK!</b></h2>
         <br/>
-        <h4 class="m-t-0" color="darkslateblue">Want to help {{'account.properties.contactName'| sReplacer}} and her team with an Online Review?</h4>
-        <h6 color="black" class="m-t-0">(we'll make it easy!)</h6>
+        <h4 class="m-t-0" ion-text color="darkslateblue">Want to help {{'account.properties.contactName'| sReplacer}} and her team with an Online Review?</h4>
+        <h6 ion-text color="black" class="m-t-0">(we'll make it easy!)</h6>
         <ion-row center>
           <ion-col>
             <img src="http://www.temperaturepronwvalley.com/images/Google-Review-Button-.png" (click)="googleReview()" height="40em" style="margin-left: 1.2em" />
@@ -23,7 +23,7 @@
     <ion-row baseline>
       <ion-col width-80>
         <ion-item>
-            <ion-label color="black" style="margin-top:0em; padding-left: 0em;font-size: 1em;" stacked>
+            <ion-label ion-text color="black" style="margin-top:0em; padding-left: 0em;font-size: 1em;" stacked>
               You can leave feedback for the team at {{'account.properties.customerName'| sReplacer}}
             </ion-label>
             <ion-textarea rows="5" class="feedback-text" placeholder="Great job! Or Some Feedback!" [(ngModel)]="reviewMsg">

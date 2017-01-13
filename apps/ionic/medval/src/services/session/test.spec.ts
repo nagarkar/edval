@@ -1,12 +1,12 @@
 import {ServiceTest, TestData} from "../../shared/test/service.test";
 import {Config} from "../../shared/config";
 import {Session} from "./schema";
-import {MockSessionService} from "./mock";
-import {LiveSessionService} from "./live";
 import {SessionService} from "./delegator";
 import {inject} from "@angular/core/testing";
 import {MetricValue} from "../metric/schema";
-import {serialize, deserialize, classToPlain, plainToClass, deserializeArray} from "class-transformer";
+import {serialize, deserialize, deserializeArray} from "class-transformer";
+import {LiveSessionService} from "./live";
+import {MockSessionService} from "./mock";
 
 let assertNoCurrentSession = (svc: SessionService)=> {expect(svc.hasCurrentSession()).toEqual(false)}
 let assertCurrentSession = (svc: SessionService)=> {expect(svc.hasCurrentSession()).toEqual(true)}
@@ -28,7 +28,8 @@ let assertSessionClosed = (session: Session)=> {
 }
 
 let testData: TestData<Session> = {
-  defaultNumberOfEntities: 0, // We create one session before each test.
+  defaultNumberOfEntities: 0, // We create one session before each test and cleanup is true
+  cleanup: true,
   create: [new Session()],
   updateConfig: {
     update: ((acc: Session)=> {
@@ -63,8 +64,7 @@ let testData: TestData<Session> = {
       expect(props.reviewData).toEqual({email: 'me@my.com', phone:'203000200', message:'somereview data', preferredReviewSite: null})
       expect(props.complaintData).toEqual({email: 'me@my.com', phone:'203000200', message:'somereview data', preferredReviewSite: null})
     }),
-  },
-  cleanup: true
+  }
 }
 
 describe('serialization', ()=> {
@@ -99,6 +99,11 @@ describe ('Default State checks', ()=> {
   new ServiceTest<Session>();
   it('state checks', (done)=>{
     inject([SessionService], (svc: SessionService) => {
+      /**
+       Set mock mode so actual sessions are not created in the backend, violoating the defaultNumberOfEntities=0
+       setting.
+      */
+      svc.setMockMode(true);
       assertNoCurrentSession(svc);
       svc.newCurrentSession('default');
       assertCurrentSession(svc);
@@ -110,6 +115,7 @@ describe ('Default State checks', ()=> {
       assertSessionClosed(session).withUrl('someurl').withUserName('user1').withUserName('user2');
       svc.newCurrentSession('default');
       session = svc.getCurrentSession();
+      svc.clearCache();
       done();
     })();
   })

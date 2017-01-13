@@ -3,14 +3,11 @@ import {NavController, ActionSheetController, AlertController, ToastController} 
 import {Account} from "../../services/account/schema";
 import {AccountService} from "../../services/account/delegator";
 import {Utils} from "../../shared/stuff/utils";
-import {MockAccountService} from "../../services/account/mock";
-import {LiveAccountService} from "../../services/account/live";
 import {AdminComponent} from "../admin.component";
 import {Config} from "../../shared/config";
 
 @Component({
-  templateUrl: './account.component.html',
-  providers: [ AccountService, MockAccountService, LiveAccountService ]
+  templateUrl: './account.component.html'
 })
 
 export class AccountComponent extends AdminComponent {

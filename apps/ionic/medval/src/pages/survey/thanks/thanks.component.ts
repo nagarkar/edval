@@ -18,7 +18,7 @@ export class ThanksComponent {
 
   whatToShow: string = "joke";
   showWheel: boolean = false;
-  showJokes: boolean = Config.SHOW_JOKES;
+  showJokes: boolean = true;
 
   message: string[];
   jokes: {}[] = Utils.shuffle([
@@ -64,17 +64,9 @@ export class ThanksComponent {
     if (this.message.length < 2) {
       new ObjectCycler<any>(Config.TIME_PER_JOKE, ...this.jokes)
         .onNewObj.subscribe((next:{}) => { this.joke = next;});
+      this.setupAttractions();
     }
 
-    let wfProperties = sessionSvc.hasCurrentSession() ? sessionSvc.surveyNavigator.survey.workflowProperties: {};
-    this.showJokes = wfProperties.showJokes || true;
-    this.showWheel = wfProperties.showWheel || true;
-    if (this.showWheel) {
-      this.costPerUse = +wfProperties.costPerUse || 1;
-      this.award = +wfProperties.award || 5;
-      this.giftMessage = ["$", this.award, ' Gift Card!'].join('');
-      this.wheelOptions = ThanksComponent.getDefaultOptions(this.giftMessage, this.costPerUse,this.award);
-    }
   }
 
   get shouldOfferWheel() {
@@ -178,4 +170,16 @@ export class ThanksComponent {
     ret.segments = Utils.shuffle(segments);
     return ret;
   };
+
+  private setupAttractions() {
+    let wfProperties = this.sessionSvc.hasCurrentSession() ? this.sessionSvc.surveyNavigator.survey.workflowProperties: {};
+    this.showJokes = wfProperties.showJokes || this.showJokes;
+    this.showWheel = wfProperties.showWheel || this.showWheel;
+    if (this.showWheel) {
+      this.costPerUse = +wfProperties.costPerUse || 1;
+      this.award = +wfProperties.award || 5;
+      this.giftMessage = ["$", this.award, ' Gift Card!'].join('');
+      this.wheelOptions = ThanksComponent.getDefaultOptions(this.giftMessage, this.costPerUse,this.award);
+    }
+  }
 }

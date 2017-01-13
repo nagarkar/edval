@@ -73,7 +73,7 @@ export class MockStaffService extends AbstractMockService<Staff> {
         firstName: "Megha",
         lastName: "Anand",
         email: "drmegha@smilewithbraces.com",
-        photoUrl: "http://www.smilewithbraces.com/wp-content/uploads/2015/01/Dr-Megha.jpg"
+        photoUrl: "assets/img/drmegha.jpg"
       }
     }));
     map.set("kelsey", Object.assign(new Staff(), {
@@ -98,18 +98,6 @@ export class MockStaffService extends AbstractMockService<Staff> {
         lastName: "",
         email: "team@smilewithbraces.com",
         photoUrl: "http://www.smilewithbraces.com/wp-content/uploads/2016/06/Jazzmine-Wilke.jpg"
-      }
-    }));
-    map.set("liana", Object.assign(new Staff(), {
-      customerId: Config.CUSTOMERID,
-      username: "liana",
-      entityStatus: "ACTIVE",
-      role: "FrontOffice",
-      properties: {
-        firstName: "Liana",
-        lastName: "",
-        email: "team@smilewithbraces.com",
-        photoUrl: "http://www.smilewithbraces.com/wp-content/uploads/2016/06/Liana-Borishkevich.jpg"
       }
     }));
     return map;

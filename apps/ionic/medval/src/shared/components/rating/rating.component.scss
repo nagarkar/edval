@@ -1,3 +1,25 @@
 .active {
-  font-size:3rem
+  font-size:6rem
+}
+
+.right-label {
+  color: black;
+  font-size: small;
+  position: absolute;
+  right: -1em;
+  top: 1.8em;
+  padding-top: 1em;
+  width: 5em;
+  font-weight: bold;
+}
+
+.left-label {
+  color: black;
+  font-size: small;
+  position: absolute;
+  left: 0em;
+  top: 1.8em;
+  padding-top: 1em;
+  width: 5em;
+  font-weight: bold;
 }

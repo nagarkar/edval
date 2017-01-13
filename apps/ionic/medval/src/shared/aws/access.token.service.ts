@@ -4,7 +4,6 @@ import {Config} from "../config";
 import {ServiceFactory} from "../../services/service.factory";
 import {AwsClient} from "./aws.client";
 import {AlertController} from "ionic-angular";
-import {AbstractService} from "../service/abstract.service";
 declare let AWSCognito:any;
 declare let AWS:any;
 
@@ -57,7 +56,7 @@ export class AccessTokenService {
     };
 
     if (this.sameUserAuthenticatingWithinShortPeriod(authenticationData)) {
-      this.callback(AccessTokenService.authResult, null);
+      this.processUserInitiatedLoginSuccess();
       return;
     }
 
@@ -128,11 +127,9 @@ export class AccessTokenService {
           if (result) {
             for (let i = 0; i < result.length; i++) {
               if (result[i].getName() == "custom:organizationName") {
-                me.callback(AccessTokenService.authResult);
                 Config.CUSTOMERID = result[i].getValue();
                 Utils.log('Got userattrbute customerid {0}', Config.CUSTOMERID);
-                AwsClient.reInitialize();
-                me.serviceFactory.resetRegisteredServices();
+                me.processUserInitiatedLoginSuccess();
               }
             }
           }
@@ -181,6 +178,12 @@ export class AccessTokenService {
       && this.authenticationDetails['username'] == authenticationData.Username
       && this.authenticationDetails['password'] == authenticationData.Password
       && +this.authenticationDetails['lastLoggedInTime'] + 70 * 60 * 10000 > Date.now();
+  }
+
+  processUserInitiatedLoginSuccess() {
+    this.callback(AccessTokenService.authResult);
+    AwsClient.reInitialize();
+    this.serviceFactory.resetRegisteredServices();
   }
 }
 

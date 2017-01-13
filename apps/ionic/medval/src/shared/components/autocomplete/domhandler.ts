@@ -1,5 +1,4 @@
 import {Injectable} from "@angular/core";
-import {clearInterval} from "timers";
 
 @Injectable()
 export class DomHandler {
@@ -190,7 +189,7 @@ export class DomHandler {
       duration = ms,
       gap = interval / duration;
 
-    let fading = setInterval(() => {
+    let fading: number = setInterval(() => {
       opacity = opacity - gap;
 
       if (opacity <= 0) {

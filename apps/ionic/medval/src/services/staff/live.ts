@@ -24,9 +24,4 @@ export class LiveStaffService extends AbstractService<Staff> {
   getPath(): string {
     return "/api/customers" + "/" + Config.CUSTOMERID + "/staff";
   }
-
-  reset() {
-    super.reset();
-    this.list();
-  }
 }

@@ -4,6 +4,7 @@ import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {Config} from "../../shared/config";
 import {AbstractMockService} from "../../shared/service/abstract.mock.service";
+import {ErrorType} from "../../shared/stuff/error.types";
 
 @Injectable()
 export class MockAccountService extends AbstractMockService<Account> {
@@ -36,6 +37,13 @@ export class MockAccountService extends AbstractMockService<Account> {
     return member.customerId = id;
   }
 
+  list(dontuseCache?: boolean) : Promise<Array<Account>> {
+    throw ErrorType.UnsupportedOperation('list for Accounts');
+  }
+
+  listCached() : Array<Account> {
+    throw ErrorType.UnsupportedOperation('listCached for Accounts');
+  }
 
   static mockMap() : Map<string, Account> {
     let map : Map < string, Account > = new Map<string, Account>();

@@ -1,11 +1,11 @@
 import {EventEmitter} from "@angular/core";
 import {ServiceInterface} from "./interface.service";
-
-declare let REVVOLVE_PROD_ENV: boolean;
+import {ClassType} from "../stuff/utils";
+import {Config} from "../config";
 
 export abstract class DelegatingService<T> implements ServiceInterface<T> {
 
-  private mockMode: boolean = !REVVOLVE_PROD_ENV;
+  private mockMode: boolean = null;
 
   public onCreate: EventEmitter<T> = new EventEmitter<T>();
   public onUpdate: EventEmitter<T> = new EventEmitter<T>();
@@ -13,8 +13,10 @@ export abstract class DelegatingService<T> implements ServiceInterface<T> {
 
   constructor(
     private mockService: ServiceInterface<T>,
-    private liveService: ServiceInterface<T>) {
+    private liveService: ServiceInterface<T>,
+    private clazz?: ClassType<T>) {
 
+    this.mockMode = clazz ? Config.MOCK_DATA[clazz.name] : true;
     this.subscribeToEventsFor(this.getDelegate());
   }
 
@@ -37,6 +39,7 @@ export abstract class DelegatingService<T> implements ServiceInterface<T> {
 
   private resetIncludingEvents(prevDelegate: ServiceInterface<T>) {
     this.unSubscribeToEventsFor(prevDelegate);
+    prevDelegate.clearCache();
     this.reset();
     this.subscribeToEventsFor(this.getDelegate());
   }
@@ -57,6 +60,10 @@ export abstract class DelegatingService<T> implements ServiceInterface<T> {
     return this.getDelegate().list(dontuseCache);
   }
 
+  clearCache() {
+    this.getDelegate().clearCache();
+  }
+
   getCached(id: string) : T {
     return this.getDelegate().getCached(id);
   }
@@ -73,7 +80,7 @@ export abstract class DelegatingService<T> implements ServiceInterface<T> {
     return this.getDelegate().update(TMember);
   }
 
-  delete(id: string): Promise<boolean> {
+  delete(id: string): Promise<void> {
     return this.getDelegate().delete(id);
   }
 

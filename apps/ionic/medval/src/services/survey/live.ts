@@ -29,9 +29,4 @@ export class LiveSurveyService extends AbstractService<Survey> {
   validate(surveys: Survey[]): Error[] {
     return MockSurveyService.validateSurveys(surveys);
   }
-
-  reset() {
-    super.reset();
-    this.list();
-  }
 }

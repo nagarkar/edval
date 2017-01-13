@@ -1,37 +1,11 @@
-import {Component, Input, Output, EventEmitter, trigger, state, style, transition, animate} from "@angular/core";
+import {Component, Input, Output, EventEmitter} from "@angular/core";
 import {Icon} from "ionic-angular";
 import {Utils} from "../../stuff/utils";
 
 @Component({
   selector: 'rating',
   templateUrl: './rating.component.html',
-  animations: [
-    trigger('ratingPicked', [
-
-      state('activePopped', style({
-        transform: 'scale(2)',
-        padding:"0 0 0 0",
-        'z-index':'2',
-        display:'inline-block'
-      })),
-      state('inactivePopped',   style({
-        display:'none'
-      })),
-      state('activeNormal', style({
-        transform: 'scale(1.2)',
-        display:'inline-block'
-      })),
-      state('inactiveNormal',   style({
-        transform: 'scale(1.2)',
-        display:'inline-block'
-      })),
-      // http://cubic-bezier.com/#.57,0,.23,.98
-      transition('* => activePopped', animate('300ms cubic-bezier(.89,.39,.84,.5)')),
-      transition('inactivePopped => inactiveNormal', animate('500ms cubic-bezier(.89,.39,.84,.5)'))
-    ])
-  ]
 })
-
 export class RatingComponent {
   color: string = 'danger';
   onState: string = 'ion-ios-star ion-android-star';
@@ -43,6 +17,9 @@ export class RatingComponent {
   @Output() ratingValueChange : EventEmitter<number> = new EventEmitter<number>();
 
   constructor() { }
+
+  @Input()
+  showLabels:boolean = true;
 
   @Input()
   get ratingValue() : number {

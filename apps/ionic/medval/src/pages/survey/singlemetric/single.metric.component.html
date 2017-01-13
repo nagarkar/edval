@@ -5,7 +5,7 @@
     <div class="card-conversation-setup">{{currentMetric?.properties?.conversationSetup | sReplacer}}</div>
     <div class="card-title">{{currentMetric?.properties?.question | sReplacer}}</div>
     <p text-center class="card-subtitle">
-      <rating (ratingValueChange)="onSelection($event);"
+      <rating (ratingValueChange)="onSelection($event);" class="pos-rel"
               [ratingMax]="currentMetric.properties.definition.npsType.range"
               [ratingValue]="1"></rating>
     </p>
