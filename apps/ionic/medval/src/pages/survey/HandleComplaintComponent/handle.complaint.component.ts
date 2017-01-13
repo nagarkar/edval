@@ -15,6 +15,7 @@ import {EmailProviderService} from "../../../shared/service/email.provider.servi
 
 @Component({
   templateUrl: './handle.complaint.component.html',
+  providers: [Idle]
 })
 
 @RegisterComponent

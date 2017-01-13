@@ -9,6 +9,7 @@ import {SessionService} from "../../../services/session/delegator";
 
 @Component({
   templateUrl: './customer.text.email.component.html',
+  providers: [Idle]
 })
 
 @RegisterComponent

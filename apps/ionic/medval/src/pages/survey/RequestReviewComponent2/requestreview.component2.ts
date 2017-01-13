@@ -12,6 +12,7 @@ import {Config} from "../../../shared/config";
 
 @Component({
   templateUrl: './requestreview.component2.html',
+  providers: [Idle]
 })
 
 @RegisterComponent

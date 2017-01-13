@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NavController, NavParams, Modal, ModalController} from "ionic-angular";
+import {NavController, NavParams, Modal, ModalController, LoadingController} from "ionic-angular";
 import {Config} from "../../../shared/config";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
@@ -10,11 +10,13 @@ import {Idle, DEFAULT_INTERRUPTSOURCES} from "@ng-idle/core";
 import {Subject} from "rxjs";
 import {StartWithSurveyOption} from "../start/start.with.survey.option.component";
 import {WheelComponent} from "../../../shared/components/wheel/wheel.component";
+import {SurveyPage} from "../survey.page";
 
 @Component({
-  templateUrl: './thanks.component.html'
+  templateUrl: './thanks.component.html',
+  providers: [Idle]
 })
-export class ThanksComponent {
+export class ThanksComponent extends SurveyPage {
 
   whatToShow: string = "joke";
   showWheel: boolean = false;
@@ -45,21 +47,16 @@ export class ThanksComponent {
   giftMessage: string;
 
   constructor(
-    private idle: Idle,
-    private sessionSvc: SessionService,
+    idle: Idle,
+    protected sessionSvc: SessionService,
     private accountSvc: AccountService,
-    private navCtrl: NavController,
+    protected navCtrl: NavController,
+    protected loadingCtrl: LoadingController,
     private modalctrl: ModalController,
     navParams: NavParams) {
 
-    sessionSvc.recordNavigatedLocationInCurrentSession(Utils.getObjectName(this));
+    super(loadingCtrl, navCtrl, sessionSvc, idle);
 
-    // TODO remove
-    //this.closeSession();
-    //if (1==1) return;
-    // TODO END
-
-    this.setupIdleTimeout();
     this.message = this.constructMessage(navParams.get('message'));
     if (this.message.length < 2) {
       new ObjectCycler<any>(Config.TIME_PER_JOKE, ...this.jokes)
@@ -93,19 +90,6 @@ export class ThanksComponent {
       this.idle.watch();
     });
     profileModal.present();
-  }
-
-
-  private setupIdleTimeout() {
-    this.idle.setIdle(Config.THANKS_PAGE_IDLE_SECONDS);
-    this.idle.setTimeout(Config.THANKS_PAGE_TIMEOUT_SECONDS);
-    this.idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
-
-    let subscription: Subject<number> = this.idle.onTimeout.subscribe(() => {
-      this.closeSession();
-      subscription.unsubscribe();
-    })
-    this.idle.watch();
   }
 
   private closeSession() {

@@ -11,7 +11,8 @@ import {SurveyPage} from "../survey.page";
 import {Idle} from "@ng-idle/core";
 
 @Component({
-  templateUrl:'./pickstaff.component.html'
+  templateUrl:'./pickstaff.component.html',
+  providers: [Idle]
 })
 
 @RegisterComponent

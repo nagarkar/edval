@@ -16,7 +16,7 @@ export interface dataInterface {staff: Staff, metric: Metric, value?: string};
 @Component({
   selector: 'topline-for-staff',
   templateUrl: './topline.for.staff.component.html',
-  //pipes: [SReplacer]
+  providers: [Idle]
 })
 
 @RegisterComponent

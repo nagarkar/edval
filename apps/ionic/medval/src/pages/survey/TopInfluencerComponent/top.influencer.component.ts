@@ -15,7 +15,7 @@ import {Idle} from "@ng-idle/core";
 
 @Component({
   templateUrl: './top.influencer.component.html',
-  //pipes: [SReplacer]
+  providers: [Idle]
 })
 
 @RegisterComponent
@@ -47,8 +47,7 @@ export class TopInfluencerComponent extends SurveyPage {
     private accountSvc: AccountService,
     private metricSvc: MetricService) {
 
-    //TODO Add back idle.
-    super(loadingCtrl, navCtrl, sessionSvc);
+    super(loadingCtrl, navCtrl, sessionSvc, idle);
 
     this.account = accountSvc.getCached(Config.CUSTOMERID);
 
@@ -140,7 +139,7 @@ export class TopInfluencerComponent extends SurveyPage {
     if (this.valueOrderDesc) {
       return [
         "What are the ", this.numSelections, " things ",
-        this.account.properties.customerName, " does well?"
+        this.account.properties.customerName, " does best?"
       ].join('');
     } else {
       return [

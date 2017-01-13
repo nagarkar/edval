@@ -9,6 +9,7 @@ import {SurveyService} from "../survey/delegator";
 import {MetricService} from "../metric/delegator";
 import {RegisterService} from "../service.factory";
 import {LiveSessionService} from "./live";
+import {DDBSessionService} from "./ddb";
 
 @Injectable()
 @RegisterService
@@ -18,7 +19,8 @@ export class SessionService extends DelegatingService<Session> {
 
   constructor(
     mockService: MockSessionService,
-    liveService: LiveSessionService,
+    //liveService: LiveSessionService,
+    liveService: DDBSessionService,
     private surveyService: SurveyService,
     private metricSvc: MetricService) {
 
