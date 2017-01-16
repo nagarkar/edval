@@ -74,16 +74,51 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         },
         {
           id:'unhappy',
+          component:"PickMetricGroups",
+          params: {
+            graphicalMetricGroupIndicators: {
+              imgSrc: "assets/img/patient_journey.png",
+              metricGroups: [{
+                coords: "222,398,238,391,252,359,298,366,318,351,347,359,370,346,387,356,418,346,441,367,467,375,466,393,477,418,436,432,422,456,386,455,344,472,315,466,279,467,250,453,223,445,221,422,211,409",
+                metricIds:"95a8659497274ffe9f8fb14fa45b21e5, 6e0f99cdd7a34a058ff2fb22fbe51738, 0f99cdd7a34a058ff2fb22fbe51738, 34182735427d4f2eba99eb0acb66078f"
+              }, {
+                coords: "589,399,599,378,609,382,619,358,642,350,672,354,691,341,711,346,735,338,758,342,790,342,807,354,825,365,828,385,834,407,803,427,783,446,751,444,717,465,677,455,643,455,619,445,592,430,596,413",
+                metricIds:"95a8659497274ffe9f8fb14fa45b21e5, 6e0f99cdd7a34a058ff2fb22fbe51738, 0f99cdd7a34a058ff2fb22fbe51738, 34182735427d4f2eba99eb0acb66078f"
+              }, {
+                coords: "455,300,423,305,398,290,371,279,373,259,363,244,374,224,385,225,398,200,431,193,443,197,461,188,491,192,510,184,531,188,558,184,580,200,603,217,598,232,611,249,596,267,573,272,560,295,529,296,501,314",
+                metricIds:"045b498ae213df729dad97b, 1045b4984ae213df729dad97b, 861045b4984ae213df729dad97b, 2861045b4985ae23df729dad97b"
+              }, {
+                coords: "591,142,559,146,537,134,514,124,513,108,507,97,513,81,527,80,532,60,556,56,577,56,596,48,618,51,637,48,659,51,687,47,706,60,724,74,719,84,730,100,701,120,686,135,658,136,630,151,607,148",
+                metricIds:"045b4984805ae213df729dad97b, 1045b4984805ae213df729dad97b, 861045b4984805ae213df729dad97b, 2861045b4984805ae23df729dad97b"
+              }, {
+                coords: "397,79,395,104,353,100,334,118,291,107,253,111,239,100,214,91,213,74,205,56,227,43,237,24,266,22,281,25,299,14,320,18,342,9,358,18,386,11,406,26,425,38,423,52,428,65,418,81,399,83",
+                metricIds:"95a8659497274ffe9f8fb14fa45b21e5, 6e0f99cdd7a34a058ff2fb22fbe51738, 0f99cdd7a34a058ff2fb22fbe51738, 34182735427d4f2eba99eb0acb66078f"
+              }]
+            }
+          }
+        },
+        {
+          id:'unhappy.things.done.poorly',
+          component:"TopInfluencerComponent",
+          params: {
+            valueOrderDesc: false,
+            maxMetrics: 4
+          }
+        },
+        {
           component:"HandleComplaintComponent",
-          isTerminal:true
+          isTerminal:true,
+          params: {
+            title: null, // Explicitly don't show the title.
+          }
         },
         {
           id:'things.done.poorly',
           component:"TopInfluencerComponent",
           params: {
             valueOrderDesc: false,
-            maxMetrics:4
-          },
+            maxMetrics: 4
+          }
         },
         {
           id:'things.done.well',
@@ -108,7 +143,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           id:'request.review',
           component:"RequestReviewComponent2",
           isTerminal:true
-        }
+        },
       ]
     }));
     map.set("twominute", Object.assign(new Survey(), {
@@ -282,32 +317,16 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         },
         {
           id: 'all.promoters',
-          fn:"AllPromoters",
+          fn:"AveragePromoterScore",
           navigateOnResult: {
-            "false": "any.detractors",
-            "true": "happy"
+            "true": "happy",
+            "false": Infinity.toString()
           }
         },
         {
           id: 'happy',
           component:"RequestReviewComponent2",
           isTerminal:true
-        },
-        {
-          id: 'any.detractors',
-          fn:"AnyDetractors",
-          navigateOnResult: {
-            "false": Infinity,
-            "true": "unhappy"
-          }
-        },
-        {
-          id: 'unhappy',
-          component:"HandleComplaintComponent",
-          isTerminal:true,
-          params: {
-            title: "account.properties.customerName + ' can do better'"
-          }
         },
       ]
     }));

@@ -1,0 +1,15 @@
+<mdval-header [home]="'survey'"></mdval-header>
+<ion-content>
+  <div class="m-t-4">
+    <h1 text-center>{{"What part of your experience was the least satisfying?" | sReplacer}}</h1>
+    <div class="m-t-3">
+      <imgmap [imgMap]="imageMap" [img]="img" (selected)="handleSelected($event)"></imgmap>
+      <img #img src="{{params.imgSrc}}">
+      <map #imageMap>
+        <!--area alt="Your Experience" title="Your Experience" coords="27,251,40,195,75,160,115,149,160,147,204,155,236,180,258,223,258,263,235,303,191,332,148,340,91,336,43,300,34,278,29,262" shape="poly"-->
+        <area *ngFor="let group of params.metricGroups" alt="{{group.metricIds}}" title="Financial Clairty" coords="{{group.coords}}" shape="poly">
+      </map>
+    </div>
+  </div>
+</ion-content>
+<mdval-footer [reassure]="true"></mdval-footer>

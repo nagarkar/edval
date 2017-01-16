@@ -3,7 +3,10 @@ import {Platform} from "ionic-angular";
 import {StatusBar, Splashscreen} from "ionic-native";
 import {ServiceFactory} from "../services/service.factory";
 import {StartWithSurveyOption} from "../pages/survey/start/start.with.survey.option.component";
-import {AllPromoters, StrongDetractor, StrongPromoter, AnyDetractors} from "../services/survey/survey.functions";
+import {
+  AllPromoters, StrongDetractor, StrongPromoter, AnyDetractors,
+  AveragePromoterScore
+} from "../services/survey/survey.functions";
 import {HeaderComponent} from "../shared/components/header/header.component";
 import {LoginComponent} from "../pages/login/login.component";
 import {DashboardComponent} from "../pages/dashboard/dashboard.component";
@@ -23,6 +26,7 @@ export class RevvolveApp {
       Splashscreen.hide();
       // This is required to make sure the class decorators run. There must be a better way to do this.
       new AllPromoters();
+      new AveragePromoterScore();
       new AnyDetractors();
       new StrongPromoter();
       new StrongDetractor();

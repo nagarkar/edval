@@ -18,7 +18,11 @@ export class SurveyPage {
   }
 
   ngOnInit() {
-    this.sessionSvc.recordNavigatedLocationInCurrentSession(Utils.getObjectName(this));
+    if (this.sessionSvc.hasCurrentSession()){
+      this.sessionSvc.recordNavigatedLocationInCurrentSession(Utils.getObjectName(this));
+    } else {
+      Utils.error("Did not find current session in SurveyPage:" + this.constructor.name);
+    }
 
     let idle = this.idle;
     if (!idle) {

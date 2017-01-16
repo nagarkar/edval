@@ -1,5 +1,5 @@
 //import { RouterModule }   from '@angular/router';
-import {NgModule, ErrorHandler} from "@angular/core";
+import {NgModule, ErrorHandler, enableProdMode} from "@angular/core";
 import {IonicApp, IonicModule} from "ionic-angular";
 import {RevvolveApp} from "./app.component";
 import {LoginComponent} from "../pages/login/login.component";
@@ -59,8 +59,10 @@ import {DDBSessionService} from "../services/session/ddb";
 import {EmailProviderService} from "../shared/service/email.provider.service";
 import {AutoCompleteModule} from "../shared/components/autocomplete/autocomplete";
 import {CustomErrorHandler} from "../shared/stuff/custom.error.handler";
+import {ImageMapComponent} from "../shared/components/imgmap/imgmap.component";
+import {PickMetricGroups} from "../pages/survey/PickMetricGroups/pick.metricgroups.component";
 
-//enableProdMode();
+enableProdMode();
 
 @NgModule({
   declarations: [
@@ -77,6 +79,7 @@ import {CustomErrorHandler} from "../shared/stuff/custom.error.handler";
     RotatingCarousel,
     WheelComponent,
     ValidationComponent,
+    ImageMapComponent,
 
     /** Common **/
     LoginComponent,
@@ -102,6 +105,7 @@ import {CustomErrorHandler} from "../shared/stuff/custom.error.handler";
     PickStaffComponent,
     ToplineForStaffComponent,
     MultimetricComponent,
+    PickMetricGroups,
 
     /** Reporting */
     NpsTrendComponent,
@@ -155,6 +159,7 @@ import {CustomErrorHandler} from "../shared/stuff/custom.error.handler";
     PickStaffComponent,
     ToplineForStaffComponent,
     MultimetricComponent,
+    PickMetricGroups,
 
     /** Reporting */
     NpsTrendComponent,

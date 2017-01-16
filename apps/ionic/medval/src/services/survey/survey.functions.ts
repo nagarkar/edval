@@ -21,6 +21,27 @@ export class AllPromoters implements ISurveyFunction {
 }
 
 @RegisterFunction
+export class AveragePromoterScore implements ISurveyFunction {
+
+  canExecute(navigator: SurveyNavigator, params: any): boolean {
+    return true;
+  }
+
+  execute(navigator: SurveyNavigator, params: any): string|number {
+    let total = 0;
+    let numMetrics = 0;
+    navigator.session.getAllMetricValues().forEach((metricValue: MetricValue) => {
+      let metric: Metric = navigator.metricSvc.getCached(metricValue.metricId);
+      if (metric.parentMetricId || (metric.isNpsType() && metric.isPromoter(+metricValue.metricValue))) {
+        numMetrics ++;
+        total += +metricValue.metricValue;
+      }
+    });
+    return (numMetrics != 0 && Metric.isPromoterRatio(total/numMetrics)).toString();
+  }
+}
+
+@RegisterFunction
 export class AnyDetractors implements ISurveyFunction {
 
   canExecute(navigator: SurveyNavigator, params: any): boolean {

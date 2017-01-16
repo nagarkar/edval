@@ -12,9 +12,12 @@
       </ion-col>
       <ion-col text-center>
         <h1 *ngIf="title" class="m-b-1 .m-t-0p5"><b>{{title}}</b></h1>
-        <h2 class="font-40">
+        <h2 *ngIf="title" class="font-40">
           We're sorry if you had a bad experience
         </h2>
+        <h1 *ngIf="!title" class="m-b-1 .m-t-0p5">
+          <b>We're sorry if you had a bad experience</b>
+        </h1>
         <h3 class="m-t-1 font-40">
           {{ account.properties.contactName + " can follow-up with you"}}
         </h3>

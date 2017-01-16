@@ -28,6 +28,8 @@ export class HandleComplaintComponent extends SurveyPage {
     "http://cdn.alex.leonard.ie/wp-content/uploads/2013/02/extreme-mountain-unicycling.jpg"
   ];
 
+  showTitle: boolean = false;
+
   complaintForm: FormGroup;
 
   title: string;
@@ -67,15 +69,19 @@ export class HandleComplaintComponent extends SurveyPage {
 
     this.account =  accountSvc.getCached(Config.CUSTOMERID);
     let sReplacer = new SReplacer(accountSvc);
-    if (navParams.get('title')) {
+    if (navParams.get('title') === null) {
+      this.title = null;
+    } else if (navParams.get('title')) {
       let title = (sReplacer.transform(navParams['title']));
       this.title = title;
     } else {
       this.title = 'Did something go wrong?';
     }
+
   }
 
   ngOnInit() {
+    super.ngOnInit();
     this.complaintForm = new FormGroup({
       email: new FormControl('', Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)),
       phone: new FormControl('', Validators.pattern(/^(\([0-9]{3}\)\s)?[0-9]{3}\-[0-9]{4}/)),
@@ -84,7 +90,6 @@ export class HandleComplaintComponent extends SurveyPage {
   }
 
   navigateToNext() {
-    //TODO Save email, phone and text to session.
     if (this.sessionSvc.hasCurrentSession()) {
       this.sessionSvc.getCurrentSession().properties.complaintData = {
         email: this.email, phone: this.phone, message: this.complaintMsg

@@ -29,8 +29,8 @@ export class LoginComponent {
   public login() {
 
     // TODO Remove before launch
-    //this.navigateToDashboardPage();
-    //if (1 == 1) return;
+    this.navigateToDashboardPage();
+    if (1 == 1) return;
     // TODO end
 
 
@@ -39,6 +39,7 @@ export class LoginComponent {
     loading.present();
     console.log("After loading presented: " + Date.now());
 
+    let finishedLoginProcess = false;
     // Start new session and dismiss loading screen on success/failure (this dismiss step is required for ios/not for web)
     this.authProvider.startNewSession(this.username.toLowerCase(), this.password,
       (token: AuthResult, err: any): void => {
@@ -46,11 +47,13 @@ export class LoginComponent {
           console.log("After Authresult: " + Date.now());
           this.navigateToDashboardPage();
           console.log("After navigate to dashboard: " + Date.now());
+          finishedLoginProcess = true;
           loading.dismissAll();
         }
         if(err) {
           Utils.error("LoginComponent.login().startNewSession:" + err);
           Utils.presentTopToast(this.toastCtrl, "Login Failed with error: " + err + ". Please try again!");
+          finishedLoginProcess = true;
           loading.dismissAll();
         }
       });

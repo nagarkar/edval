@@ -72,58 +72,46 @@ export class Metric {
     return Utils.stringify(this);
   }
 
-  public isRoot() {
+  isRoot() {
     return this.parentMetricId == null;
   }
 
-  public isLow(value: MetricValue) {
+  isLow(value: MetricValue) {
     return this.isNpsType() && value && this.isDetractor(+value.metricValue);
   }
 
   /** Returns true is value is defined, a number, and greater than 8. */
-  public isHigh(value: MetricValue) {
+  isHigh(value: MetricValue) {
     return this.isNpsType() && value && this.isPromoter(+value.metricValue);
   }
 
   /** Returns true is value is defined, a number, and less than 2. */
-  public isInMiddle(value: MetricValue) {
+  isInMiddle(value: MetricValue) {
     return !this.isLow(value) && !this.isHigh(value);
   }
 
-  public isTextType(): boolean {
+  isTextType(): boolean {
     return this.properties.definition.textType != null;
   }
 
-  public isNpsType() : boolean {
+  isNpsType() : boolean {
     return this.properties.definition.npsType != null;
   }
 
-  public isDetractor(value: number): boolean {
+  isDetractor(value: number): boolean {
     return value/this.properties.definition.npsType.range < 0.72727272;
   }
 
-  public isStrongDetractor(value: number): boolean {
+  isStrongDetractor(value: number): boolean {
     return value/this.properties.definition.npsType.range < 0.72727272;
   }
 
-  public isPromoter(value: number): boolean {
-    return value/this.properties.definition.npsType.range > 0.81818181;
+  isPromoter(value: number): boolean {
+    return Metric.isPromoterRatio(value/this.properties.definition.npsType.range);
   }
 
   hasRoleSubject(): boolean {
     return Metric.rolePattern.test(this.subject);
-  }
-
-  static isRoleSubject(subject: string): boolean {
-    return Metric.rolePattern.test(subject);
-  }
-
-  static isStaffSubject(subject: string): boolean {
-    return Metric.staffPattern.test(subject);
-  }
-
-  static isOrgSubject(subject: string): boolean {
-    return Metric.orgPattern.test(subject);
   }
 
   hasStaffSubject() {
@@ -146,6 +134,22 @@ export class Metric {
 
   setStaffSubject(username: string) {
     this.subject = "staff:" + username;
+  }
+
+  static isPromoterRatio(value: number): boolean {
+    return value > 0.81818181;
+  }
+
+  static isRoleSubject(subject: string): boolean {
+    return Metric.rolePattern.test(subject);
+  }
+
+  static isStaffSubject(subject: string): boolean {
+    return Metric.staffPattern.test(subject);
+  }
+
+  static isOrgSubject(subject: string): boolean {
+    return Metric.orgPattern.test(subject);
   }
 
   static createStaffSubject(staffName: string) {

@@ -78,4 +78,11 @@ export class SessionService extends DelegatingService<Session> {
   delete(id: string): Promise<void> {
     return Promise.reject<void>(ErrorType.UnsupportedOperation("delete"));
   }
+
+  get scratchPad() {
+    if (this.hasCurrentSession()){
+      return this.surveyNavigator.scratchPad;
+    }
+    return null;
+  }
 }

@@ -143,11 +143,11 @@ export class MockMetricService extends AbstractMockService<Metric> {
       properties: {
         metricName: "Genuine Interest",
         question: `staff ? 'Does ' + staff.displayName + 'show genuine interest your well being?'
-          : 'Do the Orthodontic Assistants show genuine interest in you?'`,
+          : "Do the Doctor's Assistants show genuine interest in you?"`,
         positiveImpact: `staff ? staff.displayName + ' shows genuine interest in ' + staff.possessivePronoun(true) + ' patients' 
-          : 'The Orthodontic Assistants show genuine interest in patients'`,
+          : "The Doctor's Assistants show genuine interest in patients"`,
         improvement: `staff ? staff.displayName + ' should try to show genuine interest in ' + staff.possessivePronoun(true) + ' patients'
-          : 'The Orthodontic Assistants should show genuine interest in patients'`,
+          : "The Doctor's Assistants should show genuine interest in patients"`,
         definition: {
           npsType: {
             range: 5
@@ -215,7 +215,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       properties: {
         metricName: 'Treatment progress',
         question: 'Are you kept well-informed about the progress of your treatment & are your questions answered?',
-        positiveImpact: "The doctor keeps me informed of treatment progress & answers my questions",
+        positiveImpact: "Dr. Megha keeps me informed of treatment progress & answers my questions",
         improvement: "Do a better job explaining the treatment-plan going forward",
         definition: {
           npsType: {
@@ -232,7 +232,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       properties: {
         metricName: "'Did ' + staff.displayName + ' address your concerns and questions?'",
         question: 'Does the doctor show genuine interest in patients?',
-        positiveImpact: "The doctor shows genuine interest in patients",
+        positiveImpact: "Dr. Megha shows genuine interest in patients",
         improvement: "The doctor could show more interest in patients",
         definition: {
           npsType: {

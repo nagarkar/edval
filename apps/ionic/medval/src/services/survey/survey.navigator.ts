@@ -33,8 +33,11 @@ export class SurveyNavigator {
 
   static TERMINAL = -1;
 
+  scratchPad: any = {}
+
   /* Points to the the next 'step' in workflow to be executed/navigated. */
   private progCounter : number = 0;
+
 
   /**
    * Points to the result of the previous component or function operation. For functions, this variable is automatically

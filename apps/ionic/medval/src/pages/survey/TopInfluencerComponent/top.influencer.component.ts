@@ -63,7 +63,15 @@ export class TopInfluencerComponent extends SurveyPage {
 
     this.leftImage = this.pickRandomImage();
 
-    this.displayMetrics = this.setupDisplayMetrics(metricSvc);
+    let metricIds: string[] = this.sessionSvc.scratchPad.metricsForTopLineInfluencer;
+
+    if (metricIds && metricIds.length > 0) {
+      this.displayMetrics = this.shuffleAndSlice(metricIds.map((metricId: string)=> {
+        return this.metricSvc.getMetricById(metricId.trim());
+      }).filter((value)=> {return value != null}));
+    } else {
+      this.displayMetrics = this.setupDisplayMetrics(metricSvc);
+    }
 
     this.rows = Array.from(Array(Math.ceil(this.displayMetrics.length / this.numCols)).keys())
   }
@@ -117,6 +125,10 @@ export class TopInfluencerComponent extends SurveyPage {
   private setupDisplayMetrics(metricSvc: MetricService) {
     let drilldownMetrics: Metric[] = metricSvc.getCachedNpsDrilldownMetrics(this.rootMetricId);
     drilldownMetrics = this.removeMeasuredMetrics(drilldownMetrics);
+    return this.shuffleAndSlice(drilldownMetrics);
+  }
+
+  private shuffleAndSlice(drilldownMetrics: Metric[]): Metric[] {
     Utils.shuffle(drilldownMetrics);
     drilldownMetrics = drilldownMetrics.slice(0, Math.min(this.maxMetrics, drilldownMetrics.length));
     return drilldownMetrics.sort((a:Metric, b:Metric) => {
@@ -138,12 +150,12 @@ export class TopInfluencerComponent extends SurveyPage {
   private constructMessage(): string {
     if (this.valueOrderDesc) {
       return [
-        "What are the ", this.numSelections, " things ",
+        "What are ", this.numSelections, " things ",
         this.account.properties.customerName, " does best?"
       ].join('');
     } else {
       return [
-        "What are the ", this.numSelections, " things ",
+        "What are ", this.numSelections, " things ",
         this.account.properties.customerName, " can improve?"
       ].join('');
     }
