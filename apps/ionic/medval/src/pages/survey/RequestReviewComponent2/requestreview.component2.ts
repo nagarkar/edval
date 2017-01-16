@@ -33,9 +33,17 @@ export class RequestReviewComponent2 extends SurveyPage {
     super(loadingCtrl, navCtrl, sessionSvc, idle);
   }
 
-  public navigateToNext() {
+  navigateToNext() {
     this.sessionSvc.getCurrentSession().properties.reviewData.message = this.reviewMsg;
     super.navigateToNext();
+  }
+
+  get someDataProvided() {
+    if (this.sessionSvc.hasCurrentSession()) {
+      let reviewData = this.sessionSvc.getCurrentSession().properties.reviewData;
+      return reviewData.email || reviewData.phone || this.reviewMsg;
+    }
+    return false;
   }
 
   browserScript: string = ""+
@@ -124,7 +132,11 @@ export class RequestReviewComponent2 extends SurveyPage {
     )
   }
   facebookReview() {
-    this.saveReview('google');
+    this.saveReview('facebook');
+  }
+
+  yelpReview() {
+    this.saveReview('yelp');
   }
 
   private saveReview(reviewSite: string) {

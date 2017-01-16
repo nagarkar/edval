@@ -29,8 +29,8 @@ export class LoginComponent {
   public login() {
 
     // TODO Remove before launch
-    this.navigateToDashboardPage();
-    if (1 == 1) return;
+    //this.navigateToDashboardPage();
+    //if (1 == 1) return;
     // TODO end
 
 
@@ -40,6 +40,12 @@ export class LoginComponent {
     console.log("After loading presented: " + Date.now());
 
     let finishedLoginProcess = false;
+    setTimeout(()=>{
+      if (!finishedLoginProcess) {
+        Utils.presentTopToast(
+          this.toastCtrl, "Could not reach login server. Are you sure your device has a working internet connection?");
+      }
+    }, 3 * 60 * 1000)
     // Start new session and dismiss loading screen on success/failure (this dismiss step is required for ios/not for web)
     this.authProvider.startNewSession(this.username.toLowerCase(), this.password,
       (token: AuthResult, err: any): void => {

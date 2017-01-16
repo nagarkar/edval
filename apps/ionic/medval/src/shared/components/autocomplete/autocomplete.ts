@@ -77,7 +77,7 @@ export class AutoComplete implements AfterViewInit,DoCheck,AfterViewChecked,Cont
 
   @Input() scrollHeight: string = '200px';
 
-  value: any;
+  @Input() value: any;
 
   onModelChange: Function = () => {};
 

@@ -18,12 +18,10 @@ export class CustomerTextEmailComponent extends SurveyPage {
   message: string;
   email: string;
   phone: string;
-  myForm: FormGroup = new FormGroup({
-    // http://emailregex.com/
-    email: new FormControl('', Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)),
-    //email: new FormControl('',Validators.pattern('^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$')),
-    phone: new FormControl('', Validators.pattern("^\([0-9]{3})([0-9]{3})([0-9]{4})$")),
-  });
+  myForm: FormGroup;
+
+  // Email autocomplete
+  filteredEmail: any[];
 
   get ready(): boolean {
     let form: FormGroup = this.myForm;
@@ -43,8 +41,48 @@ export class CustomerTextEmailComponent extends SurveyPage {
     this.email = navParams.get('email') || '';
   }
 
+  ngOnInit() {
+    super.ngOnInit();
+    this.myForm = new FormGroup({
+      // http://emailregex.com/
+      email: new FormControl('', Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)),
+      phone: new FormControl('', Validators.pattern(/^(\([0-9]{3}\)\s)?[0-9]{3}\-[0-9]{4}/)),
+    });
+  }
+
   clearEmail() {
     this.email = "";
+  }
+
+  getEmail(event) {
+    let query = event.query;
+    this.filteredEmail = this.filterEmail(query, [
+      { "name" : "@gmail.com" },
+      { "name" : "@outlook.com" },
+      { "name" : "@mail.com" },
+      { "name" : "@yahoo.com" },
+      { "name" : "@inbox.com" },
+      { "name" : "@icloud.com" }]);
+  }
+
+
+  filterEmail(query, emails: any[]):any[] {
+    let filterData : any[] = [];
+    filterData = emails;
+    let arr = query.split("@");
+    let data;
+    if(query.indexOf("@") > 0){
+      data = filterData.filter(ep => ep.name.toLowerCase().includes(("@" + arr[1]).toLowerCase()));
+      let len = data.length;
+      for(let i=0;i<len;i++){
+        data[i].name = arr[0]+data[i].name;
+      }
+      filterData = [];
+      return data;
+    }
+    else{
+      return data=[];
+    }
   }
 
   dismiss() {
