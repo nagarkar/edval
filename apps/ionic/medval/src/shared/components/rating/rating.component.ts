@@ -8,9 +8,7 @@ import {Utils} from "../../stuff/utils";
 })
 export class RatingComponent {
   color: string = 'danger';
-  onState: string = 'ion-ios-star ion-android-star';
-  offState: string = 'ion-ios-star-outline ion-android-star-outline';
-  private _ratingValue: number;
+  private _ratingValue: number = 1;
   ratingRange: number[];
   private _ratingMax: number = 5;
   private popped = false;
@@ -33,37 +31,14 @@ export class RatingComponent {
   get ratingMax() : number {
     return this._ratingMax;
   }
+
   set ratingMax(max: number) {
     this._ratingMax = max;
     this.ratingRange  = new Array(max);
     Utils.log("In rating nginit: " + this.ratingRange + ":");
   }
 
-  iconName(idx: number) {
-    if (this.state(idx) == 'activePopped' || this.state(idx)  == 'activeNormal') {
-      return 'star';
-    }
-    return 'star-outline';
-  }
-
-  state(idx: number) : 'activePopped' | 'inactivePopped' | 'activeNormal' | 'inactiveNormal' {
-    //return this.popped ? ((idx < this.ratingValue) ? 'activePopped' : 'inactivePopped') : ((idx < this.ratingValue) ? 'activeNormal' : 'inactiveNormal');
-
-    if (this.popped) {
-      if (idx < this.ratingValue) {
-        return 'activePopped';
-      }
-      return 'inactivePopped';
-    }
-    if (!this.popped) {
-      if (idx < this.ratingValue) {
-        return 'activeNormal';
-      }
-      return 'inactiveNormal';
-    }
-  }
-
-  public setRating(value: number, icon?:Icon) {
+  setRating(value: number, icon?:Icon) {
 
     this.ratingValue = value;
     if(value <= (2*this._ratingMax)/10) {

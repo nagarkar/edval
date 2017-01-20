@@ -25,11 +25,11 @@ export class TopInfluencerComponent extends SurveyPage {
   private rootMetricId: string;
   private maxMetrics: number;
   private valueOrderDesc: boolean;
-  private numSelections: number;
+  private promptAfterSelections: number;
   private offsetRange: number;
   private rankedMetrics: Metric[] = [];
 
-  message: string;
+  messages: string[];
   displayMetrics: Metric[] = [];
   rows: any[] = [];
   numCols = 0;
@@ -37,6 +37,8 @@ export class TopInfluencerComponent extends SurveyPage {
   displayAttribute: string;
   account: Account;
   done = false;
+  textPlaceholder: string;
+  reviewMsg: string;
 
   constructor(
     idle: Idle,
@@ -59,14 +61,24 @@ export class TopInfluencerComponent extends SurveyPage {
 
       this.rootMetricId = def(navParams.get('rootMetricId'), null);
       this.maxMetrics = def(+navParams.get('maxMetrics'), Infinity);
-      this.numSelections = def(+navParams.get('numSelections'), 1);
+      this.promptAfterSelections = def(+navParams.get('numSelections'), 1);
       this.valueOrderDesc = def(navParams.get('valueOrderDesc'), false);
-      this.message = def(navParams.get('title'), undefined);
+      if (this.valueOrderDesc) {
+        this.textPlaceholder = "account.properties.customerName + 'is doing \<something\> really well!'"
+      } else {
+        this.textPlaceholder = "account.properties.customerName + 'is doing \<something\> poorly!'"
+      }
+      let messages = def(navParams.get('title'), undefined);
+      if (Utils.isString(messages)) {
+        this.messages = [messages as string];
+      } else {
+        this.messages = messages;
+      }
       this.offsetRange = def(+navParams.get('offsetRange'), 0.5);
       this.numCols = def(navParams.get('numCols'), 2);
 
-      if (this.numSelections === 0) {
-        this.setDoneAfter(5 * 1000 /* 5 seconds */);
+      if (this.promptAfterSelections === 0) {
+        this.setDoneAfter(1 * 1000 /* 1 seconds */);
       }
 
       this.displayAttribute = this.valueOrderDesc ? 'positiveImpact' : 'improvement';
@@ -100,12 +112,16 @@ export class TopInfluencerComponent extends SurveyPage {
       return;
     }
     this.rankedMetrics.push(metric);
-    if (this.rankedMetrics.length == Math.min(this.numSelections, this.displayMetrics.length)) {
-      this.persistMetricValuesAndNavigate();
-    }
     metric['isSelected'] = true;
+    if (this.rankedMetrics.length >= this.promptAfterSelections) {
+      this.setDoneAfter(1 * 1000 /* 1 seconds */);
+    }
   }
 
+  navigateToNext() {
+    this.saveToSession();
+    super.navigateToNext();
+  }
   isSelected(metric: Metric) {
     return this.rankedMetrics.indexOf(metric) > -1;
   }
@@ -153,7 +169,11 @@ export class TopInfluencerComponent extends SurveyPage {
     })
   }
 
-  private persistMetricValuesAndNavigate() {
+  private saveToSession() {
+    if (!this.sessionSvc.hasCurrentSession()){
+      return;
+    }
+    let session = this.sessionSvc.getCurrentSession();
     let numRanked = this.rankedMetrics.length;
     let offset = this.offsetRange/numRanked;
     this.rankedMetrics.forEach((metric: Metric, index: number) => {
@@ -164,9 +184,11 @@ export class TopInfluencerComponent extends SurveyPage {
       } else {
         value = Math.floor(range * offset * (index + 1));
       }
-      this.sessionSvc.getCurrentSession().addMetricValue(metric.subject, new MetricValue(metric.metricId, '' + value));
+      session.addMetricValue(metric.subject, new MetricValue(metric.metricId, '' + value));
     })
-    this.setDoneAfter(1000);
+    if (this.reviewMsg) {
+      session.properties.rawFeedback.push(this.reviewMsg);
+    }
   }
 
   private setDoneAfter(timeout: number) {

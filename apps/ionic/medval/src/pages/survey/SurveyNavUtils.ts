@@ -16,8 +16,6 @@ export class SurveyNavUtils {
         Utils.error("In SurveyNavUtils Could not get Navigation Target: The error is {0}", err);
         alert("Unexpected Error Occurred:" + err);
       }
-      let promise: Promise<any>;
-
       let component: any = (navigationTarget && navigationTarget.component) || ThanksComponent;
       let params = component == ThanksComponent ? {message: terminationMessage} : navigationTarget.params;
       if (component) {

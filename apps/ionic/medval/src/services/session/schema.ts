@@ -25,6 +25,7 @@ export class SessionProperties {
   navigatedLocations?: Array<string> = [];
   reviewData: ReviewData = {};
   complaintData: ReviewData = {};
+  rawFeedback: string[] = [];
 
   constructor() {
     this.patientId = Utils.guid("p");

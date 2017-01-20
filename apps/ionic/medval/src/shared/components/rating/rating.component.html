@@ -6,19 +6,10 @@
 <span tabindex="0" role="slider">
   <span *ngFor=" let rating of ratingRange; let idx = index;" class="active">
     <ion-icon item-left #icon large
-      class="fa" (click)="setRating(idx + 1, icon)"
-      [ngClass]="idx < ratingValue ? onState : offState" color="{{(idx < ratingValue) ? color : 'darkgrey'}}">
+      class="shadowpulse-once" (click)="setRating(idx + 1, icon)"
+      [name]="idx < ratingValue? 'star': 'star-outline'"
+      color="{{(idx < ratingValue) ? color : 'darkgrey'}}">
     </ion-icon>
   </span>
 </span>
 <span *ngIf="showLabels" class="right-label">Yes!</span>
-<!--
-<span tabindex="0" role="slider">
-  <span *ngFor=" let rating of ratingRange; let idx = index;">
-    <ion-icon [@ratingPicked]="isActiveIcon()" large class="fa" (click)="setRating(idx + 1)"
-      [ngClass]="iconClass(idx)" [ngStyle]="iconStyle(idx)">
-    </ion-icon>
-  </span>
-</span>
-
--->

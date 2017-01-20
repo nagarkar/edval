@@ -107,7 +107,10 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           id:'unhappy.things.done.poorly',
           component:"TopInfluencerComponent",
           params: {
-            title: `"What can " + account.properties.customerName + " do better to improve in this area?"`,
+            title: [
+              "This is helpful feedback!",
+              `"Can you pick one or two area where " + account.properties.customerName + " can do better?"`
+            ],
             valueOrderDesc: false,
             maxMetrics: 4,
             numSelections: 0
@@ -167,7 +170,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           id:'things.done.well',
           component:"TopInfluencerComponent",
           params: {
-            title: `"What is " + account.properties.customerName + " doing best?"`,
+            title: `"Can you pick one or two things " + account.properties.customerName + " is doing well?"`,
             valueOrderDesc: true,
             maxMetrics: 4
           }

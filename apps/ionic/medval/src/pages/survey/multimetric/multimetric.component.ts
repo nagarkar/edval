@@ -65,7 +65,7 @@ export class MultimetricComponent extends SurveyPage {
     if (!this.dirty) {
       setTimeout(()=>{
         this.done = true;
-      }, 4000)
+      }, 500)
     }
     this.dirty = true;
   }

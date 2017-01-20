@@ -4,7 +4,6 @@ import {MockAccountService} from "./mock";
 import {Config} from "../../shared/config";
 import {LiveAccountService} from "./live";
 
-let data: Array<Account> = Array.from(MockAccountService.mockMap().values());
 let __rand = Math.random();
 let testData: TestData<Account> = {
   noSupportForApiList: true,

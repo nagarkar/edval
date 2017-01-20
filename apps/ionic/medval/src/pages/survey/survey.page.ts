@@ -6,6 +6,7 @@ import {Idle, DEFAULT_INTERRUPTSOURCES} from "@ng-idle/core";
 import {Subject} from "rxjs";
 import {StartWithSurveyOption} from "./start/start.with.survey.option.component";
 import {Config} from "../../shared/config";
+import {SurveyNavigator} from "../../services/survey/survey.navigator";
 
 export class SurveyPage {
 
@@ -38,7 +39,7 @@ export class SurveyPage {
 
     let subscription: Subject<number> = idle.onTimeout.subscribe(() => {
       this.stopIdling(subscription);
-      this.goToStartPage();
+      this.navCtrl.setRoot(StartWithSurveyOption, {defaultOnly: true});
     })
     idle.watch();
   }
@@ -62,8 +63,20 @@ export class SurveyPage {
     }
   }
 
+  cancelAndRestart() {
+    if (!this.sessionSvc.hasCurrentSession()) {
+      this.navCtrl.setRoot(StartWithSurveyOption, {defaultOnly: true, cancelPreviousSession: true});
+      return;
+    }
+    let navigator: SurveyNavigator = this.sessionSvc.surveyNavigator;
+    let surveyId = navigator.survey.id;
+    this.sessionSvc.newCurrentSession(surveyId);
+    navigator = this.sessionSvc.surveyNavigator; // Refresh the navigator.
+    SurveyNavUtils.navigateOrTerminate(navigator, this.loadingCtrl, this.navCtrl);
+  }
+
   goToStartPage(cancel?: boolean) {
-    this.navCtrl.setRoot(StartWithSurveyOption, {defaultOnly: true, cancelPreviousSession: cancel});
+
   }
 
   private stopIdling(subscription?: Subject<number>) {

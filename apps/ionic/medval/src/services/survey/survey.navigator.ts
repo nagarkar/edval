@@ -101,7 +101,6 @@ export class SurveyNavigator {
     if (isNullOrUndefined(this.progCounter) || this.progCounter == SurveyNavigator.TERMINAL || !this.hasMoreSteps()) {
       return null;
     }
-    let currentProgCounter = this.progCounter;
     try {
       let currentStep = this.survey.workflow[this.progCounter];
       this.incrementOrTerminateProgramCounter(currentStep);

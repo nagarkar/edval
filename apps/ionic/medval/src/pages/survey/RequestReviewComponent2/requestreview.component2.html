@@ -34,7 +34,10 @@
         </ion-item>
       </ion-col>
       <ion-col center>
-        <button ion-button large (click)="navigateToNext()">{{someDataProvided? 'Finish!': 'No Thanks!'}}</button>
+        <button [ngClass] = "{shadowpulse: someDataProvided}"
+          ion-button large (click)="navigateToNext()">
+          {{someDataProvided? 'Finish!': 'No Thanks!'}}
+        </button>
       </ion-col>
     </ion-row>
   </div>
