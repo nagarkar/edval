@@ -15,6 +15,8 @@
               <span>{{metric.properties.positiveImpact | sReplacer}}</span>
               <ion-range
                 style="padding-top: 1.1em"
+                (tap)="setValue($event, metric)"
+                [(ngModel)]="metricValues[idx]"
                 (ionChange)="setValue($event, metric)"
                 min="1"
                 pin=true

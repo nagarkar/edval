@@ -5,7 +5,7 @@ import {SessionService} from "../../../services/session/delegator";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
 import {MetricService} from "../../../services/metric/delegator";
-import {Metric} from "../../../services/metric/schema";
+import {Metric, MetricValue} from "../../../services/metric/schema";
 import {Idle} from "@ng-idle/core";
 import {SurveyPage} from "../survey.page";
 import {SReplacerDataMap} from "../../../pipes/sreplacer";
@@ -22,6 +22,9 @@ export class MultimetricComponent extends SurveyPage {
   done = false;
   message: string;
   displayMetrics: Metric[] = [];
+  metricValues: number[] = [];
+  dirty: boolean= false;
+
   sReplacerDataPack: SReplacerDataMap = {}
 
   constructor(
@@ -45,18 +48,33 @@ export class MultimetricComponent extends SurveyPage {
     this.message = navParams.get('message') || 'Please answer the following questions';
 
     this.displayMetrics = this.setupDisplayMetrics(metricSvc);
+    this.displayMetrics.forEach(()=>{
+      this.metricValues.push(1);
+    })
   }
 
-  public setValue(value: number, metric: Metric) {
-    metric['value'] = value;
-    this.updateMetricInSession(value, metric);
-    if (this.displayMetrics.every((vMetric: Metric) => {return vMetric['value'] != null;})) {
-      this.done = true;
+  navigateToNext() {
+    this.displayMetrics.forEach((metric: Metric, idx: number)=>{
+      this.updateMetricInSession(this.metricValues[idx], metric);
+    });
+    super.navigateToNext();
+  }
+
+  setValue(data: any, metric: Metric) {
+    //First time someone's made a change! If you strongly disagree with everything, the survey does not move forward.
+    if (!this.dirty) {
+      setTimeout(()=>{
+        this.done = true;
+      }, 4000)
     }
+    this.dirty = true;
   }
 
   private updateMetricInSession(value: number, metric: Metric) {
-    //TODO Write this.
+    if (this.sessionSvc.hasCurrentSession()) {
+      this.sessionSvc.getCurrentSession().addMetricValue(
+        metric.subject, new MetricValue(metric.metricId, '' + value));
+    }
   }
 
   private setupDisplayMetrics(metricSvc: MetricService) {
