@@ -5,9 +5,15 @@ import {Utils} from "./stuff/utils";
 export class Config {
 
   private static _baseUrl: string = "https://localhost:8091";
+  //private static _baseUrl: string = "http://34.197.108.208";
   //private static _baseUrl: string = "https://testapi.healthcaretech.io";
 
-  static readonly DEFAULT_CITY_CODE = "206"
+  static DEFAULT_CACHE_AGE: number = Infinity;
+
+  static readonly DEFAULT_CITY_CODE = "206";
+
+  static readonly SHOW_NEW_ACCOUNT = false;
+  static readonly SHOW_FORGOT_PASSWORD = true;
 
   /* TODO this should not be hardcoded */
   static CUSTOMERID : string;
@@ -52,8 +58,8 @@ export class Config {
   static MOCK_DATA : {[key: string]: boolean} = {
     "Session": false,
     "Metric": true,
-    "Account": true,
-    "Staff": true,
+    "Account": false,
+    "Staff": false,
     "Survey": true
   };
 

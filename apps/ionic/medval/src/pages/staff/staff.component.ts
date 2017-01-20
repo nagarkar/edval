@@ -34,20 +34,22 @@ export class StaffComponent extends AdminComponent  {
   }
 
   public add() {
-    Utils.presentProfileModal(this.modalCtrl, StaffEditComponent, {})
+    Utils.presentProfileModal(this.modalCtrl, StaffEditComponent, {}).onDidDismiss(()=>{
+      this.getStaffList();
+    });
   }
 
   public edit(staff : Staff) {
-    Utils.presentProfileModal(this.modalCtrl, StaffEditComponent, {staffMember: staff});
+    Utils.presentProfileModal(this.modalCtrl, StaffEditComponent, {staffMember: staff}).onDidDismiss(()=>{
+      this.getStaffList();
+    });
   }
 
   public delete(staffMember: Staff) {
     Utils.showLoadingBar();
     this.staffSvc.delete(staffMember.username)
       .then(() => {
-        this.staffList = this.staffList.filter((el: Staff) => {
-          return el.username != staffMember.username
-        });
+        this.getStaffList();
         Utils.presentTopToast(this.toastCtrl, "Deleted", 3000)
       })
       .catch((err) => Utils.presentTopToast(this.toastCtrl, err || "Could not delete staff member", 3000))

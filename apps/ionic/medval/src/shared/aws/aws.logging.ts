@@ -47,6 +47,13 @@ export class AWSLogging {
         this.nextSequenceToken = data.nextSequenceToken;
       }
       if (err) {
+        if (err.code == 'InvalidSequenceTokenException') {
+          let matches = err.message.match(/[0-9]+/g);
+          if (matches.length > 0) {
+            this.nextSequenceToken = matches[0];
+            this.logToAws(events);
+          }
+        }
         console.log([err.name, err.message].join(":"))
       }
     });

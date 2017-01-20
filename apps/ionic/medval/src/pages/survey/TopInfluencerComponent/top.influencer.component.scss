@@ -22,8 +22,8 @@
 /*Custom button*/
 
 .cstm-btn {
-  padding: .5em .5em .5em .5em;
-  margin: .5em 1em .5em 1em;
+  //padding: .5em .5em .5em .5em;
+  margin: 0 1em 0 1em;
   height: 6.8em;
   width: auto;
   font-size: 1.7em;
@@ -46,4 +46,8 @@
 
 .button-md:hover:not(.disable-hover) {
   background-color: color($colors, revvolve2);
+}
+
+ion-col.influencer {
+  padding:0;
 }

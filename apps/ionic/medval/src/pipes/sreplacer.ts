@@ -1,4 +1,4 @@
-import {Pipe, PipeTransform} from "@angular/core";
+import {Pipe, PipeTransform, Injectable} from "@angular/core";
 import {Staff} from "../services/staff/schema";
 import {Metric} from "../services/metric/schema";
 import {Session} from "../services/session/schema";
@@ -20,6 +20,7 @@ export interface SReplacerDataMap {
 }
 
 @Pipe({name: 'sReplacer'})
+@Injectable()
 export class SReplacer implements PipeTransform {
 
   static expressionMap: Map<string, Function> = new Map<string, Function>();

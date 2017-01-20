@@ -1,6 +1,6 @@
 <mdval-header [home]="'survey'"></mdval-header>
 <ion-content padding text-center>
-  <ion-fab class="xl" *ngIf="done" right middle>
+  <ion-fab class="nextfab" *ngIf="done" right middle>
     <button (click)="navigateToNext()" ion-fab><ion-icon name="fastforward"></ion-icon></button>
   </ion-fab>
   <ion-grid text-center class="m-t-3">
@@ -29,6 +29,11 @@
             </ion-card>
           </ion-col>
         </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row style="position: absolute; display: flex; bottom: -5.5em;">
+      <ion-col>
+        <progress-bar [progress]="progress"></progress-bar>
       </ion-col>
     </ion-row>
   </ion-grid>

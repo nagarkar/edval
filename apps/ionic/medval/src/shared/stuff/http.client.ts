@@ -5,15 +5,17 @@ import {Injectable} from "@angular/core";
 import {Config} from "../config";
 import "rxjs/add/operator/toPromise";
 import {deserializeArray, deserialize, serialize} from "class-transformer";
-import {ErrorType} from "./error.types";
 
 @Injectable()
 export class HttpClient<T> {
 
+  /**
+   * @param http
+   * @param clazz Used for serialization using class-transformer library.
+   */
   constructor(
-    private tokenProvider: AccessTokenService,
     private http: Http,
-    private clazz: ClassType<T>) {
+    private clazz?: ClassType<T>) {
   }
 
   /**
@@ -88,6 +90,9 @@ export class HttpClient<T> {
       if (body.status && new String(body.status).toLowerCase() == "ok") {
         return true;
       }
+      if (!this.clazz) {
+        return body;
+      }
       if (Array.isArray(body)) {
         body = deserializeArray<T>(this.clazz, res.text());
       } else {
@@ -117,17 +122,13 @@ export class HttpClient<T> {
     let result : AuthResult = AccessTokenService.authResult;
     return {
       headers: new Headers({
-        'X-AccessToken': result.accessToken,
-        'X-IdToken': result.idToken,
+        'X-AccessToken': result? result.accessToken : '',
+        'X-IdToken': result? result.idToken : '',
         'Content-Type': "application/json",
         'Accept': 'application/json'
         //'Access-Control-Request-Headers': 'X-AccessToken, X-IdToken, Content-Type',
         //'Access-Control-Request-Method': method
       })
     }
-  }
-
-  private newInstance(): T {
-    return new this.clazz();
   }
 }

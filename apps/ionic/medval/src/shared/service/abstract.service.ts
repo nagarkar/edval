@@ -9,8 +9,6 @@ import {Config} from "../config";
 
 export abstract class AbstractService<T> implements ServiceInterface<T> {
 
-  private static DEFAULT_CACHE_AGE = 10 * 60 * 1000; // 10 minutes.
-
   // Visible for Testing
   static TEST_MODE: boolean = false;
 
@@ -31,7 +29,7 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
     http: Http,
     private clazz: ClassType<T>) {
 
-    this.httpClient = new HttpClient<T>(accessProvider, http, clazz);
+    this.httpClient = new HttpClient<T>(http, clazz);
   }
 
   reset(): void {
@@ -170,7 +168,7 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
 
   private cacheMaxAgeExceeded() {
     const nowMillis = Date.now();
-    return (nowMillis - this.lastCacheClearMillis) > AbstractService.DEFAULT_CACHE_AGE;;
+    return (nowMillis - this.lastCacheClearMillis) > Config.DEFAULT_CACHE_AGE;;
   }
 
   private getPathFromPathElements(pathElements: string[]) {

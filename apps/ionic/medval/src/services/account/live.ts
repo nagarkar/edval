@@ -26,7 +26,7 @@ export class LiveAccountService extends AbstractService<Account> {
   }
 
   reset() {
-    super.reset();
+    this.clearCache();
     this.get(Config.CUSTOMERID);
   }
 

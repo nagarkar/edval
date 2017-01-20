@@ -2,8 +2,11 @@ import {Component} from "@angular/core";
 import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService, AuthResult} from "../../shared/aws/access.token.service";
 import {DashboardComponent} from "../dashboard/dashboard.component";
-import {NavController, LoadingController, ToastController} from "ionic-angular";
+import {NavController, LoadingController, ToastController, AlertController} from "ionic-angular";
 import {SettingsComponent} from "../settings/settings.component";
+import {AccountComponent} from "../account/account.component";
+import {AccountSetupService} from "../../services/accountsetup/account.setup.service";
+import {Config} from "../../shared/config";
 
 @Component({
   templateUrl: './login.component.html'
@@ -14,10 +17,16 @@ export class LoginComponent {
   username: string;
   password: string;
 
+  showNewAccount: boolean = Config.SHOW_NEW_ACCOUNT;
+
+  showForgotPwd: boolean = Config.SHOW_FORGOT_PASSWORD;
+
   constructor(
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController,
     private toastCtrl: ToastController,
+    private accSetupSvc: AccountSetupService,
     private authProvider: AccessTokenService) {
 
   }
@@ -26,13 +35,24 @@ export class LoginComponent {
     return this.username == null || this.password == null;
   }
 
-  public login() {
+  setupNewAccount() {
+    this.navCtrl.push(AccountComponent, {create: true});
+  }
 
-    // TODO Remove before launch
-    //this.navigateToDashboardPage();
-    //if (1 == 1) return;
-    // TODO end
+  forgotPassword() {
+    Utils.presentAlertPrompt(this.alertCtrl, ((data)=>{
+      let username = data.username;
+      this.accSetupSvc.forgotPassword(username)
+        .then((result: string) => {
+          Utils.presentAlertPrompt(this.alertCtrl, ()=>{}, result);
+        })
+        .catch((err)=> {
+          Utils.presentAlertPrompt(this.alertCtrl, ()=>{}, err);
+        })
+    }), 'Provide your username', [{name: "username", label: 'User Name'}]);
+  }
 
+  login() {
 
     console.log("Before loading create: " + Date.now());
     let loading = this.loadingCtrl.create();

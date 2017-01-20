@@ -6,11 +6,11 @@ import {SessionService} from "../../../services/session/delegator";
 import {ObjectCycler} from "../../../shared/stuff/object.cycler";
 import {SReplacer} from "../../../pipes/sreplacer";
 import {AccountService} from "../../../services/account/delegator";
-import {Idle, DEFAULT_INTERRUPTSOURCES} from "@ng-idle/core";
-import {Subject} from "rxjs";
+import {Idle} from "@ng-idle/core";
 import {StartWithSurveyOption} from "../start/start.with.survey.option.component";
 import {WheelComponent} from "../../../shared/components/wheel/wheel.component";
 import {SurveyPage} from "../survey.page";
+import {WorkflowProperties} from "../../../services/survey/schema";
 
 @Component({
   templateUrl: './thanks.component.html',
@@ -156,7 +156,8 @@ export class ThanksComponent extends SurveyPage {
   };
 
   private setupAttractions() {
-    let wfProperties = this.sessionSvc.hasCurrentSession() ? this.sessionSvc.surveyNavigator.survey.workflowProperties: {};
+    let wfProperties: WorkflowProperties =
+      this.sessionSvc.hasCurrentSession() ? this.sessionSvc.surveyNavigator.survey.workflowProperties: {avgSteps: 4};
     this.showJokes = wfProperties.showJokes || this.showJokes;
     this.showWheel = wfProperties.showWheel || this.showWheel;
     if (this.showWheel) {

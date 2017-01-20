@@ -4,7 +4,10 @@ import {StatusBar, Splashscreen} from "ionic-native";
 import {ServiceFactory} from "../services/service.factory";
 import {StartWithSurveyOption} from "../pages/survey/start/start.with.survey.option.component";
 import {
-  AllPromoters, StrongDetractor, StrongPromoter, AnyDetractors,
+  AllPromoters,
+  StrongDetractor,
+  StrongPromoter,
+  AnyDetractors,
   AveragePromoterScore
 } from "../services/survey/survey.functions";
 import {HeaderComponent} from "../shared/components/header/header.component";

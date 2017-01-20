@@ -1,59 +1,88 @@
-<mdval-header title="Account Information"></mdval-header>
+<mdval-header *ngIf="isEdit" title="Account Information"></mdval-header>
+<mdval-header *ngIf="!isEdit" title="Setup New Administrator Account and Organization"></mdval-header>
 <ion-content padding>
-  <ion-list class="m-t-3 list custom-form-list">
-    <ion-item class="item-custom">
-        <ion-label>Organization Name</ion-label>
-        <ion-input  placeholder="Acme Inc." [(ngModel)]="account.properties.customerName"></ion-input>
-    </ion-item>
-    <ion-item class="item-custom">
+  <div class="m-t-4" *ngIf="!isEdit">
+    <ion-title>Please provide an administrator username and phone number.</ion-title>
+    <ion-title>We will send you an SMS with a temporary password for this username.</ion-title>
+    <ion-list class="list custom-form-list">
+      <ion-item class="item-custom">
+        <ion-label>Username</ion-label>
+        <ion-input [(ngModel)]="username"></ion-input>
+      </ion-item>
+      <ion-item class="item-custom">
+        <ion-label>Phone Number </ion-label>
+        <ion-input placeholder="(255) 555-3333" [ngModel]="phoneNumber | phoneFormat" (ngModelChange)="phoneNumber=$event"></ion-input>
+      </ion-item>
+      <ion-item class="item-custom">
+        <ion-label>Email Address</ion-label>
+        <ion-input [(ngModel)]="email"></ion-input>
+      </ion-item>
+    </ion-list>
+  </div>
+  <div class="m-t-2">
+    <div *ngIf="!isEdit">
+      <ion-title>Please provide an organiation ID. This is required. The rest of the fields are optional.</ion-title>
+      <ion-title> You cannot change the Organization ID once created.</ion-title>
+    </div>
+    <ion-list class="list custom-form-list">
+      <ion-item class="item-custom">
         <ion-label>Organization ID</ion-label>
-        <ion-input placeholder="OMC 12" disabled [(ngModel)]="account.customerId"></ion-input>
-    </ion-item>
-    <ion-item class="item-custom">
-        <ion-label>Location Address</ion-label>
-        <ion-input placeholder="Street Line 1" [(ngModel)]="account.properties.address.street1"></ion-input>
-    </ion-item>
-    <ion-item class="item-custom">
-        <ion-label></ion-label>
-        <ion-input placeholder="Street Line 2" [(ngModel)]="account.properties.address.street2"></ion-input>
-    </ion-item>
-    <ion-row class="group-fields">
-      <ion-col width-25></ion-col>
-      <ion-col>
-        <ion-input placeholder="City" [(ngModel)]="account.properties.address.city"></ion-input>
-      </ion-col>
-      <ion-col>
-        <ion-select [(ngModel)]="account.properties.address.state">
-          <ion-option value="WA" selected>Washington</ion-option>
-          <ion-option value="CA">California</ion-option>
-        </ion-select>
-      </ion-col>
-      <ion-col>
-        <ion-input placeholder="Zip" [(ngModel)]="account.properties.address.zip"></ion-input>
-      </ion-col>
-    </ion-row>
-    <ion-row class="logos">
-      <ion-col width-25></ion-col>
-      <ion-col>
-        <div no-margin class="image-box">
-          <img src="{{account.properties?.logo}}" style="width:40%"/>
-          <ion-icon name="camera" (click)="collectUrl()" ></ion-icon>
-        </div>
-        <div class="desc">Logo</div>
-      </ion-col>
-      <ion-col>
-        <div no-margin class="image-box">
-          <img src="{{account.properties?.logo}}" style="width:40%"/>
-          <ion-icon name="camera" (click)="collectUrl()" ></ion-icon>
-        </div>
-        <div class="desc">Background image</div>
-      </ion-col>
-    </ion-row>
-  </ion-list>
-  <ion-row padding>
-    <ion-col padding>
-      <button ion-button large color="danger" block (click)="navCtrl.pop()">Done</button>
-    </ion-col>
-  </ion-row>
+        <ion-input [disabled]="isEdit" [(ngModel)]="account.customerId"></ion-input>
+      </ion-item>
+      <div *ngIf='isEdit'>
+        <ion-item class="item-custom">
+            <ion-label>Organization Name</ion-label>
+            <ion-input placeholder="Acme Inc." [(ngModel)]="account.properties.customerName"></ion-input>
+        </ion-item>
+        <ion-item class="item-custom">
+            <ion-label>Location Address</ion-label>
+            <ion-input placeholder="Street Line 1" [(ngModel)]="account.properties.address.street1"></ion-input>
+        </ion-item>
+        <ion-item class="item-custom">
+            <ion-label></ion-label>
+            <ion-input placeholder="Street Line 2" [(ngModel)]="account.properties.address.street2"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-row class="group-fields">
+            <ion-col width-25></ion-col>
+            <ion-col>
+              <ion-input placeholder="City" [(ngModel)]="account.properties.address.city"></ion-input>
+            </ion-col>
+            <ion-col>
+              <ion-select [(ngModel)]="account.properties.address.state">
+                <ion-option value="WA" selected>Washington</ion-option>
+                <ion-option value="CA">California</ion-option>
+              </ion-select>
+            </ion-col>
+            <ion-col>
+              <ion-input placeholder="Zip" [(ngModel)]="account.properties.address.zip"></ion-input>
+            </ion-col>
+          </ion-row>
+          <ion-row class="logos">
+            <ion-col width-25></ion-col>
+            <ion-col>
+              <div no-margin class="image-box">
+                <img src="{{account.properties?.logo}}" style="width:40%"/>
+                <ion-icon name="camera" (click)="collectUrl()" ></ion-icon>
+              </div>
+              <div class="desc">Logo</div>
+            </ion-col>
+            <ion-col>
+              <div no-margin class="image-box">
+                <img src="{{account.properties?.logo}}" style="width:40%"/>
+                <ion-icon name="camera" (click)="collectUrl()" ></ion-icon>
+              </div>
+              <div class="desc">Background image</div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </ion-list>
+  </div>
+  <div padding text-center>
+    <button [disabled]="!isEdit && (username == null || account.customerId == null)" ion-button color="revvolve" type="submit"
+            (click)="navigate()">{{isEdit? 'Done' : 'Create Account'}}</button>
+    <button ion-button color="light" type="submit" (click)="navigate()">Cancel</button>
+  </div>
 </ion-content>
-<mdval-footer></mdval-footer>
+<mdval-footer *ngIf="showHeaderFooter" ></mdval-footer>

@@ -85,12 +85,12 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:Orthodontic Assistant",
       properties: {
-        question: `staff ? 'Is ' + staff.displayName + ' friendly and courteous?'
-          : 'Are the Doctor's Assistants friendly and courteous?'`,
-        metricName: 'FriendlycourteousMD',
-        positiveImpact: `staff ? staff.displayName + ' is friendly. ' + staff.personalPronoun() + ' treats me with the utmost respect'
+        question: `staff ? "Is " + staff.displayName + " friendly and courteous?"
+          : "Are the Doctor's Assistants friendly and courteous?"`,
+        metricName: 'FriendlycourteousAssistants',
+        positiveImpact: `staff ? staff.displayName + " is friendly. " + staff.personalPronoun() + " treats me with the utmost respect"
             : "The Doctor's Assistants are friendly and respectful"`,
-        improvement: `(staff ? staff.displayName : "The Doctor's Assistants") + ' could be more friendly and courteous'`,
+        improvement: `(staff ? staff.displayName : "The Doctor's Assistants") + " could be more friendly and courteous"`,
         definition: {
           npsType: {
             range: 5
@@ -105,8 +105,8 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:Orthodontic Assistant",
       properties: {
         metricName: 'Doctor Skill',
-        question: `staff ? 'Do you feel ' + staff.displayName + ' is skillful in performing tasks?' 
-          : 'Are the Doctor's Assistants skillful in performing tasks?'`,
+        question: `staff ? "Do you feel " + staff.displayName + " is skillful in performing tasks?" 
+          : "Are the Doctor's Assistants skillful in performing tasks?"`,
         positiveImpact: `(staff ? staff.displayName + ' is' : "The Doctor's Assistants are") + ' skillful in performing tasks'`,
         improvement: `staff ? staff.displayName + ' should improve ' + staff.posessivePronoun() + ' skills' 
           : "The Doctor's assistants should improve their medical skills"`,

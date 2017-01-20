@@ -1,4 +1,6 @@
 <div class="pos-rel">
   <canvas style="position:absolute" #canvasEl (click)="handleClick($event)"></canvas>
-  <ion-icon *ngIf="showIcon" style="position:absolute;font-size:2em" color="danger" [ngStyle]="iconStyle" isActive=true name="alert"></ion-icon>
+  <ion-icon class='imgmapicon' *ngIf="showIcon" [color]="color" isActive=true name="{{iconName}}"
+    [ngStyle]="iconStyle">
+  </ion-icon>
 </div>

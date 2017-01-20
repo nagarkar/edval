@@ -6,24 +6,28 @@ import {Idle, DEFAULT_INTERRUPTSOURCES} from "@ng-idle/core";
 import {Subject} from "rxjs";
 import {StartWithSurveyOption} from "./start/start.with.survey.option.component";
 import {Config} from "../../shared/config";
-import {Component} from "@angular/core";
 
 export class SurveyPage {
+
+  progress: number = 0;
+
+  inNavigation:boolean = false;
 
   constructor(
     protected loadingCtrl: LoadingController,
     protected navCtrl: NavController,
     protected sessionSvc: SessionService,
     protected idle?: Idle) {
-  }
 
-  ngOnInit() {
-    if (this.sessionSvc.hasCurrentSession()){
-      this.sessionSvc.recordNavigatedLocationInCurrentSession(Utils.getObjectName(this));
+    if (sessionSvc.hasCurrentSession()){
+      sessionSvc.recordNavigatedLocationInCurrentSession(Utils.getObjectName(this));
+      this.progress = sessionSvc.surveyNavigator.getProgressFraction();
     } else {
       Utils.error("Did not find current session in SurveyPage:" + this.constructor.name);
     }
+  }
 
+  ngOnInit() {
     let idle = this.idle;
     if (!idle) {
       return;
@@ -47,11 +51,19 @@ export class SurveyPage {
   }
 
   public navigateToNext(...terminationMessage: string[]) {
-    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.loadingCtrl, this.navCtrl, ...terminationMessage);
+    if (this.inNavigation === true) {
+      return;
+    }
+    this.inNavigation = true;
+    try {
+      SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.loadingCtrl, this.navCtrl, ...terminationMessage);
+    } finally {
+      this.inNavigation = false;
+    }
   }
 
-  protected goToStartPage() {
-    this.navCtrl.setRoot(StartWithSurveyOption, {defaultOnly: true});
+  goToStartPage(cancel?: boolean) {
+    this.navCtrl.setRoot(StartWithSurveyOption, {defaultOnly: true, cancelPreviousSession: cancel});
   }
 
   private stopIdling(subscription?: Subject<number>) {

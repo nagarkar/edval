@@ -2,13 +2,11 @@ import {Injectable} from "@angular/core";
 import {Session} from "./schema";
 import {DelegatingService} from "../../shared/service/delegating.service";
 import {MockSessionService} from "./mock";
-import {ErrorType} from "../../shared/stuff/error.types";
 import {Utils} from "../../shared/stuff/utils";
 import {SurveyNavigator} from "../survey/survey.navigator";
 import {SurveyService} from "../survey/delegator";
 import {MetricService} from "../metric/delegator";
 import {RegisterService} from "../service.factory";
-import {LiveSessionService} from "./live";
 import {DDBSessionService} from "./ddb";
 
 @Injectable()
@@ -60,23 +58,23 @@ export class SessionService extends DelegatingService<Session> {
   }
 
   get(id: string, dontuseCache?: boolean) : Promise<Session> {
-    return Promise.reject<Session>(ErrorType.UnsupportedOperation("get"));
+    return Promise.reject<Session>(Utils.unsupportedOperationError("get", this));
   }
 
   list(dontuseCache?: boolean): Promise<Session[]> {
-    return Promise.reject<Session[]>(ErrorType.UnsupportedOperation("list"));
+    return Promise.reject<Session[]>(Utils.unsupportedOperationError("list", this));
   }
 
   getCached(id: string) :  Session{
-    throw ErrorType.UnsupportedOperation("getCached");
+    throw Utils.logAndThrow(Utils.unsupportedOperationError("getCached", this));
   }
 
   listCached(): Session[] {
-   throw ErrorType.UnsupportedOperation("listCached");
+   throw Utils.logAndThrow(Utils.unsupportedOperationError("listCached", this));
   }
 
   delete(id: string): Promise<void> {
-    return Promise.reject<void>(ErrorType.UnsupportedOperation("delete"));
+    return Promise.reject<void>(Utils.unsupportedOperationError("delete", this));
   }
 
   get scratchPad() {

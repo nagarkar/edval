@@ -1,11 +1,8 @@
 <ion-content>
-  <ion-item *ngIf="!isEdit">
+  <ion-list>
+  <ion-item>
     <ion-label color="primary" fixed>ID</ion-label>
-    <ion-input [(ngModel)]="staffMember.username"></ion-input>
-  </ion-item>
-  <ion-item *ngIf="isEdit">
-    <ion-label color="primary" fixed>ID</ion-label>
-    <ion-label>{{staffMember.username}}</ion-label>
+    <ion-input [disabled]="isEdit" [(ngModel)]="staffMember.username"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label color="primary" fixed>Role</ion-label>
@@ -45,8 +42,11 @@
           <ion-icon name="camera" (click)="collectUrl()" style="margin-left:45%;height:25px"></ion-icon>
         </ion-card>
       </ion-col>
+      <ion-col style="margin-top: 5em;margin-left: 10em;">
+        <button ion-button color="primary" (click)="add();">Add/Edit</button>
+        <button ion-button color="secondary" (click)="navCtrl.pop()">Cancel</button>
+      </ion-col>
     </ion-row>
   </ion-grid>
-  <button ion-button color="primary" block (click)="add();">Add/Edit</button>
-  <button ion-button color="secondary" block (click)="navCtrl.pop()">Cancel</button>
+  </ion-list>
 </ion-content>

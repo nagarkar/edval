@@ -8,7 +8,8 @@ import {
   ModalController,
   Modal,
   Platform,
-  Loading
+  Loading,
+  AlertInputOptions
 } from "ionic-angular";
 import {CameraOptions, Camera, SpinnerDialog} from "ionic-native";
 import {ErrorType} from "./error.types";
@@ -121,6 +122,12 @@ export class Utils {
 
   static throw(format:string, ...args: string[]) {
     throw ErrorType.UnsupportedOperation(this.format(format, ...args));
+  }
+
+  static throwIf(condition: boolean, format: string, ...args: string[]) {
+    if (condition) {
+      throw ErrorType.UnsupportedOperation(this.format(format, ...args));
+    }
   }
 
   static throwIfNull(value: any, format?:string, ...args: string[]) {
@@ -239,13 +246,13 @@ export class Utils {
     actionSheet.present();
   }
 
-  static presentInvalidEntryAlert(alertCtrl: AlertController, message: string, ...args: string[]) {
+  static presentInvalidEntryAlert(alertCtrl: AlertController, message: string, ...args: string[]): Alert {
     let alert : Alert = alertCtrl.create({
-      title: 'Are you sure?',
-      subTitle: Utils.format(message, ...args),
+      title: Utils.format(message, ...args),
       buttons: ['Dismiss']
     });
     alert.present();
+    return alert;
   }
 
   static presentProceedCancelPrompt(alertCtrl: AlertController, onselect: (result: string | any) => void, subtitle: string) {
@@ -268,10 +275,10 @@ export class Utils {
     alert.present();
   }
 
-  static presentAlertPrompt(
+  static presentAlertPrompt (
     alertCtrl: AlertController,
     onselect: (result: string | any) => void,
-    title?: string, inputs?: [{name: string, placeholder:string}]) {
+    title?: string, inputs?: Array<AlertInputOptions>): Alert {
 
     let alert = alertCtrl.create({
       title: title || '',
@@ -293,6 +300,7 @@ export class Utils {
       ]
     });
     alert.present();
+    return alert;
   }
 
   static showLoadingBar() {
@@ -399,6 +407,47 @@ export class Utils {
 
   static nou(obj: any) {
     return obj == null || obj == undefined;
+  }
+
+  static logAndThrow(err: Error) {
+    if (!err) {
+      return;
+    }
+    Utils.error(err.message);
+    throw err;
+  }
+
+  static unsupportedOperationError(s: string, onObject: Object): Error {
+    let err: Error = ErrorType.UnsupportedOperation(s);
+    try {
+      Utils.error("In {0}, with error: {1}", (onObject ? onObject.constructor.name: 'on unknown object'), err.message)
+    } finally {}
+    return err;
+  }
+
+  static value<T>(value: T, def: T) {
+    if (value === null || value === undefined) {
+      return def;
+    }
+    if (typeof value == 'number') {
+      let num: number = +value;
+      if (isNaN(num)) {
+        return def;
+      }
+    }
+    if (Utils.isString(value)) {
+      let str = value.toString();
+      if (str == "") {
+        return def;
+      }
+    }
+    if (typeof value === 'object' && typeof def === 'object' && def !== null) {
+      return Object.assign({}, def, value);
+    }
+    return value;
+  }
+  static isString(obj: any) {
+    return Object.prototype.toString.call(obj) == '[object String]';
   }
 }
 

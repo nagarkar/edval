@@ -27,6 +27,8 @@ export class StartWithSurveyOption {
 
   surveys : Survey[] = [];
 
+  cancelPreviousSession: boolean;
+
   @Input()
   defaultOnly: boolean = false; // must default to false in order for logic in constructor to work
 
@@ -41,11 +43,11 @@ export class StartWithSurveyOption {
   ) {
 
     this.defaultOnly = navParams.get("defaultOnly") === true || this.defaultOnly;
+    this.cancelPreviousSession = navParams.get("cancelPreviousSession") || this.cancelPreviousSession;
 
     new ObjectCycler<string>(null, ...this.images)
       .onNewObj.subscribe((next:string)=>this.leftImage = next);
-    //TODO remove this.
-    //tokenProvider.startNewSession("celeron", "passWord@1");
+
   }
 
   ngOnInit() {
@@ -66,7 +68,7 @@ export class StartWithSurveyOption {
   }
 
   pickSurvey(id: string){
-    if (this.sessionSvc.hasCurrentSession()) {
+    if (this.sessionSvc.hasCurrentSession() && !this.cancelPreviousSession) {
       this.sessionSvc.closeCurrentSession();
     }
     this.sessionSvc.newCurrentSession(id);

@@ -16,7 +16,7 @@ export class MetricService extends DelegatingService<Metric> {
     mockService: MockMetricService,
     liveService: LiveMetricService) {
 
-    super(mockService, liveService);
+    super(mockService, liveService, Metric);
     this.onCreate.subscribe((next: Metric) => this.createCached(next));
     this.onDelete.subscribe((next: Metric) => this.deleteCached(next));
   }

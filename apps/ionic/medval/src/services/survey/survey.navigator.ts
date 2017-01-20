@@ -25,6 +25,12 @@ export interface NavigationTarget {
   params:{};
 }
 
+export interface NavigatorState {
+  progCounter?: number;
+  scratchPad?: any;
+  lastResult?: any;
+  stepsTaken: number;
+}
 export class SurveyNavigator {
 
   static componentMap: Map<string, Function> = new Map<string, Function>();
@@ -35,9 +41,36 @@ export class SurveyNavigator {
 
   scratchPad: any = {}
 
+  /* Points to the the previous 'step' in workflow to be executed/navigated. */
+  set navState(state: NavigatorState) {
+    Utils.throwIfNNOU(state.progCounter);
+    this.progCounter = state.progCounter;
+    this.scratchPad = state.scratchPad;
+    this.lastResult = state.lastResult;
+    this.stepsTaken = state.stepsTaken;
+  }
+
+  get navState(): NavigatorState {
+    let navState: NavigatorState = {stepsTaken: this.stepsTaken};
+    try {
+      if (this.progCounter !== undefined) {
+        navState.progCounter = this.progCounter;
+      }
+      if (navState.scratchPad !== undefined) {
+        navState.scratchPad = JSON.parse(JSON.stringify(this.scratchPad));
+      }
+      if (navState.lastResult !== undefined) {
+        navState.lastResult = JSON.parse(JSON.stringify(this.lastResult));
+      }
+    } catch(err) {
+      Utils.error("FATAL ERROR IN SURVEYNAVIGATOR get navState(): " + err);
+    } finally {
+      return navState;
+    }
+  }
+
   /* Points to the the next 'step' in workflow to be executed/navigated. */
   private progCounter : number = 0;
-
 
   /**
    * Points to the result of the previous component or function operation. For functions, this variable is automatically
@@ -47,15 +80,12 @@ export class SurveyNavigator {
    */
   private lastResult : any;
 
+  // Zero based index of many steps have been completed in this workflow.
+  // This should be incremented to 0 when the program counter is first incremented
+  // (i.e. the first workflow screen is displayed)
+  private stepsTaken = -1;
+
   private idToProgCounter: Map<string, number> = new Map<string, number>();
-
-  get previousResult(): any {
-    return this.lastResult;
-  }
-
-  set result(result: any) {
-    this.lastResult = result;
-  }
 
   constructor(public session: Session, public survey: Survey, public metricSvc: MetricService) {
     Utils.assertTrue(session.properties.surveyId == survey.id);
@@ -71,21 +101,45 @@ export class SurveyNavigator {
     if (isNullOrUndefined(this.progCounter) || this.progCounter == SurveyNavigator.TERMINAL || !this.hasMoreSteps()) {
       return null;
     }
-
-    let currentStep = this.survey.workflow[this.progCounter];
-    this.incrementOrTerminateProgramCounter(currentStep);
-    if (currentStep['fn']) {
-      this.processFunction(<FnIf>currentStep);
-    }
-    // Default assumption is currentStep.component != null
-    if (currentStep['component']) {
-      // Check if component is able to run. If not, move PC and doNext. If yes, return.
-      let componentStep = <ComponentIf>currentStep;
-      if (this.shouldExecute(componentStep)) {
-        return this.convertStepToNavigationTarget(componentStep);
+    let currentProgCounter = this.progCounter;
+    try {
+      let currentStep = this.survey.workflow[this.progCounter];
+      this.incrementOrTerminateProgramCounter(currentStep);
+      if (currentStep['fn']) {
+        this.processFunction(<FnIf>currentStep);
       }
+      // Default assumption is currentStep.component != null
+      if (currentStep['component']) {
+        // Check if component is able to run. If not, move PC and doNext. If yes, return.
+        let componentStep = <ComponentIf>currentStep;
+        if (this.shouldExecute(componentStep)) {
+          this.incrementStepsTaken();
+          return this.convertStepToNavigationTarget(componentStep);
+        }
+      }
+      let navTarget: NavigationTarget = this.getNavigationTarget();
+      return navTarget;
+    } catch(err) {
+      Utils.error("FATAL ERROR IN SURVEYNAVIGATOR:" + err);
     }
-    return this.getNavigationTarget();
+  }
+
+  getProgressFraction() {
+    if (this.stepsTaken == 0) {
+      return 0.1;
+    }
+    let result = this.stepsTaken/this.survey.workflowProperties.avgSteps;
+    let step = this.survey.workflow[this.progCounter];
+    if (result < .6 && (!step || step.isTerminal)) {
+      return 0.9;
+    }
+    if (result < 0) {
+      return 0;
+    } else if (result >= 1) {
+      return 0.9
+    }
+
+    return result;
   }
 
   private createIdToProgCounter(workflow: WorkflowElement[]): Map<string, number> {
@@ -120,16 +174,16 @@ export class SurveyNavigator {
       }
     }
     if (jump){
-      this.progCounter = this.idToProgCounter.get(jump);
+      this.setProgramCounter(this.idToProgCounter.get(jump));
     }
   }
 
   /** Unless the step is a terminal step, increments the program counter. */
   private incrementOrTerminateProgramCounter(step: WorkflowElement) : void {
     if (step.isTerminal) {
-      this.progCounter = SurveyNavigator.TERMINAL;
+      this.setProgramCounter(SurveyNavigator.TERMINAL);
     } else {
-      this.progCounter++;
+      this.incrementProgramCounter();
     }
   }
 
@@ -145,10 +199,7 @@ export class SurveyNavigator {
   }
 
   private hasMoreSteps() {
-    if (this.progCounter > this.survey.workflow.length - 1 || this.progCounter < 0) {
-      return false;
-    }
-    return true;
+    return this.progCounter <= this.survey.workflow.length - 1 && this.progCounter >= 0;
   }
 
   static registerComponent(name: string, component: Function) {
@@ -179,5 +230,17 @@ export class SurveyNavigator {
       SurveyNavigator.expressionMap.set(cleanExpression, func);
     }
     return func;
+  }
+
+  private setProgramCounter(newProgramCounter: number) {
+    this.progCounter = newProgramCounter;
+  }
+
+  private incrementStepsTaken() {
+    this.stepsTaken++;
+  }
+
+  private incrementProgramCounter() {
+    this.setProgramCounter(this.progCounter + 1);
   }
 }

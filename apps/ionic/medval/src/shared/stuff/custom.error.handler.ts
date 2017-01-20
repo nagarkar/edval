@@ -1,6 +1,5 @@
-import { ErrorHandler } from '@angular/core';
-import { IonicErrorHandler } from 'ionic-angular';
-import { AwsClient } from "../aws/aws.client";
+import {IonicErrorHandler} from "ionic-angular";
+import {AwsClient} from "../aws/aws.client";
 
 export class CustomErrorHandler extends IonicErrorHandler {
 

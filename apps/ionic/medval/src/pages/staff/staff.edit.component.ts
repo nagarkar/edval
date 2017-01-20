@@ -4,12 +4,9 @@ import {Staff} from "../../services/staff/schema";
 import {StaffService} from "../../services/staff/delegator";
 import {NavParams, NavController, AlertController, ActionSheetController, ToastController} from "ionic-angular";
 import {final} from "../../app/app.module";
-import {MockStaffService} from "../../services/staff/mock";
-import {LiveStaffService} from "../../services/staff/live";
 
 @Component({
-  templateUrl: "./staff.edit.component.html",
-  providers: [ StaffService, MockStaffService, LiveStaffService]
+  templateUrl: "./staff.edit.component.html"
 })
 
 export class StaffEditComponent {

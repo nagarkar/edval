@@ -4,7 +4,6 @@ import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
-import {SurveyNavUtils} from "../SurveyNavUtils";
 import {MetricService} from "../../../services/metric/delegator";
 import {Metric} from "../../../services/metric/schema";
 import {Idle} from "@ng-idle/core";
@@ -66,9 +65,5 @@ export class MultimetricComponent extends SurveyPage {
     return allMetrics.filter((value: Metric) => {
       return this.metricIds.indexOf(value.metricId) >= 0;
     });
-  }
-
-  public navigateToNext() {
-    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.loadingCtrl, this.navCtrl);
   }
 }

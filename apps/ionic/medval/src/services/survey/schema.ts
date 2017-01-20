@@ -3,7 +3,7 @@ import {Utils} from "../../shared/stuff/utils";
 export class Survey {
 
   constructor () {
-    this.workflowProperties = {};
+    this.workflowProperties = {avgSteps: 4};
     this.properties = {};
   }
 
@@ -15,7 +15,8 @@ export class Survey {
     purpose?: string;
     timeCommitment?: string;
   };
-  workflowProperties: any;
+  workflowProperties: WorkflowProperties;
+
   workflow: WorkflowElement[];
 
   toString() {
@@ -25,6 +26,14 @@ export class Survey {
   get displayName(): string {
     return [this.properties.name, "(", this.properties.purpose, ")"].join(' ');
   }
+}
+
+export interface WorkflowProperties {
+  avgSteps: number;
+  showJokes?: boolean;
+  showWheel?: boolean;
+  award?: number;
+  costPerUse?: number;
 }
 
 export interface WorkflowElement {

@@ -50,6 +50,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         timeCommitment: "I have a minute"
       },
       workflowProperties: {
+        avgSteps: 3,
         showJokes: true,
         showWheel: true
       },
@@ -68,7 +69,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
             metricId: "root"
           },
           navigateOnResult: {
-            "false": 'things.done.poorly',
+            "false": 'happy',
             "true": 'unhappy'
           }
         },
@@ -76,6 +77,11 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           id:'unhappy',
           component:"PickMetricGroups",
           params: {
+            title:`"What part of your experience " + account.customerName + " was the least satisfying?"`,
+            selectedStyle: {
+              fillStyle: "rgba(255, 0, 0, .1)",
+              shadowColor: '#C0B'
+            },
             graphicalMetricGroupIndicators: {
               imgSrc: "assets/img/patient_journey.png",
               metricGroups: [{
@@ -101,8 +107,10 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           id:'unhappy.things.done.poorly',
           component:"TopInfluencerComponent",
           params: {
+            title: `"What can " + account.properties.customerName + " do better to improve in this area?"`,
             valueOrderDesc: false,
-            maxMetrics: 4
+            maxMetrics: 4,
+            numSelections: 0
           }
         },
         {
@@ -113,30 +121,76 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
-          id:'things.done.poorly',
-          component:"TopInfluencerComponent",
-          params: {
-            valueOrderDesc: false,
-            maxMetrics: 4
-          }
-        },
-        {
-          id:'things.done.well',
-          component:"TopInfluencerComponent",
-          params: {
-            valueOrderDesc: true,
-            maxMetrics: 4
-          }
-        },
-        {
           id:'happy',
           fn:"StrongPromoter",
           params:{
             metricId: "root"
           },
           navigateOnResult: {
-            "false": Infinity.toString(),
+            "false": "things.done.well",
+            "true": "best.areas.of.performance"
+          }
+        },
+        {
+          id:'best.areas.of.performance',
+          component:"PickMetricGroups",
+          params: {
+            iconName: 'checkmark-circle',
+            color: 'green',
+            selectedStyle: {
+              fillStyle: "rgba(0, 255, 0, .1)",
+              shadowColor: '#333'
+            },
+            title:`"What part of your experience " + account.customerName + " was the most satisfying?"`,
+            graphicalMetricGroupIndicators: {
+              imgSrc: "assets/img/patient_journey.png",
+              metricGroups: [{
+                coords: "222,398,238,391,252,359,298,366,318,351,347,359,370,346,387,356,418,346,441,367,467,375,466,393,477,418,436,432,422,456,386,455,344,472,315,466,279,467,250,453,223,445,221,422,211,409",
+                metricIds:"95a8659497274ffe9f8fb14fa45b21e5, 6e0f99cdd7a34a058ff2fb22fbe51738, 0f99cdd7a34a058ff2fb22fbe51738, 34182735427d4f2eba99eb0acb66078f"
+              }, {
+                coords: "589,399,599,378,609,382,619,358,642,350,672,354,691,341,711,346,735,338,758,342,790,342,807,354,825,365,828,385,834,407,803,427,783,446,751,444,717,465,677,455,643,455,619,445,592,430,596,413",
+                metricIds:"95a8659497274ffe9f8fb14fa45b21e5, 6e0f99cdd7a34a058ff2fb22fbe51738, 0f99cdd7a34a058ff2fb22fbe51738, 34182735427d4f2eba99eb0acb66078f"
+              }, {
+                coords: "455,300,423,305,398,290,371,279,373,259,363,244,374,224,385,225,398,200,431,193,443,197,461,188,491,192,510,184,531,188,558,184,580,200,603,217,598,232,611,249,596,267,573,272,560,295,529,296,501,314",
+                metricIds:"045b498ae213df729dad97b, 1045b4984ae213df729dad97b, 861045b4984ae213df729dad97b, 2861045b4985ae23df729dad97b"
+              }, {
+                coords: "591,142,559,146,537,134,514,124,513,108,507,97,513,81,527,80,532,60,556,56,577,56,596,48,618,51,637,48,659,51,687,47,706,60,724,74,719,84,730,100,701,120,686,135,658,136,630,151,607,148",
+                metricIds:"045b4984805ae213df729dad97b, 1045b4984805ae213df729dad97b, 861045b4984805ae213df729dad97b, 2861045b4984805ae23df729dad97b"
+              }, {
+                coords: "397,79,395,104,353,100,334,118,291,107,253,111,239,100,214,91,213,74,205,56,227,43,237,24,266,22,281,25,299,14,320,18,342,9,358,18,386,11,406,26,425,38,423,52,428,65,418,81,399,83",
+                metricIds:"95a8659497274ffe9f8fb14fa45b21e5, 6e0f99cdd7a34a058ff2fb22fbe51738, 0f99cdd7a34a058ff2fb22fbe51738, 34182735427d4f2eba99eb0acb66078f"
+              }]
+            }
+          }
+        },
+        {
+          id:'things.done.well',
+          component:"TopInfluencerComponent",
+          params: {
+            title: `"What is " + account.properties.customerName + " doing best?"`,
+            valueOrderDesc: true,
+            maxMetrics: 4
+          }
+        },
+        {
+          id:'happy2',
+          fn:"StrongPromoter",
+          params:{
+            metricId: "root"
+          },
+          navigateOnResult: {
+            "false": "things.done.poorly",
             "true": "request.review"
+          }
+        },
+        {
+          id:'things.done.poorly',
+          isTerminal:true,
+          component:"TopInfluencerComponent",
+          params: {
+            title: `"What can " + account.properties.customerName + " improve?"`,
+            valueOrderDesc: false,
+            maxMetrics: 4
           }
         },
         {
@@ -156,6 +210,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         timeCommitment: "I have 2-3 minutes"
       },
       workflowProperties: {
+        avgSteps: 5,
         showJokes: true,
         showWheel: false,
       },
@@ -207,6 +262,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           id:'things.done.poorly',
           component:"TopInfluencerComponent",
           params: {
+            title: `"What can " + account.properties.customerName + " improve?"`,
             valueOrderDesc: false,
             maxMetrics:4,
             rootMetricId: null,
@@ -216,6 +272,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           id:'things.done.well',
           component:"TopInfluencerComponent",
           params: {
+            title: `"What is " + account.properties.customerName + " doing well"`,
             valueOrderDesc: true,
             maxMetrics: 4,
             rootMetricId: null
@@ -246,6 +303,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         timeCommitment: "I have 5-6 minutes"
       },
       workflowProperties: {
+        avgSteps: 6,
         showJokes: false,
         showWheel: true,
         award:10,

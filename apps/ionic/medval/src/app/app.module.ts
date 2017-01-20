@@ -1,5 +1,5 @@
 //import { RouterModule }   from '@angular/router';
-import {NgModule, ErrorHandler, enableProdMode} from "@angular/core";
+import {NgModule, enableProdMode} from "@angular/core";
 import {IonicApp, IonicModule} from "ionic-angular";
 import {RevvolveApp} from "./app.component";
 import {LoginComponent} from "../pages/login/login.component";
@@ -58,9 +58,10 @@ import {PhonePipe} from "../pipes/phone";
 import {DDBSessionService} from "../services/session/ddb";
 import {EmailProviderService} from "../shared/service/email.provider.service";
 import {AutoCompleteModule} from "../shared/components/autocomplete/autocomplete";
-import {CustomErrorHandler} from "../shared/stuff/custom.error.handler";
 import {ImageMapComponent} from "../shared/components/imgmap/imgmap.component";
 import {PickMetricGroups} from "../pages/survey/PickMetricGroups/pick.metricgroups.component";
+import {AccountSetupService} from "../services/accountsetup/account.setup.service";
+import {ProgressbarComponent} from "../shared/components/progressbar/progressbar.component";
 
 enableProdMode();
 
@@ -106,6 +107,7 @@ enableProdMode();
     ToplineForStaffComponent,
     MultimetricComponent,
     PickMetricGroups,
+    ProgressbarComponent,
 
     /** Reporting */
     NpsTrendComponent,
@@ -182,7 +184,9 @@ enableProdMode();
     LiveMetricService, MockMetricService, MetricService,
     LiveSurveyService, MockSurveyService, SurveyService, DDBSessionService,
     ServiceFactory,
-    EmailProviderService
+    EmailProviderService,
+    AccountSetupService,
+    SReplacer
   ]
 })
 

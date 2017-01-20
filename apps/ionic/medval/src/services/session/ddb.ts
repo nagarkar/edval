@@ -2,7 +2,6 @@ import {Session} from "./schema";
 import {Utils} from "../../shared/stuff/utils";
 import {Injectable, EventEmitter} from "@angular/core";
 import {ServiceInterface} from "../../shared/service/interface.service";
-import {ErrorType} from "../../shared/stuff/error.types";
 import {AwsClient} from "../../shared/aws/aws.client";
 /**
  * Created by chinmay on 10/31/16.
@@ -24,23 +23,23 @@ export class DDBSessionService implements ServiceInterface<Session> {
   }
 
   get(id: string, dontuseCache?: boolean): Promise<Session> {
-    throw ErrorType.UnsupportedOperation("get not supported for sessions");
+    throw Utils.unsupportedOperationError("get not supported for sessions", this);
   }
 
   list(dontuseCache?: boolean): Promise<Array<Session>> {
-    throw ErrorType.UnsupportedOperation("list not supported for sessions");
+    throw Utils.unsupportedOperationError("list not supported for sessions", this);
   }
 
   clearCache() {
-    throw ErrorType.UnsupportedOperation("caching not supported for sessions");
+    throw Utils.unsupportedOperationError("caching not supported for sessions", this);
   }
 
   getCached(id: string): Session {
-    throw ErrorType.UnsupportedOperation("get not supported for sessions");
+    throw Utils.unsupportedOperationError("get not supported for sessions", this);
   }
 
   listCached(): Array<Session> {
-    throw ErrorType.UnsupportedOperation("list not supported for sessions");
+    throw Utils.unsupportedOperationError("list not supported for sessions",this);
   }
 
   update(session: Session): Promise<Session> {

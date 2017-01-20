@@ -1,7 +1,5 @@
 import {Component, ViewChild, ElementRef, Input} from "@angular/core";
-import {Metric, MetricValue} from "../../../services/metric/schema";
 import {Utils} from "../../../shared/stuff/utils";
-import {RatingComponent} from "../../../shared/components/rating/rating.component";
 import {StaffService} from "../../../services/staff/delegator";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
 import {NavParams, NavController, LoadingController} from "ionic-angular";
@@ -22,7 +20,9 @@ export class PickMetricGroups extends SurveyPage {
   @ViewChild('imageMap')
   imageMap: ElementRef;
 
-  msg : string = "What part of your experience was the least satisfying?";
+  title : string = "What part of your experience was the least satisfying?";
+
+  done: boolean = false;
 
   @Input()
   params: any = {};
@@ -40,7 +40,7 @@ export class PickMetricGroups extends SurveyPage {
 
     super(loadingCtrl, navCtrl, sessionSvc, idle);
     this.params = params.get('graphicalMetricGroupIndicators');
-    this.msg = params.get('message') || this.msg;
+    this.title = params.get('title') || this.title;
   }
 
 
@@ -50,6 +50,6 @@ export class PickMetricGroups extends SurveyPage {
     if (this.sessionSvc.hasCurrentSession()) {
       this.sessionSvc.scratchPad.metricsForTopLineInfluencer = metricIds;
     }
-    super.navigateToNext();
+    this.done = true;
   }
 }

@@ -9,11 +9,19 @@
       <ion-col [ngStyle]="styles.text">
           <span>{{data.metric.properties.question | sReplacer:data}}</span>
           <p class="pos-rel" style="margin:0" text-center *ngIf="data.metric.isNpsType()">
-            <rating (ratingValueChange)="onSelection(data, $event);"
+            <rating class="staffrating" (ratingValueChange)="onSelection(data, $event);"
                     [ratingMax]="data.metric.properties.definition.npsType.range"
                     [ratingValue]="1"
                     [showLabels]="false"></rating>
           </p>
+      </ion-col>
+    </ion-row>
+    <ion-row style="position: absolute; display: flex; bottom: 1em; left: 10%;">
+      <ion-col>
+        <progress-bar [progress]="progress"></progress-bar>
+      </ion-col>
+      <ion-col>
+        <button small ion-button (click)="goToStartPage(true)">Cancel & Restart</button>
       </ion-col>
     </ion-row>
   </ion-grid>
