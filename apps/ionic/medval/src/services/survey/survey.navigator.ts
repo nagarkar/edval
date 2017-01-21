@@ -129,7 +129,7 @@ export class SurveyNavigator {
     }
     let result = this.stepsTaken/this.survey.workflowProperties.avgSteps;
     let step = this.survey.workflow[this.progCounter];
-    if (result < .6 && (!step || step.isTerminal)) {
+    if (result < .6 && !step) { // Very few steps, or terminal step.
       return 0.9;
     }
     if (result < 0) {

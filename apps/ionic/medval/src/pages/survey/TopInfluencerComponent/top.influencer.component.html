@@ -7,8 +7,9 @@
     <ion-row text-center>
       <ion-col>
         <br/>
-        <div *ngFor="let message of messages">
-          <h2 style="font-size: 2em"><b>{{message | sReplacer}}</b></h2>
+        <div *ngFor="let message of messages; let idx = index;">
+          <h2 *ngIf="idx == 0" style="font-size: 2em"><b>{{message | sReplacer}}</b></h2>
+          <h4 *ngIf="idx > 0" style="font-size: 1.5em">{{message | sReplacer}}</h4>
         </div>
         <span style="font-size: 1em">(tap to choose)</span>
       </ion-col>
@@ -33,17 +34,18 @@
           <ion-label ion-text color="black" style="margin-top:0em; padding-left: 0em;font-size: 1em;" stacked>
             Or tell us in your your own words...
           </ion-label>
-          <ion-textarea rows="5" class="feedback-text" placeholder="{{textPlaceholder}}" [(ngModel)]="reviewMsg">
+          <ion-textarea rows="3" class="feedback-text" placeholder="{{textPlaceholder | sReplacer}}" [(ngModel)]="reviewMsg">
           </ion-textarea>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row style="position: absolute; display: flex; bottom: 1em;">
       <ion-col>
-        <progress-bar [progress]="progress"></progress-bar>
-      </ion-col>
-      <ion-col>
-        <button small ion-button (click)="cancelAndRestart()">Cancel & Restart</button>
+        <div style="display:block; width:66%">
+          <progress-bar style="display:inline" [progress]="progress">
+          </progress-bar>
+          <button style="display: inline-block;position: absolute;height:2em" small ion-button (click)="cancelAndRestart()">Cancel & Restart</button>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>

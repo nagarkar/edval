@@ -52,9 +52,6 @@ export class SingleMetricComponent extends SurveyPage {
   public onSelection(data: string): void {
     this.sessionSvc.getCurrentSession().addMetricValue(
       this.currentMetric.subject, new MetricValue(this.currentMetric.metricId, data));
-    setTimeout(()=>{
-      super.navigateToNext();
-    }, 1000)
-
+    super.navigateToNext();
   }
 }

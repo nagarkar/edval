@@ -5,7 +5,7 @@
         <ion-row style="margin-top: 3em">
           <ion-col>
             <ion-label style="padding-left: .2em;font-size: 1.5em; text-align: left;" stacked>{{message}}</ion-label>
-            <autoComplete-email  [value]="email" [(ngModel)]="email"  formControlName="email" required placeholder="youremail@gmail.com"
+            <autoComplete-email  [value]="email" [(ngModel)]="email" formControlName="email" required placeholder="youremail@gmail.com"
                [suggestions]="filteredEmail" (completeMethod)="getEmail($event)" [size]="30" [minLength]= "3"
                (onSelect)="onSelectEmail($event)" field="name">
             </autoComplete-email>

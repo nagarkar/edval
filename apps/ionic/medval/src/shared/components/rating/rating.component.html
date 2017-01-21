@@ -6,7 +6,8 @@
 <span tabindex="0" role="slider">
   <span *ngFor=" let rating of ratingRange; let idx = index;" class="active">
     <ion-icon item-left #icon large
-      class="shadowpulse-once" (click)="setRating(idx + 1, icon)"
+      style="border-radius: 50%"
+      (click)="setRating(idx + 1, icon)"
       [name]="idx < ratingValue? 'star': 'star-outline'"
       color="{{(idx < ratingValue) ? color : 'darkgrey'}}">
     </ion-icon>

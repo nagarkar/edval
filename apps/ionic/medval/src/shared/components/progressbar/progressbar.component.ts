@@ -32,7 +32,7 @@ export class ProgressbarComponent {
   }
 
   get workoutProgress() : string {
-    return Math.floor(this._progress*100) + '%';
+    return Math.floor(this._progress * 100) + '%';
   }
 
   constructor(navParams: NavParams){

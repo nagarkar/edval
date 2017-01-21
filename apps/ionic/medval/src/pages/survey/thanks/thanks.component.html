@@ -1,6 +1,6 @@
 <mdval-header [home]="'survey'"></mdval-header>
 <ion-content class="card-background-page">
-  <div text-center style="padding-top:4em">
+  <div text-center class="m-t-3">
     <ion-grid>
       <ion-row>
         <ion-col width-33>
@@ -10,19 +10,19 @@
           <ion-row>
             <ion-col>
               <div *ngFor="let msg of message; let idx = index;">
-                <h1 class="m-t-0" *ngIf="idx == 0">{{msg}}</h1>
-                <h4 class="m-t-0" *ngIf="idx > 0">{{msg}}</h4>
+                <h1 class="m-t-0" *ngIf="idx == 0">{{msg | sReplacer}}</h1>
+                <h4 class="m-t-0" *ngIf="idx > 0">{{msg | sReplacer}}</h4>
               </div>
             </ion-col>
           </ion-row>
           <ion-row *ngIf="shouldOfferWheel">
             <ion-col>
-            <button round ion-button class="shadowpulse-once" color="gold" (click)="showWheelModal()">You got lucky! Try out for an instant reward!!</button>
+            <button round ion-button class="shadowpulse" color="gold" (click)="showWheelModal()">It's your lucky day! Play for an instant reward!!</button>
             </ion-col>
           </ion-row>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="whatToShow == 'joke' && showJokes">
+      <ion-row class="m-t-1" *ngIf="whatToShow == 'joke' && showJokes">
         <ion-col width-100 text-center>
           <img [ngStyle]="joke.style" src={{joke.url}}/>
         </ion-col>

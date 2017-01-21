@@ -19,7 +19,7 @@ declare function Path2D(): void;
 export class ImageMapComponent {
 
   static DEFAULT_STYLE = {
-    fillStyle: "rgba(0, 0, 255, .1)",
+    fillStyle: "rgba(0, 0, 0, 0)",
     shadowColor: '#333',
     shadowBlur: 20,
     shadowOffsetX: 15,

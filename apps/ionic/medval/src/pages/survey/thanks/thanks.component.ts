@@ -11,6 +11,7 @@ import {StartWithSurveyOption} from "../start/start.with.survey.option.component
 import {WheelComponent} from "../../../shared/components/wheel/wheel.component";
 import {SurveyPage} from "../survey.page";
 import {WorkflowProperties} from "../../../services/survey/schema";
+import {AveragePromoterScore, AnyDetractors} from "../../../services/survey/survey.functions";
 
 @Component({
   templateUrl: './thanks.component.html',
@@ -58,12 +59,14 @@ export class ThanksComponent extends SurveyPage {
     super(loadingCtrl, navCtrl, sessionSvc, idle);
 
     this.message = this.constructMessage(navParams.get('message'));
-    if (this.message.length < 2) {
+
+    let isPromoterOrMiddle = (new AnyDetractors().execute(this.sessionSvc.surveyNavigator, {}) == "false");
+
+    if (isPromoterOrMiddle) {
       new ObjectCycler<any>(Config.TIME_PER_JOKE, ...this.jokes)
         .onNewObj.subscribe((next:{}) => { this.joke = next;});
       this.setupAttractions();
     }
-
   }
 
   get shouldOfferWheel() {
@@ -99,7 +102,10 @@ export class ThanksComponent extends SurveyPage {
 
   private constructMessage(input: any): string[] {
     if (!input || !input.length || input.length == 0) {
-      return ["Thanks for your feedback!"];
+      return [
+        "Thanks for your feedback!",
+        "'Regular feedback from patients helps ' + account.properties.customerName + ' improve every day!'"
+      ];
     }
 
     let replacer = new SReplacer(this.accountSvc);

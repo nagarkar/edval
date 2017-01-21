@@ -108,8 +108,8 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           component:"TopInfluencerComponent",
           params: {
             title: [
-              "This is helpful feedback!",
-              `"Can you pick one or two area where " + account.properties.customerName + " can do better?"`
+              "Looks like there is room for improvement...",
+              `"Can you pick one or two areas where " + account.properties.customerName + " can do better?"`
             ],
             valueOrderDesc: false,
             maxMetrics: 4,
@@ -167,10 +167,13 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
-          id:'things.done.well',
+          id:'things.done.really.well',
           component:"TopInfluencerComponent",
           params: {
-            title: `"Can you pick one or two things " + account.properties.customerName + " is doing well?"`,
+            title: [
+              `"That's encouraging for " + account.properties.customerName + "!"`,
+              `"Can you rank one or two things that are going exceptionally well?"`
+            ],
             valueOrderDesc: true,
             maxMetrics: 4
           }
@@ -182,8 +185,19 @@ export class MockSurveyService extends AbstractMockService<Survey> {
             metricId: "root"
           },
           navigateOnResult: {
-            "false": "things.done.poorly",
+            "false": "things.done.well",
             "true": "request.review"
+          }
+        },
+        {
+          id:'things.done.well',
+          component:"TopInfluencerComponent",
+          params: {
+            title: [
+              `"Can you rank one or two things below that are going well?"`
+            ],
+            valueOrderDesc: true,
+            maxMetrics: 4
           }
         },
         {
@@ -203,6 +217,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         },
       ]
     }));
+    /*
     map.set("twominute", Object.assign(new Survey(), {
       customerId: Config.CUSTOMERID,
       id: "twominute",
@@ -296,6 +311,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         },
       ]
     }));
+    */
     map.set("full", Object.assign(new Survey(), {
       customerId: Config.CUSTOMERID,
       id: "full",

@@ -4,16 +4,16 @@
     <ion-row>
       <ion-col width-40>
         <!--img src="http://img.picturequotes.com/2/26/25637/when-you-know-better-you-do-better-quote-1.jpg"/-->
-        <img src={{leftImage}}>
+        <img src={{leftImage}} style="position:relative; bottom:-1em">
       </ion-col>
       <ion-col>
         <h1 class="m-b-0"><b>{{'account.properties.customerName' | sReplacer}}</b></h1>
-        <h2><em>appreciates&nbsp;your help!</em></h2>
+        <h2><em>appreciates&nbsp;your feedback!</em></h2>
         <br/>
         <ion-list>
           <ion-item color="light" no-lines>
             <ion-icon name="lock" item-left></ion-icon>
-            <ion-list no-margin>
+            <ion-list style="display: inline-block;" no-margin>
               Your feedback <b>is always anonymous</b>
             </ion-list>
           </ion-item>
@@ -23,7 +23,7 @@
           <button ion-button large color="primary" class='wide-btn' (click)="pickSurvey('default');">
             <div class="card-title">Begin!</div>
           </button>
-          <div>It will take just a minute!</div>
+          <div>It just takes a minute!</div>
         </div>
         <div *ngIf="!defaultOnly">
           <button *ngFor="let survey of surveys; let idx = index;" ion-button medium color="primary" (click)="pickSurvey(survey.id);">
@@ -35,4 +35,3 @@
     </ion-grid>
 
 </ion-content>
-<mdval-footer [reassure]="true"></mdval-footer>

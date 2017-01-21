@@ -32,9 +32,9 @@ export class AveragePromoterScore implements ISurveyFunction {
     let numMetrics = 0;
     navigator.session.getAllMetricValues().forEach((metricValue: MetricValue) => {
       let metric: Metric = navigator.metricSvc.getCached(metricValue.metricId);
-      if (metric.parentMetricId || (metric.isNpsType() && metric.isPromoter(+metricValue.metricValue))) {
+      if (!metric.parentMetricId && metric.isNpsType()) {
         numMetrics ++;
-        total += +metricValue.metricValue;
+        total += (+metricValue.metricValue)/metric.properties.definition.npsType.range;
       }
     });
     return (numMetrics != 0 && Metric.isPromoterRatio(total/numMetrics)).toString();

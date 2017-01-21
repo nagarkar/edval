@@ -405,8 +405,12 @@ export class Utils {
     }
   }
 
-  static nou(obj: any) {
+  static nou(obj: any): boolean {
     return obj == null || obj == undefined;
+  }
+
+  static nullOrEmptyString(obj: string): boolean {
+    return obj == null || obj == undefined || (Utils.isString(obj) && obj.length == 0);
   }
 
   static logAndThrow(err: Error) {

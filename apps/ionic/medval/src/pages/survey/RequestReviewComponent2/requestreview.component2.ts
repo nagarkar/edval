@@ -38,10 +38,11 @@ export class RequestReviewComponent2 extends SurveyPage {
     super.navigateToNext();
   }
 
-  get someDataProvided() {
+  get someDataProvided(): boolean {
     if (this.sessionSvc.hasCurrentSession()) {
       let reviewData = this.sessionSvc.getCurrentSession().properties.reviewData;
-      return reviewData.email || reviewData.phone || this.reviewMsg;
+      let gtg = Utils.nullOrEmptyString;
+      return !gtg(reviewData.email) || !gtg(reviewData.phone) || !gtg(this.reviewMsg);
     }
     return false;
   }

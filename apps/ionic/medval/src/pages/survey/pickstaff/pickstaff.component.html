@@ -3,5 +3,13 @@
   <h2 style="margin-top:3em" class="title" text-center>Tell us who worked with you!</h2>
   <carousel *ngIf="slides.length < 4" [slides]="slides" (done)="navigateToNext()" (selectSlide)="selectStaff($event);"></carousel>
   <rotating-carousel *ngIf="slides.length > 4" [slides]="slides" (done)="navigateToNext()" (imageClicked)="imageClick($event);"></rotating-carousel>
+
+  <div style="position: absolute; display: flex; bottom: 1em; left: 10%; width:100%">
+    <div style="display:block; width:66%">
+      <progress-bar style="display:inline" [progress]="progress">
+      </progress-bar>
+      <button style="display: inline-block;position: absolute;height:2em" small ion-button (click)="cancelAndRestart()">Cancel & Restart</button>
+    </div>
+  </div>
 </ion-content>
 <mdval-footer [reassure]="true"></mdval-footer>

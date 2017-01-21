@@ -75,10 +75,6 @@ export class SurveyPage {
     SurveyNavUtils.navigateOrTerminate(navigator, this.loadingCtrl, this.navCtrl);
   }
 
-  goToStartPage(cancel?: boolean) {
-
-  }
-
   private stopIdling(subscription?: Subject<number>) {
     this.idle.stop();
     if (subscription) {
