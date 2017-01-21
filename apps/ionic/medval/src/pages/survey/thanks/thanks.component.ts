@@ -11,7 +11,7 @@ import {StartWithSurveyOption} from "../start/start.with.survey.option.component
 import {WheelComponent} from "../../../shared/components/wheel/wheel.component";
 import {SurveyPage} from "../survey.page";
 import {WorkflowProperties} from "../../../services/survey/schema";
-import {AveragePromoterScore, AnyDetractors} from "../../../services/survey/survey.functions";
+import {AnyDetractors} from "../../../services/survey/survey.functions";
 
 @Component({
   templateUrl: './thanks.component.html',

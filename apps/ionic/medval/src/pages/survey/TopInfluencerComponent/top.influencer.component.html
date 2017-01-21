@@ -28,7 +28,7 @@
         </div>
       </ion-col>
     </ion-row>
-    <ion-row text-center class="m-t-1" baseline>
+    <ion-row text-center class="m-t-2 m-l-1" baseline>
       <ion-col width-80>
         <ion-item>
           <ion-label ion-text color="black" style="margin-top:0em; padding-left: 0em;font-size: 1em;" stacked>
@@ -44,7 +44,7 @@
         <div style="display:block; width:66%">
           <progress-bar style="display:inline" [progress]="progress">
           </progress-bar>
-          <button style="display: inline-block;position: absolute;height:2em" small ion-button (click)="cancelAndRestart()">Cancel & Restart</button>
+          <button class="progress-bar-side-button" small ion-button (click)="cancelAndRestart()">Cancel & Restart</button>
         </div>
       </ion-col>
     </ion-row>
