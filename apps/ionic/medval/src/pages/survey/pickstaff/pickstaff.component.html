@@ -4,7 +4,7 @@
   <carousel *ngIf="slides.length < 4" [slides]="slides" (done)="navigateToNext()" (selectSlide)="selectStaff($event);"></carousel>
   <rotating-carousel *ngIf="slides.length > 4" [slides]="slides" (done)="navigateToNext()" (imageClicked)="imageClick($event);"></rotating-carousel>
 
-  <div style="position: absolute; display: flex; bottom: 1em; left: 10%; width:100%">
+  <div text-center style="position: absolute; display: flex; bottom: 4em; left:5em; width:100%">
     <div style="display:block; width:66%">
       <progress-bar style="display:inline" [progress]="progress">
       </progress-bar>
