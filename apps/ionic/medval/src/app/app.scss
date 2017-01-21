@@ -184,7 +184,6 @@
   box-shadow: none;
 }
 
-
 .circleicon {
   button {
     width: 7em;
@@ -192,6 +191,10 @@
 
     span ion-icon {
       font-size:4em;
+    }
+
+    .button-inner {
+      font-size:2em;
     }
   }
 }

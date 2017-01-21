@@ -194,7 +194,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           component:"TopInfluencerComponent",
           params: {
             title: [
-              `"Please rank one or more things that are going well!"`
+              `"What is the " + account.properties.customerName + " team doing well?"`
             ],
             valueOrderDesc: true,
             maxMetrics: 4
