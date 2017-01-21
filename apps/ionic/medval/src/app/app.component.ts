@@ -26,6 +26,7 @@ export class RevvolveApp {
     platform.ready().then(() => {
       // The platform is ready and our plugins are available.
       StatusBar.styleDefault();
+      StatusBar.hide();
       Splashscreen.hide();
       // This is required to make sure the class decorators run. There must be a better way to do this.
       new AllPromoters();
