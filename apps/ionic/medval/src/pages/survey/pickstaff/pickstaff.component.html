@@ -1,6 +1,6 @@
 <mdval-header [home]="'survey'"></mdval-header>
 <ion-content>
-  <h2 style="margin-top:3em" class="title" text-center>Tell us who worked with you!</h2>
+  <h1 style="margin-top:3em" class="title" text-center><b>Tell us who worked with you!</b></h1>
   <carousel *ngIf="slides.length < 4" [slides]="slides" (done)="navigateToNext()" (selectSlide)="selectStaff($event);"></carousel>
   <rotating-carousel *ngIf="slides.length > 4" [slides]="slides" (done)="navigateToNext()" (imageClicked)="imageClick($event);"></rotating-carousel>
 
