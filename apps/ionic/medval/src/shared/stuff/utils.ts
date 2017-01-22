@@ -187,7 +187,7 @@ export class Utils {
       });
       Camera.getPicture(options)
         .then((imageData) => {
-          resolve("data:image/jpeg;base64," + imageData);
+          resolve(imageData);
         }, (err) => {
           reject(err);
         });
