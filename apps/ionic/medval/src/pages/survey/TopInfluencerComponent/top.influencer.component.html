@@ -8,7 +8,7 @@
       <ion-col>
         <br/>
         <div *ngFor="let message of messages; let idx = index;">
-          <h2 class="shadowpulse-once" *ngIf="idx == 0" style="font-size: 2em"><b>{{message | sReplacer}}</b></h2>
+          <h2 class="pulse-once" *ngIf="idx == 0" style="font-size: 2em"><b>{{message | sReplacer}}</b></h2>
           <h4 *ngIf="idx > 0" style="font-size: 1.5em">{{message | sReplacer}}</h4>
         </div>
         <span style="font-size: 1em">(tap to choose)</span>

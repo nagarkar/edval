@@ -29,6 +29,9 @@ export class LoginComponent {
     private accSetupSvc: AccountSetupService,
     private authProvider: AccessTokenService) {
 
+    if (authProvider.supposedToBeLoggedIn()) {
+      Utils.error("Login Attempt while already logged in");
+    }
   }
 
   invalid() {
@@ -54,10 +57,8 @@ export class LoginComponent {
 
   login() {
 
-    console.log("Before loading create: " + Date.now());
     let loading = this.loadingCtrl.create();
     loading.present();
-    console.log("After loading presented: " + Date.now());
 
     let finishedLoginProcess = false;
     setTimeout(()=>{
@@ -70,9 +71,7 @@ export class LoginComponent {
     this.authProvider.startNewSession(this.username.toLowerCase(), this.password,
       (token: AuthResult, err: any): void => {
         if(token) {
-          console.log("After Authresult: " + Date.now());
           this.navigateToDashboardPage();
-          console.log("After navigate to dashboard: " + Date.now());
           finishedLoginProcess = true;
           loading.dismissAll();
         }

@@ -47,6 +47,17 @@ export class AccountComponent extends AdminComponent {
 
   isEdit: boolean = true;
 
+  verticals= [
+    { key: "OrthodonticClinic", value: "Orthodontic Clinic"},
+    { key: "DentalClinic", value:"Dental Clinic"}
+  ];
+
+  states = [
+    { key: "WA", value: "WA"},
+    { key: "CA", value:"CA"}
+  ];
+
+
   //err: string = "";
 
   ngOnInit(): void {
@@ -185,5 +196,13 @@ export class AccountComponent extends AdminComponent {
         }
       });
     clearInterval(this.handle);
+  }
+
+
+  isInvalid(): boolean {
+    if (!this.isEdit) {
+      return this.username == null || this.phoneNumber == null || this.account.isInvalid();
+    }
+    return this.account.isInvalid()
   }
 }

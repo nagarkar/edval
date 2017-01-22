@@ -1,5 +1,5 @@
 <mdval-header [title]="'Setup Staff'"></mdval-header>
-<ion-content>
+<ion-content class="rev-form">
 	<ion-grid class="m-t-3">
 		<div class="custom-list-cards">
 			<ion-col class="box" *ngFor="let item of staffList">
@@ -15,15 +15,15 @@
 							<p class="details" *ngIf="item?.properties.phoneNumber">Phone: {{item?.properties.phoneNumber}}</p>
 						</ion-item>
 						<div class="actions">
-							<button ion-button color="lightgrey" clear (click)="delete(item)">Delete</button>
-							<button ion-button color="grey" clear (click)="edit(item)">Edit</button>
+							<button ion-button color="grey" clear (click)="delete(item)">Delete</button>
+							<button ion-button clear (click)="edit(item)">Edit</button>
 						</div>
 					</div>
 				</div>
 			</ion-col>
       <div padding text-center>
         <button ion-button color="green" (click)="add()" >Add New Staff Member</button>
-        <button ion-button color="danger" (click)="navCtrl.pop()">Done</button>
+        <button ion-button color="green" (click)="navCtrl.pop()">Done</button>
       </div>
 		</div>
 	</ion-grid>

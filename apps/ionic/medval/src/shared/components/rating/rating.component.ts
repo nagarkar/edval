@@ -38,7 +38,7 @@ export class RatingComponent {
     Utils.log("In rating nginit: " + this.ratingRange + ":");
   }
 
-  setRating(value: number, icon?:Icon) {
+  setRating(value: number) {
 
     this.ratingValue = value;
     if(value <= (2*this._ratingMax)/10) {

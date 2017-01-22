@@ -1,4 +1,5 @@
 import {Config} from "../config";
+import {Utils} from "../stuff/utils";
 declare let AWS:any;
 
 export class AWSLogging {
@@ -26,7 +27,6 @@ export class AWSLogging {
   }
 
   logEvent(message: string) {
-    console.log("logging with sequence token: " + this.nextSequenceToken);
     this.logEvents.push({message: message, timestamp: Date.now()});
     if (this.logEvents.length >= Config.AWS_CONFIG.LOG_BATCH_SIZE) {
       let events = this.logEvents.slice(0, Config.AWS_CONFIG.LOG_BATCH_SIZE);
@@ -54,7 +54,7 @@ export class AWSLogging {
             this.logToAws(events);
           }
         }
-        console.log([err.name, err.message].join(":"))
+        Utils.log("Error in Logging to AWS: {0}", [err.name, err.message].join(":"));
       }
     });
   }
@@ -71,7 +71,7 @@ export class AWSLogging {
 
     this.cloudwatch.describeLogStreams(params, (err, data) => {
       if (err) {
-        console.log([err.name, err.message].join(":"))
+        Utils.log("Error in Describing Log Streams: {0}", [err.name, err.message].join(":"))
         return;
       }
       if (data.logStreams.length == 0) {
@@ -81,7 +81,7 @@ export class AWSLogging {
         };
         this.cloudwatch.createLogStream(params, (err: Error, data)=> {
           if (err) {
-            console.log(err.name + ':' + err.message + ":" + err.stack);
+            Utils.log("Error in creating log stream: {0}: {1} \n {2}", err.name , err.message, err.stack);
           } else {
             setTimeout(()=> {
               this.updateNextSequenceToken();

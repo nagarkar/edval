@@ -6,6 +6,7 @@ import {MetricService} from "../../services/metric/delegator";
 import {StaffService} from "../../services/staff/delegator";
 import {AccountService} from "../../services/account/delegator";
 import {SReplacerDataMap} from "../../pipes/sreplacer";
+import {Utils} from "../../shared/stuff/utils";
 
 @Component({
   selector:'settings',
@@ -26,10 +27,12 @@ export class SettingsComponent {
 
     this.metrics = metricsvc.listCached();
     this.sReplacerData = this.constructSReplacerMap();
+
+    Utils.error("In Settings Component");
   }
 
   setValue(key: string, event: any) {
-    console.log('');
+    Utils.log("Set Value {0} for key {1}", event, key);
   }
 
   get serviceUrl() {

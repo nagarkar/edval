@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NavController, ModalController, ToastController} from "ionic-angular";
+import {NavController, ModalController, ToastController, AlertController} from "ionic-angular";
 import {Staff} from "../../services/staff/schema";
 import {Utils} from "../../shared/stuff/utils";
 import {StaffService} from "../../services/staff/delegator";
@@ -18,6 +18,7 @@ export class StaffComponent extends AdminComponent  {
     navCtrl: NavController,
     private toastCtrl: ToastController,
     private modalCtrl: ModalController,
+    private alertCtrl: AlertController,
     private staffSvc : StaffService) {
 
     super(navCtrl);
@@ -34,25 +35,29 @@ export class StaffComponent extends AdminComponent  {
   }
 
   public add() {
-    Utils.presentProfileModal(this.modalCtrl, StaffEditComponent, {}).onDidDismiss(()=>{
+    Utils.presentProfileModal(this.modalCtrl, StaffEditComponent, {}, {enableBackdropDismiss: false}).onDidDismiss(()=>{
       this.getStaffList();
     });
   }
 
   public edit(staff : Staff) {
-    Utils.presentProfileModal(this.modalCtrl, StaffEditComponent, {staffMember: staff}).onDidDismiss(()=>{
-      this.getStaffList();
-    });
+    Utils.presentProfileModal(
+      this.modalCtrl, StaffEditComponent, {staffMember: staff}, {enableBackdropDismiss: false}).onDidDismiss(()=>{
+        this.getStaffList();
+      });
   }
 
   public delete(staffMember: Staff) {
-    Utils.showLoadingBar();
-    this.staffSvc.delete(staffMember.username)
-      .then(() => {
-        this.getStaffList();
-        Utils.presentTopToast(this.toastCtrl, "Deleted", 3000)
-      })
-      .catch((err) => Utils.presentTopToast(this.toastCtrl, err || "Could not delete staff member", 3000))
+    Utils.presentProceedCancelPrompt(this.alertCtrl, ()=> {
+      Utils.showLoadingBar();
+      this.staffSvc.delete(staffMember.username)
+        .then(() => {
+          this.getStaffList();
+          Utils.presentTopToast(this.toastCtrl, "Deleted", 3000)
+        })
+        .catch((err) => Utils.presentTopToast(this.toastCtrl, err || "Could not delete staff member", 3000))
+    }, "You can't undo this action")
+
   }
 
   private listenToUpdatesAndRefresh() {

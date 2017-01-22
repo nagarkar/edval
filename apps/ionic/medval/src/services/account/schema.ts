@@ -29,7 +29,8 @@ export class Account {
       customerName: "",
       contactName: '',
       logo: '',
-      address: {}
+      address: {},
+      verticalId: "OrthodonticClinic"
     };
     this.properties.configuration = {};
   }
@@ -44,5 +45,12 @@ export class Account {
       return roles;
     }
     return roles;
+  }
+
+  isInvalid() {
+    let nou = Utils.nullOrEmptyString;
+    return nou(this.customerId) ||
+	nou(this.properties.customerName) ||
+	nou(this.properties.verticalId);
   }
 }

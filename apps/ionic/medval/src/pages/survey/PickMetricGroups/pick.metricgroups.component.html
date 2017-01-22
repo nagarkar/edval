@@ -7,7 +7,7 @@
     <ion-row>
       <ion-col>
         <div>
-          <h1 class="shadowpulse-once" text-center><b>{{title | sReplacer}}</b></h1>
+          <h1 class="pulse-once" text-center><b>{{title | sReplacer}}</b></h1>
           <h5 text-center>(Tap to pick)</h5>
           <div>
             <imgmap [imgMap]="imageMap" [img]="img" (selected)="handleSelected($event)"></imgmap>

@@ -4,8 +4,8 @@ import {Utils} from "./stuff/utils";
 @Injectable()
 export class Config {
 
-  private static _baseUrl: string = "https://localhost:8091";
-  //private static _baseUrl: string = "http://34.197.108.208";
+  //private static _baseUrl: string = "https://localhost:8091";
+  private static _baseUrl: string = "http://34.197.108.208";
   //private static _baseUrl: string = "https://testapi.healthcaretech.io";
 
   static DEFAULT_CACHE_AGE: number = Infinity;
@@ -13,7 +13,7 @@ export class Config {
   static readonly DEFAULT_CITY_CODE = "206";
 
   static readonly SHOW_NEW_ACCOUNT = false;
-  static readonly SHOW_FORGOT_PASSWORD = true;
+  static readonly SHOW_FORGOT_PASSWORD = false;
 
   /* TODO this should not be hardcoded */
   static CUSTOMERID : string;

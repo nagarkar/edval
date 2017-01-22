@@ -1,7 +1,7 @@
 <ion-content>
   <ion-list>
   <ion-item>
-    <ion-label color="primary" fixed>ID</ion-label>
+    <ion-label color="primary" fixed>Username/Nickname</ion-label>
     <ion-input [disabled]="isEdit" [(ngModel)]="staffMember.username"></ion-input>
   </ion-item>
   <ion-item>
@@ -37,14 +37,14 @@
     <ion-row>
       <ion-col width-33>
         <ion-label>Profile Photo</ion-label>
-        <ion-card>
-          <img src="{{staffMember.properties.photoUrl? staffMember.properties.photoUrl : 'http://www.elmastudio.de/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png'}}">
-          <ion-icon name="camera" (click)="collectUrl()" style="margin-left:45%;height:25px"></ion-icon>
+        <ion-card (click)="collectUrl()">
+          <img src="{{staffMember.properties.photoUrl? staffMember.properties.photoUrl : 'assets/img/placeholder.png'}}">
+          <button ion-button clear small style="margin-left:40%;height:25px">Edit</button>
+          <!--<ion-icon name="camera" style="margin-left:45%;height:25px"></ion-icon> -->
         </ion-card>
       </ion-col>
-      <ion-col style="margin-top: 5em;margin-left: 10em;">
-        <button ion-button color="primary" (click)="add();">Add/Edit</button>
-        <button ion-button color="secondary" (click)="navCtrl.pop()">Cancel</button>
+      <ion-col style="margin:5em 0 0 10em;">
+        <button ion-button color="primary" (click)="add();">Done</button>
       </ion-col>
     </ion-row>
   </ion-grid>

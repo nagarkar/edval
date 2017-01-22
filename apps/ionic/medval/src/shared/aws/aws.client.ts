@@ -1,6 +1,7 @@
 import {AWSLogging} from "./aws.logging";
 import {DynamoDB} from "./dynamodb";
 import {Session} from "../../services/session/schema";
+import {Utils} from "../stuff/utils";
 export class AwsClient {
 
   private static SERVER: AWSLogging;
@@ -31,7 +32,11 @@ export class AwsClient {
 
   static logEvent(message: string) {
     if (AwsClient.SERVER) {
-      AwsClient.SERVER.logEvent(message);
+      try {
+        AwsClient.SERVER.logEvent(message);
+      } catch(err) {
+        Utils.log("Unexpected error {0}; Could not log event {1} to AWS, stack: {2}", err, message, new Error().stack);
+      }
     }
   }
 

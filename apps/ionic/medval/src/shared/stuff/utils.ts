@@ -36,7 +36,7 @@ export class Utils {
   static error(message: string, ...args: any[]) : void {
     let fmsg = Utils.format(message, ...args);
     if (console) {
-      console.error(fmsg);
+      console.error("Courtsey of Utils.error():" + fmsg);
     }
     AwsClient.logEvent(message);
   }
@@ -154,8 +154,8 @@ export class Utils {
     })
   }
 
-  static presentProfileModal(modalCtrl: ModalController, component: any, parameters: {}) : Modal {
-    let profileModal : Modal = modalCtrl.create(component, parameters);
+  static presentProfileModal(modalCtrl: ModalController, component: any, parameters: {}, opts?: {}) : Modal {
+    let profileModal : Modal = modalCtrl.create(component, parameters, opts);
     profileModal.present(); //profileModal.
     return profileModal;
   }
@@ -179,12 +179,12 @@ export class Utils {
     return loading;
   }
 
-  static uploadImage() : Promise<string> {
+  static uploadImage(_options?: CameraOptions) : Promise<string> {
     return new Promise((resolve, reject) => {
-      let options: CameraOptions = {
-        destinationType: 0, //Camera.DestinationType.DATA_URL
+      let options: CameraOptions = Utils.value(_options, {
+        destinationType: 1, //Camera.DestinationType.FILE_URL
         sourceType: 0, //Camera.PictureSourceType.PHOTOLIBRARY
-      }
+      });
       Camera.getPicture(options)
         .then((imageData) => {
           resolve("data:image/jpeg;base64," + imageData);
@@ -215,8 +215,8 @@ export class Utils {
       title: 'PhotoUpload',
       buttons: [
         {
-          text: 'Upload',
-          icon: 'cloud-upload',
+          text: 'Photo Album',
+          icon: 'album',
           handler: () => {
             this.showLoadingBar();
 
@@ -228,9 +228,26 @@ export class Utils {
         },
         {
           text: 'Image link/url',
-          icon: 'attach',
+          icon: 'link',
           handler: (res: any) => {
             Utils.presentURLPrompt(alertCtrl, onselect);
+          }
+        },
+        {
+          text: 'Take a photograph now!',
+          icon: 'camera',
+          handler: (res: any) => {
+            this.showLoadingBar();
+            let options = {
+              saveToPhotoAlbum: true,
+              sourceType: 1, //Camera.PictureSourceType.CAMERA
+              cameraDirection: 1 // Front facing camera.
+            }
+            this.uploadImage(options)
+              .then((img: any) => {
+                this.hideLoadingBar();
+                onselect(img);
+              });
           }
         },
         {
