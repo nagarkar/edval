@@ -7,7 +7,6 @@ import {SurveyNavigator} from "../survey/survey.navigator";
 import {SurveyService} from "../survey/delegator";
 import {MetricService} from "../metric/delegator";
 import {RegisterService} from "../service.factory";
-import {DDBSessionService} from "./ddb";
 import {LiveSessionService} from "./live";
 
 @Injectable()

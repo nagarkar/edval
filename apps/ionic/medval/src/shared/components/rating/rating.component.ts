@@ -1,5 +1,4 @@
 import {Component, Input, Output, EventEmitter} from "@angular/core";
-import {Icon} from "ionic-angular";
 import {Utils} from "../../stuff/utils";
 
 @Component({
