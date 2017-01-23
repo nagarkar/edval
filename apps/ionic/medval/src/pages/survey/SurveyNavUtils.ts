@@ -13,7 +13,7 @@ export class SurveyNavUtils {
       try {
         navigationTarget = navigator.getNavigationTarget();
       } catch(err) {
-        Utils.error("In SurveyNavUtils Could not get Navigation Target: The error is {0}", err);
+        Utils.error("In SurveyNavUtils Could not get Navigation Target: The error is {0}. Stack:", err, new Error().stack);
         alert("Unexpected Error Occurred:" + err);
       }
       let component: any = (navigationTarget && navigationTarget.component) || ThanksComponent;
@@ -22,7 +22,7 @@ export class SurveyNavUtils {
         try {
           navCtrl.setRoot(component, params);
         } catch(err) {
-          Utils.error(err);
+          Utils.error("Error: {0}, Stack: {1}", err, new Error().stack);
           alert("Unexpected Error Occurred:" + err);
         }
       }
