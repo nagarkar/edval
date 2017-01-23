@@ -194,10 +194,10 @@ export class Utils {
 
   static uploadImage(_options?: CameraOptions) : Promise<string> {
     return new Promise((resolve, reject) => {
-      let options: CameraOptions = Utils.value(_options, {
-        destinationType: 1, //Camera.DestinationType.FILE_URL
+      let options: CameraOptions = _options || {
         sourceType: 0, //Camera.PictureSourceType.PHOTOLIBRARY
-      });
+      };
+      options.destinationType = 1; //Camera.DestinationType.FILE_URL
       Camera.getPicture(options)
         .then((imageData) => {
           resolve(imageData);
@@ -231,10 +231,7 @@ export class Utils {
           text: 'Photo Album',
           icon: 'album',
           handler: () => {
-            this.showLoadingBar();
-
             this.uploadImage().then((img: any) => {
-              this.hideLoadingBar();
               onselect(img);
             })
           }
@@ -244,23 +241,6 @@ export class Utils {
           icon: 'link',
           handler: (res: any) => {
             Utils.presentURLPrompt(alertCtrl, onselect);
-          }
-        },
-        {
-          text: 'Take a photograph now!',
-          icon: 'camera',
-          handler: (res: any) => {
-            this.showLoadingBar();
-            let options = {
-              saveToPhotoAlbum: true,
-              sourceType: 1, //Camera.PictureSourceType.CAMERA
-              cameraDirection: 1 // Front facing camera.
-            }
-            this.uploadImage(options)
-              .then((img: any) => {
-                this.hideLoadingBar();
-                onselect(img);
-              });
           }
         },
         {
