@@ -51,7 +51,9 @@ export class RevvolveApp {
       setInterval(()=>{
         client.ping().catch((err)=>{
           alert('You may not have a working internet connection. Please check your Wifi and/or data service settings.')
-        }).then((result)=> {console.log(Utils.format('Ping response {0}, from remote url {1} ', result, Config.pingUrl))})
+        }).then((result)=> {
+          Utils.log('Customer: {0}, Ping response {1}, from remote url {2} ', Config.CUSTOMERID, result, Config.pingUrl);
+        })
       }, 1 * 60 * 1000);
 
     });
