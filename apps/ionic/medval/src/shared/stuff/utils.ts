@@ -15,9 +15,14 @@ import {CameraOptions, Camera, SpinnerDialog} from "ionic-native";
 import {ErrorType} from "./error.types";
 import {Config} from "../config";
 import {AwsClient} from "../aws/aws.client";
+import {CircularList} from "./circular.list";
 
 @Injectable()
 export class Utils {
+
+
+  public static logData: CircularList<string> = new CircularList<string>(Config.LOG_LENGTH);
+  public static errData: CircularList<string> = new CircularList<string>(Config.ERR_LENGTH);
 
   constructor(private alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
@@ -31,6 +36,9 @@ export class Utils {
     if (console && window['REVVOLVE_PROD_ENV'] == false) {
       console.log(fmsg);
     }
+    try {
+      Utils.logData.add(fmsg);
+    }catch(err) {console.log('Could not log in logData: ' + err)};
   }
 
   static error(message: string, ...args: any[]) : void {
@@ -39,10 +47,9 @@ export class Utils {
       console.error("Courtsey of Utils.error():" + fmsg);
     }
     AwsClient.logEvent(message);
-  }
-
-  static logToAws(message: string, ...args: string[]) : void {
-    AwsClient.logEvent(Utils.format(message, ...args));
+    try {
+      Utils.errData.add(fmsg);
+    }catch(err) {console.log('Could not log in errData: ' + err)};
   }
 
   static assert(object: any) {
@@ -142,8 +149,14 @@ export class Utils {
     }
   }
 
-  static stringify(obj: any, replacer?: (key: string, value: any) => any, space?: string | number, cycleReplacer?: any) {
-    return JSON.stringify(obj, Utils.serializer(replacer, cycleReplacer), space)
+  static stringify(
+    obj: any, replacer?: (key: string, value: any) => any, space?: string | number, cycleReplacer?: any): string {
+
+    let result = "";
+    try {
+      result = JSON.stringify(obj, Utils.serializer(replacer, cycleReplacer), space)
+    } catch(err) {Utils.error("Error {0} while stringifying object {1} in Utils.stringify", err, obj)}
+    return result;
   }
 
   static throwIfAnyNull(values: any[], format?:string, ...args: string[]) {

@@ -57,10 +57,14 @@ export class SurveyNavigator {
         navState.progCounter = this.progCounter;
       }
       if (navState.scratchPad !== undefined) {
-        navState.scratchPad = JSON.parse(JSON.stringify(this.scratchPad));
+        try {
+          navState.scratchPad = JSON.parse(JSON.stringify(this.scratchPad));
+        } catch (err) {Utils.error("Error {0} parsing scratch pad {1} ", err, this.scratchPad)}
       }
       if (navState.lastResult !== undefined) {
-        navState.lastResult = JSON.parse(JSON.stringify(this.lastResult));
+        try {
+          navState.lastResult = JSON.parse(JSON.stringify(this.lastResult));
+        } catch (err) {Utils.error("Error {0} parsing scratch pad {1} ", err, this.scratchPad)}
       }
     } catch(err) {
       Utils.error("FATAL ERROR IN SURVEYNAVIGATOR get navState(): " + err);

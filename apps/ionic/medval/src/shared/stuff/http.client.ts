@@ -109,7 +109,12 @@ export class HttpClient<T> {
     let errMsg: string;
     if (error instanceof Response) {
       const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
+      let err = body.error;
+      if (err == null) {
+        try {
+          err = JSON.stringify(body);
+        } catch (err) {Utils.error("Could not stringify error {0} in HttpClient.handleError", err)}
+      }
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
     } else {
       errMsg = error.message ? error.message : error.toString();

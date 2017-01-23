@@ -20,6 +20,10 @@ export class SettingsComponent {
   metrics: Metric[] = [];
   sReplacerData: {[key: string] : SReplacerDataMap} = {};
 
+  logData: Iterable<string> = Utils.logData;
+
+  errData: Iterable<string> = Utils.errData;
+
   constructor(private metricsvc: MetricService, private staffsvc: StaffService, private accountsvc: AccountService) {
 
     this.mockData = Config.MOCK_DATA;

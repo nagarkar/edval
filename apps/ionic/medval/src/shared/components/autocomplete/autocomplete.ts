@@ -34,7 +34,7 @@ export const AUTOCOMPLETE_VALUE_ACCESSOR: any = {
       <div class="ui-autocomplete-panel" [style.display]="panelVisible ? 'block' : 'none'" [style.width]="appendTo ? 'auto' : '100%'" [style.max-height]="scrollHeight">
         <ul class="ui-autocomplete-list ui-widget-content">
           <li *ngFor="let option of suggestions" [ngClass]="{'ui-autocomplete-list-item ui-corner-all':true}"
-             (click)="selectItem(option)">
+             (tap)="selectItem(option)">
             <span>{{field ? option[field] : option}}</span>
           </li>
         </ul>

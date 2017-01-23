@@ -1,7 +1,7 @@
 <mdval-header [home]="'survey'"></mdval-header>
 <ion-content>
   <ion-fab class="circleicon" *ngIf="done" right middle>
-    <button (click)="navigateToNext()" ion-fab>Next</button>
+    <button (tap)="navigateToNext()" ion-fab>Next</button>
   </ion-fab>
   <ion-grid class="m-t-3">
     <ion-row>
@@ -26,14 +26,14 @@
         <progress-bar [progress]="progress"></progress-bar>
       </ion-col>
       <ion-col>
-        <button small ion-button (click)="cancelAndRestart()">Cancel & Restart</button>
+        <button small ion-button (tap)="cancelAndRestart()">Cancel & Restart</button>
       </ion-col>
       -->
       <ion-col>
         <div style="display:block; width:66%">
           <progress-bar style="display:inline" [progress]="progress">
           </progress-bar>
-          <button class="progress-bar-side-button" small ion-button (click)="cancelAndRestart()">Cancel & Restart</button>
+          <button class="progress-bar-side-button" small ion-button (tap)="cancelAndRestart()">Cancel & Restart</button>
         </div>
       </ion-col>
     </ion-row>

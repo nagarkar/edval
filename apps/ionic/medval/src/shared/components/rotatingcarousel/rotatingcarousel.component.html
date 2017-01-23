@@ -10,11 +10,11 @@
            (swiperight)="onSwipeRight($event);">
 
         <button *ngIf="item.isSelected" class="selected-icon" ion-button color="green"><ion-icon name="checkmark"></ion-icon></button>
-        <img src="{{item.imgUrl}}" (click)="imageClick(item)"/>
+        <img src="{{item.imgUrl}}" (tap)="imageClick(item)"/>
         <span class="name">{{item.heading}}</span>
         <br/>
         <span class='desc'>{{item.subheading}}</span>
-        <!-- <ion-checkbox [(ngModel)]="item.isSelected" (click)="selectItem(item)" ></ion-checkbox> -->
+        <!-- <ion-checkbox [(ngModel)]="item.isSelected" (tap)="selectItem(item)" ></ion-checkbox> -->
       </div>
     </div>
   </div>
@@ -23,7 +23,7 @@
       <ion-col>
         <span *ngFor="let selectedItem of selectedItems">
           <div class="selected-item">
-            <button ion-button color="danger" (click)="removeItem(selectedItem)"><ion-icon name="close"></ion-icon>
+            <button ion-button color="danger" (tap)="removeItem(selectedItem)"><ion-icon name="close"></ion-icon>
             </button>
             <img src="{{selectedItem.imgUrl}}" class="image" />
           </div>
@@ -36,8 +36,8 @@
     </ion-row>
     <ion-row text-center>
       <ion-col>
-        <button ion-button color="green" [disabled]="selectedItems.length != 0" (click)="finished()">I don't see the right people in the list</button>
-        <button ion-button color="green" [disabled]="selectedItems.length == 0" (click)="finished()">Done</button>
+        <button ion-button color="green" [disabled]="selectedItems.length != 0" (tap)="finished()">I don't see the right people in the list</button>
+        <button ion-button color="green" [disabled]="selectedItems.length == 0" (tap)="finished()">Done</button>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -53,7 +53,7 @@
           <div *ngSwitchDefault>
             <span *ngFor="let selectedItem of selectedItems">
               <div class="selected-item">
-                <button ion-button color="danger" (click)="removeItem(selectedItem)"><ion-icon name="close"></ion-icon>
+                <button ion-button color="danger" (tap)="removeItem(selectedItem)"><ion-icon name="close"></ion-icon>
                 </button>
                 <img src="{{selectedItem.imgUrl}}" class="image" />
               </div>

@@ -24,7 +24,7 @@
           <div *ngSwitchDefault>
             <span *ngFor="let selectedItem of selectedItems">
               <div class="selected-item">
-                <button ion-button color="danger" (click)="removeItem(selectedItem)"><ion-icon name="close"></ion-icon>
+                <button ion-button color="danger" (tap)="removeItem(selectedItem)"><ion-icon name="close"></ion-icon>
                 </button>
                 <img src="{{selectedItem.imgUrl}}" class="image" />
               </div>
@@ -35,7 +35,7 @@
     </ion-row>
     <ion-row text-center>
       <ion-col>
-        <button ion-button color="green" (click)="finished()">Next</button>
+        <button ion-button color="green" (tap)="finished()">Next</button>
       </ion-col>
     </ion-row>
   </ion-grid>

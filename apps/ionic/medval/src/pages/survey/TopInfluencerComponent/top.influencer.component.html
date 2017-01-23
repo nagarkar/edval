@@ -1,7 +1,7 @@
 <mdval-header [home]="'survey'"></mdval-header>
 <ion-content padding text-center>
   <ion-fab style="top:40%" class="circleicon" *ngIf="done" right middle>
-    <button (click)="navigateToNext()" ion-fab>Next</button>
+    <button (tap)="navigateToNext()" ion-fab>Next</button>
   </ion-fab>
   <ion-grid class="m-t-2" text-center>
     <ion-row text-center>
@@ -20,7 +20,7 @@
           <ion-badge *ngIf="isSelected(metric)" class="cstm-badge">{{rankedMetrics.indexOf(metric) + 1}}</ion-badge>
           <button ion-button
                   round
-                  (click)="registerRank(metric)"
+                  (tap)="registerRank(metric)"
                   class="card-title cstm-btn"
                   [ngClass]="{'cstm-btn-pressed': isSelected(metric)}">
             {{(metric.properties[displayAttribute] ? metric.properties[displayAttribute] :  metric.properties.metricName) | sReplacer}}
@@ -44,7 +44,7 @@
         <div style="display:block; width:66%">
           <progress-bar style="display:inline" [progress]="progress">
           </progress-bar>
-          <button class="progress-bar-side-button" small ion-button (click)="cancelAndRestart()">Cancel & Restart</button>
+          <button class="progress-bar-side-button" small ion-button (tap)="cancelAndRestart()">Cancel & Restart</button>
         </div>
       </ion-col>
     </ion-row>

@@ -23,4 +23,10 @@
     <ion-row>Positive Impact: {{metric.properties.positiveImpact | sReplacer}}</ion-row>
     <ion-row *ngIf="sReplacerData[metric.metricId]">Positive Impact with staff: {{metric.properties.positiveImpact | sReplacer:sReplacerData[metric.metricId]}}</ion-row>
   </ion-grid>
+  <ion-list>
+    <ion-item-divider>Errors:</ion-item-divider>
+    <div *ngFor="let err of errData">{{err}}</div>
+    <ion-item-divider>Logs:</ion-item-divider>
+    <div *ngFor="let err of logData">{{err}}</div>
+  </ion-list>
 </ion-content>

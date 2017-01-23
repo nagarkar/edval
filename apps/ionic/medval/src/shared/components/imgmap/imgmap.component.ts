@@ -13,7 +13,7 @@ declare function Path2D(): void;
  * This component started as a raw plunker: https://plnkr.co/edit/rmouJm2qZeMygOAou769?p=preview
  */
 @Component({
-  templateUrl: 'imgmap.component.html',
+  templateUrl: './imgmap.component.html',
   selector: 'imgmap'
 })
 export class ImageMapComponent {

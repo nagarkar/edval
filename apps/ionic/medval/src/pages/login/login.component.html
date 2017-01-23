@@ -13,9 +13,9 @@
         <ion-input type="password" [(ngModel)]="password"></ion-input>
       </ion-item>
       <div padding>
-        <button [disabled]="invalid()" ion-button color="revvolve" block type="submit" (click)="login()">Sign In</button>
-        <button *ngIf="showNewAccount" small block ion-button color="light" (click)="setupNewAccount()">Create a New Account</button>
-        <button *ngIf="showForgotPwd" small block ion-button color="light" (click)="forgotPassword()">Forgot Password</button>
+        <button [disabled]="invalid()" ion-button color="revvolve" block type="submit" (tap)="login()">Sign In</button>
+        <button *ngIf="showNewAccount" small block ion-button color="light" (tap)="setupNewAccount()">Create a New Account</button>
+        <button *ngIf="showForgotPwd" small block ion-button color="light" (tap)="forgotPassword()">Forgot Password</button>
       </div>
   </div>
 </ion-content>

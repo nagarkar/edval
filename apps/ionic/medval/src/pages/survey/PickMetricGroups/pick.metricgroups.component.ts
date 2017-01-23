@@ -10,7 +10,7 @@ import {SurveyPage} from "../survey.page";
 
 @Component({
   selector: 'pick-problem-role',
-  templateUrl: 'pick.metricgroups.component.html',
+  templateUrl: './pick.metricgroups.component.html',
   providers: [Idle]
 })
 

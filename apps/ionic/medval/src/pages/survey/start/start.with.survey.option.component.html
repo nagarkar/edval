@@ -20,13 +20,13 @@
         </ion-list>
         <br/>
         <div *ngIf="defaultOnly">
-          <button ion-button large color="primary" class='wide-btn' (click)="pickSurvey('default');">
+          <button ion-button large color="primary" class='wide-btn' (tap)="pickSurvey('default');">
             <div class="card-title">Begin!</div>
           </button>
           <div>It just takes a minute!</div>
         </div>
         <div *ngIf="!defaultOnly">
-          <button *ngFor="let survey of surveys; let idx = index;" ion-button medium color="primary" (click)="pickSurvey(survey.id);">
+          <button *ngFor="let survey of surveys; let idx = index;" ion-button medium color="primary" (tap)="pickSurvey(survey.id);">
             <div class="card-title">{{survey.properties.timeCommitment}}</div>
           </button>
         </div>

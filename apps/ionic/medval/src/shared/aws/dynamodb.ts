@@ -21,13 +21,13 @@ export class DynamoDB {
       Item: {
         customer_id: Config.CUSTOMERID,
         id: item.sessionId,
-        properties: JSON.parse(JSON.stringify(item.properties))
+        properties: item.properties
       }
     }
     return new Promise((resolve, reject) => {
       this.dynamodb.put(params, function(err, data) {
         if (err) {
-          Utils.error("Unable to add session", item.sessionId, ". Error JSON:", JSON.stringify(err, null, 2));
+          Utils.error("Unable to add session", item.sessionId, ". Error JSON:", err, null, 2);
           reject(err);
         } else {
           Utils.log("PutItem succeeded:", item.sessionId);
