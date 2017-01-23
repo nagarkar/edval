@@ -4,18 +4,20 @@
     <img src="assets/img/logo.png" alt="">
   </div>
   <div class="form-container">
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
       <ion-item>
         <ion-label color="darkgrey" fixed>Username</ion-label>
-        <ion-input type="text" [(ngModel)]="username"></ion-input>
+        <ion-input type="text" formControlName="username"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label color="darkgrey" fixed>Password</ion-label>
-        <ion-input type="password" [(ngModel)]="password"></ion-input>
+        <ion-input type="password" formControlName="password"></ion-input>
       </ion-item>
       <div padding>
-        <button [disabled]="invalid()" ion-button color="revvolve" block type="submit" (tap)="login()">Sign In</button>
+        <button ion-button color="revvolve" block type="submit">Sign In</button>
         <button *ngIf="showNewAccount" small block ion-button color="light" (tap)="setupNewAccount()">Create a New Account</button>
         <button *ngIf="showForgotPwd" small block ion-button color="light" (tap)="forgotPassword()">Forgot Password</button>
       </div>
+    </form>
   </div>
 </ion-content>

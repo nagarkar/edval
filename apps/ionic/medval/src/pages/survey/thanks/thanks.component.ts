@@ -119,8 +119,12 @@ export class ThanksComponent extends SurveyPage {
 
   private static getDefaultOptions(giftMessage: string, costPerUse: number, award: number): {} {
 
+    // Followng logic sould work if costPerUse is >0, < 1 but not if it's a fractional value > 1.
+
+    let outcomes = this.getSuccessAndTotalOutcomeIntegers(costPerUse, award);
     let ret: any = {
-      giftMessage: giftMessage
+      giftMessage: giftMessage,
+      chance: Utils.format("{0} in {1}", outcomes.costPerUse, outcomes.award)
     }
 
     let giftSegment = {'fillStyle' : '#eae56f', 'text': giftMessage, win: true};
@@ -171,6 +175,14 @@ export class ThanksComponent extends SurveyPage {
       this.award = +wfProperties.award || 5;
       this.giftMessage = ["$", this.award, ' Gift Card!'].join('');
       this.wheelOptions = ThanksComponent.getDefaultOptions(this.giftMessage, this.costPerUse,this.award);
+    }
+  }
+
+  //TODO Implement this properly for fractional values.
+  private static getSuccessAndTotalOutcomeIntegers(costPerUse: number, award: number) {
+    return {
+      costPerUse: costPerUse,
+      award: award
     }
   }
 }

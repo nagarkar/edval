@@ -38,7 +38,6 @@ export abstract class AbstractMockService<T> implements ServiceInterface<T> {
   }
 
   update(member: T) : Promise<T> {
-    //TODO Add assertion (npm install check-preconditions)
     this.updateCache(member);
     this.onUpdate.emit(member);
     return Promise.resolve(member);
@@ -56,7 +55,6 @@ export abstract class AbstractMockService<T> implements ServiceInterface<T> {
   }
 
   delete(id: string) : Promise<void> {
-    //TODO Add assertion (npm install check-preconditions)
     this.deleteFromCache(id);
     this.onDelete.emit(id);
     return Promise.resolve();

@@ -1,8 +1,13 @@
 <mdval-header [home]="'survey'"></mdval-header>
 <ion-content>
   <h1 style="margin-top:3em" class="title" text-center><b>Tell us who worked with you!</b></h1>
-  <carousel *ngIf="slides.length < 4" [slides]="slides" (done)="navigateToNext()" (selectSlide)="selectStaff($event);"></carousel>
-  <rotating-carousel *ngIf="slides.length > 4" [slides]="slides" (done)="navigateToNext()" (imageClicked)="imageClick($event);"></rotating-carousel>
+
+  <!--
+  <carousel *ngIf="slides.length < 4" [slides]="slides" (done)="navigateToNext()" (selectSlide)="selectStaff($event);">
+  </carousel>
+  -->
+  <rotating-carousel *ngIf="slides.length > 4" [slides]="slides" (done)="navigateToNext()" (imageClicked)="imageClick($event);">
+  </rotating-carousel>
 
   <div text-center style="position: absolute; display: flex; bottom: 4em; left:5em; width:100%">
     <div style="display:block; width:66%">

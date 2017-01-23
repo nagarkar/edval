@@ -1,7 +1,3 @@
-/* TODO: Consider making this a dynamic type; with a type enum identifying how to interpret properties
- like language, MAX_VALUE, MIN_VALUE etc. This makes code to identify teh type on the client side
- simpler, since JSON doesn't allow you to specify the type explicitly.
- */
 import {Utils} from "../../shared/stuff/utils";
 import {Config} from "../../shared/config";
 export class Type {}
@@ -55,8 +51,6 @@ export class Metric {
     if (!id) {
       id = Utils.guid("m" /* prefix */);
     }
-    // TODO: The following line can be safely removed from here since server will populate customerid if it's in url path.
-    this.customerId = Config.CUSTOMERID;
     this.metricId = id;
     this.subject = subject;
     this.properties = {

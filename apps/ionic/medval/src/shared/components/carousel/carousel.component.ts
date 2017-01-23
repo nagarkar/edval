@@ -12,6 +12,12 @@ export class CarouselComponent implements OnChanges {
 
   @ViewChild('mySlider') slider: Slides;
 
+  get midSlide(): number {
+    if (!this.items) {
+      return 0;
+    }
+    return Math.floor(this.items.length/2);
+  }
 
   @Output() selectSlide = new EventEmitter();
   @Output() done = new EventEmitter();
@@ -49,14 +55,14 @@ export class CarouselComponent implements OnChanges {
 
   private setSlideOptions(loop: boolean) {
     this.sliderOptions = {
-      pagination: '.swiper-pagination',
-      slidesPerView: 'auto',
-      centeredSlides: true,
-      paginationClickable: true,
-      spaceBetween: 30,
-      grabCursor: true,
-      nextButton: ".swiper-button-next",
-      prevButton: ".swiper-button-prev",
+      //pagination: '.swiper-pagination',
+      //slidesPerView: 'auto',
+      //centeredSlides: true,
+      //paginationClickable: true,
+      //spaceBetween: 30,
+      //grabCursor: true,
+      //nextButton: ".swiper-button-next",
+      //prevButton: ".swiper-button-prev",
       loop:loop,
       initialSlide: Math.floor(this.items.length/2),
     }
@@ -78,7 +84,7 @@ export class CarouselComponent implements OnChanges {
   }
 
   get activeIndex() {
-    if (this.slider.getSlider()) {
+    if (this.slider) {
       return this.slider.getActiveIndex();
     }
     return -1;
