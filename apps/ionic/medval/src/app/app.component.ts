@@ -14,6 +14,10 @@ import {HeaderComponent} from "../shared/components/header/header.component";
 import {LoginComponent} from "../pages/login/login.component";
 import {DashboardComponent} from "../pages/dashboard/dashboard.component";
 import {SettingsComponent} from "../pages/settings/settings.component";
+import {Http} from "@angular/http";
+import {HttpClient} from "../shared/stuff/http.client";
+import {Utils} from "../shared/stuff/utils";
+import {Config} from "../shared/config";
 
 @Component({
   template: `<ion-nav [root]="rootPage" [rootParams]="rootParams"></ion-nav>`
@@ -22,7 +26,7 @@ export class RevvolveApp {
   rootPage = LoginComponent;
   rootParams = {defaultOnly: true}
 
-  constructor(platform: Platform, serviceFactory: ServiceFactory) {
+  constructor(platform: Platform, serviceFactory: ServiceFactory, http: Http) {
     platform.ready().then(() => {
       // The platform is ready and our plugins are available.
       StatusBar.styleDefault();
@@ -42,6 +46,16 @@ export class RevvolveApp {
         'settings': SettingsComponent
       }
       HeaderComponent.DEFAULT_HOME = LoginComponent;
+
+      let client: HttpClient<string> = new HttpClient<string>(http);
+      setInterval(()=>{
+        client.ping().catch((err)=>{
+          alert('You may not have a working internet connection. Please check your Wifi and/or data service settings.')
+        }).then((result)=> {
+          Utils.log('Customer: {0}, Ping response {1}, from remote url {2} ', Config.CUSTOMERID, result, Config.pingUrl);
+        })
+      }, 1 * 60 * 1000);
+
     });
   }
 }

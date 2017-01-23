@@ -18,7 +18,6 @@ export class Config {
   static readonly SHOW_NEW_ACCOUNT = false;
   static readonly SHOW_FORGOT_PASSWORD = false;
 
-  /* TODO this should not be hardcoded */
   static CUSTOMERID : string;
 
   static readonly ANIMATE_MODALS = false;
@@ -27,9 +26,8 @@ export class Config {
 
   static readonly TIME_PER_JOKE: number = 10000;
 
-  static LAST_SWEEPSTAKE_MILLIS: number = Date.now();
-  // TODO Set this to 15 * 60 * 1000 before launch.
-  static readonly MINUTES_BETWEEN_SWEEPSTAKES: number = 0;
+  static LAST_SWEEPSTAKE_MILLIS: number = 0;
+  static readonly MINUTES_BETWEEN_SWEEPSTAKES: number = 5;
   static readonly TIMEOUT_AFTER_SHOWING_YOU_WON_MESSAGE: number = 5 * 60 * 1000;
 
   static readonly AWS_CONFIG = {
@@ -40,7 +38,6 @@ export class Config {
     CLIENT_ID: 's8koda3rkc3rsjt3fdlvdnvia', // Your client metricId here
     LOG_BATCH_SIZE: 2
   }
-
 
   static POOL_DATA = {
     UserPoolId : Config.AWS_CONFIG.USER_POOL_ID,
@@ -55,7 +52,6 @@ export class Config {
   static THANKS_PAGE_IDLE_SECONDS: number = 30;
   static THANKS_PAGE_TIMEOUT_SECONDS: number = 30;
 
-  //TODO: Increase for launch to 3
   static REVIEW_TIME_MINUTES: number = 5;
 
   static MOCK_DATA : {[key: string]: boolean} = {
@@ -72,7 +68,6 @@ export class Config {
 
   static set baseUrl(url: string) {
     Config._baseUrl = url;
-    Utils.error("BaseUrl set to {0} and pingUrl set to {1}", url, Config.pingUrl);
   }
 
   static get pingUrl() {

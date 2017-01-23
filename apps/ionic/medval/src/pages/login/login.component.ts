@@ -7,6 +7,9 @@ import {SettingsComponent} from "../settings/settings.component";
 import {AccountComponent} from "../account/account.component";
 import {AccountSetupService} from "../../services/accountsetup/account.setup.service";
 import {Config} from "../../shared/config";
+import {HttpClient} from "../../shared/stuff/http.client";
+import {Http} from "@angular/http";
+import {Validators, FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   templateUrl: './login.component.html'
@@ -14,12 +17,16 @@ import {Config} from "../../shared/config";
 
 export class LoginComponent {
 
-  username: string;
-  password: string;
+  loginForm = new FormGroup({
+    'username': new FormControl('', Validators.required),
+    'password': new FormControl('', Validators.required)
+  });
 
   showNewAccount: boolean = Config.SHOW_NEW_ACCOUNT;
 
   showForgotPwd: boolean = Config.SHOW_FORGOT_PASSWORD;
+
+  http: HttpClient<string>;
 
   constructor(
     private navCtrl: NavController,
@@ -27,15 +34,12 @@ export class LoginComponent {
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
     private accSetupSvc: AccountSetupService,
-    private authProvider: AccessTokenService) {
+    private authProvider: AccessTokenService,
+    http: Http) {
 
     if (authProvider.supposedToBeLoggedIn()) {
       Utils.error("Login Attempt while already logged in");
     }
-  }
-
-  invalid() {
-    return this.username == null || this.password == null;
   }
 
   setupNewAccount() {
@@ -57,6 +61,9 @@ export class LoginComponent {
 
   login() {
 
+    let username: string = this.loginForm.controls[ 'username' ].value.trim().toLowerCase();
+    let password: string = this.loginForm.controls[ 'password' ].value.trim();
+
     let loading = this.loadingCtrl.create();
     loading.present();
 
@@ -68,7 +75,7 @@ export class LoginComponent {
       }
     }, 3 * 60 * 1000)
     // Start new session and dismiss loading screen on success/failure (this dismiss step is required for ios/not for web)
-    this.authProvider.startNewSession(this.username.toLowerCase(), this.password,
+    this.authProvider.startNewSession(username, password,
       (token: AuthResult, err: any): void => {
         if(token) {
           this.navigateToDashboardPage();

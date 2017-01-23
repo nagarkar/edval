@@ -29,14 +29,15 @@ export class HttpClient<T> {
    *     }
    *   );
    * @returns {Promise<ErrorObservable|ErrorObservable>|Promise<TResult>}
+  */
   public ping() : Promise<string>{
     // TODO Revert line
     return this.http.get(Config.pingUrl, this.createRequestOptionsArgs())
       .toPromise()
-      .then<string>(this.extractData)
-      .catch<string>(this.handleError);
+      .then((response: Response)=>{return response.text();})
+      .catch((err)=> {return Promise.reject(err);});
   }
-   */
+
   public list<T>(path : string | '') : Promise<Array<T>> {
     return this.http.get(Config.baseUrl + path, this.createRequestOptionsArgs())
       .toPromise()
