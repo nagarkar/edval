@@ -12,7 +12,6 @@ import {Component} from "@angular/core";
   `,
 })
 export class ReportingDashboard {
-
   ngOnInit() {
     setTimeout(()=>{
       alert('This is a demonstration page. It is not pulling real data.')
