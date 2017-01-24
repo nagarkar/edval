@@ -1,7 +1,6 @@
-import {Component, Input} from "@angular/core";
-import {Utils} from "../../shared/stuff/utils";
+import {Component} from "@angular/core";
 import {NavParams} from "ionic-angular";
-import {Campaign, ReportingSummary} from "../../services/campaign/schema";
+import {Campaign} from "../../services/campaign/schema";
 
 @Component({
   selector: 'campaign-report',

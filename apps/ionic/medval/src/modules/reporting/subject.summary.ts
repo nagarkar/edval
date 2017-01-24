@@ -1,6 +1,5 @@
 import {Component, Input, Output, EventEmitter} from "@angular/core";
-import {Utils} from "../../shared/stuff/utils";
-import {ReportingSummary, SummaryMetrics} from "../../services/campaign/schema";
+import {SummaryMetrics} from "../../services/campaign/schema";
 import {Metric} from "../../services/metric/schema";
 import {NavController} from "ionic-angular";
 import {CampaignTabsComponent} from "./campaign.tabs.component";

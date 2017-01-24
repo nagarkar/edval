@@ -1,5 +1,4 @@
 import {Component} from "@angular/core";
-import {Utils} from "../../shared/stuff/utils";
 import {CampaignReportComponent} from "./campaign.report.component";
 import {Campaign} from "../../services/campaign/schema";
 

@@ -8,7 +8,6 @@ import {PolicyComponent} from "./policy/policy.component";
 import {StaffComponent} from "../staff/staff.component";
 import {Utils} from "../../shared/stuff/utils";
 import {AllTrendsComponent} from "../charts/all.trends";
-import {MetricSummaryComponent} from "../metricsetup/metric.summary.component";
 import {SettingsComponent} from "../settings/settings.component";
 import {StartWithSurveyOption} from "../survey/start/start.with.survey.option.component";
 import {ReportingDashboard} from "../reporting/reporting.dashboard.component";

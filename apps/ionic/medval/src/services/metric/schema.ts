@@ -1,5 +1,4 @@
 import {Utils} from "../../shared/stuff/utils";
-import {Config} from "../../shared/config";
 export class Type {}
 
 export class NPSType extends Type {
