@@ -1,4 +1,3 @@
-//import { RouterModule }   from '@angular/router';
 import {NgModule, enableProdMode} from "@angular/core";
 import {IonicApp, IonicModule} from "ionic-angular";
 import {RevvolveApp} from "./app.component";
@@ -25,7 +24,6 @@ import {AccountService} from "../services/account/delegator";
 import {LiveSessionService} from "../services/session/live";
 import {MockSessionService} from "../services/session/mock";
 import {SessionService} from "../services/session/delegator";
-import {HeaderComponent} from "../shared/components/header/header.component";
 import {MetricService} from "../services/metric/delegator";
 import {MockMetricService} from "../services/metric/mock";
 import {LiveMetricService} from "../services/metric/live";
@@ -50,7 +48,6 @@ import {CustomerTextEmailComponent} from "../pages/survey/RequestReviewComponent
 import {SReplacer} from "../pipes/sreplacer";
 import {RotatingCarousel} from "../shared/components/rotatingcarousel/rotatingcarousel.component";
 import {WheelComponent} from "../shared/components/wheel/wheel.component";
-import {FooterComponent} from "../shared/components/footer/footer.component";
 import {NgIdleModule} from "@ng-idle/core";
 import {Config} from "../shared/config";
 import {ValidationComponent} from "../shared/components/validation/validation.component";
@@ -61,7 +58,9 @@ import {AutoCompleteModule} from "../shared/components/autocomplete/autocomplete
 import {ImageMapComponent} from "../shared/components/imgmap/imgmap.component";
 import {PickMetricGroups} from "../pages/survey/PickMetricGroups/pick.metricgroups.component";
 import {AccountSetupService} from "../services/accountsetup/account.setup.service";
-import {ProgressbarComponent} from "../shared/components/progressbar/progressbar.component";
+import {ReportingModule} from "../modules/reporting/module";
+import {RevvolveCommonModule} from "../shared/revvolve.common.module";
+import {ReportingDashboard} from "../pages/reporting/reporting.dashboard.component";
 
 enableProdMode();
 
@@ -74,8 +73,8 @@ enableProdMode();
     PhonePipe,
 
     /** Shared components **/
-    HeaderComponent,
-    FooterComponent,
+    //HeaderComponent,
+    //FooterComponent,
     CarouselComponent,
     RotatingCarousel,
     WheelComponent,
@@ -107,12 +106,12 @@ enableProdMode();
     ToplineForStaffComponent,
     MultimetricComponent,
     PickMetricGroups,
-    ProgressbarComponent,
 
     /** Reporting */
     NpsTrendComponent,
     RevvolveMetricsComponent,
     AllTrendsComponent,
+    ReportingDashboard,
 
     /** Metric Management */
     MetricSummaryComponent,
@@ -124,14 +123,16 @@ enableProdMode();
     JsonpModule,
     NgIdleModule.forRoot(),
     AutoCompleteModule,
+    ReportingModule,
+    RevvolveCommonModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     RevvolveApp,
 
     /** Shared components **/
-    HeaderComponent,
-    FooterComponent,
+    //HeaderComponent,
+    //FooterComponent,
     CarouselComponent,
     RotatingCarousel,
     WheelComponent,
@@ -167,6 +168,7 @@ enableProdMode();
     NpsTrendComponent,
     RevvolveMetricsComponent,
     AllTrendsComponent,
+    ReportingDashboard,
 
     /** Metric Management */
     MetricSummaryComponent,

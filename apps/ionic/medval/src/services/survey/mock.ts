@@ -340,7 +340,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           id:'pick.staff',
           component:"PickStaffComponent",
           params: {
-            roles: ["MD", "OrthoAssitant"],
+            roles: ["DDS", "OrthoAssitant"],
             displayCount: 5
           }
         },
@@ -356,8 +356,8 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           id: 'md.metrics',
           component:"MultimetricComponent",
           params: {
-            message:`staffSvc.getOnly('MD') == null ? 'About the doctors at ' + account.properties.customerName
-              : 'Tell us more about ' + staffSvc.getOnly('MD').displayName`,
+            message:`staffSvc.getOnly('DDS') == null ? 'About the doctors at ' + account.properties.customerName
+              : 'Tell us more about ' + staffSvc.getOnly('DDS').displayName`,
             metricIds: [
               '2861045b4984805ae23df729dad97b',
               '861045b4984805ae213df729dad97b',

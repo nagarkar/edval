@@ -1,0 +1,37 @@
+<ion-grid (tap)="drilldown()" style="font-size:0.7em; height:13em" class="subject-summary-container">
+  <ion-row style="padding: .2em;">
+    <ion-col>
+      <span class="nowrap" style="padding:.4em; font-size: 1.15em"><b>{{title}}</b></span>
+      <div class="flex" style="margin-top: 0.4em;">
+        <button class="pctbutton" ion-button>
+          <span><b>{{metrics.currentWindowStats.mean * 100}}%</b></span>
+        </button>
+        <span class="avgratingmsg">Average Rating</span>
+        <button class="meantrendbutton" ion-button>
+          <ion-icon [name]="meanTrendingUp() ? 'trending-up' : 'trending-down'"></ion-icon>
+        </button>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row style="width:110%">
+    <ion-col>
+      <progress-bar class="meanprogressbar"
+        [progress]="metrics.currentWindowStats.mean" [prefix]="''" [showProgress]="false"></progress-bar>
+    </ion-col>
+  </ion-row>
+  <ion-row style="margin:0.4em">
+    <ion-col>
+      <div class="flex">
+        <span class="dt-pt"><b>{{metrics.currentWindowStats.frequencies.detractor * 100}}% detractors</b></span>
+        <button [ngStyle]="{'background-color': detractorTrendingUp() ? 'green' : 'red'}" class="dt-pt-trend-button" ion-button>
+          <ion-icon [name]="detractorTrendingUp() ? 'trending-up' : 'trending-down'"></ion-icon>
+        </button>
+        &nbsp;
+        <span class="dt-pt"><b>{{metrics.currentWindowStats.frequencies.promoter * 100}}% promoters</b></span>
+        <button [ngStyle]="{'background-color': promoterTrendingUp() ? 'green' : 'red'}" class="dt-pt-trend-button" ion-button>
+          <ion-icon [name]="promoterTrendingUp() ? 'trending-up' : 'trending-down'"></ion-icon>
+        </button>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>

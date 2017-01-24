@@ -114,7 +114,7 @@ export class Metric {
 
   getRoleSubject() {
     if(this.hasRoleSubject()){
-      return Metric.rolePattern.exec(this.subject)[1];
+      return Metric.getRoleInSubject(this.subject)[1];
     }
     return null;
   }
@@ -130,6 +130,9 @@ export class Metric {
     this.subject = "staff:" + username;
   }
 
+  static getRoleInSubject(subject: string) {
+    return Metric.rolePattern.exec(subject)[1];
+  }
   static isPromoterRatio(value: number): boolean {
     return value > 0.81818181;
   }

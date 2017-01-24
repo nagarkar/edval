@@ -4,12 +4,17 @@ import {NavParams} from "ionic-angular";
 @Component({
   template: `
     <div class="progress-bar">
-      <span [style.color] = 'white' [style.width]="progressWidth">{{'Progress:' + workoutProgress}}</span>
+      <span [style.color] = 'white' [style.width]="progressWidth">{{prefix + (showProgress? workoutProgress : '')}}</span>
     </div>
   `,
   selector: 'progress-bar'
 })
 export class ProgressbarComponent {
+
+  @Input()
+  prefix: string = 'Progress:';
+  @Input()
+  showProgress: boolean = true;
 
   // Fraction between 0 and 1
   _progress: number = 0;

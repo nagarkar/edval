@@ -22,7 +22,7 @@ let testData: TestData<Account> = {
       expect(acc.properties.verticalId).toEqual("modifiedVerticalId:" + __rand);
       expect(acc.properties.address.street1).toEqual('street 1');
       expect(acc.properties.configuration).toEqual({
-        'standardRoles': 'MD,Orthodontic Assistant'
+        'standardRoles': 'DDS,Orthodontic Assistant'
       });
     }),
   }

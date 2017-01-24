@@ -67,7 +67,7 @@ export class MockStaffService extends AbstractMockService<Staff> {
       customerId: Config.CUSTOMERID,
       username: "celeron",
       entityStatus: "ACTIVE",
-      role: "MD",
+      role: "DDS",
       properties: {
         title: "Dr.",
         firstName: "Megha",

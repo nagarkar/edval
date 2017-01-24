@@ -126,7 +126,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         metricName: 'Treatment progress',
         question: `(staff ? 'Does ' + staff.displayName : "Do the Doctor's assistants ") + ' keep you well-informed about progress & answer your questions?'`,
         positiveImpact: `staff ? staff.displayName + ' keeps me informed of treatment progress & answers my questions' 
-          : "The Doctor's Assistants answer my questions and keep the doctor involved"`,
+          : "The Doctors Assistants answer my questions and keep me informed of the treatment progress"`,
         improvement: `(staff ? staff.displayName : "The Doctor's Assistants") + ' could do a better job addressing my concerns'`,
         definition: {
           npsType: {
@@ -159,12 +159,12 @@ export class MockMetricService extends AbstractMockService<Metric> {
       metricId: '62861045b4984805ae213df729dad97b',
       parentMetricId: null,
       entityStatus: "ACTIVE",
-      subject: "role:MD",
+      subject: "role:DDS",
       properties: {
         question: `'Would you recommend ' 
           + (staff ? staff.displayName : ('the doctors at ' + account.properties.customerName)) 
           + ' to your friends and family?'`,
-        metricName: "NPS Metric for Role MD",
+        metricName: "NPS Metric for Role DDS",
         definition: {
           npsType: {
             range: 5
@@ -177,10 +177,10 @@ export class MockMetricService extends AbstractMockService<Metric> {
       metricId: '2861045b4984805ae23df729dad97b',
       parentMetricId: '62861045b4984805ae213df729dad97b',
       entityStatus: "ACTIVE",
-      subject: "role:MD",
+      subject: "role:DDS",
       properties: {
         question: 'Was your doctor friendly and courteous?',
-        metricName: 'FriendlycourteousMD',
+        metricName: 'FriendlycourteousDDS',
         positiveImpact: "Dr. Megha is friendly and treats me with the utmost courtesy and respect",
         improvement: "Be friendly and courteous",
         definition: {
@@ -194,7 +194,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       metricId: '861045b4984805ae213df729dad97b',
       parentMetricId: '62861045b4984805ae213df729dad97b',
       entityStatus: "ACTIVE",
-      subject: "role:MD",
+      subject: "role:DDS",
       properties: {
         metricName: 'Doctor Skill',
         question: "'Do you feel the doctor(s) at ' + account.properties.customerName + ' are skillful in providing treatment?'",
@@ -211,7 +211,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       metricId: '1045b4984805ae213df729dad97b',
       parentMetricId: '62861045b4984805ae213df729dad97b',
       entityStatus: "ACTIVE",
-      subject: "role:MD",
+      subject: "role:DDS",
       properties: {
         metricName: 'Treatment progress',
         question: 'Are you kept well-informed about the progress of your treatment & are your questions answered?',
@@ -228,7 +228,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       metricId: '045b4984805ae213df729dad97b',
       parentMetricId: '62861045b4984805ae213df729dad97b',
       entityStatus: "ACTIVE",
-      subject: "role:MD",
+      subject: "role:DDS",
       properties: {
         metricName: "'Did ' + staff.displayName + ' address your concerns and questions?'",
         question: 'Does the doctor show genuine interest in patients?',

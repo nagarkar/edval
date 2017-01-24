@@ -11,6 +11,7 @@ import {AllTrendsComponent} from "../charts/all.trends";
 import {MetricSummaryComponent} from "../metricsetup/metric.summary.component";
 import {SettingsComponent} from "../settings/settings.component";
 import {StartWithSurveyOption} from "../survey/start/start.with.survey.option.component";
+import {ReportingDashboard} from "../reporting/reporting.dashboard.component";
 
 @Component({
   templateUrl: './dashboard.component.html'
@@ -38,7 +39,7 @@ export class DashboardComponent {
   }
 
   gotoMetricsPage() {
-    this.push(MetricSummaryComponent);
+    this.push(ReportingDashboard);//MetricSummaryComponent
   }
 
   gotoBusinessHealthPage() {

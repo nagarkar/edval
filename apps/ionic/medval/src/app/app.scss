@@ -41,18 +41,51 @@
   border-bottom: 0.55px solid #c8c7cc; padding-bottom: 1em
 }
 
+.block {
+  display:block;
+}
+
+.flex {
+  display: -webkit-flex; /* Safari */
+  -webkit-flex-direction: row-reverse; /* Safari 6.1+ */
+  display:flex;
+  flex-direction:row;
+  flex-wrap: wrap;
+}
+
+.vertical-center {
+  align-items:center;
+}
+
+.horizontal-center {
+  justify-content: center;
+}
+
+.nowrap {
+  white-space:nowrap;
+}
+
 .feedback-text {
   padding-left: .3em;
   padding-right: 1em;
   border: solid .05em green;
 }
 
-.border {
-  border: 2px solid color($colors, green);
+.border-around-text {
+  border-radius: 1em;
+  border-color: lightgrey;
+  border-style: solid;
+  padding:10px;
+  margin:10px;
 }
 
 .font-large {
   font-size: xx-large;
+}
+
+
+.pos-rel {
+  position: relative;
 }
 
 //Override ios border on header
@@ -135,11 +168,15 @@
 }
 
 .m-t-5 {
-  margin-top: 5em;
+  margin-top: 5em !important;
+}
+
+.m-t-6 {
+  margin-top: 6em !important;
 }
 
 .m-t-8 {
-  margin-top: 8em;
+  margin-top: 8em !important;
 }
 
 .m-r-05 {
@@ -149,6 +186,35 @@
 .m-l-1 {
   margin-left: 1em;
 }
+
+.m-l-10pct {
+  margin-left: 10%;
+}
+
+.t-1 {
+  top: 1em !important;
+}
+
+.t-2 {
+  top: 2em !important;
+}
+
+.t-3 {
+  top: 3em !important;
+}
+
+.t-3p5 {
+  top: 3.5em !important;
+}
+
+.t-4 {
+  top: 4em !important;
+}
+
+.b-6 {
+  bottom: 6em !important;
+}
+
 /*moved unused classes from start.with.survey.option.component.scss*/
 
 .question {

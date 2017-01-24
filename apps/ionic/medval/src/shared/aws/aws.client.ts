@@ -2,6 +2,7 @@ import {AWSLogging} from "./aws.logging";
 import {DynamoDB} from "./dynamodb";
 import {Session} from "../../services/session/schema";
 import {Utils} from "../stuff/utils";
+
 export class AwsClient {
 
   private static SERVER: AWSLogging;

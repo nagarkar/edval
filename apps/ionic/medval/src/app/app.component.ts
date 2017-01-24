@@ -18,6 +18,8 @@ import {Http} from "@angular/http";
 import {HttpClient} from "../shared/stuff/http.client";
 import {Utils} from "../shared/stuff/utils";
 import {Config} from "../shared/config";
+import {CampaignTabsComponent} from "../modules/reporting/campaign.tabs.component";
+import {ReportingDashboard} from "../pages/reporting/reporting.dashboard.component";
 
 @Component({
   template: `<ion-nav [root]="rootPage" [rootParams]="rootParams"></ion-nav>`
