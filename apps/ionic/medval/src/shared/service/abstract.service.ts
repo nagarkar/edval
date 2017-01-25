@@ -32,6 +32,10 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
     this.httpClient = new HttpClient<T>(http, clazz);
   }
 
+  get useCacheOnUpdate(): boolean {
+    return true;
+  }
+
   reset(): void {
     this.clearCache();
     this.list(true /* Dont' use cache (prime the cache) */);
@@ -146,7 +150,9 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
   }
 
   private updateCache(value: T, ...pathElements: string[]) {
-    this.cache.set(this.getPathFromPathElements(pathElements), value);
+    if (this.useCacheOnUpdate) {
+      this.cache.set(this.getPathFromPathElements(pathElements), value);
+    }
   }
 
   private getCachedValue(...pathElements: string[]) : T {

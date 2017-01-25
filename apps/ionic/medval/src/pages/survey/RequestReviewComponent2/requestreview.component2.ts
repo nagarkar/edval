@@ -8,7 +8,6 @@ import {SessionProperties} from "../../../services/session/schema";
 import {InAppBrowser} from "ionic-native";
 import {Idle} from "@ng-idle/core";
 import {SurveyPage} from "../survey.page";
-import {Config} from "../../../shared/config";
 
 @Component({
   templateUrl: './requestreview.component2.html',

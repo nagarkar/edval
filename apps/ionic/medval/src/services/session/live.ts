@@ -28,4 +28,13 @@ export class LiveSessionService extends AbstractService<Session> {
   getPath(): string {
     return "/api/customers" + "/" + Config.CUSTOMERID + "/session";
   }
+
+  /** Override default so we don't list all sessions on startup */
+  reset(): void {
+    this.clearCache();
+  }
+
+  get useCacheOnUpdate(): boolean {
+    return false;
+  }
 }
