@@ -59,7 +59,7 @@ export class RequestReviewComponent2 extends SurveyPage {
   }
 
   private saveReview(reviewSite: string) {
-    let message = 'Email or text me easy-to-use instructions for providing a review!';
+    let message = 'Email or text me a link to provide a review, and include any feedback I provided today to help me get started!';
     let reviewData = this.sessionSvc.getCurrentSession().properties.reviewData;
     if (reviewData.email || reviewData.phone) {
       message = "We already have your contact information. You can change your information below";

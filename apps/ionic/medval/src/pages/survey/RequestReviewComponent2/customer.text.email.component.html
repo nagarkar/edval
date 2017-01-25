@@ -4,7 +4,7 @@
       <ion-grid>
         <ion-row style="margin-top: 3em">
           <ion-col>
-            <ion-label style="padding-left: .2em;font-size: 1.5em; text-align: left;" stacked>{{message}}</ion-label>
+            <h2 stacked>{{message}}</h2>
             <autoComplete-email  [value]="email" [(ngModel)]="email" formControlName="email" required placeholder="youremail@gmail.com"
                [suggestions]="filteredEmail" (completeMethod)="getEmail($event)" [size]="30" [minLength]= "3"
                (onSelect)="onSelectEmail($event)" field="name">
@@ -20,7 +20,7 @@
             <div class="alert subdued" *ngIf="!myForm.controls['phone'].valid">(e.g.: (206) 443-3323</div>
             <div class="alert subdued" *ngIf="myForm.controls['phone'].valid">&nbsp;</div>
             <ion-row style="margin-top: 2em; text-align: right;">
-              <button type="submit" ion-button small>{{ready ? "I'm done!" : "No Thanks!"}}</button>
+              <button type="submit" ion-button small>{{ready ? "Send it!" : "No Thanks!"}}</button>
             </ion-row>
           </ion-col>
         </ion-row>
