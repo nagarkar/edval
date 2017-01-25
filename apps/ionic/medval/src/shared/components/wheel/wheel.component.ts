@@ -1,6 +1,7 @@
 import {Component, Output, EventEmitter, Input} from "@angular/core";
 import {ViewController, AlertController, NavParams} from "ionic-angular";
 import {Config} from "../../config";
+import {SessionService} from "../../../services/session/delegator";
 
 declare var Winwheel: (options?: any, drawWheel?: boolean) => void;
 
@@ -25,7 +26,10 @@ export class WheelComponent {
     });
   };
 
-  constructor (private viewctrl: ViewController, private alertctrl: AlertController, navParams: NavParams) {
+  constructor (private viewctrl: ViewController,
+               private alertctrl: AlertController,
+               navParams: NavParams,
+               private sessionsvc: SessionService) {
     this.id = 'canvas' + Math.floor(Math.random() * 1000);
     if (navParams.get('options')) {
       this.options = navParams.get('options');
@@ -67,6 +71,7 @@ export class WheelComponent {
           "You WON the " + data.segment.text + "!!! Please pick up your winnings from the front-desk and enjoy!",
           "I collected the winnings!"
         );
+        this.saveGameResult(true);
       } else {
         this.presentAlertPrompt(()=>{
             this.viewctrl.dismiss(data);
@@ -74,7 +79,7 @@ export class WheelComponent {
           "Sorry, we hope you win next time!",
           "Thanks for your feedback!"
         );
-
+        this.saveGameResult(false);
       }
     }, 2000); // just pause for a few secs.
   }
@@ -138,4 +143,18 @@ export class WheelComponent {
         'spins'    : 8
       }
     };
+
+  private saveGameResult(winResult: boolean): void {
+    let svc = this.sessionsvc;
+    if (!svc.hasCurrentSession()) {
+      return;
+    }
+    svc.getCurrentSession().properties.games.push({
+      result: winResult,
+      message: this._options.giftMessage
+    });
+    if (winResult) {
+      Config.LAST_WIN_TIME = Date.now();
+    }
+  }
 }

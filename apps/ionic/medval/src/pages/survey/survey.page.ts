@@ -12,7 +12,7 @@ export class SurveyPage {
 
   progress: number = 0;
 
-  inNavigation:boolean = false;
+  static inNavigation:boolean = false;
 
   constructor(
     protected loadingCtrl: LoadingController,
@@ -52,14 +52,22 @@ export class SurveyPage {
   }
 
   public navigateToNext(...terminationMessage: string[]) {
-    if (this.inNavigation === true) {
+    if (SurveyPage.inNavigation === true) {
       return;
     }
-    this.inNavigation = true;
+    SurveyPage.inNavigation = true;
+    let navState = this.sessionSvc.surveyNavigator.navState;
     try {
-      SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.loadingCtrl, this.navCtrl, ...terminationMessage);
+      SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.loadingCtrl, this.navCtrl, ...terminationMessage)
+        .then(()=>{
+          SurveyPage.inNavigation = false;
+        })
+        .catch((err)=>{
+          SurveyPage.inNavigation = false;
+          this.sessionSvc.surveyNavigator.navState = navState;
+        });
     } finally {
-      this.inNavigation = false;
+
     }
   }
 

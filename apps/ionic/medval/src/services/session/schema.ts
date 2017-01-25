@@ -26,6 +26,7 @@ export class SessionProperties {
   reviewData: ReviewData = {};
   complaintData: ReviewData = {};
   rawFeedback: string[] = [];
+  games: Array<{result:boolean, message:string}> = [];
 
   constructor() {
     this.patientId = Utils.guid("p");

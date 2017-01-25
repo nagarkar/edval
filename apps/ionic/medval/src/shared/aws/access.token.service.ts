@@ -24,7 +24,7 @@ export class AccessTokenService {
 
   private callback: (result?: AuthResult, err?: any) => void;
 
-  private authenticatingIntervalTimer : number = 0;
+  private static authenticatingIntervalTimer : number;
 
   constructor(private alertCtrl: AlertController, private serviceFactory: ServiceFactory) {}
 
@@ -82,7 +82,8 @@ export class AccessTokenService {
 
 
   private startAuthenticatingUserAtIntervals(): void {
-    this.authenticatingIntervalTimer = window.setInterval(()=> {
+    this.clearAuthenticatingIntervalTimerIfValid();
+    AccessTokenService.authenticatingIntervalTimer = setInterval(()=> {
       this.startAuthenticatingUser(false);
     }, Config.REFRESH_ACCESS_TOKEN)
   }
@@ -168,8 +169,8 @@ export class AccessTokenService {
   }
 
   private clearAuthenticatingIntervalTimerIfValid() {
-    if (this.authenticatingIntervalTimer != 0) {
-      clearInterval(this.authenticatingIntervalTimer);
+    if (AccessTokenService.authenticatingIntervalTimer) {
+      clearInterval(AccessTokenService.authenticatingIntervalTimer);
     }
   }
 

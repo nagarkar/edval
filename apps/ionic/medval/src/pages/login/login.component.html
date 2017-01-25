@@ -1,4 +1,5 @@
-<mdval-header [title]="'Login'" [leftHome]="'survey'" [home]="'settings'"></mdval-header>
+<mdval-header [title]="'Login'" [leftHome]="isLoggedIn ? 'survey' : 'false'"
+    [home]="isLoggedIn ? 'settings' : 'false'"></mdval-header>
 <ion-content padding class="login-page">
   <div class="revvolve-logo" text-center style="margin-top:4em">
     <img src="assets/img/logo.png" alt="">
@@ -19,5 +20,9 @@
         <button *ngIf="showForgotPwd" small block ion-button color="light" (tap)="forgotPassword()">Forgot Password</button>
       </div>
     </form>
+  </div>
+  <div style="font-size:.75em; position:absolute; display:inline; bottom:1em">
+    <div>Last Win Time: {{lastWinTime | date:'medium'}}</div>
+    <div>Last Survey Time: {{lastSessionTime | date:'medium'}}</div>
   </div>
 </ion-content>

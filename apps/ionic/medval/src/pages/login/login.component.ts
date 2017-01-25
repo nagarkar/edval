@@ -91,6 +91,18 @@ export class LoginComponent {
       });
   }
 
+  get lastWinTime(): number {
+    return Config.LAST_WIN_TIME;
+  }
+
+  get lastSessionTime(): number {
+    return Config.LAST_SESSION_CREATED;
+  }
+
+  get isLoggedIn(): boolean {
+    return this.authProvider.cognitoUser != null;
+  }
+
   private navigateToDashboardPage() {
     Utils.log("about to navigate to dashboard");
     this.navCtrl.setRoot(DashboardComponent);

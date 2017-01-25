@@ -23,6 +23,8 @@ import {Config} from "../shared/config";
   template: `<ion-nav [root]="rootPage" [rootParams]="rootParams"></ion-nav>`
 })
 export class RevvolveApp {
+
+  static internetCheckHandle: number;
   rootPage = LoginComponent;
   rootParams = {defaultOnly: true}
 
@@ -47,15 +49,21 @@ export class RevvolveApp {
       }
       HeaderComponent.DEFAULT_HOME = LoginComponent;
 
-      let client: HttpClient<string> = new HttpClient<string>(http);
-      setInterval(()=>{
-        client.ping().catch((err)=>{
-          alert('You may not have a working internet connection. Please check your Wifi and/or data service settings.')
-        }).then((result)=> {
-          Utils.log('Customer: {0}, Ping response {1}, from remote url {2} ', Config.CUSTOMERID, result, Config.pingUrl);
-        })
-      }, 1 * 60 * 1000);
-
+      this.initiateConnectionCheck(http);
     });
+  }
+
+  private initiateConnectionCheck(http: Http) {
+    let client: HttpClient<string> = new HttpClient<string>(http);
+    if (RevvolveApp.internetCheckHandle) {
+      clearInterval(RevvolveApp.internetCheckHandle)
+    }
+    RevvolveApp.internetCheckHandle = setInterval(()=>{
+      client.ping().catch((err)=>{
+        alert('You may not have a working internet connection. Please check your Wifi and/or data service settings.')
+      }).then((result)=> {
+        Utils.log('Customer: {0}, Ping response {1}, from remote url {2} ', Config.CUSTOMERID, result, Config.pingUrl);
+      })
+    }, 1 * 60 * 1000);
   }
 }

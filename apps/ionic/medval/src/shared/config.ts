@@ -4,6 +4,7 @@ import {Utils} from "./stuff/utils";
 @Injectable()
 export class Config {
 
+  static LAST_SESSION_CREATED: number;
   static LOG_LENGTH: number = 1000;
   static ERR_LENGTH: number = 1000;
 
@@ -29,6 +30,7 @@ export class Config {
   static LAST_SWEEPSTAKE_MILLIS: number = 0;
   static readonly MINUTES_BETWEEN_SWEEPSTAKES: number = 5;
   static readonly TIMEOUT_AFTER_SHOWING_YOU_WON_MESSAGE: number = 5 * 60 * 1000;
+  static LAST_WIN_TIME: number;
 
   static readonly AWS_CONFIG = {
     REGION: 'us-east-1',

@@ -100,7 +100,7 @@ export class AccountComponent extends AdminComponent {
   }
 
   private loading: Loading;
-  private handle: number;
+  private static handle: number;
   private tryCreateAccount() {
     this.loading = Utils.presentLoading(this.loadingCtrl);
     let err: string = "";
@@ -151,7 +151,10 @@ export class AccountComponent extends AdminComponent {
           });
       };
     });
-    this.handle = setInterval(()=>{
+    if (AccountComponent.handle) {
+      clearInterval(AccountComponent.handle);
+    }
+    AccountComponent.handle = setInterval(()=>{
       if (usernameAvailable === false) {
         err += "\nThe username you seleted is not available";
         this.dismissLoadingShowAlertClearInterval(err);
@@ -195,7 +198,7 @@ export class AccountComponent extends AdminComponent {
           this.navCtrl.setRoot(LoginComponent);
         }
       });
-    clearInterval(this.handle);
+    clearInterval(AccountComponent.handle);
   }
 
 

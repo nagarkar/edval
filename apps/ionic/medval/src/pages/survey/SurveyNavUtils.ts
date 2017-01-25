@@ -6,28 +6,33 @@ import {Config} from "../../shared/config";
 import {StartWithSurveyOption} from "./start/start.with.survey.option.component";
 
 export class SurveyNavUtils {
-  public static navigateOrTerminate(navigator: SurveyNavigator, loadingCtrl: LoadingController, navCtrl: NavController, ...terminationMessage: string[]) {
+  public static navigateOrTerminate(navigator: SurveyNavigator, loadingCtrl: LoadingController, navCtrl: NavController, ...terminationMessage: string[]): Promise<any> {
     let loading: Loading = Utils.presentLoading(loadingCtrl, 750);
-    setTimeout(()=>{
-      let navigationTarget: NavigationTarget;
-      try {
-        navigationTarget = navigator.getNavigationTarget();
-      } catch(err) {
-        Utils.error("In SurveyNavUtils Could not get Navigation Target: The error is {0}. Stack:", err, new Error().stack);
-        alert("Unexpected Error Occurred:" + err);
-      }
-      let component: any = (navigationTarget && navigationTarget.component) || ThanksComponent;
-      let params = component == ThanksComponent ? {message: terminationMessage} : navigationTarget.params;
-      if (component) {
+    return new Promise<any>((resolve, reject)=> {
+      setTimeout(()=>{
+        let navigationTarget: NavigationTarget;
         try {
-          navCtrl.setRoot(component, params);
+          navigationTarget = navigator.getNavigationTarget();
         } catch(err) {
-          Utils.error("Error: {0}, Stack: {1}", err, new Error().stack);
+          reject(err);
+          Utils.error("In SurveyNavUtils Could not get Navigation Target: The error is {0}. Stack:", err, new Error().stack);
           alert("Unexpected Error Occurred:" + err);
         }
-      }
-      loading.dismissAll();
-    }, Config.PAGE_TRANSITION_TIME)
+        let component: any = (navigationTarget && navigationTarget.component) || ThanksComponent;
+        let params = component == ThanksComponent ? {message: terminationMessage} : navigationTarget.params;
+        if (component) {
+          try {
+            let promise = navCtrl.setRoot(component, params);
+            resolve(promise);
+          } catch(err) {
+            reject(err);
+            Utils.error("Error: {0}, Stack: {1}", err, new Error().stack);
+            alert("Unexpected Error Occurred:" + err);
+          }
+        }
+        loading.dismissAll();
+      }, Config.PAGE_TRANSITION_TIME)
+    });
   }
 
   static goToStart(navCtrl: NavController) {

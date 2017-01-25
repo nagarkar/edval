@@ -37,7 +37,7 @@
     <ion-row>
       <ion-col width-33>
         <ion-label>Profile Photo</ion-label>
-        <ion-card (click)="collectUrl()">
+        <ion-card (tap)="collectUrl()">
           <img src="{{staffMember.properties.photoUrl? staffMember.properties.photoUrl : 'assets/img/placeholder.png'}}">
           <button ion-button clear small style="margin-left:40%;height:25px">Edit</button>
           <!--<ion-icon name="camera" style="margin-left:45%;height:25px"></ion-icon> -->

@@ -1,10 +1,10 @@
 <ion-header>
   <ion-navbar color="revvolve">
     <ion-row>
-      <ion-col width-10 *ngIf="leftHome">
+      <ion-col width-10 *ngIf="leftHome !== 'false' && leftHome !== undefined">
         <ion-buttons>
           <button ion-button icon-only (tap)="goLeftHome()">
-            <ion-icon name="code"></ion-icon>
+            <ion-icon style='font-size:1em' name="paper"></ion-icon>
           </button>
         </ion-buttons>
       </ion-col>
@@ -14,10 +14,10 @@
           <img src="assets/img/header-logo.jpg" style="height:2.3rem" alt="">
         </ion-title>
       </ion-col>
-      <ion-col width-10>
+      <ion-col width-10 *ngIf="home !== 'false' && home !== undefined">
         <ion-buttons end>
           <button ion-button icon-only (tap)="goHome()">
-            <ion-icon name="code"></ion-icon>
+            <ion-icon style='font-size:1em' name="remove"></ion-icon>
           </button>
         </ion-buttons>
       </ion-col>

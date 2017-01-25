@@ -8,14 +8,11 @@ export class AwsClient {
   private static SERVER: AWSLogging;
   private static DDB: DynamoDB;
 
-  static periodicLoggingTimer = setInterval(()=> {
-    if (AwsClient.SERVER) {
-      AwsClient.SERVER.flush();
-    }
-  }, 5 * 60 * 1000)
+  static periodicLoggingTimer: number;
 
 
   static reInitialize() {
+    AwsClient.resetLoggingTimer();
     AwsClient.SERVER = new AWSLogging();
     AwsClient.DDB = new DynamoDB();
   }
@@ -46,5 +43,16 @@ export class AwsClient {
       return AwsClient.DDB.putSession(session);
     }
     return Promise.resolve(session);
+  }
+
+  private static resetLoggingTimer() {
+    if (AwsClient.periodicLoggingTimer) {
+      clearInterval(AwsClient.periodicLoggingTimer);
+    }
+    AwsClient.periodicLoggingTimer = setInterval(()=> {
+      if (AwsClient.SERVER) {
+        AwsClient.SERVER.flush();
+      }
+    }, 5 * 60 * 1000)
   }
 }

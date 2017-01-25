@@ -8,6 +8,7 @@ import {SurveyService} from "../survey/delegator";
 import {MetricService} from "../metric/delegator";
 import {RegisterService} from "../service.factory";
 import {LiveSessionService} from "./live";
+import {Config} from "../../shared/config";
 
 @Injectable()
 @RegisterService
@@ -37,6 +38,7 @@ export class SessionService extends DelegatingService<Session> {
     let session: Session = new Session();
     session.properties.surveyId = surveyId;
     this.surveyNavigator = new SurveyNavigator(session, this.surveyService.getCached(surveyId), this.metricSvc);
+    Config.LAST_SESSION_CREATED = Date.now();
     return session;
   }
 
