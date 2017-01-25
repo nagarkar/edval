@@ -11,12 +11,12 @@ import {
   IterableDiffers,
   Renderer,
   forwardRef,
-  NgModule
+  NgModule, ViewChild
 } from "@angular/core";
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from "@angular/forms";
 import {DomHandler} from "./domhandler";
 import {CommonModule} from "@angular/common";
-import {IonicModule} from "ionic-angular";
+import {IonicModule, IonicFormInput, Ion, Config} from "ionic-angular";
 export const AUTOCOMPLETE_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => AutoComplete),
@@ -27,7 +27,7 @@ export const AUTOCOMPLETE_VALUE_ACCESSOR: any = {
   selector: 'autoComplete-email',
   template: `
     <span [ngClass]="{'ui-autocomplete':true}" [ngStyle]="style" [class]="styleClass">
-      <ion-item><ion-input clearOnEdit clearInput type="email" [ngStyle]="inputStyle" [class]="inputStyleClass" autocomplete="off"
+      <ion-item nopadding><ion-input  type="email" [ngStyle]="inputStyle" [class]="inputStyleClass" autocomplete="off"
         [value]="value ? value : null" (input)="onInput($event)"  (focus)="onFocus()"
         [placeholder]="placeholder" [attr.size]="size" [attr.maxlength]="maxlength" [attr.readonly]="readonly"
         [ngClass]=""></ion-input></ion-item>
@@ -43,7 +43,16 @@ export const AUTOCOMPLETE_VALUE_ACCESSOR: any = {
     `,
   providers: [DomHandler, AUTOCOMPLETE_VALUE_ACCESSOR],
 })
-export class AutoComplete implements AfterViewInit,DoCheck,AfterViewChecked,ControlValueAccessor {
+export class AutoComplete extends Ion implements AfterViewInit,DoCheck,AfterViewChecked,ControlValueAccessor {
+
+  /*
+  @ViewChild('input')
+  elementRef: ElementRef;
+
+  initFocus(): void {
+    this.elementRef.nativeElement.querySelector('button').focus();
+  }
+  */
 
   @Input() minLength: number = 1;
 
@@ -83,6 +92,8 @@ export class AutoComplete implements AfterViewInit,DoCheck,AfterViewChecked,Cont
 
   onModelTouched: Function = () => {};
 
+  emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
   timeout: any;
 
   differ: any;
@@ -101,7 +112,8 @@ export class AutoComplete implements AfterViewInit,DoCheck,AfterViewChecked,Cont
 
   filled: boolean;
 
-  constructor(public el: ElementRef, public domHandler: DomHandler, differs: IterableDiffers, public renderer: Renderer) {
+  constructor(config: Config, public el: ElementRef, public domHandler: DomHandler, differs: IterableDiffers, public renderer: Renderer) {
+    super(config, el, renderer, 'autocomplete');
     this.differ = differs.find([]).create(null);
   }
 
@@ -139,6 +151,10 @@ export class AutoComplete implements AfterViewInit,DoCheck,AfterViewChecked,Cont
       this.align();
       this.suggestionsUpdated = false;
     }
+  }
+
+  get valid(): boolean {
+    return this.emailRegex.test(this.value);
   }
 
   writeValue(value: any) : void {

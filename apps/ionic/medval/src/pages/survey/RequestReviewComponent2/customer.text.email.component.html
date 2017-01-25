@@ -1,27 +1,40 @@
 <ion-content text-center>
-  <div class="cstm-grid">
+  <div>
     <form [formGroup]="myForm" (submit)="dismiss()">
       <ion-grid>
         <ion-row style="margin-top: 3em">
           <ion-col>
-            <h2 stacked>{{message}}</h2>
-            <autoComplete-email  [value]="email" [(ngModel)]="email" formControlName="email" required placeholder="youremail@gmail.com"
-               [suggestions]="filteredEmail" (completeMethod)="getEmail($event)" [size]="30" [minLength]= "3"
-               (onSelect)="onSelectEmail($event)" field="name">
+            <h2 style="padding-left: .2em;font-size: 1.5em; text-align: left;">{{message}}</h2>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33>
+            <ion-label padding>Email a link</ion-label>
+          </ion-col>
+          <ion-col>
+            <autoComplete-email #autoemail [value]="email" [(ngModel)]="email" formControlName="email" required placeholder="youremail@gmail.com"
+                                 [suggestions]="filteredEmail" (completeMethod)="getEmail($event)" [size]="30" [minLength]= "3"
+                                 (onSelect)="onSelectEmail($event)" field="name">
             </autoComplete-email>
-            <div class="alert subdued" *ngIf="!myForm.controls['email'].valid && myForm.controls['email'].touched">(e.g.: abc@zyx.com)
-            </div>
-            <ion-item>
-              <ion-label stacked>Phone (Text me!)</ion-label>
-              <ion-input clearOnEdit clearInput [ngModel]="phone | phoneFormat" (ngModelChange)="phone=$event" formControlName="phone"
-                 type="tel" placeholder="206-555-5555">
-              </ion-input>
-            </ion-item>
+            <div class="alert subdued" *ngIf="!autoemail.valid && myForm.controls['email'].touched">(e.g.: abc@zyx.com)</div>
+            <div class="alert subdued" *ngIf="autoemail.valid"></div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33>
+              <ion-label>Phone (Text a link!)</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-input style="padding-left:.5em" clearOnEdit clearInput [ngModel]="phone | phoneFormat" (ngModelChange)="phone=$event" formControlName="phone"
+               type="tel" placeholder="206-555-5555">
+            </ion-input>
             <div class="alert subdued" *ngIf="!myForm.controls['phone'].valid">(e.g.: (206) 443-3323</div>
             <div class="alert subdued" *ngIf="myForm.controls['phone'].valid">&nbsp;</div>
-            <ion-row style="margin-top: 2em; text-align: right;">
-              <button type="submit" ion-button small>{{ready ? "Send it!" : "No Thanks!"}}</button>
-            </ion-row>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <button type="submit" ion-button small>{{ready ? "Send it!" : "No Thanks!"}}</button>
           </ion-col>
         </ion-row>
       </ion-grid>
