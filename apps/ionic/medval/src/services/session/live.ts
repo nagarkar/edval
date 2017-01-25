@@ -34,6 +34,7 @@ export class LiveSessionService extends AbstractService<Session> {
     this.clearCache();
   }
 
+  /** Don't update cache */
   get useCacheOnUpdate(): boolean {
     return false;
   }
