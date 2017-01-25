@@ -39,6 +39,7 @@ export class RatingComponent {
 
   setRating(value: number) {
 
+    let oldValue = this.ratingValue;
     this.ratingValue = value;
     if(value <= (2*this._ratingMax)/10) {
       this.color = 'yellow';
@@ -51,7 +52,9 @@ export class RatingComponent {
     } else {
       this.color = 'revvolvepurple';
     }
-    this.ratingValueChange.emit(value);
+    if (oldValue != this.ratingValue) {
+      this.ratingValueChange.emit(value);
+    }
     this.popped = true;
     Utils.log("In setRating value:{0}, hasbeenselected:{1}", value.toString(), this.popped.toString());
     setTimeout(()=> {

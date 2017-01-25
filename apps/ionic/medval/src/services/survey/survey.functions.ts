@@ -1,5 +1,6 @@
 import {ISurveyFunction, SurveyNavigator, RegisterFunction} from "./survey.navigator";
 import {Metric, MetricValue} from "../metric/schema";
+import {Config} from "../../shared/config";
 
 @RegisterFunction
 export class AllPromoters implements ISurveyFunction {
@@ -37,7 +38,7 @@ export class AveragePromoterScore implements ISurveyFunction {
         total += (+metricValue.metricValue)/metric.properties.definition.npsType.range;
       }
     });
-    return (numMetrics != 0 && Metric.isPromoterRatio(total/numMetrics)).toString();
+    return (numMetrics != 0 && (total/numMetrics) >= Config.REQUEST_REVIEW_MIN_SCORE).toString();
   }
 }
 

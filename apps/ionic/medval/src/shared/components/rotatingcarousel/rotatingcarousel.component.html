@@ -37,7 +37,7 @@
     <ion-row text-center>
       <ion-col>
         <button ion-button color="green" [disabled]="selectedItems.length != 0" (tap)="finished()">I don't see the right people in the list</button>
-        <button ion-button color="green" [disabled]="selectedItems.length == 0" (tap)="finished()">Done</button>
+        <button [ngClass]="{pulse: selectedItems.length > 0}" ion-button color="green" [disabled]="selectedItems.length == 0" (tap)="finished()">Done</button>
       </ion-col>
     </ion-row>
   </ion-grid>

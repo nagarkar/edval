@@ -24,6 +24,7 @@ export class ToplineForStaffComponent extends SurveyPage {
 
   displayData: Array<dataInterface> = [];
   displayCount: number;
+  done: boolean = false;
 
   styles: any = {};
 
@@ -74,7 +75,7 @@ export class ToplineForStaffComponent extends SurveyPage {
     let navigator: SurveyNavigator = this.sessionSvc.surveyNavigator;
     navigator.session.addMetricValue(data.metric.subject, new MetricValue(data.metric.metricId, data.value));
     if (this.displayData.every((data: dataInterface) => {return data.value != null})) {
-      this.navigateToNext();
+      this.done = true;
     }
   }
 

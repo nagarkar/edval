@@ -18,6 +18,8 @@ export class Config {
 
   static readonly SHOW_NEW_ACCOUNT = false;
   static readonly SHOW_FORGOT_PASSWORD = false;
+  static readonly REQUEST_REVIEW_MIN_SCORE: number = 0.9;
+
 
   static CUSTOMERID : string;
 

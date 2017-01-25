@@ -47,7 +47,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
       properties: {
         name: "Short Survey",
         purpose: "Continuous Measurement",
-        timeCommitment: "I have a minute"
+        timeCommitment: "Default"
       },
       workflowProperties: {
         avgSteps: 3,
@@ -307,7 +307,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
       properties: {
         name: "Full Survey with CAHPS",
         purpose: "Six month survey",
-        timeCommitment: "I have 5-6 minutes"
+        timeCommitment: "6 Month Survey"
       },
       workflowProperties: {
         avgSteps: 6,

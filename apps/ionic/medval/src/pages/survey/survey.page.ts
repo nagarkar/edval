@@ -28,6 +28,7 @@ export class SurveyPage {
     }
   }
 
+  static GOING_TO_ROOT_TEST: boolean = false;
   ngOnInit() {
 
     let idle = this.idle;
@@ -40,8 +41,18 @@ export class SurveyPage {
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
 
     let subscription: Subject<number> = idle.onTimeout.subscribe(() => {
-      this.stopIdling(subscription);
-      this.navCtrl.setRoot(StartWithSurveyOption, {defaultOnly: true});
+      try {
+        this.stopIdling(subscription);
+      } catch(err) {
+        return;
+      }
+      if (SurveyPage.GOING_TO_ROOT_TEST == true) {
+        return;
+      }
+      SurveyPage.GOING_TO_ROOT_TEST = true;
+      this.navCtrl.setRoot(StartWithSurveyOption, {defaultOnly: true}).then(()=>{
+        SurveyPage.GOING_TO_ROOT_TEST = false;
+      }).catch((err)=> {SurveyPage.GOING_TO_ROOT_TEST = false; Utils.error(err)});
     })
     idle.watch();
 
@@ -90,6 +101,7 @@ export class SurveyPage {
       return;
     }
     this.idle.stop();
+    this.idle.clearInterrupts();
     if (subscription) {
       subscription.unsubscribe();
     }
