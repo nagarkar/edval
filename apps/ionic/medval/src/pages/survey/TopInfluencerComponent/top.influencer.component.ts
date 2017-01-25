@@ -16,7 +16,7 @@ import {SReplacer} from "../../../pipes/sreplacer";
 
 @Component({
   templateUrl: './top.influencer.component.html',
-  providers: [Idle]
+  //providers: [Idle]
 })
 
 @RegisterComponent

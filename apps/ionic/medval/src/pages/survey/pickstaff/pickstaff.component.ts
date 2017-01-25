@@ -12,7 +12,7 @@ import {Idle} from "@ng-idle/core";
 
 @Component({
   templateUrl:'./pickstaff.component.html',
-  providers: [Idle]
+  //providers: [Idle]
 })
 
 @RegisterComponent

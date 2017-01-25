@@ -12,7 +12,7 @@ import {SReplacerDataMap} from "../../../pipes/sreplacer";
 
 @Component({
   templateUrl: './multimetric.component.html',
-  providers: [Idle]
+  //providers: [Idle]
 })
 
 @RegisterComponent

@@ -29,10 +29,12 @@ export class SurveyPage {
   }
 
   ngOnInit() {
+
     let idle = this.idle;
     if (!idle) {
       return;
     }
+    this.stopIdling();
     idle.setIdle(Config.SURVEY_PAGE_IDLE_SECONDS);
     idle.setTimeout(Config.SURVEY_PAGE_TIMEOUT_SECONDS);
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
@@ -42,14 +44,14 @@ export class SurveyPage {
       this.navCtrl.setRoot(StartWithSurveyOption, {defaultOnly: true});
     })
     idle.watch();
+
   }
 
+  /*
   ngOnDestroy() {
-    if (!this.idle) {
-      return;
-    }
     this.stopIdling();
   }
+  */
 
   public navigateToNext(...terminationMessage: string[]) {
     if (SurveyPage.inNavigation === true) {
@@ -84,6 +86,9 @@ export class SurveyPage {
   }
 
   private stopIdling(subscription?: Subject<number>) {
+    if (!this.idle) {
+      return;
+    }
     this.idle.stop();
     if (subscription) {
       subscription.unsubscribe();

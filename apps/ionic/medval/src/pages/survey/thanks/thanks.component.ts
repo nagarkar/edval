@@ -15,7 +15,7 @@ import {AnyDetractors} from "../../../services/survey/survey.functions";
 
 @Component({
   templateUrl: './thanks.component.html',
-  providers: [Idle]
+  //providers: [Idle]
 })
 export class ThanksComponent extends SurveyPage {
 

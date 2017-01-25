@@ -13,7 +13,7 @@ import {SurveyPage} from "../survey.page";
 @Component({
   selector: 'single-metric',
   templateUrl: './single.metric.component.html',
-  providers: [Idle]
+  //providers: [Idle]
 })
 
 @RegisterComponent

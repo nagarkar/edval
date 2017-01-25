@@ -54,7 +54,7 @@ export class WheelComponent {
     {
       this.wheel.animation.spins = 3;
       this.wheel.startAnimation();
-      this.wheelSpinning = true;
+      this.disable();
     }
   }
 

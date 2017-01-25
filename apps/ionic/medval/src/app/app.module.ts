@@ -48,7 +48,7 @@ import {CustomerTextEmailComponent} from "../pages/survey/RequestReviewComponent
 import {SReplacer} from "../pipes/sreplacer";
 import {RotatingCarousel} from "../shared/components/rotatingcarousel/rotatingcarousel.component";
 import {WheelComponent} from "../shared/components/wheel/wheel.component";
-import {NgIdleModule} from "@ng-idle/core";
+import {NgIdleModule, Idle} from "@ng-idle/core";
 import {Config} from "../shared/config";
 import {ValidationComponent} from "../shared/components/validation/validation.component";
 import {PhonePipe} from "../pipes/phone";
@@ -188,7 +188,8 @@ enableProdMode();
     ServiceFactory,
     EmailProviderService,
     AccountSetupService,
-    SReplacer
+    SReplacer,
+    Idle
   ]
 })
 

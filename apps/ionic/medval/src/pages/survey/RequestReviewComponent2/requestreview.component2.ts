@@ -11,7 +11,7 @@ import {SurveyPage} from "../survey.page";
 
 @Component({
   templateUrl: './requestreview.component2.html',
-  providers: [Idle]
+  //providers: [Idle]
 })
 
 @RegisterComponent
