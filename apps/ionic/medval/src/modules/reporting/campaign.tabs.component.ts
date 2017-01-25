@@ -6,7 +6,7 @@ import {Campaign} from "../../services/campaign/schema";
   selector: 'campaign-tabs',
   template: `    
     <ion-tabs class="campaigntabs">
-      <ion-tab style="overflow:scroll" *ngFor="let campaign of campaigns; let idx = index;"
+      <ion-tab style="background-color:lightslategrey;overflow:scroll" *ngFor="let campaign of campaigns; let idx = index;"
         tabIcon="water"  [tabTitle]="campaign.properties.name" 
         [root]="components[idx]" [rootParams] = "{campaign:campaign}">
         <!--campaign-report [campaign]="campaign"></campaign-report-->
