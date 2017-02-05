@@ -25,9 +25,9 @@ export class Config {
 
   static readonly ANIMATE_MODALS = false;
   static ANIMATE_PAGE_TRANSITIONS: boolean = false;
-  static PAGE_TRANSITION_TIME: number = 1 * 1000;
+  static PAGE_TRANSITION_TIME: number = 0.5 * 1000;
 
-  static readonly TIME_PER_JOKE: number = 10000;
+  static readonly TIME_PER_JOKE: number = 8 * 1000;
 
   static LAST_SWEEPSTAKE_MILLIS: number = 0;
   static readonly MINUTES_BETWEEN_SWEEPSTAKES: number = 1;
@@ -65,6 +65,7 @@ export class Config {
     "Staff": false,
     "Survey": true,
     "Campaign": true,
+    "DailyDataList": true,
   };
 
   static get baseUrl() {

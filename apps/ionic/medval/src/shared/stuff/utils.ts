@@ -379,9 +379,9 @@ export class Utils {
         {
           text: 'Save',
           handler: (data: any) => {
-            if (data.url.startsWith("http://") || data.url.startsWith("https://")) {
+            //if (data.url.startsWith("http://") || data.url.startsWith("https://")) {
               onselect(data.url);
-            }
+            //}
           }
         }
       ]

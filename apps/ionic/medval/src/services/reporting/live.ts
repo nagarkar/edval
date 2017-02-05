@@ -7,7 +7,6 @@ import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {Config} from "../../shared/config";
 
 @Injectable()
-@RegisterService
 export class LiveDailyDataService extends AbstractService<DailyDataList>{
 
   getPath(): string {

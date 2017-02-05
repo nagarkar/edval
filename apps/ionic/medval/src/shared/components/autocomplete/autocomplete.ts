@@ -11,12 +11,12 @@ import {
   IterableDiffers,
   Renderer,
   forwardRef,
-  NgModule, ViewChild
+  NgModule
 } from "@angular/core";
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from "@angular/forms";
 import {DomHandler} from "./domhandler";
 import {CommonModule} from "@angular/common";
-import {IonicModule, IonicFormInput, Ion, Config} from "ionic-angular";
+import {IonicModule, Ion, Config} from "ionic-angular";
 export const AUTOCOMPLETE_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => AutoComplete),
