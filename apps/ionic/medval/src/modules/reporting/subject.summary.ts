@@ -5,7 +5,7 @@ import {NavController} from "ionic-angular";
 import {CampaignTabsComponent} from "./campaign.tabs.component";
 import {StaffService} from "../../services/staff/delegator";
 import {ChartComponent, ChartType} from "./chart.component";
-import {DailyDataService} from "./services/delegator";
+import {DailyDataService} from "../../services/reporting/delegator";
 
 @Component({
   selector: 'role-summary',

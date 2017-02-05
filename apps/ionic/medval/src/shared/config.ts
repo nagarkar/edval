@@ -60,11 +60,11 @@ export class Config {
 
   static MOCK_DATA : {[key: string]: boolean} = {
     "Session": false,
-    "Metric": false,
+    "Metric": true,
     "Account": false,
     "Staff": false,
     "Survey": true,
-    "Campaign": false,
+    "Campaign": true,
   };
 
   static get baseUrl() {

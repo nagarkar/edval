@@ -1,10 +1,10 @@
 import {Injectable} from "@angular/core";
-import {RegisterService} from "../../../services/service.factory";
+import {RegisterService} from "../service.factory";
 import {Http} from "@angular/http";
 import {DailyData, DailyDataList} from "./schema";
-import {AbstractService} from "../../../shared/service/abstract.service";
-import {AccessTokenService} from "../../../shared/aws/access.token.service";
-import {Config} from "../../../shared/config";
+import {AbstractService} from "../../shared/service/abstract.service";
+import {AccessTokenService} from "../../shared/aws/access.token.service";
+import {Config} from "../../shared/config";
 
 @Injectable()
 @RegisterService

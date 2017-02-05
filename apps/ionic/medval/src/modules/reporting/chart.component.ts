@@ -3,8 +3,8 @@ import {CampaignService} from "../../services/campaign/delegator";
 import {Chart} from 'chart.js';
 import {Utils} from "../../shared/stuff/utils";
 import {NavParams} from "ionic-angular";
-import {DailyDataService} from "./services/delegator";
-import {DailyDataList, DailyData} from "./services/schema";
+import {DailyDataService} from "../../services/reporting/delegator";
+import {DailyDataList, DailyData} from "../../services/reporting/schema";
 
 @Component({
   selector: 'rev-chart',

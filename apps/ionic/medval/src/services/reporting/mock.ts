@@ -1,10 +1,10 @@
-///<reference path="../../../shared/service/abstract.mock.service.ts"/>
+///<reference path="../../shared/service/abstract.mock.service.ts"/>
 import {Injectable} from "@angular/core";
-import {AbstractMockService} from "../../../shared/service/abstract.mock.service";
-import {Utils} from "../../../shared/stuff/utils";
-import {AccessTokenService} from "../../../shared/aws/access.token.service";
+import {AbstractMockService} from "../../shared/service/abstract.mock.service";
+import {Utils} from "../../shared/stuff/utils";
+import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {Aggregate, DailyDataList, DailyData} from "./schema";
-import {Config} from "../../../shared/config";
+import {Config} from "../../shared/config";
 
 
 @Injectable()
