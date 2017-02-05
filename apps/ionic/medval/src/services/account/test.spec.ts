@@ -28,10 +28,10 @@ let testData: TestData<Account> = {
   }
 }
 
-describe('Mock Staff Tests', () => {
+describe('Mock Account Tests', () => {
   new ServiceTest<Account>(MockAccountService, testData);
 });
 
-describe('Live Staff Tests', () => {
+describe('Live Account Tests', () => {
   new ServiceTest<Account>(LiveAccountService, testData);
 });

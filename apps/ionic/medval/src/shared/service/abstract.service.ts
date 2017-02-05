@@ -24,7 +24,6 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
   onDelete: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(
-    protected utils : Utils,
     protected accessProvider: AccessTokenService,
     http: Http,
     private clazz: ClassType<T>) {
@@ -57,7 +56,9 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
       .then((value: T) => {
         this.updateCache(value, this.getPath(), id);
         return value;
-      }).catch((err)=> Utils.error("Error: {0}, Stack: {1}", err, new Error().stack));
+      }).catch((err)=> {
+        Utils.error("Error: {0}, Stack: {1}", err, new Error().stack)
+      });
   }
 
   list(dontuseCache?: boolean) : Promise<Array<T>> {
@@ -79,7 +80,9 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
           this.updateCache(member, this.getPath(), this.getId(member));
         })
         return value;
-      }).catch((err)=> Utils.error("Error: {0}, Stack: {1}", err, new Error().stack));
+      }).catch((err)=> {
+        Utils.error("Error: {0}, Stack: {1}", err, new Error().stack)
+      });
   }
 
   getCached(id: string) : T {
@@ -104,7 +107,9 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
         this.updateCache(value, this.getPath(), this.getId(value));
         this.onCreate.emit(value);
         return value;
-      }).catch((err)=> Utils.error("Error: {0}, Stack: {1}", err, new Error().stack));
+      }).catch((err)=> {
+        Utils.error("Error: {0}, Stack: {1}", err, new Error().stack)
+      });
   }
 
   update(member: T): Promise<T> {
@@ -116,18 +121,22 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
         this.updateCache(value, this.getPath(), this.getId(value));
         this.onUpdate.emit(value);
         return value;
-      }).catch((err)=> Utils.error("Error: {0}, Stack: {1}", err, new Error().stack));
+      }).catch((err)=> {
+        Utils.error("Error: {0}, Stack: {1}", err, new Error().stack)
+      });
   }
 
   delete(id: string): Promise<void> {
     this.checkGate();
 
     return this.httpClient.delete(this.getPath(), id)
-        .then(() => {
-          this.deleteCachedValue(this.getPath(), id);
-          this.onDelete.emit(id);
-          return Promise.resolve();
-        }).catch((err)=> Utils.error("Error: {0}, Stack: {1}", err, new Error().stack));
+      .then(() => {
+        this.deleteCachedValue(this.getPath(), id);
+        this.onDelete.emit(id);
+        return Promise.resolve();
+      }).catch((err)=> {
+        Utils.error("Error: {0}, Stack: {1}", err, new Error().stack)
+      });
   }
 
   /** Override this method to implement validations */

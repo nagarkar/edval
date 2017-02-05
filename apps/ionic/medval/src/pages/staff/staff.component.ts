@@ -35,16 +35,15 @@ export class StaffComponent extends AdminComponent  {
   }
 
   public add() {
-    Utils.presentProfileModal(this.modalCtrl, StaffEditComponent, {}, {enableBackdropDismiss: false}).onDidDismiss(()=>{
+    this.navCtrl.push(StaffEditComponent, {}).then(()=>{
       this.getStaffList();
     });
   }
 
   public edit(staff : Staff) {
-    Utils.presentProfileModal(
-      this.modalCtrl, StaffEditComponent, {staffMember: staff}, {enableBackdropDismiss: false}).onDidDismiss(()=>{
-        this.getStaffList();
-      });
+    this.navCtrl.push(StaffEditComponent, {staffMember: staff}).then(()=>{
+      this.getStaffList();
+    });
   }
 
   public delete(staffMember: Staff) {

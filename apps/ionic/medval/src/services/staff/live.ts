@@ -10,11 +10,10 @@ import {Http} from "@angular/http";
 export class LiveStaffService extends AbstractService<Staff> {
 
   constructor(
-    utils : Utils,
     http: Http,
     accessProvider: AccessTokenService) {
 
-    super(utils, accessProvider, http, Staff);
+    super(accessProvider, http, Staff);
   }
 
   getId(member: Staff): string {

@@ -3,30 +3,3 @@
   width: 200px;
   height: 200px;
 }
-
-.rev-form {
-  ion-input, ion-select {
-    background: color($colors, white);
-    border: 1px solid color($colors, grey);
-    border-radius: 0.25em;
-    z-index: 1;
-    padding: 1px;
-
-    .text-input, .select-text {
-      padding: 1px 1px 1px 10px;
-    }
-  }
-
-  ion-select {
-    padding:11px
-  }
-
-  ion-select.rev-select {
-    padding-left: 0px;
-
-    div.select-text {
-      display: flex;
-    }
-  }
-
-}

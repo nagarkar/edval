@@ -10,8 +10,7 @@ export class AccountSetupService {
   private http: HttpClient<boolean>;
   private httpA: HttpClient<AccountSetup>;
 
-  constructor(private utils: Utils,
-              http: Http) {
+  constructor(http: Http) {
 
     this.http = new HttpClient<boolean>(http);
     this.httpA = new HttpClient<AccountSetup>(http);

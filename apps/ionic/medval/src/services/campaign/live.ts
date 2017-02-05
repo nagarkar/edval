@@ -1,27 +1,29 @@
 import {AbstractService} from "../../shared/service/abstract.service";
+import {Campaign} from "./schema";
 import {Config} from "../../shared/config";
 import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {Injectable} from "@angular/core";
-import {Metric} from "./schema";
 import {Http} from "@angular/http";
-
+/**
+ * Created by chinmay on 10/31/16.
+ */
 @Injectable()
-export class LiveMetricService extends AbstractService<Metric> {
+export class LiveCampaignService extends AbstractService<Campaign> {
 
   constructor(
     http: Http,
     accessProvider: AccessTokenService) {
 
-    super(accessProvider, http, Metric);
-    Utils.log("Created LiveMetricService: " + typeof this);
+    super(accessProvider, http, Campaign);
+    Utils.log("Created LiveCampaignService: " + typeof this);
+  }
+
+  getId(member: Campaign): string {
+    return member.campaignId;
   }
 
   getPath(): string {
-    return "/api/customers" + "/" + Config.CUSTOMERID + "/metric";
-  }
-
-  getId(member: Metric): string {
-    return member.metricId;
+    return "/api/customers" + "/" + Config.CUSTOMERID + "/campaign";
   }
 }

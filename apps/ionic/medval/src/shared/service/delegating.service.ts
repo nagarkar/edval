@@ -20,6 +20,10 @@ export abstract class DelegatingService<T> implements ServiceInterface<T> {
     this.subscribeToEventsFor(this.getDelegate());
   }
 
+  inMockMode() {
+    return this.mockMode;
+  }
+
   setMockMode(mode: boolean) {
     let needReset: boolean = this.mockMode != mode;
     let prevDelegate: ServiceInterface<T> = this.getDelegate();

@@ -13,11 +13,10 @@ import {Http} from "@angular/http";
 export class LiveSessionService extends AbstractService<Session> {
 
   constructor(
-    utils : Utils,
     http: Http,
     accessProvider: AccessTokenService) {
 
-    super(utils, accessProvider, http, Session);
+    super(accessProvider, http, Session);
     Utils.log("Created LiveSessionService: " + typeof this);
   }
 

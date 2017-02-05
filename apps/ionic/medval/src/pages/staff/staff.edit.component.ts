@@ -1,8 +1,11 @@
-import {Component} from "@angular/core";
+import {Component, ViewChild} from "@angular/core";
 import {Utils} from "../../shared/stuff/utils";
 import {Staff} from "../../services/staff/schema";
 import {StaffService} from "../../services/staff/delegator";
-import {NavParams, NavController, AlertController, ActionSheetController, ToastController} from "ionic-angular";
+import {
+  NavParams, NavController, AlertController, ActionSheetController, ToastController,
+  TextInput
+} from "ionic-angular";
 import {final} from "../../app/app.module";
 
 @Component({
@@ -11,10 +14,11 @@ import {final} from "../../app/app.module";
 
 export class StaffEditComponent {
 
-  @final
+  @ViewChild('username')
+  usernameField: TextInput;
+
   staffMember: Staff;
 
-  @final
   isEdit: boolean;
 
   constructor(
@@ -25,30 +29,33 @@ export class StaffEditComponent {
     public navCtrl: NavController,
     private alertCtrl: AlertController
   ) {
-      this.isEdit = params.get("staffMember");
-      if (this.isEdit) {
-        this.staffMember = params.get("staffMember");
+      let staff: Staff = params.get("staffMember");
+      if (staff) {
+        this.isEdit = true;
+        this.staffMember = staff;
       } else {
+        this.isEdit = false;
         this.staffMember = Staff.newStaffMember();
       }
   }
 
-  public collectUrl() {
+  collectUrl() {
     Utils.collectUrl(this.alertCtrl, this.actionSheetCtrl, (value) => {
       this.staffMember.properties.photoUrl = value;
     });
   }
 
-  public cancel() {
+  cancel() {
     this.navCtrl.pop();
   }
 
-  public add() {
+  addEdit() {
     if (!this.validateNewStaff()) {
       return;
     }
     let resultPromise : Promise<Staff>;
     if (this.isEdit) {
+      this.staffMember.entityStatus =  "ACTIVE";
       resultPromise = this.staffSvc.update(this.staffMember)
     } else {
       this.staffMember.entityStatus =  "ACTIVE";

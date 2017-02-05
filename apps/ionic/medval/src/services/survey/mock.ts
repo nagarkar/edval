@@ -208,7 +208,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
     /*
     map.set("twominute", Object.assign(new Survey(), {
       customerId: Config.CUSTOMERID,
-      id: "twominute",
+      campaign_id: "twominute",
       entityStatus: "ACTIVE",
       properties: {
         name: "Medium Sized Survey",
@@ -222,14 +222,14 @@ export class MockSurveyService extends AbstractMockService<Survey> {
       },
       workflow:[
         {
-          id:'start',
+          campaign_id:'start',
           component:"SingleMetricComponent",
           params:{
             metricId: "root"
           },
         },
         {
-          id:'strong.detractor.score',
+          campaign_id:'strong.detractor.score',
           fn:"StrongDetractor",
           params:{
             metricId: "root"
@@ -240,24 +240,24 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
-          id:'unhappy',
+          campaign_id:'unhappy',
           component:"HandleComplaintComponent",
           isTerminal:true
         },
         {
-          id:'pick.staff',
+          campaign_id:'pick.staff',
           component:"PickStaffComponent",
           params: {
             roles: ["MD", "Orthodontic Assitant"]
           }
         },
         {
-          id:'staff.nps',
+          campaign_id:'staff.nps',
           component:"ToplineForStaffComponent",
           executeIf: 'session.properties.selectedStaffUserNames.length > 0'
         },
         {
-          id:'any.detractors',
+          campaign_id:'any.detractors',
           fn:"AnyDetractors",
           navigateOnResult: {
             "false": "things.done.poorly",
@@ -265,7 +265,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
-          id:'things.done.poorly',
+          campaign_id:'things.done.poorly',
           component:"TopInfluencerComponent",
           params: {
             title: `"What can " + account.properties.customerName + " improve?"`,
@@ -275,7 +275,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           },
         },
         {
-          id:'things.done.well',
+          campaign_id:'things.done.well',
           component:"TopInfluencerComponent",
           params: {
             title: `"What is " + account.properties.customerName + " doing well"`,
@@ -285,7 +285,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
-          id:'all.promoter.scores',
+          campaign_id:'all.promoter.scores',
           fn: "AllPromoters",
           navigateOnResult: {
             "true": "request.review",
@@ -293,7 +293,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           }
         },
         {
-          id:'request.review',
+          campaign_id:'request.review',
           component:"RequestReviewComponent2",
           isTerminal:true
         },
@@ -406,12 +406,12 @@ export class MockSurveyService extends AbstractMockService<Survey> {
     let errors: Error[] = [];
     surveys.forEach((survey: Survey)=>{
       if (!survey.id) {
-        errors.push((new Error(Utils.format("Survey has null id. Survey: {0}", Utils.stringify(survey)))));
+        errors.push((new Error(Utils.format("Survey has null campaign_id. Survey: {0}", Utils.stringify(survey)))));
       }
       let ids: Set<string> = new Set<string>();
       survey.workflow.forEach((value: WorkflowElement)=> {
         if (ids.has(value.id)) {
-          errors.push(ErrorType.EntityValidationError("Duplicate id found; a dup elements is: {0} in survey id {1}",
+          errors.push(ErrorType.EntityValidationError("Duplicate campaign_id found; a dup elements is: {0} in survey campaign_id {1}",
             Utils.stringify(value), survey.id));
         }
         if (!value['fn'] && !value['component']) {

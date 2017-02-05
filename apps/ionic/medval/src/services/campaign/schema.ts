@@ -1,59 +1,70 @@
 import {Config} from "../../shared/config";
+import {Type} from "class-transformer";
+
 export class Campaign {
   customerId: string;
-  id: string;
-  properties: {
-    startDate?: number;
-    endDate?: number;
-    name: string;                           // Short display name (< 20 chars)
-    goals?: string[];                        // Description of goals.
-    roles?: string[];                        // List of roles we are trying to target.
-    staff?: string[];                        // List of staff we are trying to target
-    metrics?: string[];                      // List of Metric Ids we expect to be impacted.
-    timeToAffectChange?: MeasurementWindow;  // How long is it expected to affect change?
-  }
+  campaignId: string;
 
-  statistics: {
-    summary: ReportingSummary,
-    metrics: SummaryMetrics[]
-  }
+  @Type(() => CampaignProperties)
+  properties: CampaignProperties = new CampaignProperties();
 
-  constructor(id: string, name: string) {
+  @Type(() => Statistics)
+  statistics: Statistics = new Statistics();
+
+  constructor() {
     this.customerId = Config.CUSTOMERID;
-    this.id = id;
-    this.properties = {
-      name: name
-    };
-    this.statistics = {
-      summary: {},
-      metrics: []
-    }
   }
+}
+
+export class CampaignProperties {
+  startDate?: number;
+  endDate?: number;
+  name: string;                             // Short display name (< 20 chars)
+  goals?: string[];                         // Description of goals.
+  roles?: string[];                         // List of roles we are trying to target.
+  staff?: string[];                         // List of staff we are trying to target
+  metrics?: string[];                       // List of Metric Ids we expect to be impacted.
+  timeToAffectChange?: MeasurementWindow;   // How long is it expected to affect change?
+}
+
+export class Statistics {
+  @Type(() => ReportingSummary)
+  summary: ReportingSummary = new ReportingSummary();
+  @Type(() => SummaryMetrics)
+  metrics: SummaryMetrics[] = [];
 }
 
 export enum MeasurementWindow {
   Quarter, Month, Week
 }
 
-export interface SummaryMetrics {
-  metricSubject?: string;                               // metricId:subject
-  currentWindowStats?: MetricStatistics;     // Stats in current period (MeasurementWindow)
-  previousWindowStats?: MetricStatistics;    // Stats in period before to campaign start date, or before current MeasurementWindow
+export class SummaryMetrics {
+  metricSubject?: string; // metricId:subject
+  // Stats in current period (MeasurementWindow)
+  @Type(() => MetricStatistics)
+  currentWindowStats?: MetricStatistics = new MetricStatistics();
+  // Stats in period before to campaign start date, or before current MeasurementWindow
+  @Type(() => MetricStatistics)
+  previousWindowStats?: MetricStatistics = new MetricStatistics();
+}
+
+
+export class MetricStatistics {
+  mean: number = 0;
+  @Type(() => Frequencies)
+  frequencies: Frequencies = new Frequencies();
+}
+
+export class Frequencies {
+  totalCount: number = 1;
+  detractor : number = 0;
+  promoter: number = 0;
 }
 
 export interface TimeSeries {
   customerId: string;
   id: string;                           // metricId:subject:time
   data: MetricTimeSeries;
-}
-
-
-export interface MetricStatistics {
-  mean: number;
-  frequencies: {
-    detractor : number,
-    promoter: number,
-  }
 }
 
 export interface MetricTimeSeries {
@@ -67,10 +78,10 @@ export interface DataPoint {
   value: string;        //
 }
 
-export interface ReportingSummary {
+export class ReportingSummary {
   totalSessions?: number;
-  dateOfFirstFeedback?: number[];
-  dateOfLastFeedback?: number[];
-  last30daysSessions?: number;
-  prior30daysSessions?: number;
+  dateOfFirstFeedback?: number;
+  dateOfLastFeedback?: number;
+  lastWindowSessionCount?: number;
+  priorWindowSessionCount?: number;
 }

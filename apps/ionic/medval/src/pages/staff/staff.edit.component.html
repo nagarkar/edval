@@ -1,52 +1,75 @@
-<ion-content>
-  <ion-list>
-  <ion-item>
-    <ion-label color="primary" fixed>Username/Nickname</ion-label>
-    <ion-input [disabled]="isEdit" [(ngModel)]="staffMember.username"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label color="primary" fixed>Role</ion-label>
-    <ion-select [(ngModel)]="staffMember.role">
-      <ion-option value="DDS" selected="true">Doctor of Dental Surgery</ion-option>
-      <ion-option *ngIf="isEdit" value="FrontOffice">Front office</ion-option>
-      <ion-option value="Orthodontic Assistant">Orthodontic Assistant</ion-option>
-    </ion-select>
-  </ion-item>
-  <ion-item>
-    <ion-label color="primary" fixed>Title</ion-label>
-    <ion-input placeholder="E.g.: Dr" [(ngModel)]="staffMember.properties.title"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label color="primary" fixed>First Name</ion-label>
-    <ion-input [(ngModel)]="staffMember.properties.firstName"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label color="primary" fixed>Last Name</ion-label>
-    <ion-input [(ngModel)]="staffMember.properties.lastName"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label color="primary" fixed>Email</ion-label>
-    <ion-input type="email" placeholder="youremail@yourdomain.com" [(ngModel)]="staffMember.properties.email"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label color="primary" fixed>Phone Number</ion-label>
-    <ion-input type="tel" placeholder="+1XXXYYYZZZZ" [(ngModel)]="staffMember.properties.phoneNumber"></ion-input>
-  </ion-item>
-
-  <ion-grid>
+<mdval-header *ngIf="isEdit" title="Edit Staff Member"></mdval-header>
+<mdval-header *ngIf="!isEdit" title="Create New Staff Member"></mdval-header>
+<ion-content class="rev-form" padding text-center>
+  <form #form="ngForm" (ngSubmit)="addEdit()">
+  <ion-grid padding class="m-t-4">
     <ion-row>
-      <ion-col width-33>
+      <ion-col>
+        <ion-item>
+          <ion-label stacked color="primary">Nickname/Username</ion-label>
+          <ion-input disabled="{{isEdit}}" name='username' [(ngModel)]="staffMember.username" required></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-label stacked color="primary">Role in the Organization</ion-label>
+          <ion-select name='role' class="rev-select" [(ngModel)]="staffMember.role">
+            <ion-option value="DDS" selected="true">Doctor of Dental Surgery</ion-option>
+            <ion-option value="FrontOffice">Front office</ion-option>
+            <ion-option value="Orthodontic Assistant">Orthodontic Assistant</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label stacked color="primary">First Name</ion-label>
+          <ion-input placeholder="First Name" name='fname' [(ngModel)]="staffMember.properties.firstName"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-label stacked color="primary">Last Name</ion-label>
+          <ion-input placeholder="Last Name" name='lname' [(ngModel)]="staffMember.properties.lastName"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-label stacked color="primary">Title</ion-label>
+          <ion-input placeholder="E.g. Dr." name='title' [(ngModel)]="staffMember.properties.title"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+        <ion-label stacked color="primary">Email</ion-label>
+        <ion-input type="email" placeholder="youremail@yourdomain.com" name='email' [(ngModel)]="staffMember.properties.email"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+        <ion-label stacked color="primary">Phone Number</ion-label>
+        <ion-input type="tel" placeholder="+1XXXYYYZZZZ" name='phone' [(ngModel)]="staffMember.properties.phoneNumber"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col offset-10 width-20>
         <ion-label>Profile Photo</ion-label>
         <ion-card (tap)="collectUrl()">
           <img src="{{staffMember.properties.photoUrl? staffMember.properties.photoUrl : 'assets/img/placeholder.png'}}">
-          <button ion-button clear small style="margin-left:40%;height:25px">Edit</button>
+          <button ion-button clear small style="height:25px">Edit</button>
           <!--<ion-icon name="camera" style="margin-left:45%;height:25px"></ion-icon> -->
         </ion-card>
       </ion-col>
       <ion-col style="margin:5em 0 0 10em;">
-        <button ion-button color="primary" (tap)="add();">Done</button>
+        <button type='submit' style="display:inline" ion-button color="primary" large>Done</button>
       </ion-col>
     </ion-row>
   </ion-grid>
-  </ion-list>
+  </form>
 </ion-content>

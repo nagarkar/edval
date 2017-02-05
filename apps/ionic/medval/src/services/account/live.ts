@@ -10,11 +10,10 @@ import {Config} from "../../shared/config";
 export class LiveAccountService extends AbstractService<Account> {
 
   constructor(
-    utils : Utils,
     http: Http,
     accessProvider: AccessTokenService) {
 
-    super(utils, accessProvider, http, Account);
+    super(accessProvider, http, Account);
   }
 
   getPath(): string {

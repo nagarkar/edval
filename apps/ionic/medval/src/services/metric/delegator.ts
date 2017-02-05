@@ -49,11 +49,14 @@ export class MetricService extends DelegatingService<Metric> {
 
   public getCachedNpsDrilldownMetrics(rootMetricId: string): Metric[] {
     if (!rootMetricId) {
-      return this.listCached()
-        .filter((value: Metric) => {return value.isNpsType() && value.parentMetricId != null});
+      return this.listCached().filter((value: Metric) => {
+        return value.isNpsType() && value.parentMetricId != null
+      });
     }
     return this.listCached()
-      .filter((value: Metric) => {return value.isNpsType() && value.parentMetricId == rootMetricId});
+      .filter((value: Metric) => {
+        return value.isNpsType() && value.parentMetricId == rootMetricId
+    });
   }
 
   private resetRootDrilldownMap() {

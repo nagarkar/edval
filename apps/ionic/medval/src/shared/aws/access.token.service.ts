@@ -14,6 +14,8 @@ declare let AWS:any;
 @Injectable()
 export class AccessTokenService {
 
+  private lastAuthTokenCreationTime: number = -Infinity;
+
   private _cognitoUser : any = null;
   private _username : string = null;
   private authenticationDetails: any = null;
@@ -41,7 +43,7 @@ export class AccessTokenService {
   }
 
   public supposedToBeLoggedIn(): boolean {
-    return this._cognitoUser !== null;
+    return this._cognitoUser !== null && !this.authTokenIsOld();
   }
 
   public startNewSession(
@@ -55,7 +57,7 @@ export class AccessTokenService {
       Password : password,
     };
 
-    if (this.sameUserAuthenticatingWithinShortPeriod(authenticationData)) {
+    if (this.sameUserAuthenticatingWithinShortPeriod(authenticationData) && !this.authTokenIsOld()) {
       this.processUserInitiatedLoginSuccess();
       return;
     }
@@ -182,9 +184,16 @@ export class AccessTokenService {
   }
 
   processUserInitiatedLoginSuccess() {
+    this.lastAuthTokenCreationTime = Date.now();
     this.callback(AccessTokenService.authResult);
     AwsClient.reInitialize();
     this.serviceFactory.resetRegisteredServices();
+  }
+
+  private authTokenIsOld(): boolean {
+    let now = Date.now();
+    let authTokenAge = now - this.lastAuthTokenCreationTime;
+    return authTokenAge > 30 * 60 * 1000;
   }
 }
 

@@ -42,4 +42,15 @@ export class StaffService extends DelegatingService<Staff> {
     }
     return null;
   }
+
+  getRoleUserNameMap() : Map<string, Set<string>> {
+    let map: Map<string, Set<string>> = new Map<string, Set<string>>();
+    let ret = this.listCached().forEach((staff: Staff) => {
+      if (!map.has(staff.role)) {
+        map.set(staff.role, new Set<string>());
+      }
+      map.get(staff.role).add(staff.username);
+    });
+    return map;
+  }
 }

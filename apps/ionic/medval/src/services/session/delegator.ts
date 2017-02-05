@@ -55,7 +55,7 @@ export class SessionService extends DelegatingService<Session> {
     if (this.hasCurrentSession()) {
       this.getCurrentSession().addNavigatedLocation(location);
     } else {
-      Utils.error("SessionService.recordNavigatedLocationInCurrentSession(): Attempted to call recordNavigatedLocationInCurrentSession with null currentSession");
+      Utils.error("CampaignService.recordNavigatedLocationInCurrentSession(): Attempted to call recordNavigatedLocationInCurrentSession with null currentSession");
     }
   }
 

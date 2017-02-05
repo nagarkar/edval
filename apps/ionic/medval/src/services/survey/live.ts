@@ -11,11 +11,10 @@ import {MockSurveyService} from "./mock";
 export class LiveSurveyService extends AbstractService<Survey> {
 
   constructor(
-    utils : Utils,
     http: Http,
     accessProvider: AccessTokenService) {
 
-    super(utils, accessProvider, http, Survey);
+    super(accessProvider, http, Survey);
   }
 
   getId(member: Survey): string {

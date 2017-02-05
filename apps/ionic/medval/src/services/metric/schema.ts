@@ -1,4 +1,6 @@
 import {Utils} from "../../shared/stuff/utils";
+import {Type as tType} from "class-transformer";
+
 export class Type {}
 
 export class NPSType extends Type {
@@ -18,16 +20,31 @@ export class MetricValue {
   }
 }
 
-export interface MetricProperties  {
-  metricName: string;
+export class MetricProperties  {
+  metricName?: string;
   metricDescription?: string;
   conversationSetup?:string;
   question?: string;
   positiveImpact?: string;
   improvement?:string;
-  definition: {
-    npsType?: NPSType;
-    textType?: TextType;
+  @tType(() => MetricDefinition)
+  definition: MetricDefinition = new MetricDefinition();
+}
+
+export class MetricDefinition {
+  @tType(() => NPSType)
+  npsType?: NPSType;
+  @tType(() => TextType)
+  textType?: TextType;
+
+  setType(type) {
+    if (type instanceof NPSType) {
+      this.npsType = type;
+      this.textType = undefined;
+    } else if (type instanceof TextType) {
+      this.textType = type;
+      this.npsType = undefined;
+    }
   }
 }
 
@@ -43,7 +60,8 @@ export class Metric {
   subject   : string;
   parentMetricId: string;
   entityStatus: string;
-  properties: MetricProperties;
+  @tType(() => MetricProperties)
+  properties: MetricProperties = new MetricProperties();
 
 
   constructor(type?: NPSType | TextType, id?:string, subject?:string) {
@@ -52,13 +70,7 @@ export class Metric {
     }
     this.metricId = id;
     this.subject = subject;
-    this.properties = {
-      metricName:'',
-      definition: {
-        npsType: type instanceof NPSType ? type : null,
-        textType: type instanceof TextType ? type : null
-      }
-    };
+    this.properties.definition.setType(type);
   }
 
   toString() {
@@ -113,14 +125,14 @@ export class Metric {
 
   getRoleSubject() {
     if(this.hasRoleSubject()){
-      return Metric.getRoleInSubject(this.subject)[1];
+      return Metric.getRoleInSubject(this.subject);
     }
     return null;
   }
 
   getStaffSubject() {
     if(this.hasStaffSubject()){
-      return Metric.staffPattern.exec(this.subject)[1];
+      return Metric.getStaffInSubject(this.subject);
     }
     return null;
   }
@@ -132,6 +144,11 @@ export class Metric {
   static getRoleInSubject(subject: string) {
     return Metric.rolePattern.exec(subject)[1];
   }
+
+  static getStaffInSubject(subject: string) {
+    return Metric.staffPattern.exec(subject)[1];
+  }
+
   static isPromoterRatio(value: number): boolean {
     return value > 0.81818181;
   }
