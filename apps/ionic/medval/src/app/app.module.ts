@@ -61,6 +61,10 @@ import {AccountSetupService} from "../services/accountsetup/account.setup.servic
 import {ReportingModule} from "../modules/reporting/module";
 import {RevvolveCommonModule} from "../shared/revvolve.common.module";
 import {ReportingDashboard} from "../pages/reporting/reporting.dashboard.component";
+import {CampaignService} from "../services/campaign/delegator";
+import {MockCampaignService} from "../services/campaign/mock";
+import {LiveCampaignService} from "../services/campaign/live";
+import {ChartComponent} from "../modules/reporting/chart.component";
 
 enableProdMode();
 
@@ -112,6 +116,7 @@ enableProdMode();
     RevvolveMetricsComponent,
     AllTrendsComponent,
     ReportingDashboard,
+    //ChartComponent,
 
     /** Metric Management */
     MetricSummaryComponent,
@@ -169,6 +174,7 @@ enableProdMode();
     RevvolveMetricsComponent,
     AllTrendsComponent,
     ReportingDashboard,
+    //ChartComponent,
 
     /** Metric Management */
     MetricSummaryComponent,
@@ -189,6 +195,7 @@ enableProdMode();
     EmailProviderService,
     AccountSetupService,
     SReplacer,
+    LiveCampaignService, MockCampaignService, CampaignService,
     Idle
   ]
 })

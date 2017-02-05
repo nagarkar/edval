@@ -4,7 +4,7 @@ import {Metric} from "../../services/metric/schema";
 import {NavController} from "ionic-angular";
 import {CampaignTabsComponent} from "./campaign.tabs.component";
 import {StaffService} from "../../services/staff/delegator";
-import {ChartComponent, ChartComponentParams, ChartType} from "./chart.component";
+import {ChartComponent, ChartType} from "./chart.component";
 import {DailyDataService} from "./services/delegator";
 
 @Component({
@@ -70,7 +70,7 @@ export class SubjectSummaryComponent {
   drilldown() {
 
     //this.datasvc.get()
-    let params: ChartComponentParams = {
+    let params: any = {
       header: this.metrics.metricSubject,
       chartType: ChartType.line,
       modelDataSets: []
