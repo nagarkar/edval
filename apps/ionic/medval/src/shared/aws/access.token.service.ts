@@ -14,7 +14,7 @@ declare let AWS:any;
 @Injectable()
 export class AccessTokenService {
 
-  private lastAuthTokenCreationTime: number = -Infinity;
+  private lastAuthTokenCreationTime: number = Infinity;
 
   private _cognitoUser : any = null;
   private _username : string = null;

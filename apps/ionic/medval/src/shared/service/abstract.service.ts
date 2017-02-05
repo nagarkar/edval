@@ -148,10 +148,16 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
     return new this.clazz();
   }
 
-  protected checkGate() : void {
-    if (!AbstractService.TEST_MODE && !this.inMockMode() && !this.accessProvider.supposedToBeLoggedIn()) {
-      ErrorType.throwNotLoggedIn();
+  protected checkGate() : boolean {
+    let supposedToBeLoggedIn = this.accessProvider.supposedToBeLoggedIn();
+    let testMode = AbstractService.TEST_MODE;
+    let mockMode = this.inMockMode();
+    let ret = testMode || mockMode || supposedToBeLoggedIn;
+    if (!ret) {
+      Utils.error("Checkgate failed Test_mode: {0}, mockmode: {1}, supposedToBeLoggedIn: {2}",
+        testMode, mockMode, supposedToBeLoggedIn);
     }
+    return ret;
   }
 
   private inMockMode() : boolean {

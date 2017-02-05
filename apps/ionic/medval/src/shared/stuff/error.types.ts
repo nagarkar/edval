@@ -4,8 +4,10 @@
 
 export class ErrorType {
 
+  public static NOT_LOGGED_IN_MSG = 'ErrorType.NotLoggedIn';
+
   public static throwNotLoggedIn(): void {
-    throw new Error("ErrorType.NotLoggedIn");
+    throw new Error(ErrorType.NOT_LOGGED_IN_MSG);
   }
 
   public static UnsupportedOperation(operation: string): Error {

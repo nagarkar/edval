@@ -1,5 +1,5 @@
 import {Component, Input} from "@angular/core";
-import {NavController, NavParams, LoadingController} from "ionic-angular";
+import {NavController, NavParams, LoadingController, ToastController} from "ionic-angular";
 import {LoginComponent} from "../../login/login.component";
 import {Utils} from "../../../shared/stuff/utils";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
@@ -10,6 +10,7 @@ import {ThanksComponent} from "../thanks/thanks.component";
 import {ObjectCycler} from "../../../shared/stuff/object.cycler";
 import {SurveyNavUtils} from "../SurveyNavUtils";
 import {Survey} from "../../../services/survey/schema";
+import {ErrorType} from "../../../shared/stuff/error.types";
 
 @Component({
   templateUrl: './start.with.survey.option.component.html'
@@ -41,8 +42,9 @@ export class StartWithSurveyOption {
   constructor(
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
     utils: Utils,
-    tokenProvider: AccessTokenService,
+    private tokenProvider: AccessTokenService,
     private surveySvc: SurveyService,
     private sessionSvc: SessionService,
     navParams: NavParams
@@ -75,7 +77,11 @@ export class StartWithSurveyOption {
 
   pickSurvey(id: string){
     if (this.sessionSvc.hasCurrentSession() && !this.cancelPreviousSession) {
-      this.sessionSvc.closeCurrentSession();
+      try {
+        this.sessionSvc.closeCurrentSession();
+      } catch(err) {
+        Utils.presentTopToast(this.toastCtrl, err || err.message);
+      }
     }
     this.sessionSvc.newCurrentSession(id);
     SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.loadingCtrl, this.navCtrl);
