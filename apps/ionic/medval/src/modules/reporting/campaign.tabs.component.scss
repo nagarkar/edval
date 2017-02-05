@@ -4,8 +4,9 @@
     top:3em;
     opacity:initial;
   }
+
+  .swiper-pagination {
+    top:1em;
+  }
 }
 
-[nav-view-transition="ios"][nav-view-direction="forward"], [nav-view-transition="ios"][nav-view-direction="back"] {
-  background-color: transparent;
-}

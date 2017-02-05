@@ -9,6 +9,7 @@ import {Metric, MetricValue} from "../../../services/metric/schema";
 import {Idle} from "@ng-idle/core";
 import {SurveyPage} from "../survey.page";
 import {SReplacerDataMap} from "../../../pipes/sreplacer";
+import {StaffService} from "../../../services/staff/delegator";
 
 @Component({
   templateUrl: './multimetric.component.html',
@@ -35,14 +36,11 @@ export class MultimetricComponent extends SurveyPage {
     sessionSvc: SessionService,
     navParams: NavParams,
     tokenProvider: AccessTokenService,
-    //staffSvc: StaffService,
+    private staffSvc: StaffService,
     private metricSvc: MetricService,
     ) {
 
     super(loadingCtrl, navCtrl, sessionSvc, idle);
-    //this.sReplacerDataPack = {
-//      staffSvc: staffSvc
-  //  }
 
     this.metricIds = navParams.get('metricIds');
     this.message = navParams.get('message') || 'Please answer the following questions';
@@ -74,6 +72,18 @@ export class MultimetricComponent extends SurveyPage {
     if (this.sessionSvc.hasCurrentSession()) {
       this.sessionSvc.getCurrentSession().addMetricValue(
         metric.subject, new MetricValue(metric.metricId, '' + value));
+
+      if (metric.hasRoleSubject()) {
+        let roleUsernameMap: Map<string, Set<string>> = this.staffSvc.getRoleUserNameMap();
+        this.sessionSvc.getCurrentSession().properties.selectedStaffUserNames.forEach((username:string)=>{
+          let metricRoleSubj: string = metric.getRoleSubject();
+          let usernames: Set<string> = roleUsernameMap.get(metricRoleSubj);
+          if (usernames && usernames.has(username)) {
+            this.sessionSvc.getCurrentSession().addMetricValue(
+              Metric.createStaffSubject(username), new MetricValue(metric.metricId, '' + value));
+          }
+        })
+      }
     }
   }
 

@@ -6,12 +6,13 @@ import {NgModule} from "@angular/core";
 import {CampaignReportComponent} from "./campaign.report.component";
 import {RevvolveCommonModule} from "../../shared/revvolve.common.module";
 import {SubjectSummaryComponent} from "./subject.summary";
+import {ChartComponent} from "./chart.component";
 
 @NgModule({
   imports: [CommonModule, IonicModule, RevvolveCommonModule],
   exports: [CampaignTabsComponent],
-  declarations: [CampaignTabsComponent, CampaignSummaryComponent, CampaignReportComponent, SubjectSummaryComponent],
-  entryComponents:[CampaignTabsComponent, CampaignReportComponent]
+  declarations: [CampaignTabsComponent, CampaignSummaryComponent, CampaignReportComponent, SubjectSummaryComponent, ChartComponent],
+  entryComponents:[CampaignTabsComponent, CampaignReportComponent, ChartComponent]
 })
 export class ReportingModule {
 
