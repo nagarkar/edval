@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {RegisterService} from "../service.factory";
 import {DelegatingService} from "../../shared/service/delegating.service";
-import {DailyData, DailyDataList} from "./schema";
+import {DailyDataList} from "./schema";
 import {LiveDailyDataService} from "./live";
 import {MockDailyDataService} from "./mock";
 

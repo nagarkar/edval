@@ -3,7 +3,6 @@ import {Campaign} from "./schema";
 import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {AbstractMockService} from "../../shared/service/abstract.mock.service";
-import {Config} from "../../shared/config";
 
 @Injectable()
 export class MockCampaignService extends AbstractMockService<Campaign> {

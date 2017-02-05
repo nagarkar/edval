@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {RegisterService} from "../service.factory";
 import {Http} from "@angular/http";
-import {DailyData, DailyDataList} from "./schema";
+import {DailyDataList} from "./schema";
 import {AbstractService} from "../../shared/service/abstract.service";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {Config} from "../../shared/config";

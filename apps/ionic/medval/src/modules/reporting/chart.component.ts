@@ -1,6 +1,6 @@
 import {Component, ViewChild, Input} from "@angular/core";
 import {CampaignService} from "../../services/campaign/delegator";
-import {Chart} from 'chart.js';
+import {Chart} from "chart.js";
 import {Utils} from "../../shared/stuff/utils";
 import {NavParams} from "ionic-angular";
 import {DailyDataService} from "../../services/reporting/delegator";

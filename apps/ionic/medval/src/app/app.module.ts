@@ -64,7 +64,6 @@ import {ReportingDashboard} from "../pages/reporting/reporting.dashboard.compone
 import {CampaignService} from "../services/campaign/delegator";
 import {MockCampaignService} from "../services/campaign/mock";
 import {LiveCampaignService} from "../services/campaign/live";
-import {ChartComponent} from "../modules/reporting/chart.component";
 import {DailyDataService} from "../services/reporting/delegator";
 import {MockDailyDataService} from "../services/reporting/mock";
 import {LiveDailyDataService} from "../services/reporting/live";

@@ -2,7 +2,6 @@ import {Component, Input, Output, EventEmitter} from "@angular/core";
 import {SummaryMetrics} from "../../services/campaign/schema";
 import {Metric} from "../../services/metric/schema";
 import {NavController} from "ionic-angular";
-import {CampaignTabsComponent} from "./campaign.tabs.component";
 import {StaffService} from "../../services/staff/delegator";
 import {ChartComponent, ChartType} from "./chart.component";
 import {DailyDataService} from "../../services/reporting/delegator";

@@ -3,10 +3,13 @@ import {Utils} from "../../shared/stuff/utils";
 import {Staff} from "../../services/staff/schema";
 import {StaffService} from "../../services/staff/delegator";
 import {
-  NavParams, NavController, AlertController, ActionSheetController, ToastController,
+  NavParams,
+  NavController,
+  AlertController,
+  ActionSheetController,
+  ToastController,
   TextInput
 } from "ionic-angular";
-import {final} from "../../app/app.module";
 
 @Component({
   templateUrl: "./staff.edit.component.html"

@@ -7,7 +7,6 @@ import {CampaignReportComponent} from "./campaign.report.component";
 import {RevvolveCommonModule} from "../../shared/revvolve.common.module";
 import {SubjectSummaryComponent} from "./subject.summary";
 import {ChartComponent} from "./chart.component";
-import {LiveDailyDataService} from "../../services/reporting/live";
 
 @NgModule({
   imports: [CommonModule, IonicModule, RevvolveCommonModule],

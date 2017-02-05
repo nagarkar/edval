@@ -1,5 +1,4 @@
 import {Component, Input} from "@angular/core";
-import {Utils} from "../../shared/stuff/utils";
 import {ReportingSummary} from "../../services/campaign/schema";
 
 @Component({
