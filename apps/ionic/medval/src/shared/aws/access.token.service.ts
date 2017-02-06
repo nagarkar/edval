@@ -101,7 +101,7 @@ export class AccessTokenService {
     this._cognitoUser.authenticateUser(this.authenticationDetails, {
       onSuccess: (session) => {
         Utils.log("AccessTokenSvc.onSuccess");
-        me.authenticationDetails['lastLoggedInTime'] = Date.now();
+        this.lastAuthTokenCreationTime = Date.now();
         AccessTokenService.authResult = new AuthResult(
           session.getAccessToken().getJwtToken(),
           session.getIdToken().getJwtToken());
@@ -122,6 +122,7 @@ export class AccessTokenService {
           return;
         }
 
+        let gotCustomerId = false;
         me._cognitoUser.getUserAttributes((err, result) => {
           if (err) {
             Utils.log(Utils.format("Error while trying to get cognito user attributes for user {0} , error: {1}",
@@ -131,10 +132,14 @@ export class AccessTokenService {
             for (let i = 0; i < result.length; i++) {
               if (result[i].getName() == "custom:organizationName") {
                 Config.CUSTOMERID = result[i].getValue();
+                if (Config.CUSTOMERID) {
+                  gotCustomerId = true;
+                }
                 Utils.log('Got userattrbute customerid {0}', Config.CUSTOMERID);
                 me.processUserInitiatedLoginSuccess();
               }
             }
+            Utils.errorIf(!gotCustomerId, "No customer id found in account attributes");
           }
         });
       },
@@ -180,7 +185,7 @@ export class AccessTokenService {
     return this.authenticationDetails
       && this.authenticationDetails['username'] == authenticationData.Username
       && this.authenticationDetails['password'] == authenticationData.Password
-      && +this.authenticationDetails['lastLoggedInTime'] + 70 * 60 * 10000 > Date.now();
+      && + this.lastAuthTokenCreationTime + 70 * 60 * 10000 > Date.now();
   }
 
   processUserInitiatedLoginSuccess() {
@@ -188,6 +193,7 @@ export class AccessTokenService {
     this.callback(AccessTokenService.authResult);
     AwsClient.reInitialize();
     this.serviceFactory.resetRegisteredServices();
+    Utils.log("Completed processUserInitiatedLoginSuccess at time: {0}", this.lastAuthTokenCreationTime);
   }
 
   private authTokenIsOld(): boolean {

@@ -18,6 +18,7 @@ import {ErrorType} from "../../../shared/stuff/error.types";
 
 export class StartWithSurveyOption {
 
+  private static REFRESH_TIMER: number = 0;
   private images = [
     'http://img.picturequotes.com/2/26/25637/when-you-know-better-you-do-better-quote-1.jpg',
     'http://img.picturequotes.com/2/27/26724/its-not-intentions-that-matter-its-actions-we-are-what-we-do-and-say-not-what-we-intend-to-quote-1.jpg',
@@ -50,6 +51,7 @@ export class StartWithSurveyOption {
     navParams: NavParams
   ) {
 
+    StartWithSurveyOption.clearRefreshTimer();
     this.defaultOnly = navParams.get("defaultOnly") === true || this.defaultOnly;
     this.cancelPreviousSession = navParams.get("cancelPreviousSession") || this.cancelPreviousSession;
 
@@ -65,17 +67,37 @@ export class StartWithSurveyOption {
         return survey.id == 'default';
       })
     });
+    StartWithSurveyOption.startRefresh(()=>{
+      this.navCtrl.push(StartWithSurveyOption, {defaultOnly: this.defaultOnly});
+    });
+  }
+
+  static clearRefreshTimer() {
+    clearInterval(StartWithSurveyOption.REFRESH_TIMER);
+    StartWithSurveyOption.REFRESH_TIMER = 0;
+  }
+
+  static startRefresh(callback) {
+    if (StartWithSurveyOption.REFRESH_TIMER != 0) {
+      StartWithSurveyOption.clearRefreshTimer();
+    }
+    StartWithSurveyOption.REFRESH_TIMER = setTimeout(()=>{
+      callback();
+    }, 10 * 60 * 1000);
   }
 
   gotoLogin() {
+    StartWithSurveyOption.clearRefreshTimer();
     this.navCtrl.setRoot(LoginComponent);
   }
 
   noThanks() {
+    StartWithSurveyOption.clearRefreshTimer();
     this.navCtrl.setRoot(ThanksComponent, {message: ["That's ok, maybe next time!"]});
   }
 
   pickSurvey(id: string){
+    StartWithSurveyOption.clearRefreshTimer();
     if (this.sessionSvc.hasCurrentSession() && !this.cancelPreviousSession) {
       try {
         this.sessionSvc.closeCurrentSession();

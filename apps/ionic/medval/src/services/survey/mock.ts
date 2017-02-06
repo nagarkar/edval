@@ -102,8 +102,8 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           component:"TopInfluencerComponent",
           params: {
             title: [
-              "Looks like there is room for improvement...",
-              `"Can you pick one or two areas where " + account.properties.customerName + " can do better?"`
+              "Thanks for your candid feedback; there is certainly room for improvement",
+              `"Can you please pick one or two specific areas where things could have gone better?"`
             ],
             valueOrderDesc: false,
             maxMetrics: 4,
@@ -159,7 +159,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           component:"TopInfluencerComponent",
           params: {
             title: [
-              `"That's encouraging for " + account.properties.customerName + "!"`,
+              `"Thanks! " + account.properties.customerName + " would like to build on this strength!"`,
               `"Can you rank one or two things that are going exceptionally well?"`
             ],
             valueOrderDesc: true,

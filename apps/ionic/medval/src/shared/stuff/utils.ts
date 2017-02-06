@@ -41,6 +41,12 @@ export class Utils {
     }catch(err) {console.log('Could not log in logData: ' + err)};
   }
 
+  static errorIf(condition: boolean, message: string, ...args: any[]): void {
+    if (condition) {
+      Utils.error(message, args);
+    }
+  }
+
   static error(message: string, ...args: any[]) : void {
     let fmsg = Utils.format(message, ...args);
     if (console) {

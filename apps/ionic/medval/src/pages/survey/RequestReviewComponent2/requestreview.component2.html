@@ -31,11 +31,11 @@
     </ion-grid>
     <form (submit)="navigateToNext()" action>
     <ion-grid>
-    <ion-row class="m-t-2" baseline>
+    <ion-row baseline>
       <ion-col width-80>
         <ion-item>
-            <ion-label padding ion-text color="black" style="margin-top:0em; padding-left: 0em;font-size: 1em;" stacked>
-              Leave direct feedback for the team at {{'account.properties.customerName'| sReplacer}}!
+            <ion-label padding ion-text color="black" style="margin-top:0em; padding-left: 0em;font-size: 1.5em;" stacked>
+              Optionally, leave direct feedback for the team!
             </ion-label>
             <ion-textarea rows="5" name="reviewMsg" class="feedback-text" placeholder="Be specific if you like, or just say 'Great Job!'" [(ngModel)]="reviewMsg">
             </ion-textarea>
