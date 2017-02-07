@@ -81,18 +81,19 @@ export class ThanksComponent extends SurveyPage {
   }
 
   showWheelModal() {
+    Config.LAST_SWEEPSTAKE_MILLIS = Date.now();
     this.idle.stop();
-    setTimeout(()=> {
-      this.closeSession();
-    }, Config.TIMEOUT_AFTER_SHOWING_YOU_WON_MESSAGE)
-
     let profileModal : Modal = this.modalctrl.create(WheelComponent, {options: this.wheelOptions});
     profileModal.onWillDismiss((data) => {
       this.showWheel = false;
-      Config.LAST_SWEEPSTAKE_MILLIS = Date.now();
       this.idle.watch();
     });
     profileModal.present();
+    setTimeout(()=> {
+      profileModal.dismiss();
+      this.closeSession();
+    }, Config.TIMEOUT_AFTER_SHOWING_YOU_WON_MESSAGE)
+
   }
 
   private closeSession() {

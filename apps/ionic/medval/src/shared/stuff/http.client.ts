@@ -132,8 +132,6 @@ export class HttpClient<T> {
         'X-IdToken': result? result.idToken : '',
         'Content-Type': "application/json",
         'Accept': 'application/json'
-        //'Access-Control-Request-Headers': 'X-AccessToken, X-IdToken, Content-Type',
-        //'Access-Control-Request-Method': method
       })
     }
   }
