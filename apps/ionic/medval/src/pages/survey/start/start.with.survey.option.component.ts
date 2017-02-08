@@ -71,9 +71,10 @@ export class StartWithSurveyOption {
     });
     setTimeout(()=>{
       if (this.navCtrl.getActive().component == StartWithSurveyOption) {
+        Utils.log("Refreshing Start Page");
         this.navCtrl.setRoot(StartWithSurveyOption, {defaultOnly: this.defaultOnly});
       }
-    }, 1 * 60 * 1000)
+    }, 5 * 60 * 1000)
   }
 
   gotoLogin() {

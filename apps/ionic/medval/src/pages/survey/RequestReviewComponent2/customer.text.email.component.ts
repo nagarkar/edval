@@ -30,7 +30,6 @@ export class CustomerTextEmailComponent extends SurveyPage {
 
   // Email autocomplete
   filteredEmail: any[];
-
   @ViewChild('autoemail')
   autoemail: AutoComplete;
 
