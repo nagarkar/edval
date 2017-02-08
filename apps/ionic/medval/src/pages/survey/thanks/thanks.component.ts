@@ -105,7 +105,7 @@ export class ThanksComponent extends SurveyPage {
     if (!input || !input.length || input.length == 0) {
       return [
         "Thanks for your feedback!",
-        "'Regular feedback from patients helps ' + account.properties.customerName + ' improve every day!'"
+        "'Regular feedback from patients helps ' + account.properties.customerName + ' improve!'"
       ];
     }
 

@@ -328,7 +328,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           id:'pick.staff',
           component:"PickStaffComponent",
           params: {
-            roles: ["DDS", "OrthoAssitant"],
+            roles: ["DDS", "Orthodontic Assistant", "FrontOffice"],
             displayCount: 5
           }
         },
