@@ -1,3 +1,10 @@
+/**
+ * Created by Chinmay Nagarkar on 9/30/2016.
+ * Copyright HC Technology Inc.
+ * Please do not copy without permission. This code may not be used outside
+ * of this application without permission. Copying and re-posting on another
+ * site or application without licensing is strictly prohibited.
+ */
 import {Utils} from "../../shared/stuff/utils";
 import {NavController, LoadingController} from "ionic-angular";
 import {SurveyNavUtils} from "./SurveyNavUtils";
@@ -85,7 +92,7 @@ export class SurveyPage {
   }
 
   cancelAndRestart() {
-    if (!this.sessionSvc.hasCurrentSession()) {
+    if (this.sessionSvc.hasCurrentSession()) {
       this.navCtrl.setRoot(StartWithSurveyOption, {defaultOnly: true, cancelPreviousSession: true});
       return;
     }

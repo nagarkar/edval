@@ -1,3 +1,10 @@
+/**
+ * Created by Chinmay Nagarkar on 9/30/2016.
+ * Copyright HC Technology Inc.
+ * Please do not copy without permission. This code may not be used outside
+ * of this application without permission. Copying and re-posting on another
+ * site or application without licensing is strictly prohibited.
+ */
 import {Config} from "../../shared/config";
 import {Utils} from "../../shared/stuff/utils";
 export class Staff {
@@ -40,7 +47,7 @@ export class Staff {
   }
 
   get displayName(): string {
-    return [this.properties.title, this.properties.firstName, this.properties.lastName].join(' ');
+    return [this.properties.title, this.properties.firstName].join(' ');
   }
 
   public static getUsernames(staffSet: Set<Staff>): string[] {

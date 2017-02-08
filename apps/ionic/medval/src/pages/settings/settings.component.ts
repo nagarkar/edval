@@ -1,3 +1,10 @@
+/**
+ * Created by Chinmay Nagarkar on 9/30/2016.
+ * Copyright HC Technology Inc.
+ * Please do not copy without permission. This code may not be used outside
+ * of this application without permission. Copying and re-posting on another
+ * site or application without licensing is strictly prohibited.
+ */
 import {Component} from "@angular/core";
 import {Staff} from "../../services/staff/schema";
 import {Metric} from "../../services/metric/schema";
@@ -7,6 +14,7 @@ import {StaffService} from "../../services/staff/delegator";
 import {AccountService} from "../../services/account/delegator";
 import {SReplacerDataMap} from "../../pipes/sreplacer";
 import {Utils} from "../../shared/stuff/utils";
+import {SessionService} from "../../services/session/delegator";
 
 @Component({
   selector:'settings',
@@ -18,20 +26,27 @@ export class SettingsComponent {
   mockData: {};
   keys: string[] = [];
   metrics: Metric[] = [];
-  sReplacerData: {[key: string] : SReplacerDataMap} = {};
+  replacerDataWithHardcodedStaff: {[key: string] : SReplacerDataMap} = {};
+  replacerDataWithoutHardcodedStaff: {[key: string] : SReplacerDataMap} = {};
 
   logData: Iterable<string> = Utils.logData;
 
   errData: Iterable<string> = Utils.errData;
 
-  constructor(private metricsvc: MetricService, private staffsvc: StaffService, private accountsvc: AccountService) {
+  constructor(
+    private metricsvc: MetricService,
+    private staffsvc: StaffService,
+    private accountsvc: AccountService,
+    private sessionsvc: SessionService) {
 
     this.mockData = Config.MOCK_DATA;
     this.keys = Object.keys(this.mockData);
 
     this.metrics = metricsvc.listCached();
-    this.sReplacerData = this.constructSReplacerMap();
+    this.replacerDataWithHardcodedStaff = this.constructSReplacerMap();
+    this.replacerDataWithoutHardcodedStaff = this.constructSessionReplacerMap();
 
+    this.setupSessionAndSelectedUsers();
     Utils.error("In Settings Component");
   }
 
@@ -47,19 +62,50 @@ export class SettingsComponent {
     Config.baseUrl = url;
   }
 
-  private constructSReplacerMap(): {[key: string] : SReplacerDataMap} {
-    let staffList = this.staffsvc.listCached();
-    let replacerMap: {[key: string] : SReplacerDataMap} = {};
+  private constructSessionReplacerMap(): {[key: string] : SReplacerDataMap} {
+    let replacerMap: {[key: string] : SReplacerDataMap} = this.constructSReplacerMap();
     this.metrics.forEach((metric: Metric) => {
-      let replacerData: SReplacerDataMap = {};
-      replacerData.metric = metric;
-      replacerData.role = metric.getRoleSubject();
-      let staffListForRole = staffList.filter((staff: Staff) => {return staff.role == replacerData.role;})
-      if (staffListForRole.length > 0) {
-        replacerData.staff = staffListForRole[0];
-      }
-      replacerMap[metric.metricId] = replacerData;
+      delete replacerMap[metric.metricId].staff;
+      delete replacerMap[metric.metricId].role;
     })
     return replacerMap;
+  }
+
+  private constructSReplacerMap(): {[key: string] : SReplacerDataMap} {
+
+    // Helper to construct one object (per metric) in the map.
+    let constructReplacerData = (metric: Metric, staffList: Staff[]): SReplacerDataMap =>{
+      let replacerData: SReplacerDataMap = {};
+      replacerData.metric = metric;
+      if (metric.hasRoleSubject()) {
+        replacerData.role = metric.getRoleSubject();
+      } else if (metric.hasStaffSubject()) {
+        let username = metric.getStaffSubject();
+        let staffListForUsername: Staff[] = staffList.filter((staff: Staff) => {return staff.username == username;})
+        Utils.throwIf(staffListForUsername.length != 1,
+          'Missing staff for Metric {0} with missing staff username {1} in subject', metric.metricId, username);
+        replacerData.staff = staffListForUsername;
+      }
+      return replacerData;
+    }
+
+    let replacerMap: {[key: string] : SReplacerDataMap} = {};
+    this.metrics.forEach((metric: Metric) => {
+      replacerMap[metric.metricId] = constructReplacerData(metric, this.staffsvc.listCached());
+    })
+    return replacerMap;
+  }
+
+  private setupSessionAndSelectedUsers() {
+    let staffList: Staff[] = this.staffsvc.listCached();
+    this.sessionsvc.newCurrentSession('default');
+    let roles: string[] = this.accountsvc.getCached(Config.CUSTOMERID).getStandardRoles();
+    let usernames = [];
+    roles.forEach((role: string)=>{
+      usernames.push(staffList.filter((staff: Staff) => {
+        return staff.role == role;
+      })[0].username);
+    });
+    this.sessionsvc.getCurrentSession().properties.selectedStaffUserNames = usernames;
   }
 }

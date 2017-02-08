@@ -1,4 +1,11 @@
-import {Component} from "@angular/core";
+/**
+ * Created by Chinmay Nagarkar on 9/30/2016.
+ * Copyright HC Technology Inc.
+ * Please do not copy without permission. This code may not be used outside
+ * of this application without permission. Copying and re-posting on another
+ * site or application without licensing is strictly prohibited.
+ */
+import {Component, ViewChild} from "@angular/core";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
 import {NavParams, ViewController, NavController, LoadingController} from "ionic-angular";
 import {FormGroup, FormBuilder, Validators, AbstractControl, FormControl} from "@angular/forms";
@@ -6,6 +13,7 @@ import {SurveyPage} from "../survey.page";
 import {Idle} from "@ng-idle/core";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
+import {AutoComplete} from "../../../shared/components/autocomplete/autocomplete";
 
 @Component({
   templateUrl: './customer.text.email.component.html',
@@ -22,6 +30,9 @@ export class CustomerTextEmailComponent extends SurveyPage {
 
   // Email autocomplete
   filteredEmail: any[];
+
+  @ViewChild('autoemail')
+  autoemail: AutoComplete;
 
   get ready(): boolean {
     let form: FormGroup = this.myForm;
@@ -89,7 +100,7 @@ export class CustomerTextEmailComponent extends SurveyPage {
   }
 
   dismiss() {
-    let data = { 'email': this.email, 'phone': this.phone };
+    let data = { 'email': this.autoemail.value, 'phone': this.phone };
     this.viewCtrl.dismiss(data);
   }
 }

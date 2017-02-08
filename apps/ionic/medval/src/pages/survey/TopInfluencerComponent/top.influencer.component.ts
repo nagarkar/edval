@@ -1,3 +1,10 @@
+/**
+ * Created by Chinmay Nagarkar on 9/30/2016.
+ * Copyright HC Technology Inc.
+ * Please do not copy without permission. This code may not be used outside
+ * of this application without permission. Copying and re-posting on another
+ * site or application without licensing is strictly prohibited.
+ */
 import {Component} from "@angular/core";
 import {NavController, NavParams, LoadingController} from "ionic-angular";
 import {Config} from "../../../shared/config";
@@ -12,7 +19,7 @@ import {Account} from "../../../services/account/schema";
 import {AccountService} from "../../../services/account/delegator";
 import {SurveyPage} from "../survey.page";
 import {Idle} from "@ng-idle/core";
-import {SReplacer} from "../../../pipes/sreplacer";
+import {SReplacer, SReplacerDataMap} from "../../../pipes/sreplacer";
 
 @Component({
   templateUrl: './top.influencer.component.html',
@@ -39,6 +46,12 @@ export class TopInfluencerComponent extends SurveyPage {
   done = false;
   textPlaceholder: string;
   reviewMsg: string;
+
+  get dataMap() : SReplacerDataMap {
+    return {
+      metric: this.metricSvc.getCached(this.rootMetricId)
+    };
+  }
 
   constructor(
     idle: Idle,

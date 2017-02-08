@@ -1,3 +1,11 @@
+/**
+ * Created by Chinmay Nagarkar on 9/30/2016.
+ * Copyright HC Technology Inc.
+ * Please do not copy without permission. This code may not be used outside
+ * of this application without permission. Copying and re-posting on another
+ * site or application without licensing is strictly prohibited.
+ */
+
 import {NgModule, enableProdMode} from "@angular/core";
 import {IonicApp, IonicModule} from "ionic-angular";
 import {RevvolveApp} from "./app.component";

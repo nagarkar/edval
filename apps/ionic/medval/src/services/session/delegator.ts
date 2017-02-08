@@ -1,3 +1,10 @@
+/**
+ * Created by Chinmay Nagarkar on 9/30/2016.
+ * Copyright HC Technology Inc.
+ * Please do not copy without permission. This code may not be used outside
+ * of this application without permission. Copying and re-posting on another
+ * site or application without licensing is strictly prohibited.
+ */
 import {Injectable} from "@angular/core";
 import {Session} from "./schema";
 import {DelegatingService} from "../../shared/service/delegating.service";
@@ -42,11 +49,13 @@ export class SessionService extends DelegatingService<Session> {
     return session;
   }
 
-  closeCurrentSession() {
+  closeCurrentSession(skipSave?: boolean) {
     if (!this.hasCurrentSession()) {
       return;
     }
-    super.create(this.getCurrentSession());
+    if (!skipSave) {
+      super.create(this.getCurrentSession());
+    }
     this.getCurrentSession().close();
     this.surveyNavigator = null;
   }

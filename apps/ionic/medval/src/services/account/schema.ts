@@ -1,3 +1,10 @@
+/**
+ * Created by Chinmay Nagarkar on 9/30/2016.
+ * Copyright HC Technology Inc.
+ * Please do not copy without permission. This code may not be used outside
+ * of this application without permission. Copying and re-posting on another
+ * site or application without licensing is strictly prohibited.
+ */
 import {Utils} from "../../shared/stuff/utils";
 
 export class Account {
@@ -30,9 +37,9 @@ export class Account {
       contactName: '',
       logo: '',
       address: {},
-      verticalId: "OrthodonticClinic"
+      verticalId: Account.ORTHODONTIC_CLINIC
     };
-    this.properties.configuration = {};
+    this.properties.configuration = Account.StandardConfiguration[this.properties.verticalId];
   }
 
   toString() {
@@ -40,17 +47,24 @@ export class Account {
   }
 
   getStandardRoles(): string[] {
-    let roles: string[] = [];
     if (!this.properties.configuration["STANDARD_ROLES"]) {
-      return roles;
+      this.properties.configuration = Account.StandardConfiguration[this.properties.verticalId];
     }
-    return roles;
+    return this.properties.configuration["STANDARD_ROLES"].split(',');
   }
 
   isInvalid() {
     let nou = Utils.nullOrEmptyString;
     return nou(this.customerId) ||
-	nou(this.properties.customerName) ||
-	nou(this.properties.verticalId);
+      nou(this.properties.customerName) ||
+      nou(this.properties.verticalId);
+  }
+
+  static ORTHODONTIC_CLINIC: string = "OrthodonticClinic";
+
+  static StandardConfiguration: any = {
+    'OrthodonticClinic': {
+      STANDARD_ROLES: "Orthodontic Assistant,DDS,FrontOffice"
+    }
   }
 }

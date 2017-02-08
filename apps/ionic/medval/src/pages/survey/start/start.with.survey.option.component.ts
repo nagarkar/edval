@@ -1,3 +1,10 @@
+/**
+ * Created by Chinmay Nagarkar on 9/30/2016.
+ * Copyright HC Technology Inc.
+ * Please do not copy without permission. This code may not be used outside
+ * of this application without permission. Copying and re-posting on another
+ * site or application without licensing is strictly prohibited.
+ */
 import {Component, Input} from "@angular/core";
 import {NavController, NavParams, LoadingController, ToastController} from "ionic-angular";
 import {LoginComponent} from "../../login/login.component";
@@ -10,7 +17,6 @@ import {ThanksComponent} from "../thanks/thanks.component";
 import {ObjectCycler} from "../../../shared/stuff/object.cycler";
 import {SurveyNavUtils} from "../SurveyNavUtils";
 import {Survey} from "../../../services/survey/schema";
-import {ErrorType} from "../../../shared/stuff/error.types";
 
 @Component({
   templateUrl: './start.with.survey.option.component.html'
@@ -87,6 +93,7 @@ export class StartWithSurveyOption {
       }
     }
     this.sessionSvc.newCurrentSession(id);
+    this.sessionSvc.scratchPad['defaultOnly'] = this.defaultOnly;
     SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.loadingCtrl, this.navCtrl);
   }
 }

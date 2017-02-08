@@ -1,3 +1,11 @@
+/**
+ * Created by Chinmay Nagarkar on 9/30/2016.
+ * Copyright HC Technology Inc.
+ * Please do not copy without permission. This code may not be used outside
+ * of this application without permission. Copying and re-posting on another
+ * site or application without licensing is strictly prohibited.
+ */
+
 import {Component} from "@angular/core";
 import {NavController, Modal, ModalController, LoadingController} from "ionic-angular";
 import {Utils} from "../../../shared/stuff/utils";
@@ -18,16 +26,14 @@ import {SurveyPage} from "../survey.page";
 export class RequestReviewComponent2 extends SurveyPage {
 
   public reviewMsg: string;
-  private browser : InAppBrowser = null;
+  private browser: InAppBrowser = null;
 
-  constructor(
-    idle: Idle,
-    utils: Utils,
-    navCtrl: NavController,
-    sessionSvc: SessionService,
-    private modalCtrl: ModalController,
-    loadingCtrl: LoadingController,
-  ) {
+  constructor(idle: Idle,
+              utils: Utils,
+              navCtrl: NavController,
+              sessionSvc: SessionService,
+              private modalCtrl: ModalController,
+              loadingCtrl: LoadingController,) {
 
     super(loadingCtrl, navCtrl, sessionSvc, idle);
   }
@@ -64,12 +70,12 @@ export class RequestReviewComponent2 extends SurveyPage {
     if (reviewData.email || reviewData.phone) {
       message = "We already have your contact information. You can change your information below";
     }
-    let profileModal : Modal = this.modalCtrl.create(CustomerTextEmailComponent, {
+    let profileModal: Modal = this.modalCtrl.create(CustomerTextEmailComponent, {
       message: message,
       email: reviewData.email,
       phone: reviewData.phone
     });
-    profileModal.onDidDismiss((data) =>{
+    profileModal.onDidDismiss((data) => {
       if (data) {
         this.updateSessionReviewData(data.email, data.phone, reviewSite);
       }

@@ -7,12 +7,12 @@
     <ion-row>
       <ion-col>
         <ion-row class="separator-bottom">
-          <ion-label style="margin: 0; font-size: 1.75em;">{{message | sReplacer}}<br/><span style="font-size: .75em">(tap or slide to choose)</span></ion-label>
+          <ion-label style="margin: 0; font-size: 1.75em;">{{message | sReplacer:sReplacerDataPack:true}}<br/><span style="font-size: .75em">(tap or slide to choose)</span></ion-label>
         </ion-row>
         <ion-row style="padding:.5em .5em 0 .5em" *ngFor="let metric of displayMetrics; let idx = index">
           <ion-col>
             <ion-card text-center *ngIf="metric.isNpsType()" style="font-size: 1.7rem">
-              <span>{{metric.properties.positiveImpact | sReplacer}}</span>
+              <span>{{metric.properties.positiveImpact | sReplacer:sReplacerDataPack:true}}</span>
               <ion-range
                 style="padding-top: 1.1em"
                 (tap)="setValue($event, metric)"

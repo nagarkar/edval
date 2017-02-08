@@ -1,4 +1,12 @@
-import {Component} from "@angular/core";
+/**
+ * Created by Chinmay Nagarkar on 9/30/2016.
+ * Copyright HC Technology Inc.
+ * Please do not copy without permission. This code may not be used outside
+ * of this application without permission. Copying and re-posting on another
+ * site or application without licensing is strictly prohibited.
+ */
+
+import {Component, Input} from "@angular/core";
 import {NavController, NavParams, LoadingController} from "ionic-angular";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
@@ -13,15 +21,22 @@ import {StaffService} from "../../../services/staff/delegator";
 
 @Component({
   templateUrl: './multimetric.component.html',
-  //providers: [Idle]
 })
 
 @RegisterComponent
 export class MultimetricComponent extends SurveyPage {
 
-  private metricIds: string[];
-  done = false;
+  @Input()
+  metricIds: string[];
+  @Input()
+  rootMetricId: string;
+  @Input()
   message: string;
+  @Input()
+  done: boolean = false;
+  @Input()
+  displayCount: number = 4;
+
   displayMetrics: Metric[] = [];
   metricValues: number[] = [];
   dirty: boolean= false;
@@ -42,13 +57,15 @@ export class MultimetricComponent extends SurveyPage {
 
     super(loadingCtrl, navCtrl, sessionSvc, idle);
 
-    this.metricIds = navParams.get('metricIds');
-    this.message = navParams.get('message') || 'Please answer the following questions';
+    this.rootMetricId = navParams.get('rootMetricId');
+    this.metricIds    = navParams.get('metricIds');
+    this.message      = navParams.get('message')                                || 'Please answer the following questions';
+    this.done         = navParams.get('allowSkipIfNoSelectionsInMetricSubject') || this.done;
+    this.displayCount = navParams.get('displayCount')                           || this.displayCount;
 
-    this.displayMetrics = this.setupDisplayMetrics(metricSvc);
-    this.displayMetrics.forEach(()=>{
-      this.metricValues.push(1);
-    })
+    this.displayMetrics = this.constructDisplayMetrics(metricSvc);
+
+    this.sReplacerDataPack = this.constructSReplacerData(metricSvc.getCached(this.rootMetricId));
   }
 
   navigateToNext() {
@@ -66,6 +83,23 @@ export class MultimetricComponent extends SurveyPage {
       }, 500)
     }
     this.dirty = true;
+  }
+
+  private constructSReplacerData(rootMetric: Metric): SReplacerDataMap {
+    let replacerData: SReplacerDataMap = {};
+    if (!rootMetric) {
+      return replacerData;
+    }
+    replacerData.metric = rootMetric;
+    /*
+    if (rootMetric.hasRoleSubject()) {
+      replacerData.role = rootMetric.getRoleSubject();
+    } else if (rootMetric.hasStaffSubject()) {
+      let username = rootMetric.getStaffSubject();
+      replacerData.staff = [this.staffSvc.getCached(username)];
+    }
+    */
+    return replacerData;
   }
 
   private updateMetricInSession(value: number, metric: Metric) {
@@ -87,11 +121,23 @@ export class MultimetricComponent extends SurveyPage {
     }
   }
 
-  private setupDisplayMetrics(metricSvc: MetricService) {
-    let allMetrics: Metric[] = metricSvc.listCached();
+  private constructDisplayMetrics(metricSvc: MetricService): Metric[] {
+    let allMetrics: Metric[];
+    if (this.metricIds && Array.isArray(this.metricIds) && this.metricIds.length > 0) {
+      allMetrics = [];
+      this.metricIds.forEach((metricId: string)=>{
+        let metric: Metric = metricSvc.getCached(metricId);
+        if (!this.rootMetricId || this.rootMetricId == metric.parentMetricId) {
+          allMetrics.push(metric);
+        }
+      })
+    } else if (this.rootMetricId) {
+      allMetrics = metricSvc.getCachedNpsDrilldownMetrics(this.rootMetricId);
+    } else {
+      allMetrics = metricSvc.listCached();
+    }
     allMetrics = Utils.shuffle(allMetrics);
-    return allMetrics.filter((value: Metric) => {
-      return this.metricIds.indexOf(value.metricId) >= 0;
-    });
+    allMetrics.forEach(() => { this.metricValues.push(1);});
+    return allMetrics.slice(0, this.displayCount);
   }
 }

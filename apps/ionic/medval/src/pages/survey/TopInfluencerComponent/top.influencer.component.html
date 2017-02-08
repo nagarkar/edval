@@ -23,7 +23,7 @@
                   (tap)="registerRank(metric)"
                   class="card-title cstm-btn"
                   [ngClass]="{'cstm-btn-pressed': isSelected(metric)}">
-            {{(metric.properties[displayAttribute] ? metric.properties[displayAttribute] :  metric.properties.metricName) | sReplacer}}
+            {{(metric.properties[displayAttribute] ? metric.properties[displayAttribute] :  metric.properties.metricName) | sReplacer:dataMap}}
           </button>
         </div>
       </ion-col>
@@ -34,7 +34,7 @@
           <ion-label ion-text color="black" style="margin-top:0em; padding-left: 0em;font-size: 1em;" stacked>
             Or tell us in your your own words...
           </ion-label>
-          <ion-textarea rows="3" class="feedback-text" placeholder="{{textPlaceholder | sReplacer}}" [(ngModel)]="reviewMsg">
+          <ion-textarea rows="3" class="feedback-text" placeholder="{{textPlaceholder | sReplacer:dataMap}}" [(ngModel)]="reviewMsg">
           </ion-textarea>
         </ion-item>
       </ion-col>

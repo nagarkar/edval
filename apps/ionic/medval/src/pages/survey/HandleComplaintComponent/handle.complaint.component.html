@@ -11,7 +11,7 @@
         </ion-row>
       </ion-col>
       <ion-col text-center>
-        <h1 *ngIf="title" class="m-b-1 .m-t-0p5"><b>{{title}}</b></h1>
+        <h1 *ngIf="title" class="m-b-1 .m-t-0p5"><b>{{title | sReplacer}}</b></h1>
         <h2 *ngIf="title" class="font-40">
           We're sorry if you had a bad experience
         </h2>
@@ -29,7 +29,7 @@
             </ion-item>
             <div class="alert subdued" *ngIf="!complaintForm.controls['email'].valid">(e.g.: abc@zyx.com)</div>
             -->
-            <autoComplete-email  [(ngModel)]="email"  formControlName="email" required placeholder="youremail@gmail.com"
+            <autoComplete-email  #autoemail [(ngModel)]="email"  formControlName="email" required placeholder="youremail@gmail.com"
               [suggestions]="filteredEmail" (completeMethod)="getEmail($event)" [size]="30" [minLength]= "3"
                (onSelect)="onSelectEmail($event)" field="name">
             </autoComplete-email>

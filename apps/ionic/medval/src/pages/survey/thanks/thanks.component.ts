@@ -1,10 +1,16 @@
+/**
+ * Created by Chinmay Nagarkar on 9/30/2016.
+ * Copyright HC Technology Inc.
+ * Please do not copy without permission. This code may not be used outside
+ * of this application without permission. Copying and re-posting on another
+ * site or application without licensing is strictly prohibited.
+ */
 import {Component} from "@angular/core";
 import {NavController, NavParams, Modal, ModalController, LoadingController} from "ionic-angular";
 import {Config} from "../../../shared/config";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
 import {ObjectCycler} from "../../../shared/stuff/object.cycler";
-import {SReplacer} from "../../../pipes/sreplacer";
 import {AccountService} from "../../../services/account/delegator";
 import {Idle} from "@ng-idle/core";
 import {StartWithSurveyOption} from "../start/start.with.survey.option.component";
@@ -15,7 +21,6 @@ import {AnyDetractors} from "../../../services/survey/survey.functions";
 
 @Component({
   templateUrl: './thanks.component.html',
-  //providers: [Idle]
 })
 export class ThanksComponent extends SurveyPage {
 
@@ -107,14 +112,10 @@ export class ThanksComponent extends SurveyPage {
         "'Regular feedback from patients helps ' + account.properties.customerName + ' improve every day!'"
       ];
     }
-
-    let replacer = new SReplacer(this.accountSvc);
     if (typeof input === 'string'){
-      return [replacer.transform(<string>input)];
+      return [input];
     }
-    return input.map((value)=> {
-      return replacer.transform(value);
-    });
+    return input;
   }
 
   private static getDefaultOptions(giftMessage: string, costPerUse: number, award: number): {} {

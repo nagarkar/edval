@@ -12,16 +12,33 @@
   </ion-item>
   <ion-title>Metric Questions/Data</ion-title>
   <ion-grid *ngFor="let metric of metrics">
+
     <ion-row>Metric ID: {{metric.metricId}}</ion-row>
+
     <ion-row>Parent Metric ID: {{metric.parentMetricId}}</ion-row>
+
     <ion-row>Subject: {{metric.subject}}</ion-row>
-    <ion-row>Question: {{metric.properties.question | sReplacer}}</ion-row>
-    <ion-row *ngIf="sReplacerData[metric.metricId]">Question with staff: {{metric.properties.question | sReplacer:sReplacerData[metric.metricId]}}</ion-row>
-    <ion-row>Conversation Setup: {{metric.properties.conversationSetup | sReplacer}}</ion-row>
+
+    <ion-row>Question: {{metric.properties.question | sReplacer:null:true}}</ion-row>
+    <ion-row *ngIf="replacerDataWithHardcodedStaff[metric.metricId]">Question with staff:
+      {{metric.properties.question | sReplacer:replacerDataWithHardcodedStaff[metric.metricId]:true}}</ion-row>
+    <ion-row *ngIf="replacerDataWithoutHardcodedStaff[metric.metricId]">Question with staff:
+      {{metric.properties.question | sReplacer:replacerDataWithoutHardcodedStaff[metric.metricId]:true}}</ion-row>
+
+    <ion-row>Conversation Setup: {{metric.properties.conversationSetup | sReplacer:null:false}}</ion-row>
+
     <ion-row>Improvement: {{metric.properties.improvement | sReplacer}}</ion-row>
-    <ion-row *ngIf="sReplacerData[metric.metricId]">Improvement with staff: {{metric.properties.improvement | sReplacer:sReplacerData[metric.metricId]}}</ion-row>
+    <ion-row *ngIf="replacerDataWithHardcodedStaff[metric.metricId]">Improvement with staff:
+      {{metric.properties.improvement | sReplacer:replacerDataWithHardcodedStaff[metric.metricId]:true}}</ion-row>
+    <ion-row *ngIf="replacerDataWithoutHardcodedStaff[metric.metricId]">Improvement with staff:
+      {{metric.properties.improvement | sReplacer:replacerDataWithoutHardcodedStaff[metric.metricId]:true}}</ion-row>
+
     <ion-row>Positive Impact: {{metric.properties.positiveImpact | sReplacer}}</ion-row>
-    <ion-row *ngIf="sReplacerData[metric.metricId]">Positive Impact with staff: {{metric.properties.positiveImpact | sReplacer:sReplacerData[metric.metricId]}}</ion-row>
+    <ion-row *ngIf="replacerDataWithHardcodedStaff[metric.metricId]">Positive Impact with staff:
+      {{metric.properties.positiveImpact | sReplacer:replacerDataWithHardcodedStaff[metric.metricId]:true}}</ion-row>
+    <ion-row *ngIf="replacerDataWithoutHardcodedStaff[metric.metricId]">Positive Impact with staff:
+      {{metric.properties.positiveImpact | sReplacer:replacerDataWithoutHardcodedStaff[metric.metricId]:true}}</ion-row>
+
   </ion-grid>
   <ion-list>
     <ion-item-divider>Errors:</ion-item-divider>

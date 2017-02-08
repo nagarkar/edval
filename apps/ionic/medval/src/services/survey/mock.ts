@@ -1,3 +1,10 @@
+/**
+ * Created by Chinmay Nagarkar on 9/30/2016.
+ * Copyright HC Technology Inc.
+ * Please do not copy without permission. This code may not be used outside
+ * of this application without permission. Copying and re-posting on another
+ * site or application without licensing is strictly prohibited.
+ */
 import {Injectable} from "@angular/core";
 import {Survey, WorkflowElement} from "./schema";
 import {Utils} from "../../shared/stuff/utils";
@@ -329,6 +336,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           component:"PickStaffComponent",
           params: {
             roles: ["DDS", "OrthoAssitant"],
+            message: `'Who have you worked with at ' + account.properties.customerName + '?'`,
             displayCount: 5
           }
         },
@@ -344,40 +352,36 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           id: 'md.metrics',
           component:"MultimetricComponent",
           params: {
-            message:`staffSvc.getOnly('DDS') == null ? 'About the doctors at ' + account.properties.customerName
-              : 'Tell us more about ' + staffSvc.getOnly('DDS').displayName`,
-            metricIds: [
-              '2861045b4984805ae23df729dad97b',
-              '861045b4984805ae213df729dad97b',
-              '1045b4984805ae213df729dad97b',
-              '045b4984805ae213df729dad97b',
-            ]
-          }
-        },
-        {
-          id: 'front.desk.metrics',
-          component:"MultimetricComponent",
-          params: {
-            message:"Tell us about the front-desk",
-            metricIds: [
-              '95a8659497274ffe9f8fb14fa45b21e5',
-              '6e0f99cdd7a34a058ff2fb22fbe51738',
-              '0f99cdd7a34a058ff2fb22fbe51738',
-              '34182735427d4f2eba99eb0acb66078f',
-            ]
+            message:`onlyStaff ? 'Tell us more about ' + onlyStaff.displayName
+              : 'About the doctors at ' + account.properties.customerName`,
+            rootMetricId:'62861045b4984805ae213df729dad97b'
           }
         },
         {
           id: 'assistant.metrics',
           component:"MultimetricComponent",
           params: {
-            message:"'Tell us how the assistants (' + staffSvc.getStaffFirstNamesInRole('Orthodontic Assistant') + ') are doing'",
-            metricIds: [
-              '2861045b4985ae23df729dad97b',
-              '861045b4984ae213df729dad97b',
-              '1045b4984ae213df729dad97b',
-              '045b498ae213df729dad97b',
-            ]
+            message:`onlyStaff ? 'Tell us how ' + onlyStaff.displayName + ' is doing as the Orthodontic Assistant'
+              : 'Tell us how the assistants ' 
+                  + (staffSvc.getStaffNamesInListForRole(staff, role)? 
+                      '(' + staffSvc.getStaffNamesInListForRole(staff, role) + ')' : ''
+                    )
+                  + ' are doing'`,
+            rootMetricId:'62861045b4984805213df729dad97b'
+          }
+        },
+        {
+          id: 'front.desk.metrics',
+          component:"MultimetricComponent",
+          params: {
+            message:`onlyStaff ? 'Tell us how ' + onlyStaff.displayName + ' is doing in the front-office'
+              : 'Tell us how the front-office ' 
+                  + (staffSvc.getStaffNamesInListForRole(staff, role)? 
+                      '(' + staffSvc.getStaffNamesInListForRole(staff, role) + ')' : ''
+                    )
+                  + ' is doing'`,
+            rootMetricId:'aae40633d0f646ce86840bf21bfcb3a4',
+            allowSkipIfNoSelectionsInMetricSubject: true
           }
         },
         {

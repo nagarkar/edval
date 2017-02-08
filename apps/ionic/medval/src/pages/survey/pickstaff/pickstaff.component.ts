@@ -1,4 +1,11 @@
-import {Component} from "@angular/core";
+/**
+ * Created by Chinmay Nagarkar on 9/30/2016.
+ * Copyright HC Technology Inc.
+ * Please do not copy without permission. This code may not be used outside
+ * of this application without permission. Copying and re-posting on another
+ * site or application without licensing is strictly prohibited.
+ */
+import {Component, Input} from "@angular/core";
 import {Utils} from "../../../shared/stuff/utils";
 import {StaffService} from "../../../services/staff/delegator";
 import {SlideItem} from "../../../shared/components/carousel/carousel.schema";
@@ -12,18 +19,21 @@ import {Idle} from "@ng-idle/core";
 
 @Component({
   templateUrl:'./pickstaff.component.html',
-  //providers: [Idle]
 })
 
 @RegisterComponent
 export class PickStaffComponent extends SurveyPage {
 
-  private roles: string[] = [];
+  @Input()
+  roles: string[] = [];
+  @Input()
+  displayCount: number = 3;
+  @Input()
+  message: string = "Tell us who worked with you!";
+
   slides: SlideItem[] = [];
   slideToStaffMap: Map<number, Staff> = new Map<number, Staff>();
-
   selectedStaff: Set<Staff> = new Set<Staff>();
-  displayCount: number = 3;
 
   constructor(
     idle: Idle,
@@ -35,11 +45,11 @@ export class PickStaffComponent extends SurveyPage {
     params: NavParams) {
 
     super(loadingCtrl, navCtrl, sessionSvc, idle);
-    //SurveyNavUtils.setIdleWatch(idle, () => {utils.setRoot(navCtrl, StartWithSurveyOption);})
 
-    this.displayCount = params.get('displayCount') || 3;
+    this.displayCount = params.get('displayCount') || this.displayCount;
+    this.roles = params.get("roles") || this.roles;
+    this.message = params.get("message") || this.message;
 
-    this.roles = params.get("roles") || [];
     this.setupSlides();
   }
 
@@ -81,6 +91,9 @@ export class PickStaffComponent extends SurveyPage {
   private setupSlides() {
     this.staffSvc.list()
       .then((staffList: Staff[]) => {
+        if (!staffList || staffList.length == 0) {
+          this.navigateToNext();
+        }
         this.slideToStaffMap = new Map<number, Staff>();
         let count = 0;
         //this.utils.log("got staff for carousel " + Utils.stringify(staffList));

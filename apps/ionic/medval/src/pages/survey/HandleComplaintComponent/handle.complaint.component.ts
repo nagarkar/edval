@@ -1,4 +1,11 @@
-import {Component} from "@angular/core";
+/**
+ * Created by Chinmay Nagarkar on 9/30/2016.
+ * Copyright HC Technology Inc.
+ * Please do not copy without permission. This code may not be used outside
+ * of this application without permission. Copying and re-posting on another
+ * site or application without licensing is strictly prohibited.
+ */
+import {Component, ViewChild} from "@angular/core";
 import {NavController, NavParams, LoadingController} from "ionic-angular";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
@@ -9,9 +16,9 @@ import {Config} from "../../../shared/config";
 import {Account} from "../../../services/account/schema";
 import {Idle} from "@ng-idle/core";
 import {SurveyPage} from "../survey.page";
-import {SReplacer} from "../../../pipes/sreplacer";
 import {FormGroup, FormControl, Validators} from "@angular/forms";
 import {EmailProviderService} from "../../../shared/service/email.provider.service";
+import {AutoComplete} from "../../../shared/components/autocomplete/autocomplete";
 
 @Component({
   templateUrl: './handle.complaint.component.html',
@@ -32,7 +39,7 @@ export class HandleComplaintComponent extends SurveyPage {
 
   complaintForm: FormGroup;
 
-  title: string;
+  title: string = 'Did something go wrong?';
   image: string = this.images[0];
   account: Account = new Account();
 
@@ -43,6 +50,8 @@ export class HandleComplaintComponent extends SurveyPage {
 
   // Email autocomplete
   filteredEmail: any[];
+  @ViewChild('autoemail')
+  autoComplete: AutoComplete
 
   get informationProvided() {
     let email = this.complaintForm.controls['email'];
@@ -68,15 +77,7 @@ export class HandleComplaintComponent extends SurveyPage {
     super(loadingCtrl, navCtrl, sessionSvc, idle);
 
     this.account =  accountSvc.getCached(Config.CUSTOMERID);
-    let sReplacer = new SReplacer(accountSvc);
-    if (navParams.get('title') === null) {
-      this.title = null;
-    } else if (navParams.get('title')) {
-      let title = (sReplacer.transform(navParams['title']));
-      this.title = title;
-    } else {
-      this.title = 'Did something go wrong?';
-    }
+    this.title = navParams.get('title') || this.title;
 
   }
 
@@ -92,7 +93,7 @@ export class HandleComplaintComponent extends SurveyPage {
   navigateToNext() {
     if (this.sessionSvc.hasCurrentSession()) {
       this.sessionSvc.getCurrentSession().properties.complaintData = {
-        email: this.email, phone: this.phone, message: this.complaintMsg
+        email: this.autoComplete.value, phone: this.phone, message: this.complaintMsg
       }
     }
     super.navigateToNext(

@@ -1,3 +1,10 @@
+/**
+ * Created by Chinmay Nagarkar on 9/30/2016.
+ * Copyright HC Technology Inc.
+ * Please do not copy without permission. This code may not be used outside
+ * of this application without permission. Copying and re-posting on another
+ * site or application without licensing is strictly prohibited.
+ */
 import {Component, ViewChild} from "@angular/core";
 import {Metric, MetricValue} from "../../../services/metric/schema";
 import {Utils} from "../../../shared/stuff/utils";
@@ -10,8 +17,7 @@ import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
 import {SurveyPage} from "../survey.page";
 import {Idle} from "@ng-idle/core";
-
-export interface dataInterface {staff: Staff, metric: Metric, value?: string};
+import {SReplacerDataMap} from "../../../pipes/sreplacer";
 
 @Component({
   selector: 'topline-for-staff',
@@ -22,7 +28,7 @@ export interface dataInterface {staff: Staff, metric: Metric, value?: string};
 @RegisterComponent
 export class ToplineForStaffComponent extends SurveyPage {
 
-  displayData: Array<dataInterface> = [];
+  displayData: Array<SReplacerDataMap> = [];
   displayCount: number;
   done: boolean = false;
 
@@ -70,11 +76,11 @@ export class ToplineForStaffComponent extends SurveyPage {
     this.displayData = this.setupDisplayData(this.displayCount, staffNames);
   }
 
-  public onSelection(data: dataInterface, value: string) {
-    data.value = value;
+  public onSelection(data: SReplacerDataMap, value: string) {
+    data['value'] = value;
     let navigator: SurveyNavigator = this.sessionSvc.surveyNavigator;
-    navigator.session.addMetricValue(data.metric.subject, new MetricValue(data.metric.metricId, data.value));
-    if (this.displayData.every((data: dataInterface) => {return data.value != null})) {
+    navigator.session.addMetricValue(data.metric.subject, new MetricValue(data.metric.metricId, value));
+    if (this.displayData.every((data: SReplacerDataMap) => {return data['value'] != null})) {
       this.done = true;
     }
   }
@@ -89,7 +95,7 @@ export class ToplineForStaffComponent extends SurveyPage {
   }
 
   private setupDisplayData(displayCount:number, staffNames: string[]) {
-    let displayData: Array<dataInterface> = [];
+    let displayData: Array<SReplacerDataMap> = [];
     for (let i = 0; i < staffNames.length && this.displayData.length < this.displayCount; i++) {
       let staffName = staffNames[i];
       let staff: Staff = this.staffSvc.getCached(staffName);
@@ -109,7 +115,7 @@ export class ToplineForStaffComponent extends SurveyPage {
         rootMetric = Object.assign<Metric, Metric>(new Metric(), rootMetric);
         rootMetric.subject = Metric.createStaffSubject(staff.username);
       }
-      displayData.push({staff: staff, metric: rootMetric});
+      displayData.push({staff: [staff], role: role, metric: rootMetric});
     }
     return displayData;
   }
