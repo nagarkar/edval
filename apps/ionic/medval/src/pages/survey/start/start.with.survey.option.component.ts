@@ -17,6 +17,7 @@ import {ThanksComponent} from "../thanks/thanks.component";
 import {ObjectCycler} from "../../../shared/stuff/object.cycler";
 import {SurveyNavUtils} from "../SurveyNavUtils";
 import {Survey} from "../../../services/survey/schema";
+import {SpinnerDialog} from "ionic-native";
 
 @Component({
   templateUrl: './start.with.survey.option.component.html'
@@ -68,12 +69,17 @@ export class StartWithSurveyOption {
         return survey.id == 'default';
       })
     });
+    /*
     setTimeout(()=>{
       if (this.navCtrl.getActive().component == StartWithSurveyOption) {
         Utils.log("Refreshing Start Page");
-        Utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultOnly: this.defaultOnly});
+        SpinnerDialog.show();
+        setTimeout(()=>{
+          SpinnerDialog.hide();
+        }, 300);
       }
     }, 5 * 60 * 1000)
+    */
   }
 
   gotoLogin() {
