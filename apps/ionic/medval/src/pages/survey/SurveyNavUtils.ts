@@ -7,14 +7,15 @@
  */
 import {SurveyNavigator, NavigationTarget} from "../../services/survey/survey.navigator";
 import {ThanksComponent} from "./thanks/thanks.component";
-import {NavController, LoadingController, Loading} from "ionic-angular";
+import {NavController, LoadingController} from "ionic-angular";
 import {Utils} from "../../shared/stuff/utils";
 import {Config} from "../../shared/config";
 import {StartWithSurveyOption} from "./start/start.with.survey.option.component";
+import {SpinnerDialog} from "ionic-native";
 
 export class SurveyNavUtils {
   public static navigateOrTerminate(navigator: SurveyNavigator, loadingCtrl: LoadingController, navCtrl: NavController, ...terminationMessage: string[]): Promise<any> {
-    let loading: Loading = Utils.presentLoading(loadingCtrl, 750);
+    SpinnerDialog.show();
     return new Promise<any>((resolve, reject)=> {
       setTimeout(()=>{
         let navigationTarget: NavigationTarget;
@@ -37,7 +38,7 @@ export class SurveyNavUtils {
             alert("Unexpected Error Occurred:" + err);
           }
         }
-        loading.dismissAll();
+        SpinnerDialog.hide();
       }, Config.PAGE_TRANSITION_TIME)
     });
   }

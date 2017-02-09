@@ -17,6 +17,7 @@ declare let AWS:any;
 /**
  * For additional implementation details:
  * <link>http://docs.aws.amazon.com/cognito/latest/developerguide/using-amazon-cognito-user-identity-pools-javascript-examples.html</link>
+ * and <link>https://github.com/awslabs/aws-cognito-angular2-quickstart/blob/master/src/app/service/cognito.service.ts</link>
  */
 @Injectable()
 export class AccessTokenService {
@@ -105,6 +106,7 @@ export class AccessTokenService {
 
   private startAuthenticatingUser(initializeAttributes: boolean): void {
     var me = this;
+    AWSCognito.config.update({accessKeyId: 'anything', secretAccessKey: 'anything'})
     this._cognitoUser.authenticateUser(this.authenticationDetails, {
       onSuccess: (session) => {
         Utils.log("AccessTokenSvc.onSuccess");

@@ -49,6 +49,14 @@ export class ThanksComponent extends SurveyPage {
   award: number;
   giftMessage: string;
 
+  idleSeconds(): number {
+    return 30;
+  }
+
+  timeoutSeconds(): number {
+    return 30;
+  }
+
   constructor(
     idle: Idle,
     protected sessionSvc: SessionService,

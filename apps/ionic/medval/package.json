@@ -84,7 +84,11 @@
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
     "cordova-plugin-inappbrowser",
-    "ionic-plugin-keyboard"
+    "cordova-plugin-spinner-dialog",
+    "ionic-plugin-keyboard",
+    "cordova-plugin-camera",
+    "cordova-plugin-compat",
+    "cordova-plugin-inapppurchase"
   ],
   "cordovaPlatforms": [
     "ios",

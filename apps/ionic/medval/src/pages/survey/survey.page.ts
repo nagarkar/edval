@@ -19,6 +19,14 @@ export class SurveyPage {
 
   progress: number = 0;
 
+  idleSeconds(): number {
+    return undefined;
+  }
+
+  timeoutSeconds(): number {
+    return undefined;
+  }
+
   static inNavigation:boolean = false;
 
   constructor(
@@ -43,8 +51,8 @@ export class SurveyPage {
       return;
     }
     this.stopIdling();
-    idle.setIdle(Config.SURVEY_PAGE_IDLE_SECONDS);
-    idle.setTimeout(Config.SURVEY_PAGE_TIMEOUT_SECONDS);
+    idle.setIdle(this.idleSeconds() || Config.SURVEY_PAGE_IDLE_SECONDS);
+    idle.setTimeout(this.timeoutSeconds() || Config.SURVEY_PAGE_TIMEOUT_SECONDS);
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
 
     let subscription: Subject<number> = idle.onTimeout.subscribe(() => {
