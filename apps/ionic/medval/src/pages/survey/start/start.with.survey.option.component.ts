@@ -6,7 +6,7 @@
  * site or application without licensing is strictly prohibited.
  */
 import {Component, Input} from "@angular/core";
-import {NavController, NavParams, LoadingController, ToastController} from "ionic-angular";
+import {NavController, NavParams, ToastController} from "ionic-angular";
 import {LoginComponent} from "../../login/login.component";
 import {Utils} from "../../../shared/stuff/utils";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";

@@ -6,7 +6,7 @@
  * site or application without licensing is strictly prohibited.
  */
 import {Component} from "@angular/core";
-import {NavController, NavParams, Modal, ModalController, LoadingController} from "ionic-angular";
+import {NavController, NavParams, Modal, ModalController} from "ionic-angular";
 import {Config} from "../../../shared/config";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";

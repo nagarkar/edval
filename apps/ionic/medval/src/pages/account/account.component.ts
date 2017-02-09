@@ -7,13 +7,7 @@
  */
 
 import {Component} from "@angular/core";
-import {
-  NavController,
-  ActionSheetController,
-  AlertController,
-  ToastController,
-  NavParams,
-} from "ionic-angular";
+import {NavController, ActionSheetController, AlertController, ToastController, NavParams} from "ionic-angular";
 import {Account} from "../../services/account/schema";
 import {AccountService} from "../../services/account/delegator";
 import {Utils} from "../../shared/stuff/utils";

@@ -9,7 +9,7 @@ import {Component} from "@angular/core";
 import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService, AuthResult} from "../../shared/aws/access.token.service";
 import {DashboardComponent} from "../dashboard/dashboard.component";
-import {NavController, LoadingController, ToastController, AlertController} from "ionic-angular";
+import {NavController, ToastController, AlertController} from "ionic-angular";
 import {SettingsComponent} from "../settings/settings.component";
 import {AccountComponent} from "../account/account.component";
 import {AccountSetupService} from "../../services/accountsetup/account.setup.service";

@@ -7,13 +7,12 @@
  */
 
 import {Component} from "@angular/core";
-import {NavController, Modal, ModalController, LoadingController} from "ionic-angular";
+import {NavController, Modal, ModalController} from "ionic-angular";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
 import {CustomerTextEmailComponent} from "./customer.text.email.component";
 import {SessionProperties} from "../../../services/session/schema";
-import {InAppBrowser} from "ionic-native";
 import {Idle} from "@ng-idle/core";
 import {SurveyPage} from "../survey.page";
 
@@ -26,7 +25,6 @@ import {SurveyPage} from "../survey.page";
 export class RequestReviewComponent2 extends SurveyPage {
 
   public reviewMsg: string;
-  private browser: InAppBrowser = null;
 
   constructor(idle: Idle,
               utils: Utils,

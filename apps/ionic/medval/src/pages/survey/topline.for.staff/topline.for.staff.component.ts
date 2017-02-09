@@ -12,7 +12,7 @@ import {RatingComponent} from "../../../shared/components/rating/rating.componen
 import {Staff} from "../../../services/staff/schema";
 import {StaffService} from "../../../services/staff/delegator";
 import {SurveyNavigator, RegisterComponent} from "../../../services/survey/survey.navigator";
-import {NavParams, NavController, LoadingController} from "ionic-angular";
+import {NavParams, NavController} from "ionic-angular";
 import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
 import {SurveyPage} from "../survey.page";
