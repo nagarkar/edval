@@ -16,13 +16,13 @@
           <ion-grid>
             <ion-row center>
               <ion-col>
-                <img [ngClass]="{pulse: !someDataProvided}" src="assets/img/google-review-button.png" (tap)="googleReview()" height="60em" style="margin-left: 1.2em" />
+                <img [ngClass]="{'pulse-once': !someDataProvided}" src="assets/img/google-review-button.png" (tap)="googleReview()" height="60em" style="margin-left: 1.2em" />
               </ion-col>
               <ion-col>
-                <img [ngClass]="{pulse: !someDataProvided}" src="assets/img/facebook-review-button.png" (tap)="facebookReview()" height="60em" />
+                <img [ngClass]="{'pulse-once': !someDataProvided}" src="assets/img/facebook-review-button.png" (tap)="facebookReview()" height="60em" />
               </ion-col>
               <ion-col>
-                <img [ngClass]="{pulse: !someDataProvided}" src="assets/img/yelp-review-button.png" (tap)="yelpReview()" height="60em" />
+                <img [ngClass]="{'pulse-once': !someDataProvided}" src="assets/img/yelp-review-button.png" (tap)="yelpReview()" height="60em" />
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -42,7 +42,7 @@
         </ion-item>
       </ion-col>
       <ion-col center>
-        <button [ngClass] = "{pulse: someDataProvided}"
+        <button [ngClass] = "{'pulse-once': someDataProvided}"
           ion-button medium type="submit">
           {{someDataProvided? 'Finish!': 'No Thanks!'}}
         </button>
