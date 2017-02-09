@@ -76,8 +76,8 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
     let isPromoterOrMiddle = (new AnyDetractors().execute(this.sessionSvc.surveyNavigator, {}) == "false");
 
     if (isPromoterOrMiddle) {
-      this.cycler = new ObjectCycler<string>(Config.TIME_PER_JOKE, ...this.jokes)
-        .onNewObj.subscribe((next:string) => { this.joke = next;});
+      this.cycler = new ObjectCycler<string>(Config.TIME_PER_JOKE, ...this.jokes);
+      this.cycler.onNewObj.subscribe((next:string) => { this.joke = next;});
       this.setupAttractions();
     }
   }
