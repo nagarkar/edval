@@ -9,14 +9,13 @@ import {Injectable} from "@angular/core";
 import {
   ActionSheetController,
   AlertController,
-  LoadingController,
   Alert,
   ToastController,
   ModalController,
   Modal,
   Platform,
-  Loading,
-  AlertInputOptions, NavController
+  AlertInputOptions,
+  NavController
 } from "ionic-angular";
 import {CameraOptions, Camera, SpinnerDialog} from "ionic-native";
 import {ErrorType} from "./error.types";

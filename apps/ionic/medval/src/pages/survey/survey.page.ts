@@ -6,7 +6,7 @@
  * site or application without licensing is strictly prohibited.
  */
 import {Utils} from "../../shared/stuff/utils";
-import {NavController, LoadingController} from "ionic-angular";
+import {NavController} from "ionic-angular";
 import {SurveyNavUtils} from "./SurveyNavUtils";
 import {SessionService} from "../../services/session/delegator";
 import {Idle, DEFAULT_INTERRUPTSOURCES} from "@ng-idle/core";

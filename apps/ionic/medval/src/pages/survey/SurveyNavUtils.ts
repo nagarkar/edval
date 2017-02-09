@@ -7,7 +7,7 @@
  */
 import {SurveyNavigator, NavigationTarget} from "../../services/survey/survey.navigator";
 import {ThanksComponent} from "./thanks/thanks.component";
-import {NavController, LoadingController} from "ionic-angular";
+import {NavController} from "ionic-angular";
 import {Utils} from "../../shared/stuff/utils";
 import {Config} from "../../shared/config";
 import {StartWithSurveyOption} from "./start/start.with.survey.option.component";

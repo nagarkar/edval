@@ -7,7 +7,7 @@
  */
 import {Component, ViewChild} from "@angular/core";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
-import {NavParams, ViewController, NavController, LoadingController} from "ionic-angular";
+import {NavParams, ViewController, NavController} from "ionic-angular";
 import {FormGroup, FormBuilder, Validators, AbstractControl, FormControl} from "@angular/forms";
 import {SurveyPage} from "../survey.page";
 import {Idle} from "@ng-idle/core";

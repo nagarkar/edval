@@ -10,7 +10,7 @@ import {Utils} from "../../../shared/stuff/utils";
 import {StaffService} from "../../../services/staff/delegator";
 import {SlideItem} from "../../../shared/components/carousel/carousel.schema";
 import {Staff} from "../../../services/staff/schema";
-import {NavController, NavParams, LoadingController} from "ionic-angular";
+import {NavController, NavParams} from "ionic-angular";
 import {LoginComponent} from "../../login/login.component";
 import {SessionService} from "../../../services/session/delegator";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";

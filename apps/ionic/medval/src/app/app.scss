@@ -320,6 +320,16 @@
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 
+  font-size: 0.6em;
+  border: none;
+  box-shadow: 0 0 0 0 rgba(85, 57, 130, 0.7);
+  border-radius: 50%;
+  // http://cubic-bezier.com/#.14,.77,0,.99
+  -webkit-animation: pulse2em 3s 1s infinite cubic-bezier(.14,.77,0,.99);
+  -moz-animation: pulse2em 3s 1s infinite cubic-bezier(.14,.77,0,.99);
+  -ms-animation: pulse2em 3s 1s infinite cubic-bezier(.14,.77,0,.99);
+  animation: pulse2em 3s 1s infinite cubic-bezier(.14,.77,0,.99);
+
   button {
     width: 7em;
     height: 7em;
@@ -332,15 +342,6 @@
       font-size:2em;
     }
   }
-  font-size: 0.6em;
-  border: none;
-  box-shadow: 0 0 0 0 rgba(85, 57, 130, 0.7);
-  border-radius: 50%;
-  // http://cubic-bezier.com/#.14,.77,0,.99
-  -webkit-animation: pulse2em 3s 1s infinite cubic-bezier(.14,.77,0,.99);
-  -moz-animation: pulse2em 3s 1s infinite cubic-bezier(.14,.77,0,.99);
-  -ms-animation: pulse2em 3s 1s infinite cubic-bezier(.14,.77,0,.99);
-  animation: pulse2em 3s 1s infinite cubic-bezier(.14,.77,0,.99);
 }
 
 @-webkit-keyframes pulse2em {to {box-shadow: 0 0 0 2em rgba(0, 232, 0, 0);}}
