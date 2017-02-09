@@ -41,7 +41,7 @@ export class Utils {
   }
 
   static push(navCtrl: NavController, component: Function, params?: any): Promise<any> {
-    return navCtrl.push(component, {}, params, Utils.forwardAnimation());
+    return navCtrl.push(component, params || {}, Utils.forwardAnimation());
   }
 
   static log(message: string, ...args: any[]) : void {
