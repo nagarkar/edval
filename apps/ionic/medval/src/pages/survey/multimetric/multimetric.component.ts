@@ -47,7 +47,6 @@ export class MultimetricComponent extends SurveyPage {
     idle: Idle,
     utils: Utils,
     navCtrl: NavController,
-    loadingCtrl: LoadingController,
     sessionSvc: SessionService,
     navParams: NavParams,
     tokenProvider: AccessTokenService,
@@ -55,7 +54,7 @@ export class MultimetricComponent extends SurveyPage {
     private metricSvc: MetricService,
     ) {
 
-    super(loadingCtrl, navCtrl, sessionSvc, idle);
+    super(navCtrl, sessionSvc, idle);
 
     this.rootMetricId = navParams.get('rootMetricId');
     this.metricIds    = navParams.get('metricIds');

@@ -60,12 +60,11 @@ export class TopInfluencerComponent extends SurveyPage {
     sessionSvc: SessionService,
     utils: Utils,
     navCtrl: NavController,
-    loadingCtrl: LoadingController,
     private accountSvc: AccountService,
     private metricSvc: MetricService,
     private sReplacer: SReplacer) {
 
-    super(loadingCtrl, navCtrl, sessionSvc, idle);
+    super(navCtrl, sessionSvc, idle);
 
     try {
 

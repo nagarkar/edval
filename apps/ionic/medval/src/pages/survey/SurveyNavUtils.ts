@@ -14,7 +14,7 @@ import {StartWithSurveyOption} from "./start/start.with.survey.option.component"
 import {SpinnerDialog} from "ionic-native";
 
 export class SurveyNavUtils {
-  public static navigateOrTerminate(navigator: SurveyNavigator, loadingCtrl: LoadingController, navCtrl: NavController, ...terminationMessage: string[]): Promise<any> {
+  public static navigateOrTerminate(navigator: SurveyNavigator, navCtrl: NavController, ...terminationMessage: string[]): Promise<any> {
     SpinnerDialog.show();
     return new Promise<any>((resolve, reject)=> {
       setTimeout(()=>{

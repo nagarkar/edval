@@ -47,7 +47,6 @@ export class StartWithSurveyOption {
 
   constructor(
     private navCtrl: NavController,
-    private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     utils: Utils,
     private tokenProvider: AccessTokenService,
@@ -95,6 +94,6 @@ export class StartWithSurveyOption {
     }
     this.sessionSvc.newCurrentSession(id);
     this.sessionSvc.scratchPad['defaultOnly'] = this.defaultOnly;
-    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.loadingCtrl, this.navCtrl);
+    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl);
   }
 }

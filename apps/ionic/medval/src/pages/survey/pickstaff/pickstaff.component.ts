@@ -39,12 +39,11 @@ export class PickStaffComponent extends SurveyPage {
     idle: Idle,
     utils: Utils,
     navCtrl: NavController,
-    loadingCtrl: LoadingController,
     sessionSvc: SessionService,
     private staffSvc: StaffService,
     params: NavParams) {
 
-    super(loadingCtrl, navCtrl, sessionSvc, idle);
+    super(navCtrl, sessionSvc, idle);
 
     this.displayCount = params.get('displayCount') || this.displayCount;
     this.roles = params.get("roles") || this.roles;

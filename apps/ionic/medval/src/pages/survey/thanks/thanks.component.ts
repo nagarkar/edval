@@ -62,11 +62,10 @@ export class ThanksComponent extends SurveyPage {
     protected sessionSvc: SessionService,
     private accountSvc: AccountService,
     protected navCtrl: NavController,
-    protected loadingCtrl: LoadingController,
     private modalctrl: ModalController,
     navParams: NavParams) {
 
-    super(loadingCtrl, navCtrl, sessionSvc, idle);
+    super(navCtrl, sessionSvc, idle);
 
     this.message = this.constructMessage(navParams.get('message'));
 

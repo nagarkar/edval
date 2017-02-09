@@ -45,9 +45,9 @@ export class CustomerTextEmailComponent extends SurveyPage {
 
   constructor(
     utils: Utils, navCtrl: NavController, sessionSvc: SessionService, idle: Idle, // For SurveyPage
-    navParams: NavParams, loadingCtrl: LoadingController, private viewCtrl: ViewController, private formBuilder: FormBuilder) {
+    navParams: NavParams, private viewCtrl: ViewController, private formBuilder: FormBuilder) {
 
-    super(loadingCtrl, navCtrl, sessionSvc, idle);
+    super(navCtrl, sessionSvc, idle);
 
     this.message = navParams.get('message') || 'Please provide your email and text.';
     this.phone = navParams.get('phone') || '';

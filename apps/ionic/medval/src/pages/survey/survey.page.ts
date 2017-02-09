@@ -30,7 +30,6 @@ export class SurveyPage {
   static inNavigation:boolean = false;
 
   constructor(
-    protected loadingCtrl: LoadingController,
     protected navCtrl: NavController,
     protected sessionSvc: SessionService,
     protected idle?: Idle) {
@@ -86,7 +85,7 @@ export class SurveyPage {
     SurveyPage.inNavigation = true;
     let navState = this.sessionSvc.surveyNavigator.navState;
     try {
-      SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.loadingCtrl, this.navCtrl, ...terminationMessage)
+      SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl, ...terminationMessage)
         .then(()=>{
           SurveyPage.inNavigation = false;
         })
@@ -108,7 +107,7 @@ export class SurveyPage {
     let surveyId = navigator.survey.id;
     this.sessionSvc.newCurrentSession(surveyId);
     navigator = this.sessionSvc.surveyNavigator; // Refresh the navigator.
-    SurveyNavUtils.navigateOrTerminate(navigator, this.loadingCtrl, this.navCtrl);
+    SurveyNavUtils.navigateOrTerminate(navigator, this.navCtrl);
   }
 
   private stopIdling(subscription?: Subject<number>) {

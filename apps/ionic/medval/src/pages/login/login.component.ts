@@ -17,6 +17,7 @@ import {Config} from "../../shared/config";
 import {HttpClient} from "../../shared/stuff/http.client";
 import {Http} from "@angular/http";
 import {Validators, FormControl, FormGroup} from "@angular/forms";
+import {SpinnerDialog} from "ionic-native";
 
 @Component({
   templateUrl: './login.component.html'
@@ -37,7 +38,6 @@ export class LoginComponent {
 
   constructor(
     private navCtrl: NavController,
-    private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
     private accSetupSvc: AccountSetupService,
@@ -71,8 +71,7 @@ export class LoginComponent {
     let username: string = this.loginForm.controls[ 'username' ].value.trim().toLowerCase();
     let password: string = this.loginForm.controls[ 'password' ].value.trim();
 
-    let loading = this.loadingCtrl.create();
-    loading.present();
+    SpinnerDialog.show();
 
     let finishedLoginProcess = false;
     setTimeout(()=>{
@@ -87,13 +86,13 @@ export class LoginComponent {
         if(token) {
           this.navigateToDashboardPage();
           finishedLoginProcess = true;
-          loading.dismissAll();
+          SpinnerDialog.hide();
         }
         if(err) {
           Utils.error("LoginComponent.login().startNewSession:" + err);
           Utils.presentTopToast(this.toastCtrl, "Login Failed with error: " + err + ". Please try again!");
           finishedLoginProcess = true;
-          loading.dismissAll();
+          SpinnerDialog.hide();
         }
       });
   }

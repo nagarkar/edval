@@ -67,14 +67,13 @@ export class HandleComplaintComponent extends SurveyPage {
     idle: Idle,
     utils: Utils,
     navCtrl: NavController,
-    loadingCtrl: LoadingController,
     navParams: NavParams,
     sessionSvc: SessionService,
     tokenProvider: AccessTokenService,
     accountSvc: AccountService,
     private emailProviderService: EmailProviderService
   ) {
-    super(loadingCtrl, navCtrl, sessionSvc, idle);
+    super(navCtrl, sessionSvc, idle);
 
     this.account =  accountSvc.getCached(Config.CUSTOMERID);
     this.title = navParams.get('title') || this.title;

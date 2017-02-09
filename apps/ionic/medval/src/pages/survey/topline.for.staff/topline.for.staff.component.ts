@@ -56,13 +56,12 @@ export class ToplineForStaffComponent extends SurveyPage {
     idle: Idle,
     utils: Utils,
     navCtrl: NavController,
-    loadingCtrl: LoadingController,
     sessionSvc: SessionService,
     params: NavParams,
     private staffSvc: StaffService,
     private metricSvc: MetricService) {
 
-    super(loadingCtrl, navCtrl, sessionSvc, idle);
+    super(navCtrl, sessionSvc, idle);
 
     let staffNames: string[] = sessionSvc.getCurrentSession().properties.selectedStaffUserNames;
     if(staffNames.length == 0) {

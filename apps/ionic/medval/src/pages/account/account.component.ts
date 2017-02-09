@@ -13,8 +13,6 @@ import {
   AlertController,
   ToastController,
   NavParams,
-  Loading,
-  LoadingController
 } from "ionic-angular";
 import {Account} from "../../services/account/schema";
 import {AccountService} from "../../services/account/delegator";
@@ -23,6 +21,7 @@ import {AdminComponent} from "../admin.component";
 import {Config} from "../../shared/config";
 import {AccountSetupService, AccountSetup} from "../../services/accountsetup/account.setup.service";
 import {LoginComponent} from "../login/login.component";
+import {SpinnerDialog} from "ionic-native";
 
 @Component({
   selector:'account',
@@ -34,7 +33,6 @@ export class AccountComponent extends AdminComponent {
   constructor(private actionSheetCtrl: ActionSheetController,
               private alertCtrl: AlertController,
               private toastCtrl: ToastController,
-              private loadingCtrl: LoadingController,
               navCtrl: NavController,
               private accountSvc : AccountService,
               private setupService: AccountSetupService,
@@ -107,10 +105,9 @@ export class AccountComponent extends AdminComponent {
     }
   }
 
-  private loading: Loading;
   private static handle: number;
   private tryCreateAccount() {
-    this.loading = Utils.presentLoading(this.loadingCtrl);
+    SpinnerDialog.show();
     let err: string = "";
     if (!this.account.customerId) {
       err += "\nPlease provide an Organization ID";
@@ -199,7 +196,7 @@ export class AccountComponent extends AdminComponent {
   }
 
   private dismissLoadingShowAlertClearInterval(msg: string, navigate?: boolean) {
-    this.loading.dismissAll();
+    SpinnerDialog.hide();
     Utils.presentInvalidEntryAlert(this.alertCtrl, msg)
       .onDidDismiss(()=>{
         if (navigate) {

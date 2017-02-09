@@ -32,7 +32,6 @@ export class Utils {
   public static errData: CircularList<string> = new CircularList<string>(Config.ERR_LENGTH);
 
   constructor(private alertCtrl: AlertController,
-              private loadingCtrl: LoadingController,
               private toastCtrl: ToastController,
               private modalCtrl: ModalController,
               private platform: Platform) {
@@ -203,16 +202,6 @@ export class Utils {
     toast.present();
   }
 
-  static presentLoading(loadingCtrl: LoadingController, duration?: number): Loading {
-    let loading = loadingCtrl.create({
-      spinner: 'ios',
-      duration: duration || null,
-      dismissOnPageChange: true
-    });
-    loading.present();
-    return loading;
-  }
-
   static uploadImage(_options?: CameraOptions) : Promise<string> {
     return new Promise((resolve, reject) => {
       let options: CameraOptions = _options || {
@@ -226,17 +215,6 @@ export class Utils {
           reject(err);
         });
     })
-  }
-
-  static showLoading(loadingCtrl: LoadingController, message?: string, delay?: number) {
-    let loading = loadingCtrl.create({
-      spinner: 'hide',
-      content: message || 'Loading...'
-    });
-    loading.present();
-    setTimeout(() => {
-      loading.dismiss();
-    }, delay || 1000);
   }
 
   static collectUrl(

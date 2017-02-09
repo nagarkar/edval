@@ -32,10 +32,9 @@ export class RequestReviewComponent2 extends SurveyPage {
               utils: Utils,
               navCtrl: NavController,
               sessionSvc: SessionService,
-              private modalCtrl: ModalController,
-              loadingCtrl: LoadingController,) {
+              private modalCtrl: ModalController) {
 
-    super(loadingCtrl, navCtrl, sessionSvc, idle);
+    super(navCtrl, sessionSvc, idle);
   }
 
   navigateToNext() {
