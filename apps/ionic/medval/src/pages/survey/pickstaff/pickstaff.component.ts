@@ -54,7 +54,7 @@ export class PickStaffComponent extends SurveyPage {
   }
 
   gotoLogin() {
-    this.navCtrl.setRoot(LoginComponent);
+    Utils.setRoot(this.navCtrl, LoginComponent);
   }
 
   /** Click handler for the flat carousel. */

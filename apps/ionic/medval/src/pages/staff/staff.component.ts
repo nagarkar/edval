@@ -42,13 +42,13 @@ export class StaffComponent extends AdminComponent  {
   }
 
   public add() {
-    this.navCtrl.push(StaffEditComponent, {}).then(()=>{
+    Utils.push(this.navCtrl, StaffEditComponent, {}).then(()=>{
       this.getStaffList();
     });
   }
 
   public edit(staff : Staff) {
-    this.navCtrl.push(StaffEditComponent, {staffMember: staff}).then(()=>{
+    Utils.push(this.navCtrl, StaffEditComponent, {staffMember: staff}).then(()=>{
       this.getStaffList();
     });
   }

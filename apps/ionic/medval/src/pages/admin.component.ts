@@ -23,7 +23,7 @@ export abstract class AdminComponent implements OnInit {
 
   ngOnInit() {
     if(!Config.isMockData(new Session()) && !AccessTokenService.authResult) {
-      this.navCtrl.setRoot(LoginComponent, {}, Utils.forwardAnimation());
+      Utils.setRoot(this.navCtrl, LoginComponent);
     }
   }
 

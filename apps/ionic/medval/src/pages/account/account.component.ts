@@ -203,7 +203,7 @@ export class AccountComponent extends AdminComponent {
     Utils.presentInvalidEntryAlert(this.alertCtrl, msg)
       .onDidDismiss(()=>{
         if (navigate) {
-          this.navCtrl.setRoot(LoginComponent);
+          Utils.setRoot(this.navCtrl, LoginComponent);
         }
       });
     clearInterval(AccountComponent.handle);

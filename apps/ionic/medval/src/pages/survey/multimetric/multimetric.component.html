@@ -15,11 +15,9 @@
               <span>{{metric.properties.positiveImpact | sReplacer:sReplacerDataPack:true}}</span>
               <ion-range
                 style="padding-top: 1.1em"
-                (tap)="setValue($event, metric)"
                 [(ngModel)]="metricValues[idx]"
                 (ionChange)="setValue($event, metric)"
                 min="1"
-                pin=true
                 max="{{metric.properties.definition.npsType.range}}"
                 snaps="true"
                 debounce=3000

@@ -6,7 +6,7 @@
   <ion-grid *ngIf="displayData.length > 0" style="max-height:100%; padding-top:3em">
     <ion-row center *ngFor="let data of displayData; let idx = index">
       <ion-col width-20>
-        <img class="border" [ngStyle]="styles.img" src="{{data.staff.properties?.photoUrl}}" alt="{{data.staff.displayName}}">
+        <img class="border" [ngStyle]="styles.img" src="{{data.onlyStaff.properties?.photoUrl}}" alt="{{data.onlyStaff.displayName}}">
       </ion-col>
       <ion-col [ngStyle]="styles.text">
           <span>{{data.metric.properties.question | sReplacer:data}}</span>
@@ -19,14 +19,6 @@
       </ion-col>
     </ion-row>
     <ion-row text-center style="-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);position: absolute; display: flex; bottom: 4em; left:5em">
-      <!--
-      <ion-col>
-        <progress-bar [progress]="progress"></progress-bar>
-      </ion-col>
-      <ion-col>
-        <button small ion-button (tap)="cancelAndRestart()">Cancel & Restart</button>
-      </ion-col>
-      -->
       <ion-col>
         <div style="display:block; width:66%">
           <progress-bar style="display:inline" [progress]="progress">
@@ -42,52 +34,3 @@
   </ion-label>
 </ion-content>
 <mdval-footer [reassure]="true"></mdval-footer>
-<!--
-<ion-content class="card-background-page">
-  <mdval-header></mdval-header>
-  <ion-card *ngFor="let data of displayData; let idx = index" style="padding:3em;text-align:center;font-size:1em">
-    <div class="image">
-      <img class="border" src="{{data.staff.properties?.photoUrl}}" alt="">
-    </div>
-    <div>
-      <span class="metricHeading" color="darkgrey">{{data.metric.properties.question}}</span>
-    </div>
-    <p text-center *ngIf="data.metric.isNpsType()">
-      <rating (ratingValueChange)="onSelection(data, $event);"
-              [ratingMax]="data.metric.properties.definition.npsType.range"
-              [ratingValue]="1"></rating>
-    </p>
-    <p text-center *ngIf="data.metric.isTextType()">
-      <textFeedback (textValueChange)="onSelection(data, $event);" ></textFeedback>
-    </p>
-  </ion-card>
-</ion-content>
-<ion-footer>
-  <ion-navbar style="margin:0;padding:0">
-    <div style="margin-left:30%">
-      <ion-list style="margin:0px">
-        <ion-item class="reassure">
-          <ion-icon name="lock" item-left></ion-icon>
-          Your feedback <b>is always anonymous</b>
-        </ion-item>
-      </ion-list>
-    </div>
-  </ion-navbar>
-</ion-footer>
-
-<div class="image">
-  <img class="border" src="assets/img/everything-can-be-better.jpg" alt="">
-</div>
-<div text-center>
-  <span class="metricHeading" color="darkgrey">{{currentMetric?.properties?.question}}</span>
-</div>
-
-<p text-center class="font-large" *ngIf="currentMetric.isNpsType()">
-  <rating (ratingValueChange)="onSelection($event);"
-    [ratingMax]="currentMetric.properties.definition.npsType.range"
-    [ratingValue]="1"></rating>
-</p>
-<p text-center *ngIf="currentMetric.isTextType()">
-  <textFeedback (textValueChange)="onSelection($event);" ></textFeedback>
-</p>
--->

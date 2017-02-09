@@ -29,21 +29,18 @@ export class ThanksComponent extends SurveyPage {
   showJokes: boolean = true;
 
   message: string[];
-  jokes: {}[] = Utils.shuffle([
-    {url: "https://s-media-cache-ak0.pinimg.com/236x/bb/ae/34/bbae349eb7742a734090c978e2058d0c.jpg", style:{'height':'25em'}},
-    {url: "http://www.columbia.edu/~jjp29/images/fit40.gif"},
-    {url: "https://s-media-cache-ak0.pinimg.com/564x/cf/fc/58/cffc58e0f00918f82b8d322d028a843c.jpg", style:{'height':'25em'}},
-    {url: "http://buzzxtra.com/wp-content/uploads/2016/07/funny-dentist-statistic-662x998-662x998_c.jpg", style:{'height':'25em'}},
-    {url: "https://s3.amazonaws.com/lowres.cartoonstock.com/sport-basketball-games-destinies-dentist-dental-smb090602_low.jpg", style:{'height':'25em'}},
-    {url: "https://s-media-cache-ak0.pinimg.com/236x/d2/31/7b/d2317bdc68ef52605828f89b2a0b09d7.jpg", style:{'height':'25em'}},
-    {url: "https://s-media-cache-ak0.pinimg.com/originals/3f/a0/3e/3fa03e3e8a0c0f51f238d25a5f5021e8.jpg", style:{'width':'28em'}},
-    {url: "http://www.columbia.edu/~jjp29/images/fit33.gif"},
-    {url: "http://www.columbia.edu/~jjp29/images/fit34.gif"},
-    {url: "http://www.columbia.edu/~jjp29/images/fit43.gif"},
-    {url: "http://lefunny.net/wp-content/uploads/2014/01/Funny-dentist-drawing.jpg", style:{'width':'30em'}},
-    {url: "https://s3.amazonaws.com/lowres.cartoonstock.com/animals-dentist-tooth-toothcare-tooth_care-clean_teeth-gra070703_low.jpg"},
-    {url: "http://www.you-can-be-funny.com/images/exwifesattorney.jpg", style:{'width':'26em'}},
-    {url: "http://img1.joyreactor.com/pics/post/dentist-flossing-poorly-drawn-lines-comics-2915269.png", style:{'width':'28em'}},
+  jokes = Utils.shuffle([
+    "https://s3.amazonaws.com/revvolveapp/jokes/joke2.gif",
+    "https://s3.amazonaws.com/revvolveapp/jokes/joke3.jpg",
+    "https://s3.amazonaws.com/revvolveapp/jokes/joke5.jpg",
+    "https://s3.amazonaws.com/revvolveapp/jokes/joke6.jpg",
+    "https://s3.amazonaws.com/revvolveapp/jokes/joke7.jpg",
+    "https://s3.amazonaws.com/revvolveapp/jokes/joke8.gif",
+    "https://s3.amazonaws.com/revvolveapp/jokes/joke9.gif",
+    "https://s3.amazonaws.com/revvolveapp/jokes/joke10.gif",
+    "https://s3.amazonaws.com/revvolveapp/jokes/joke11.jpg",
+    "https://s3.amazonaws.com/revvolveapp/jokes/joke13.jpg",
+    "https://s3.amazonaws.com/revvolveapp/jokes/joke13.png",
   ]);
   joke: {} = this.jokes[0];
 
@@ -103,7 +100,7 @@ export class ThanksComponent extends SurveyPage {
 
   private closeSession() {
     this.sessionSvc.closeCurrentSession();
-    this.navCtrl.setRoot(StartWithSurveyOption, {defaultOnly: true})
+    Utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultOnly: true})
   }
 
   private constructMessage(input: any): string[] {

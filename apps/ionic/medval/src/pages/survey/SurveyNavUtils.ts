@@ -29,7 +29,7 @@ export class SurveyNavUtils {
         let params = component == ThanksComponent ? {message: terminationMessage} : navigationTarget.params;
         if (component) {
           try {
-            let promise = navCtrl.setRoot(component, params);
+            let promise = Utils.setRoot(navCtrl, component, params);
             resolve(promise);
           } catch(err) {
             reject(err);
@@ -43,6 +43,6 @@ export class SurveyNavUtils {
   }
 
   static goToStart(navCtrl: NavController) {
-    navCtrl.setRoot(StartWithSurveyOption, {defaultOnly: true});
+    Utils.setRoot(navCtrl, StartWithSurveyOption, {defaultOnly: true});
   }
 }

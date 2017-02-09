@@ -16,7 +16,7 @@ import {
   Modal,
   Platform,
   Loading,
-  AlertInputOptions
+  AlertInputOptions, NavController
 } from "ionic-angular";
 import {CameraOptions, Camera, SpinnerDialog} from "ionic-native";
 import {ErrorType} from "./error.types";
@@ -36,6 +36,14 @@ export class Utils {
               private toastCtrl: ToastController,
               private modalCtrl: ModalController,
               private platform: Platform) {
+  }
+
+  static setRoot(navCtrl: NavController, component: Function, params?: any): Promise<any> {
+    return navCtrl.setRoot(component, params || {}, Utils.forwardAnimation());
+  }
+
+  static push(navCtrl: NavController, component: Function, params?: any): Promise<any> {
+    return navCtrl.push(component, {}, params, Utils.forwardAnimation());
   }
 
   static log(message: string, ...args: any[]) : void {

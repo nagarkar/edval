@@ -57,7 +57,7 @@ export class SurveyPage {
         return;
       }
       SurveyPage.GOING_TO_ROOT_TEST = true;
-      this.navCtrl.setRoot(StartWithSurveyOption, {defaultOnly: true}).then(()=>{
+      Utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultOnly: true}).then(()=>{
         SurveyPage.GOING_TO_ROOT_TEST = false;
       }).catch((err)=> {SurveyPage.GOING_TO_ROOT_TEST = false; Utils.error(err)});
     })
@@ -93,7 +93,7 @@ export class SurveyPage {
 
   cancelAndRestart() {
     if (this.sessionSvc.hasCurrentSession()) {
-      this.navCtrl.setRoot(StartWithSurveyOption, {defaultOnly: true, cancelPreviousSession: true});
+      Utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultOnly: true, cancelPreviousSession: true});
       return;
     }
     let navigator: SurveyNavigator = this.sessionSvc.surveyNavigator;

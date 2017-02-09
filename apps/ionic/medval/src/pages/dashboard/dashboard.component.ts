@@ -29,11 +29,11 @@ export class DashboardComponent {
   }
 
   gotoHome(): void {
-    this.navCtrl.push(LoginComponent);
+    this.push(LoginComponent);
   }
 
   gotoSettings(): void {
-    this.navCtrl.push(SettingsComponent);
+    this.push(SettingsComponent);
   }
 
   openNavAccountPage() {
@@ -73,11 +73,11 @@ export class DashboardComponent {
   }
 
   private push(component: any) : void {
-    this.navCtrl.push(component);
+    Utils.push(this.navCtrl, component);
   }
 
   private setRoot(component) {
-    this.navCtrl.setRoot(component, {}, Utils.forwardAnimation());
+    Utils.setRoot(this.navCtrl, component);
   }
 }
 

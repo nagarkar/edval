@@ -7,6 +7,7 @@
  */
 import {Component, Input} from "@angular/core";
 import {NavController} from "ionic-angular";
+import {Utils} from "../../stuff/utils";
 
 /**
  * Shows the header, including the account logo. If not logged in, logo is not shown.
@@ -31,10 +32,10 @@ export class HeaderComponent {
   constructor(private navCtrl: NavController) { }
 
   goHome() {
-    this.navCtrl.setRoot(HeaderComponent.HOME_MAP[this.home] || HeaderComponent.DEFAULT_HOME);
+    Utils.setRoot(this.navCtrl, HeaderComponent.HOME_MAP[this.home] || HeaderComponent.DEFAULT_HOME);
   }
 
   goLeftHome() {
-    this.navCtrl.setRoot(HeaderComponent.HOME_MAP[this.leftHome]);
+    Utils.setRoot(this.navCtrl, HeaderComponent.HOME_MAP[this.leftHome]);
   }
 }

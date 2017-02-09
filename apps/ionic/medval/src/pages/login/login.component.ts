@@ -50,7 +50,7 @@ export class LoginComponent {
   }
 
   setupNewAccount() {
-    this.navCtrl.push(AccountComponent, {create: true});
+    Utils.push(this.navCtrl, AccountComponent, {create: true});
   }
 
   forgotPassword() {
@@ -112,14 +112,14 @@ export class LoginComponent {
 
   private navigateToDashboardPage() {
     Utils.log("about to navigate to dashboard");
-    this.navCtrl.setRoot(DashboardComponent);
+    Utils.setRoot(this.navCtrl, DashboardComponent);
   }
 
   public gotoHome() {
-    this.navCtrl.setRoot(LoginComponent);
+    Utils.setRoot(this.navCtrl, LoginComponent);
   }
 
   public gotoSettings() {
-    this.navCtrl.push(SettingsComponent);
+    Utils.push(this.navCtrl, SettingsComponent);
   }
 }
