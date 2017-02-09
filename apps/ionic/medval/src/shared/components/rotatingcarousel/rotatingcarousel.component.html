@@ -37,28 +37,8 @@
     <ion-row text-center>
       <ion-col>
         <button ion-button color="green" [disabled]="selectedItems.length != 0" (tap)="finished()">I don't see the right people in the list</button>
-        <button [ngClass]="{pulse: selectedItems.length > 0}" ion-button color="green" [disabled]="selectedItems.length == 0" (tap)="finished()">Done</button>
+        <button [ngClass]="{'pulse-once': selectedItems.length > 0}" ion-button color="green" [disabled]="selectedItems.length == 0" (tap)="finished()">Done</button>
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
-
-<!--
-        <div [ngSwitch]="selectedItems.length">
-          <div *ngSwitchCase="0">
-            <div class="selected-item">
-              <img src="assets/img/placeholder.png" class="image" />
-            </div>
-          </div>
-          <div *ngSwitchDefault>
-            <span *ngFor="let selectedItem of selectedItems">
-              <div class="selected-item">
-                <button ion-button color="danger" (tap)="removeItem(selectedItem)"><ion-icon name="close"></ion-icon>
-                </button>
-                <img src="{{selectedItem.imgUrl}}" class="image" />
-              </div>
-            </span>
-          </div>
-        </div>
-
--->

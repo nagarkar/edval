@@ -5,7 +5,7 @@
  * of this application without permission. Copying and re-posting on another
  * site or application without licensing is strictly prohibited.
  */
-import {Component, Input} from "@angular/core";
+import {Component, Input, OnInit, OnDestroy} from "@angular/core";
 import {NavController, NavParams, ToastController} from "ionic-angular";
 import {LoginComponent} from "../../login/login.component";
 import {Utils} from "../../../shared/stuff/utils";
@@ -22,8 +22,9 @@ import {Survey} from "../../../services/survey/schema";
   templateUrl: './start.with.survey.option.component.html'
 })
 
-export class StartWithSurveyOption {
+export class StartWithSurveyOption implements OnInit, OnDestroy{
 
+  private cycler: ObjectCycler<string>;
   private images = [
     'https://s3.amazonaws.com/revvolveapp/quotes/quote1.jpg',
     'https://s3.amazonaws.com/revvolveapp/quotes/quote2.jpg',
@@ -60,20 +61,20 @@ export class StartWithSurveyOption {
   }
 
   ngOnInit() {
-    new ObjectCycler<string>(null, ...this.images)
-      .onNewObj.subscribe((next:string)=>this.leftImage = next);
+    this.cycler = new ObjectCycler<string>(null, ...this.images);
+    this.cycler.onNewObj.subscribe((next:string)=>this.leftImage = next);
     this.surveySvc.list().then((surveys: Survey[]) => {
       this.surveys = surveys;
       this.surveys.filter((survey: Survey)=> {
         return survey.id == 'default';
       })
     });
-    setTimeout(()=>{
-      if (this.navCtrl.getActive().component == StartWithSurveyOption) {
-        Utils.log("Refreshing Start Page");
-        Utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultOnly: this.defaultOnly});
-      }
-    }, 5 * 60 * 1000)
+  }
+
+  ngOnDestroy(){
+    if (this.cycler) {
+      this.cycler.ngOnDestroy();
+    }
   }
 
   gotoLogin() {

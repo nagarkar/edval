@@ -5,7 +5,7 @@
  * of this application without permission. Copying and re-posting on another
  * site or application without licensing is strictly prohibited.
  */
-import {Component} from "@angular/core";
+import {Component, OnInit, OnDestroy} from "@angular/core";
 import {NavController, NavParams, Modal, ModalController} from "ionic-angular";
 import {Config} from "../../../shared/config";
 import {Utils} from "../../../shared/stuff/utils";
@@ -22,13 +22,14 @@ import {AnyDetractors} from "../../../services/survey/survey.functions";
 @Component({
   templateUrl: './thanks.component.html',
 })
-export class ThanksComponent extends SurveyPage {
+export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
 
   whatToShow: string = "joke";
   showWheel: boolean = false;
   showJokes: boolean = true;
 
   message: string[];
+  cycler: ObjectCycler<string>;
   jokes = Utils.shuffle([
     "https://s3.amazonaws.com/revvolveapp/jokes/joke2.gif",
     "https://s3.amazonaws.com/revvolveapp/jokes/joke3.jpg",
@@ -69,12 +70,21 @@ export class ThanksComponent extends SurveyPage {
 
     this.message = this.constructMessage(navParams.get('message'));
 
+  }
+
+  ngOnInit() {
     let isPromoterOrMiddle = (new AnyDetractors().execute(this.sessionSvc.surveyNavigator, {}) == "false");
 
     if (isPromoterOrMiddle) {
-      new ObjectCycler<any>(Config.TIME_PER_JOKE, ...this.jokes)
-        .onNewObj.subscribe((next:{}) => { this.joke = next;});
+      this.cycler = new ObjectCycler<string>(Config.TIME_PER_JOKE, ...this.jokes)
+        .onNewObj.subscribe((next:string) => { this.joke = next;});
       this.setupAttractions();
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.cycler) {
+      this.cycler.ngOnDestroy();
     }
   }
 
