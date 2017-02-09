@@ -10,6 +10,9 @@
 }
 
 .selected-icon {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   position: absolute;
   top: 0em;
   right: 0em;
@@ -32,6 +35,9 @@
 }
 
 .new-badge {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   padding: .25em;
   width: 1.5em;
   height: 1.5em;

@@ -3,6 +3,9 @@
 }
 
 .right-label {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   color: black;
   font-size: small;
   position: absolute;
@@ -14,6 +17,9 @@
 }
 
 .left-label {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   color: black;
   font-size: small;
   position: absolute;

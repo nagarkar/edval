@@ -6,6 +6,9 @@
  * site or application without licensing is strictly prohibited.
  */
 .arrow-box {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
@@ -27,6 +30,9 @@
   font-size: 11px;
 }
 .arrow-box:after {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   bottom: 100%;
   left: 50%;
   border: solid transparent;

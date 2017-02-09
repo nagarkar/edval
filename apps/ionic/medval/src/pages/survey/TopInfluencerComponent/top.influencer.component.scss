@@ -6,12 +6,18 @@
  * site or application without licensing is strictly prohibited.
  */
 .pos-rel {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   position: relative;
   margin-top: 25px;
 }
 /*Custom badge*/
 
 .cstm-badge {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   padding: .2em;
   width: 1.5em;
   height: 1.5em;

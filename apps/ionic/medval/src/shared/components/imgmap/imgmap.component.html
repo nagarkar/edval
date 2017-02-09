@@ -1,5 +1,5 @@
 <div class="pos-rel">
-  <canvas style="position:absolute" #canvasEl (click)="handleClick($event)"></canvas>
+  <canvas style="-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);position:absolute" #canvasEl (click)="handleClick($event)"></canvas>
   <ion-icon class='imgmapicon' *ngIf="showIcon" [color]="color" isActive=true name="{{iconName}}"
     [ngStyle]="iconStyle">
   </ion-icon>

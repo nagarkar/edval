@@ -6,6 +6,9 @@
  * site or application without licensing is strictly prohibited.
  */
 .carousel-container {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   padding: 2em 0;
   margin: 0 auto;
   width: 8em;
@@ -24,6 +27,9 @@
   }
 }
 .carousel {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   height: 100%;
   width: 100%;
   position: absolute;
@@ -31,6 +37,9 @@
   transition: transform 1s;
 }
 .carousel-slide-item {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   display: block;
   position: absolute;
   background: color($colors, revvolve2);
@@ -48,6 +57,9 @@
   }
 
   .selected-icon {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+
     position: absolute;
     top: -.25em;
     right: -.10em;
@@ -61,12 +73,18 @@
   padding-top: 10em;
   z-index: 1000;
   .selected-item {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+
     position: relative;
     display: inline-block;
     width: 6em;
     /*height: 8em; */
     margin-left: 0.3em;
     .button {
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+
       position: absolute;
       right: .45em;
       margin: 0em;

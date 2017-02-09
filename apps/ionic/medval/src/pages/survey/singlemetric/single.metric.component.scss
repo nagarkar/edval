@@ -8,11 +8,17 @@
 .card-background-page {
 
   ion-card {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+
     position: relative;
     text-align: center;
   }
 
   .card-conversation-setup {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+
     font-size: 1.0em;
     position: absolute;
     top: 4em;
@@ -22,6 +28,9 @@
 
 
   .card-title {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+
     position: absolute;
     top: 3em;
     font-size: 2.0em;
@@ -31,6 +40,9 @@
   }
 
   .card-subtitle {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+
     font-size: 2.0em;
     position: absolute;
     top: 5.05em;

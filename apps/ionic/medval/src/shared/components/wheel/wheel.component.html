@@ -10,7 +10,7 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <button small clear style="position:absolute; left: 1em" [disabled]="wheelSpinning" (tap)="startSpin()" ion-button>
+        <button small clear style="-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);position:absolute; left: 1em" [disabled]="wheelSpinning" (tap)="startSpin()" ion-button>
           <img src="{{wheelSpinning? 'assets/img/spin_off.png' : 'assets/img/spin_on.png'}}"/>
         </button>
         <div class="the_wheel">

@@ -9,6 +9,9 @@
       min-height: 11.5em;
       margin-left: 0.3em;
       .default {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+
         position:relative;
         img.image {
           border: 2px solid color($colors, green);
@@ -36,6 +39,9 @@
           font-size: 0.6em;
         }
         .selected-icon {
+          -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+
           position: absolute;
           top: 0em;
           left: 0em;
@@ -67,12 +73,18 @@
   padding-top: 1em;
   z-index: 1000;
   .selected-item {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+
     position: relative;
     display: inline-block;
     width: 6em;
     /*height: 8em; */
     margin-left: 0.3em;
     .button {
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+
       position: absolute;
       right: 0em;
       margin: 0em;
@@ -89,6 +101,9 @@
       height: 8em;
     }
     .selected-icon {
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+
       position: absolute;
       top: 0em;
       right: 0em;

@@ -6,6 +6,9 @@
  * site or application without licensing is strictly prohibited.
  */
 .progress-bar {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   height: 1.5em;
   width: 80%;
   padding: 0 2px 0px 0;
@@ -15,6 +18,9 @@
   position: relative;
   display: inline-block;
   span {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+
     text-align: center;
     display: block;
     position:relative;
@@ -29,6 +35,9 @@
 }
 
 .progress-bar-side-button {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   display: inline-block;
   position: absolute;
   height: 1.9em;

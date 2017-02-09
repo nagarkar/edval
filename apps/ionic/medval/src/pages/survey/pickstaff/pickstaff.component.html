@@ -9,7 +9,7 @@
   <rotating-carousel [slides]="slides" (done)="navigateToNext()" (imageClicked)="imageClick($event);">
   </rotating-carousel>
 
-  <div text-center style="z-index:100; position: absolute; display: flex; bottom: 4em; left:5em; width:100%">
+  <div text-center style="z-index:100; -webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);position: absolute; display: flex; bottom: 4em; left:5em; width:100%">
     <div style="display:block; width:66%">
       <progress-bar style="display:inline" [progress]="progress">
       </progress-bar>

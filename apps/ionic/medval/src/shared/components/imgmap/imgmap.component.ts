@@ -68,7 +68,9 @@ export class ImageMapComponent {
     this.iconStyle = {
       'color': this.color,
       'font-size': '3em',
-      'position':'absolute'
+      'position':'absolute',
+      '-webkit-transform': 'translate3d(0, 0, 0)',
+      'transform': 'translate3d(0, 0, 0)'
     }
   }
 

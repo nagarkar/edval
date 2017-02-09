@@ -6,6 +6,9 @@
  * site or application without licensing is strictly prohibited.
  */
 .ui-autocomplete {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   width: 100%;
   zoom: 1;
   -moz-box-shadow: none;
@@ -21,6 +24,9 @@
 }
 
 .ui-autocomplete-panel {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   position: absolute;
   overflow: auto;
 }
