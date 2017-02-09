@@ -99,14 +99,15 @@ export class SurveyPage {
   }
 
   cancelAndRestart() {
-    if (this.sessionSvc.hasCurrentSession()) {
-      Utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultOnly: true, cancelPreviousSession: true});
+    let sessionSvc = this.sessionSvc;
+    if (sessionSvc.hasCurrentSession()) {
+      Utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultOnly: sessionSvc.scratchPad['defaultOnly'], cancelPreviousSession: true});
       return;
     }
-    let navigator: SurveyNavigator = this.sessionSvc.surveyNavigator;
+    let navigator: SurveyNavigator = sessionSvc.surveyNavigator;
     let surveyId = navigator.survey.id;
-    this.sessionSvc.newCurrentSession(surveyId);
-    navigator = this.sessionSvc.surveyNavigator; // Refresh the navigator.
+    sessionSvc.newCurrentSession(surveyId);
+    navigator = sessionSvc.surveyNavigator; // Refresh the navigator.
     SurveyNavUtils.navigateOrTerminate(navigator, this.navCtrl);
   }
 

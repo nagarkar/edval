@@ -114,7 +114,7 @@ export class ToplineForStaffComponent extends SurveyPage {
         rootMetric = Object.assign<Metric, Metric>(new Metric(), rootMetric);
         rootMetric.subject = Metric.createStaffSubject(staff.username);
       }
-      displayData.push({onlyStaff: staff, role: role, metric: rootMetric});
+      displayData.push({staff: [staff], onlyStaff: staff, metric: rootMetric});
     }
     return displayData;
   }

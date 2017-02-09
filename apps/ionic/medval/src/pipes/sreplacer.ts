@@ -50,6 +50,23 @@ export class SReplacer implements PipeTransform {
     }
   }
 
+  /**
+   * Transform the expression, replacing any scripted values.
+   * 
+   * @param expression The expression to evaluate.
+   * @param dataMap Additional attributes to pass in (staff, onlyStaff, role, metric) or override (staffSvc).
+   * Certain attributes like account, accountSvc, session cannot be overriden.
+   * @param fresh Whether to return a fresh copy, as opposed to a cached copy. Defaults to false.
+   * If fresh is true, the returned expression is not cached.
+   * When  passing in the dataMap, keep the following in mind:
+   * 1. If you are trying to represent a particular staff member, pass in the correct staff and dataMap.onlyStaff.
+   * Other attributes are optional.
+   * 2. If you are trying to represent a class of people, e.g. all ortho assistants, pass in the role. Other attributes
+   * are optional. If there is an existing session with selected staff, the class will be the interseciton of all
+   * staff with the given role. Otherwise, it will be all the staff in that role.
+   * 3. If you are just trying to represent the account, pass in a null dataMap.
+   * @returns {string} The expression value.
+   */
   transform(expression: string, dataMap?: SReplacerDataMap, fresh?: boolean ): string {
     let func: Function = this.getFunctionForExpression(expression, fresh);
     let localDataMap: SReplacerDataMap = {};
@@ -93,11 +110,7 @@ export class SReplacer implements PipeTransform {
 
   private decideStaffFor(dataMap: SReplacerDataMap): Staff[] {
     if (dataMap && dataMap.staff) {
-      if(Array.isArray(dataMap.staff) && dataMap.staff.length > 0){
-        return dataMap.staff;
-      } else if (dataMap.staff.constructor.name == 'Staff') {
-        return [Object.assign(new Staff(), dataMap.staff)];
-      }
+      return dataMap.staff;
     }
     if (this.sessionSvc.hasCurrentSession()) {
       let names: string[] = this.sessionSvc.getCurrentSession().properties.selectedStaffUserNames;
@@ -122,13 +135,16 @@ export class SReplacer implements PipeTransform {
     return null;
   }
 
-  private decideOnlyStaff(localDataMap: SReplacerDataMap) {
-    let metric: Metric = localDataMap.metric;
-    let staffs: Staff[] = localDataMap.staff;
+  private decideOnlyStaff(dataMap: SReplacerDataMap) {
+    if (dataMap && dataMap.onlyStaff) {
+      return dataMap.onlyStaff;
+    }
+    let metric: Metric = dataMap.metric;
+    let staffs: Staff[] = dataMap.staff;
     if (!staffs) {
       return null;
     }
-    let role = localDataMap.role;
+    let role = dataMap.role;
     if (role) {
       staffs = staffs.filter((staff: Staff)=>{
         return staff.role == role;

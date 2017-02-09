@@ -48,7 +48,7 @@ export class StaffService extends DelegatingService<Staff> {
     if (staffListIntermediate.length == 0 && staffList) {
       staffListIntermediate = staffList;
     }
-    return this.getFirstNames(staffList);
+    return this.getFirstNames(staffListIntermediate);
   }
 
   filterStaffByRole(staffList: Staff[], role: string) : Staff[]{
