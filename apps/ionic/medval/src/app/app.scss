@@ -292,27 +292,31 @@
 }
 
 .pulse {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   box-shadow: 0 0 0 0 rgba(85, 57, 130, 0.7);
   -webkit-animation: pulse1em 1.75s infinite cubic-bezier(0.66, 0, 0, 1);
   -moz-animation: pulse1em 1.75s infinite cubic-bezier(0.66, 0, 0, 1);
   -ms-animation: pulse1em 1.75s infinite cubic-bezier(0.66, 0, 0, 1);
   animation: pulse1em 1.75s infinite cubic-bezier(0.66, 0, 0, 1);
-  -webkit-transform: translateZ(0);
 }
 
 .pulse-once {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   box-shadow: 0 0 0 0 rgba(85, 57, 130, 0.7);
   -webkit-animation: pulse1em 2s 1 cubic-bezier(0.66, 0, 0, 1);
   -moz-animation: pulse1em 2s 1 cubic-bezier(0.66, 0, 0, 1);
   -ms-animation: pulse1em 2s 1 cubic-bezier(0.66, 0, 0, 1);
   animation: pulse1em 2s 1 cubic-bezier(0.66, 0, 0, 1);
-  -webkit-transform: translateZ(0);
-  -moz-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
 }
 
 .circleicon {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
   button {
     width: 7em;
     height: 7em;
@@ -334,12 +338,6 @@
   -moz-animation: pulse2em 3s 1s infinite cubic-bezier(.14,.77,0,.99);
   -ms-animation: pulse2em 3s 1s infinite cubic-bezier(.14,.77,0,.99);
   animation: pulse2em 3s 1s infinite cubic-bezier(.14,.77,0,.99);
-
-  -webkit-transform: translateZ(0);
-  -moz-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
-
 }
 
 @-webkit-keyframes pulse2em {to {box-shadow: 0 0 0 2em rgba(0, 232, 0, 0);}}

@@ -37,7 +37,7 @@
   line-height: 1.6em;
   white-space: normal;
   background-color: #553982;
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 1, 0.9), 0 6px 20px 0 rgba(100, 47, 47, 0.19);
+  //box-shadow: 0 8px 16px 0 rgba(0, 0, 1, 0.9), 0 6px 20px 0 rgba(100, 47, 47, 0.19);
   border-radius: 2em !important;
   span {
     padding: .5em 0 .5em 0;
@@ -48,7 +48,7 @@
 /*Custom button pressed*/
 
 .cstm-btn-pressed {
-  box-shadow: inset 0 0 0 1px rgba(81, 1, 1, 0.2), inset 0 5px 30px rgba(100, 47, 47, 0.19);
+  //box-shadow: inset 0 0 0 1px rgba(81, 1, 1, 0.2), inset 0 5px 30px rgba(100, 47, 47, 0.19);
 }
 
 .button-md:hover:not(.disable-hover) {
