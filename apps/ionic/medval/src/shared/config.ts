@@ -69,7 +69,7 @@ export class Config {
     "Session": false,
     "Metric": true,
     "Account": false,
-    "Staff": true,
+    "Staff": false,
     "Survey": true,
     "Campaign": true,
     "DailyDataList": true,

@@ -320,8 +320,8 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         avgSteps: 6,
         showJokes: false,
         showWheel: true,
-        award:10,
-        costPerUse: 2
+        award:5,
+        costPerUse: 1
       },
       workflow:[
         {

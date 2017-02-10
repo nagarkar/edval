@@ -58,6 +58,8 @@ export class AccessTokenService {
     username : string,
     password : string,
     fn: (result: AuthResult, err: any)=> void) {
+
+    Utils.log("Trying to log in {0} ", username);
     this.callback = fn;
     this._username = username;
     var authenticationData: {Username: string, Password: string} = {
@@ -106,7 +108,8 @@ export class AccessTokenService {
 
   private startAuthenticatingUser(initializeAttributes: boolean): void {
     var me = this;
-    AWSCognito.config.update({accessKeyId: 'anything', secretAccessKey: 'anything'})
+    Utils.log("Starting Authentication");
+    //AWSCognito.config.update({accessKeyId: 'anything', secretAccessKey: 'anything'})
     this._cognitoUser.authenticateUser(this.authenticationDetails, {
       onSuccess: (session) => {
         Utils.log("AccessTokenSvc.onSuccess");
@@ -194,7 +197,8 @@ export class AccessTokenService {
     return this.authenticationDetails
       && this.authenticationDetails['username'] == authenticationData.Username
       && this.authenticationDetails['password'] == authenticationData.Password
-      && + this.lastAuthTokenCreationTime + 70 * 60 * 10000 > Date.now();
+      && this.loggedInAtLeastOnceBefore()
+      && this.lastAuthTokenCreationTime + 70 * 60 * 10000 > Date.now();
   }
 
   processUserInitiatedLoginSuccess() {
@@ -209,6 +213,10 @@ export class AccessTokenService {
     let now = Date.now();
     let authTokenAge = now - this.lastAuthTokenCreationTime;
     return authTokenAge > 30 * 60 * 1000;
+  }
+
+  private loggedInAtLeastOnceBefore() {
+    return this.lastAuthTokenCreationTime != Infinity;
   }
 }
 
