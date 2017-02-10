@@ -22,6 +22,8 @@ import {ErrorType} from "./error.types";
 import {Config} from "../config";
 import {AwsClient} from "../aws/aws.client";
 import {CircularList} from "./circular.list";
+import {AccessTokenService} from "../aws/access.token.service";
+import {LoginComponent} from "../../pages/login/login.component";
 
 @Injectable()
 export class Utils {
@@ -460,6 +462,12 @@ export class Utils {
   }
   static isString(obj: any) {
     return Object.prototype.toString.call(obj) == '[object String]';
+  }
+
+  static logoutIfNecessary(navCtrl: NavController) {
+    if (!AccessTokenService.authResult) {
+      navCtrl.setRoot(LoginComponent);
+    }
   }
 }
 

@@ -55,7 +55,7 @@ export class Config {
     ClientId : Config.AWS_CONFIG.CLIENT_ID,
   };
 
-  static REFRESH_ACCESS_TOKEN: number = 5 * 60 * 1000;
+  static ACCESS_TOKEN_REFRESH_TIME: number = 1 * 60 * 1000;
 
   static SURVEY_PAGE_IDLE_SECONDS: number = 60;
   static SURVEY_PAGE_TIMEOUT_SECONDS: number = 60;

@@ -22,9 +22,7 @@ export abstract class AdminComponent implements OnInit {
   constructor(protected  navCtrl: NavController) { }
 
   ngOnInit() {
-    if(!Config.isMockData(new Session()) && !AccessTokenService.authResult) {
-      Utils.setRoot(this.navCtrl, LoginComponent);
-    }
+    Utils.logoutIfNecessary(this.navCtrl);
   }
 
 }

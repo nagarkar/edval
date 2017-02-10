@@ -45,6 +45,8 @@ export class SurveyPage {
   static GOING_TO_ROOT_TEST: boolean = false;
   ngOnInit() {
 
+    Utils.logoutIfNecessary(this.navCtrl);
+
     let idle = this.idle;
     if (!idle) {
       return;

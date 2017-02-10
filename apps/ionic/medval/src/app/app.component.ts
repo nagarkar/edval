@@ -26,6 +26,7 @@ import {Http} from "@angular/http";
 import {HttpClient} from "../shared/stuff/http.client";
 import {Utils} from "../shared/stuff/utils";
 import {Config} from "../shared/config";
+import {AccessTokenService} from "../shared/aws/access.token.service";
 
 @Component({
   template: `<ion-nav [root]="rootPage" [rootParams]="rootParams"></ion-nav>`
@@ -35,8 +36,11 @@ export class RevvolveApp {
   static internetCheckHandle: number;
   rootPage = LoginComponent;
   rootParams = {defaultOnly: true}
+  connectionRetries: number;
 
-  constructor(platform: Platform, serviceFactory: ServiceFactory, http: Http) {
+  constructor(platform: Platform, serviceFactory: ServiceFactory, http: Http, private tokenSvc: AccessTokenService) {
+    this.resetConnectionRetries();
+
     platform.ready().then(() => {
       // The platform is ready and our plugins are available.
       StatusBar.styleDefault();
@@ -69,9 +73,19 @@ export class RevvolveApp {
     RevvolveApp.internetCheckHandle = setInterval(()=>{
       client.ping().catch((err)=>{
         alert('You may not have a working internet connection. Please check your Wifi and/or data service settings.')
+        this.connectionRetries--;
+        if (this.connectionRetries <= 0) {
+	  this.resetConnectionRetries()
+          this.tokenSvc.logout();
+        }
       }).then((result)=> {
+        this.resetConnectionRetries();
         Utils.log('Customer: {0}, Ping response {1}, from remote url {2} ', Config.CUSTOMERID, result, Config.pingUrl);
       })
     }, 1 * 60 * 1000);
+  }
+
+  private resetConnectionRetries() {
+    this.connectionRetries = 3;
   }
 }

@@ -61,6 +61,9 @@ export class StartWithSurveyOption implements OnInit, OnDestroy{
   }
 
   ngOnInit() {
+
+    Utils.logoutIfNecessary(this.navCtrl);
+
     this.cycler = new ObjectCycler<string>(null, ...this.images);
     this.cycler.onNewObj.subscribe((next:string)=>this.leftImage = next);
     this.surveySvc.list().then((surveys: Survey[]) => {

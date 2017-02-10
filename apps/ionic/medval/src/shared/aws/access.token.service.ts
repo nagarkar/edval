@@ -18,6 +18,7 @@ declare let AWS:any;
  * For additional implementation details:
  * <link>http://docs.aws.amazon.com/cognito/latest/developerguide/using-amazon-cognito-user-identity-pools-javascript-examples.html</link>
  * and <link>https://github.com/awslabs/aws-cognito-angular2-quickstart/blob/master/src/app/service/cognito.service.ts</link>
+ * and <link>https://github.com/aws/amazon-cognito-identity-js/blob/master/src/CognitoUser.js</link>
  */
 @Injectable()
 export class AccessTokenService {
@@ -25,14 +26,13 @@ export class AccessTokenService {
   private lastAuthTokenCreationTime: number = Infinity;
 
   private _cognitoUser : any = null;
+  private loginErrors: number = -1;
   private _username : string = null;
   private authenticationDetails: any = null;
   private userPool: any = null;
 
   // Visible for Testing
   static authResult: AuthResult = null;
-
-  private callback: (result?: AuthResult, err?: any) => void;
 
   private static authenticatingIntervalTimer : number;
 
@@ -44,10 +44,8 @@ export class AccessTokenService {
 
   public logout() : void {
     AwsClient.flushLogs();
-    this._cognitoUser = null;
-    this.clearAuthenticatingIntervalTimerIfValid();
-    Config.CUSTOMERID = null;
     AwsClient.clearEverything();
+    this.clearLoginSignals();
   }
 
   public supposedToBeLoggedIn(): boolean {
@@ -57,10 +55,22 @@ export class AccessTokenService {
   public startNewSession(
     username : string,
     password : string,
-    fn: (result: AuthResult, err: any)=> void) {
+    callback: (result: AuthResult, err: any)=> void) {
 
+    if (this.loginErrors >= 0) {
+      return; // we're still in the process of trying to log in.
+    }
+    this.tryStartNewSession(username, password, callback);
+  }
+
+  private tryStartNewSession(
+    username : string,
+    password : string,
+    callback: (result: AuthResult, err: any)=> void,
+    loginErrors?: number) {
+
+    this.loginErrors = loginErrors || 0;
     Utils.log("Trying to log in {0} ", username);
-    this.callback = fn;
     this._username = username;
     var authenticationData: {Username: string, Password: string} = {
       Username : username,
@@ -68,7 +78,7 @@ export class AccessTokenService {
     };
 
     if (this.sameUserAuthenticatingWithinShortPeriod(authenticationData) && !this.authTokenIsOld()) {
-      this.processUserInitiatedLoginSuccess();
+      this.processUserInitiatedLoginSuccess(callback);
       return;
     }
 
@@ -84,55 +94,59 @@ export class AccessTokenService {
     };
 
     this._cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
-    this.startAuthenticatingUser(true);
-    this.startAuthenticatingUserAtIntervals();
+    this.startAuthenticatingUser((result?: AuthResult, err?: any)=>{
+      if (err) {
+        this.loginErrors++;
+      }
+      if (err && this.loginErrors > 1) {
+        this.resetLoginErrors();
+        callback(null, err);
+      } else if (result) {
+        this.resetLoginErrors();
+        callback(result, null);
+      } else {
+        setTimeout(()=>{
+          this.tryStartNewSession(username, password, callback, this.loginErrors);
+        }, 3 * 1000);
+      }
+    });
+    this.refreshAtIntervals();
   }
 
    get cognitoUser(): any {
     return this._cognitoUser;
   }
 
-
-  private startAuthenticatingUserAtIntervals(): void {
+  private refreshAtIntervals(_refreshErrors?: number): void {
     this.clearAuthenticatingIntervalTimerIfValid();
+    let refreshErrors = _refreshErrors || 0;
     AccessTokenService.authenticatingIntervalTimer = setInterval(()=> {
-      this.startAuthenticatingUser(false);
-    }, Config.REFRESH_ACCESS_TOKEN)
+      this._cognitoUser.getSession((err?: any, session?: any)=>{
+        if (err) {
+          refreshErrors++;
+        }
+        if (err && refreshErrors > 2) {
+          this.clearLoginSignals();
+          this.clearAuthenticatingIntervalTimerIfValid();
+        } else if (session) {
+          this.createNewAuthToken(session)
+        } else {
+          this.refreshAtIntervals(refreshErrors);
+        }
+      });
+    }, Config.ACCESS_TOKEN_REFRESH_TIME);
   }
 
-  /**
-   let error: string = null;
-
-   * @returns {Promise<T>|Promise}
-   */
-
-  private startAuthenticatingUser(initializeAttributes: boolean): void {
+  private startAuthenticatingUser(callback): void {
     var me = this;
     Utils.log("Starting Authentication");
     //AWSCognito.config.update({accessKeyId: 'anything', secretAccessKey: 'anything'})
     this._cognitoUser.authenticateUser(this.authenticationDetails, {
       onSuccess: (session) => {
         Utils.log("AccessTokenSvc.onSuccess");
-        this.lastAuthTokenCreationTime = Date.now();
-        AccessTokenService.authResult = new AuthResult(
-          session.getAccessToken().getJwtToken(),
-          session.getIdToken().getJwtToken());
+        this.createNewAuthToken(session);
 
-        // See https://goo.gl/xJsiHp for detailed discussion of how to get credentials.
-        AWS.config.update({
-          credentials : new AWS.CognitoIdentityCredentials({
-            IdentityPoolId: Config.AWS_CONFIG.IDENTITY_POOL_ID,
-            Logins: {
-              'cognito-idp.us-east-1.amazonaws.com/us-east-1_WRjTRJPkD': session.getIdToken().getJwtToken()
-            }
-          }),
-          region: Config.AWS_CONFIG.REGION
-        });
         Utils.log("After aws.config.update");
-
-        if (!initializeAttributes) {
-          return;
-        }
 
         let gotCustomerId = false;
         me._cognitoUser.getUserAttributes((err, result) => {
@@ -148,7 +162,7 @@ export class AccessTokenService {
                   gotCustomerId = true;
                 }
                 Utils.log('Got userattrbute customerid {0}', Config.CUSTOMERID);
-                me.processUserInitiatedLoginSuccess();
+                me.processUserInitiatedLoginSuccess(callback);
               }
             }
             Utils.errorIf(!gotCustomerId, "No customer id found in account attributes");
@@ -156,7 +170,7 @@ export class AccessTokenService {
         });
       },
       onFailure: (err) => {
-        me.callback(null, err);
+        callback(null, err);
       },
       newPasswordRequired: function(userAttributes, requiredAttributes) {
         // User was signed up by an admin and must provide new
@@ -201,9 +215,9 @@ export class AccessTokenService {
       && this.lastAuthTokenCreationTime + 70 * 60 * 10000 > Date.now();
   }
 
-  processUserInitiatedLoginSuccess() {
+  processUserInitiatedLoginSuccess(callback) {
     this.lastAuthTokenCreationTime = Date.now();
-    this.callback(AccessTokenService.authResult);
+    callback(AccessTokenService.authResult);
     AwsClient.reInitialize();
     this.serviceFactory.resetRegisteredServices();
     Utils.log("Completed processUserInitiatedLoginSuccess at time: {0}", this.lastAuthTokenCreationTime);
@@ -217,6 +231,37 @@ export class AccessTokenService {
 
   private loggedInAtLeastOnceBefore() {
     return this.lastAuthTokenCreationTime != Infinity;
+  }
+
+  private createNewAuthToken(session: any) {
+
+    this.lastAuthTokenCreationTime = Date.now();
+
+    AccessTokenService.authResult = new AuthResult(
+      session.getAccessToken().getJwtToken(),
+      session.getIdToken().getJwtToken());
+
+    // See https://goo.gl/xJsiHp for detailed discussion of how to get credentials.
+    AWS.config.update({
+      credentials : new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: Config.AWS_CONFIG.IDENTITY_POOL_ID,
+        Logins: {
+          'cognito-idp.us-east-1.amazonaws.com/us-east-1_WRjTRJPkD': session.getIdToken().getJwtToken()
+        }
+      }),
+      region: Config.AWS_CONFIG.REGION
+    });
+  }
+
+  private clearLoginSignals() {
+    this._cognitoUser = null;
+    Config.CUSTOMERID = null;
+    AccessTokenService.authResult = null;
+    this.clearAuthenticatingIntervalTimerIfValid();
+  }
+
+  private resetLoginErrors() {
+    this.loginErrors = -1;
   }
 }
 
