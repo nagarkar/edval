@@ -122,10 +122,16 @@ export class AccessTokenService {
     let refreshErrors = _refreshErrors || 0;
     AccessTokenService.authenticatingIntervalTimer = setInterval(()=> {
       this._cognitoUser.getSession((err?: any, session?: any)=>{
+
+        // TESTING
+        err = true;
+        // END TEsTING
+
         if (err) {
           refreshErrors++;
         }
         if (err && refreshErrors > 2) {
+          Utils.error("Cleared Login Signals from refreshAtIntervals");
           this.clearLoginSignals();
           this.clearAuthenticatingIntervalTimerIfValid();
         } else if (session) {
@@ -257,6 +263,7 @@ export class AccessTokenService {
     this._cognitoUser = null;
     Config.CUSTOMERID = null;
     AccessTokenService.authResult = null;
+    this.resetLoginErrors();
     this.clearAuthenticatingIntervalTimerIfValid();
   }
 
