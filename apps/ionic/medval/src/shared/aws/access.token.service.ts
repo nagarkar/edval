@@ -127,7 +127,6 @@ export class AccessTokenService {
         return;
       }
       this._cognitoUser.getSession((err?: any, session?: any)=>{
-        err = true;
         if (err) {
           refreshErrors++;
         }
