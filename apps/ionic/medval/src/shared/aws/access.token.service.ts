@@ -132,16 +132,18 @@ export class AccessTokenService {
           refreshErrors++;
         }
         if (err && refreshErrors > 2) {
-          Utils.error("Cleared Login Signals from refreshAtIntervals: {0}", err);
+          Utils.error("Clearing Login Signals from refreshAtIntervals: {0}", err);
           this.clearLoginSignals();
           this.clearAuthenticatingIntervalTimerIfValid();
         } else if (session) {
           this.createNewAuthToken(session)
         } else {
-          this.refreshAtIntervals(refreshErrors);
+          setTimeout(()=>{
+            this.refreshAtIntervals(refreshErrors);
+          }, Config.ACCESS_TOKEN_REFRESH_TIME/3);
         }
       });
-    }, Config.ACCESS_TOKEN_REFRESH_TIME);
+    }, );
   }
 
   private startAuthenticatingUser(internalCallback): void {
