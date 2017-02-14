@@ -34,44 +34,56 @@ export class SurveyPage {
     protected sessionSvc: SessionService,
     protected idle?: Idle) {
 
-    if (sessionSvc.hasCurrentSession()){
-      sessionSvc.recordNavigatedLocationInCurrentSession(Utils.getObjectName(this));
-      this.progress = sessionSvc.surveyNavigator.getProgressFraction();
-    } else {
-      Utils.error("Did not find current session in SurveyPage:" + this.constructor.name);
+    try {
+      if (sessionSvc.hasCurrentSession()) {
+        sessionSvc.recordNavigatedLocationInCurrentSession(Utils.getObjectName(this));
+        this.progress = sessionSvc.surveyNavigator.getProgressFraction();
+      } else {
+        Utils.error("Did not find current session in SurveyPage:" + this.constructor.name);
+      }
+    } catch(err) {
+      this.handleErrorAndCancel(err);
     }
+
   }
 
   static GOING_TO_ROOT_TEST: boolean = false;
   ngOnInit() {
 
-    Utils.logoutIfNecessary(this.navCtrl);
+    try {
 
-    let idle = this.idle;
-    if (!idle) {
-      return;
+      Utils.logoutIfNecessary(this.navCtrl);
+
+      let idle = this.idle;
+      if (!idle) {
+        return;
+      }
+      this.stopIdling();
+      idle.setIdle(this.idleSeconds() || Config.SURVEY_PAGE_IDLE_SECONDS);
+      idle.setTimeout(this.timeoutSeconds() || Config.SURVEY_PAGE_TIMEOUT_SECONDS);
+      idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
+
+      let subscription: Subject<number> = idle.onTimeout.subscribe(() => {
+        try {
+          this.stopIdling(subscription);
+        } catch (err) {
+          return;
+        }
+        if (SurveyPage.GOING_TO_ROOT_TEST == true) {
+          return;
+        }
+        SurveyPage.GOING_TO_ROOT_TEST = true;
+        Utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultOnly: true}).then(()=> {
+          SurveyPage.GOING_TO_ROOT_TEST = false;
+        }).catch((err)=> {
+          SurveyPage.GOING_TO_ROOT_TEST = false;
+          Utils.error(err)
+        });
+      })
+      idle.watch();
+    } catch(err) {
+      this.handleErrorAndCancel(err);
     }
-    this.stopIdling();
-    idle.setIdle(this.idleSeconds() || Config.SURVEY_PAGE_IDLE_SECONDS);
-    idle.setTimeout(this.timeoutSeconds() || Config.SURVEY_PAGE_TIMEOUT_SECONDS);
-    idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
-
-    let subscription: Subject<number> = idle.onTimeout.subscribe(() => {
-      try {
-        this.stopIdling(subscription);
-      } catch(err) {
-        return;
-      }
-      if (SurveyPage.GOING_TO_ROOT_TEST == true) {
-        return;
-      }
-      SurveyPage.GOING_TO_ROOT_TEST = true;
-      Utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultOnly: true}).then(()=>{
-        SurveyPage.GOING_TO_ROOT_TEST = false;
-      }).catch((err)=> {SurveyPage.GOING_TO_ROOT_TEST = false; Utils.error(err)});
-    })
-    idle.watch();
-
   }
 
   /*
@@ -80,8 +92,8 @@ export class SurveyPage {
   }
   */
 
-  public navigateToNext(...terminationMessage: string[]) {
-    if (SurveyPage.inNavigation === true) {
+  public navigateToNext(forceNavigate?: boolean, ...terminationMessage: string[]) {
+    if (!forceNavigate && SurveyPage.inNavigation === true) {
       return;
     }
     SurveyPage.inNavigation = true;
@@ -96,7 +108,6 @@ export class SurveyPage {
           this.sessionSvc.surveyNavigator.navState = navState;
         });
     } finally {
-
     }
   }
 
@@ -122,5 +133,14 @@ export class SurveyPage {
     if (subscription) {
       subscription.unsubscribe();
     }
+  }
+
+  handleErrorAndCancel(err: any) {
+    let errMsg = Utils.format("Unexpected error: {0}, with stack trace {1}", err, err.stack || new Error().stack);
+    Utils.error(errMsg);
+    alert(errMsg);
+    setTimeout(()=>{
+      this.cancelAndRestart();
+    }, 50)
   }
 }

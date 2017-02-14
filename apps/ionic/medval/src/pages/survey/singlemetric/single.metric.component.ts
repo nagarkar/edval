@@ -41,8 +41,11 @@ export class SingleMetricComponent extends SurveyPage {
   ) {
 
     super(navCtrl, sessionSvc, idle);
-
-    this.getMetricById(params.get("metricId"));
+    try {
+      this.getMetricById(params.get("metricId"));
+    } catch (err) {
+      super.handleErrorAndCancel(err);
+    }
   }
 
   private getMetricById(metricId: string) {
@@ -58,6 +61,6 @@ export class SingleMetricComponent extends SurveyPage {
   public onSelection(data: string): void {
     this.sessionSvc.getCurrentSession().addMetricValue(
       this.currentMetric.subject, new MetricValue(this.currentMetric.metricId, data));
-    super.navigateToNext();
+    super.navigateToNext(true /* Force Navigate */);
   }
 }

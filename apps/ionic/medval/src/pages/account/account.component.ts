@@ -61,18 +61,23 @@ export class AccountComponent extends AdminComponent {
   //err: string = "";
 
   ngOnInit(): void {
-    if (!this.isEdit) {
-      return;
+
+    try {
+      if (!this.isEdit) {
+        return;
+      }
+      super.ngOnInit();
+      this.accountSvc.get(Config.CUSTOMERID)
+        .then((account: Account) => {
+          this.account = account;
+        })
+        .catch(err => {
+          Utils.error(err);
+          Utils.presentTopToast(this.toastCtrl, err || "Could not retrieve Account");
+        });
+    } catch(err) {
+      super.handleErrorAndCancel(err);
     }
-    super.ngOnInit();
-    this.accountSvc.get(Config.CUSTOMERID)
-      .then((account: Account) => {
-        this.account = account;
-      })
-      .catch(err => {
-        Utils.error(err);
-        Utils.presentTopToast(this.toastCtrl, err || "Could not retrieve Account");
-      });
   }
 
   ngOnDestroy() {

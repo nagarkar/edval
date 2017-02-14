@@ -56,15 +56,19 @@ export class MultimetricComponent extends SurveyPage {
 
     super(navCtrl, sessionSvc, idle);
 
-    this.rootMetricId = navParams.get('rootMetricId');
-    this.metricIds    = navParams.get('metricIds');
-    this.message      = navParams.get('message')                                || 'Please answer the following questions';
-    this.done         = navParams.get('allowSkipIfNoSelectionsInMetricSubject') || this.done;
-    this.displayCount = navParams.get('displayCount')                           || this.displayCount;
+    try {
+      this.rootMetricId = navParams.get('rootMetricId');
+      this.metricIds    = navParams.get('metricIds');
+      this.message      = navParams.get('message')                                || 'Please answer the following questions';
+      this.done         = navParams.get('allowSkipIfNoSelectionsInMetricSubject') || this.done;
+      this.displayCount = navParams.get('displayCount')                           || this.displayCount;
 
-    this.displayMetrics = this.constructDisplayMetrics(metricSvc);
+      this.displayMetrics = this.constructDisplayMetrics(metricSvc);
 
-    this.sReplacerDataPack = this.constructSReplacerData(metricSvc.getCached(this.rootMetricId));
+      this.sReplacerDataPack = this.constructSReplacerData(metricSvc.getCached(this.rootMetricId));
+    } catch(err) {
+      super.handleErrorAndCancel(err);
+    }
   }
 
   navigateToNext() {
@@ -90,14 +94,6 @@ export class MultimetricComponent extends SurveyPage {
       return replacerData;
     }
     replacerData.metric = rootMetric;
-    /*
-    if (rootMetric.hasRoleSubject()) {
-      replacerData.role = rootMetric.getRoleSubject();
-    } else if (rootMetric.hasStaffSubject()) {
-      let username = rootMetric.getStaffSubject();
-      replacerData.staff = [this.staffSvc.getCached(username)];
-    }
-    */
     return replacerData;
   }
 

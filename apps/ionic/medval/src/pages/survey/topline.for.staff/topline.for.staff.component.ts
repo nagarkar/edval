@@ -63,16 +63,21 @@ export class ToplineForStaffComponent extends SurveyPage {
 
     super(navCtrl, sessionSvc, idle);
 
-    let staffNames: string[] = sessionSvc.getCurrentSession().properties.selectedStaffUserNames;
-    if(staffNames.length == 0) {
-      this.navigateToNext();
+    try {
+
+      let staffNames: string[] = sessionSvc.getCurrentSession().properties.selectedStaffUserNames;
+      if (staffNames.length == 0) {
+        this.navigateToNext(true /* Force Navigate */);
+      }
+
+      this.displayCount = params.get('displayCount') || staffNames.length;
+
+      this.styles = this.createStyles(this.displayCount, staffNames);
+
+      this.displayData = this.setupDisplayData(this.displayCount, staffNames);
+    } catch(err) {
+      super.handleErrorAndCancel(err);
     }
-
-    this.displayCount = params.get('displayCount') || staffNames.length;
-
-    this.styles = this.createStyles(this.displayCount, staffNames);
-
-    this.displayData = this.setupDisplayData(this.displayCount, staffNames);
   }
 
   public onSelection(data: SReplacerDataMap, value: string) {

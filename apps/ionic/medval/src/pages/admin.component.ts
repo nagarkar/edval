@@ -12,6 +12,7 @@ import {LoginComponent} from "./login/login.component";
 import {Utils} from "../shared/stuff/utils";
 import {Session} from "../services/session/schema";
 import {Config} from "../shared/config";
+import {DashboardComponent} from "./dashboard/dashboard.component";
 
 /**
  * Subclasses should implement ngOnInit() and call super.ngOnInit() before calling the account to load
@@ -23,6 +24,15 @@ export abstract class AdminComponent implements OnInit {
 
   ngOnInit() {
     Utils.logoutIfNecessary(this.navCtrl);
+  }
+
+  handleErrorAndCancel(err: any) {
+    let errMsg = Utils.format("Unexpected error: {0}, with stack trace {1}", err, err.stack || new Error().stack);
+    Utils.error(errMsg);
+    alert(errMsg);
+    setTimeout(()=>{
+      this.navCtrl.setRoot(DashboardComponent);
+    }, 50)
   }
 
 }

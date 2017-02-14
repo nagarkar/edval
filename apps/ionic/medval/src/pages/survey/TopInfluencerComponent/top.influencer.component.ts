@@ -111,8 +111,7 @@ export class TopInfluencerComponent extends SurveyPage {
 
       this.rows = Array.from(Array(Math.ceil(this.displayMetrics.length / this.numCols)).keys())
     } catch(err) {
-      Utils.error(err);
-      SurveyNavUtils.goToStart(this.navCtrl);
+      super.handleErrorAndCancel(err);
     }
   }
 

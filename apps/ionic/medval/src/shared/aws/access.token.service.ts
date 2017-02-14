@@ -25,8 +25,8 @@ export class AccessTokenService {
 
   private lastAuthTokenCreationTime: number = Infinity;
 
-  private _cognitoUser : any = null;
-  private loginErrors: number = -1;
+  private _cognitoUser : any;
+  private loginErrors: number;
   private _username : string = null;
   private authenticationDetails: any = null;
   private userPool: any = null;
@@ -36,7 +36,9 @@ export class AccessTokenService {
 
   private static authenticatingIntervalTimer : number;
 
-  constructor(private alertCtrl: AlertController, private serviceFactory: ServiceFactory) {}
+  constructor(private alertCtrl: AlertController, private serviceFactory: ServiceFactory) {
+    this.initState();
+  }
 
   public getUserName() : string {
     return this._username;
@@ -55,18 +57,18 @@ export class AccessTokenService {
   public startNewSession(
     username : string,
     password : string,
-    callback: (result: AuthResult, err: any)=> void) {
+    externalCallback: (result: AuthResult, err: any)=> void) {
 
-    if (this.loginErrors >= 0) {
-      return; // we're still in the process of trying to log in.
+    if(this.currentlyLoggingIn()) {
+      return;
     }
-    this.tryStartNewSession(username, password, callback);
+    this.tryStartNewSession(username, password, externalCallback);
   }
 
   private tryStartNewSession(
     username : string,
     password : string,
-    callback: (result: AuthResult, err: any)=> void,
+    externalCallback: (result: AuthResult, err: any)=> void,
     loginErrors?: number) {
 
     this.loginErrors = loginErrors || 0;
@@ -78,7 +80,7 @@ export class AccessTokenService {
     };
 
     if (this.sameUserAuthenticatingWithinShortPeriod(authenticationData) && !this.authTokenIsOld()) {
-      this.processUserInitiatedLoginSuccess(callback);
+      this.processUserInitiatedLoginSuccess(externalCallback);
       return;
     }
 
@@ -100,13 +102,13 @@ export class AccessTokenService {
       }
       if (err && this.loginErrors > 1) {
         this.resetLoginErrors();
-        callback(null, err);
+        externalCallback(null, err);
       } else if (result) {
         this.resetLoginErrors();
-        callback(result, null);
+        externalCallback(result, null);
       } else {
         setTimeout(()=>{
-          this.tryStartNewSession(username, password, callback, this.loginErrors);
+          this.tryStartNewSession(username, password, externalCallback, this.loginErrors);
         }, 3 * 1000);
       }
     });
@@ -121,17 +123,16 @@ export class AccessTokenService {
     this.clearAuthenticatingIntervalTimerIfValid();
     let refreshErrors = _refreshErrors || 0;
     AccessTokenService.authenticatingIntervalTimer = setInterval(()=> {
+      if (this.currentlyLoggingIn()) {
+        return;
+      }
       this._cognitoUser.getSession((err?: any, session?: any)=>{
-
-        // TESTING
         err = true;
-        // END TEsTING
-
         if (err) {
           refreshErrors++;
         }
         if (err && refreshErrors > 2) {
-          Utils.error("Cleared Login Signals from refreshAtIntervals");
+          Utils.error("Cleared Login Signals from refreshAtIntervals: {0}", err);
           this.clearLoginSignals();
           this.clearAuthenticatingIntervalTimerIfValid();
         } else if (session) {
@@ -143,40 +144,16 @@ export class AccessTokenService {
     }, Config.ACCESS_TOKEN_REFRESH_TIME);
   }
 
-  private startAuthenticatingUser(callback): void {
+  private startAuthenticatingUser(internalCallback): void {
     var me = this;
     Utils.log("Starting Authentication");
     //AWSCognito.config.update({accessKeyId: 'anything', secretAccessKey: 'anything'})
     this._cognitoUser.authenticateUser(this.authenticationDetails, {
       onSuccess: (session) => {
-        Utils.log("AccessTokenSvc.onSuccess");
-        this.createNewAuthToken(session);
-
-        Utils.log("After aws.config.update");
-
-        let gotCustomerId = false;
-        me._cognitoUser.getUserAttributes((err, result) => {
-          if (err) {
-            Utils.log(Utils.format("Error while trying to get cognito user attributes for user {0} , error: {1}",
-              me._username, err));
-          }
-          if (result) {
-            for (let i = 0; i < result.length; i++) {
-              if (result[i].getName() == "custom:organizationName") {
-                Config.CUSTOMERID = result[i].getValue();
-                if (Config.CUSTOMERID) {
-                  gotCustomerId = true;
-                }
-                Utils.log('Got userattrbute customerid {0}', Config.CUSTOMERID);
-                me.processUserInitiatedLoginSuccess(callback);
-              }
-            }
-            Utils.errorIf(!gotCustomerId, "No customer id found in account attributes");
-          }
-        });
+        this.handleSuccessfullAuthentication(session, internalCallback);
       },
       onFailure: (err) => {
-        callback(null, err);
+        internalCallback(null, err);
       },
       newPasswordRequired: function(userAttributes, requiredAttributes) {
         // User was signed up by an admin and must provide new
@@ -185,7 +162,14 @@ export class AccessTokenService {
         Utils.presentAlertPrompt(
           me.alertCtrl,
           (data) => {
-            me._cognitoUser.completeNewPasswordChallenge(data.password, {"email": data.email}, this);
+            me._cognitoUser.completeNewPasswordChallenge(data.password, {"email": data.email}, {
+              onSuccess: function(session) {
+                me.handleSuccessfullAuthentication(session, internalCallback);
+              },
+              onFailure: function(error) {
+                internalCallback(null, error);
+              }
+            });
           },
           "Please choose a new password",
           [
@@ -260,15 +244,58 @@ export class AccessTokenService {
   }
 
   private clearLoginSignals() {
-    this._cognitoUser = null;
+    this.initState();
     Config.CUSTOMERID = null;
-    AccessTokenService.authResult = null;
+  }
+
+  public resetLoginErrors() {
+    this.loginErrors = -1;
+  }
+
+  private currentlyLoggingIn() {
+    return this.loginErrors >= 0;
+  }
+
+  private initState() {
     this.resetLoginErrors();
+    this._cognitoUser = null;
+    this.lastAuthTokenCreationTime = Infinity;
+    AccessTokenService.authResult = null;
     this.clearAuthenticatingIntervalTimerIfValid();
   }
 
-  private resetLoginErrors() {
-    this.loginErrors = -1;
+  private handleSuccessfullAuthentication(session: any, callback) {
+    Utils.log("AccessTokenSvc.onSuccess");
+    this.createNewAuthToken(session);
+
+    Utils.log("After aws.config.update");
+
+    let gotCustomerId = false;
+    this._cognitoUser.getUserAttributes((err, result) => {
+      if (err) {
+        Utils.log(Utils.format("Error while trying to get cognito user attributes for user {0} , error: {1}",
+          this._username, err));
+        this.clearLoginSignals();
+      }
+      if (result) {
+        for (let i = 0; i < result.length; i++) {
+          if (result[i].getName() == "custom:organizationName") {
+            Config.CUSTOMERID = result[i].getValue();
+            if (Config.CUSTOMERID) {
+              gotCustomerId = true;
+            }
+            Utils.log('Got userattrbute customerid {0}', Config.CUSTOMERID);
+            this.processUserInitiatedLoginSuccess(callback);
+          }
+        }
+        if (!gotCustomerId) {
+          Utils.errorIf(!gotCustomerId, "No customer id found in account attributes");
+          this.clearLoginSignals();
+        }
+
+      }
+    });
+
   }
 }
 

@@ -23,8 +23,9 @@ export class SurveyNavUtils {
           navigationTarget = navigator.getNavigationTarget();
         } catch(err) {
           reject(err);
-          Utils.error("In SurveyNavUtils Could not get Navigation Target: The error is {0}. Stack:", err, new Error().stack);
-          alert("Unexpected Error Occurred:" + err);
+          let errMsg = Utils.format("In SurveyNavUtils Could not get Navigation Target: The error is {0}. Stack:", err, err.stack || new Error().stack);
+          Utils.error(errMsg);
+          alert(errMsg);
         }
         let component: any = (navigationTarget && navigationTarget.component) || ThanksComponent;
         let params = component == ThanksComponent ? {message: terminationMessage} : navigationTarget.params;
@@ -34,8 +35,9 @@ export class SurveyNavUtils {
             resolve(promise);
           } catch(err) {
             reject(err);
-            Utils.error("Error: {0}, Stack: {1}", err, new Error().stack);
-            alert("Unexpected Error Occurred:" + err);
+            let errMsg = Utils.format("Unexpected Error: {0}, Stack: {1}", err, err, err.stack || new Error().stack);
+            Utils.error(errMsg);
+            alert(errMsg);
           }
         }
         SpinnerDialog.hide();

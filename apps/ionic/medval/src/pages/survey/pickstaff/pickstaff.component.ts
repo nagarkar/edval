@@ -44,12 +44,20 @@ export class PickStaffComponent extends SurveyPage {
     params: NavParams) {
 
     super(navCtrl, sessionSvc, idle);
+    try {
+      this.displayCount = params.get('displayCount') || this.displayCount;
+      this.roles = params.get("roles") || this.roles;
+      this.message = params.get("message") || this.message;
 
-    this.displayCount = params.get('displayCount') || this.displayCount;
-    this.roles = params.get("roles") || this.roles;
-    this.message = params.get("message") || this.message;
+      this.setupSlides();
+    } catch(err) {
+      super.handleErrorAndCancel(err);
+    }
 
-    this.setupSlides();
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
   }
 
   gotoLogin() {
@@ -81,7 +89,7 @@ export class PickStaffComponent extends SurveyPage {
     }
     if (this.selectedStaff.size >= this.displayCount) {
       setTimeout(() => {
-        this.navigateToNext();
+        this.navigateToNext(true /* ForceNavigate */);
       }, 1000)
 
     }
@@ -91,7 +99,7 @@ export class PickStaffComponent extends SurveyPage {
     this.staffSvc.list()
       .then((staffList: Staff[]) => {
         if (!staffList || staffList.length == 0) {
-          this.navigateToNext();
+          this.navigateToNext(true /* Force Navigate */);
         }
         this.slideToStaffMap = new Map<number, Staff>();
         let count = 0;
@@ -125,8 +133,8 @@ export class PickStaffComponent extends SurveyPage {
 
   }
 
-  public navigateToNext() {
+  public navigateToNext(forceNavigate?: boolean) {
     this.sessionSvc.getCurrentSession().setStaffUsernames(Staff.getUsernames(this.selectedStaff));
-    super.navigateToNext();
+    super.navigateToNext(forceNavigate);
   }
 }

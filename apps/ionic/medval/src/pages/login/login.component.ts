@@ -45,8 +45,9 @@ export class LoginComponent {
     http: Http) {
 
     if (authProvider.supposedToBeLoggedIn()) {
-      Utils.error("Login Attempt while already logged in");
+      Utils.log("Login Attempt while already logged in");
     }
+    authProvider.resetLoginErrors();
   }
 
   setupNewAccount() {

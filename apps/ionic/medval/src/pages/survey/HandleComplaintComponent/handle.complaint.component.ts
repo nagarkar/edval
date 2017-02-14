@@ -75,18 +75,26 @@ export class HandleComplaintComponent extends SurveyPage {
   ) {
     super(navCtrl, sessionSvc, idle);
 
-    this.account =  accountSvc.getCached(Config.CUSTOMERID);
-    this.title = navParams.get('title') || this.title;
+    try {
+      this.account = accountSvc.getCached(Config.CUSTOMERID);
+      this.title = navParams.get('title') || this.title;
+    } catch(err) {
+      super.handleErrorAndCancel(err);
+    }
 
   }
 
   ngOnInit() {
-    super.ngOnInit();
-    this.complaintForm = new FormGroup({
-      email: new FormControl('', Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)),
-      phone: new FormControl('', Validators.pattern(/^(\([0-9]{3}\)\s)?[0-9]{3}\-[0-9]{4}$/)),
-      complaintMsg: new FormControl('', Validators.minLength(5))
-    });
+    try {
+      super.ngOnInit();
+      this.complaintForm = new FormGroup({
+        email: new FormControl('', Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)),
+        phone: new FormControl('', Validators.pattern(/^(\([0-9]{3}\)\s)?[0-9]{3}\-[0-9]{4}$/)),
+        complaintMsg: new FormControl('', Validators.minLength(5))
+      });
+    } catch (err) {
+      super.handleErrorAndCancel(err);
+    }
   }
 
   navigateToNext() {
@@ -95,9 +103,8 @@ export class HandleComplaintComponent extends SurveyPage {
         email: this.autoComplete.value, phone: this.phone, message: this.complaintMsg
       }
     }
-    super.navigateToNext(
-      "account.properties.customerName + ' wants to do better'",
-      "Your feedback is invaluable");
+    super.navigateToNext(false, /* Force Navigate */
+      "account.properties.customerName + ' wants to do better'", "Your feedback is invaluable");
   }
 
 

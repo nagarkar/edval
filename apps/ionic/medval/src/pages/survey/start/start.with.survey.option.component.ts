@@ -22,7 +22,7 @@ import {Survey} from "../../../services/survey/schema";
   templateUrl: './start.with.survey.option.component.html'
 })
 
-export class StartWithSurveyOption implements OnInit, OnDestroy{
+export class StartWithSurveyOption implements OnInit, OnDestroy {
 
   private cycler: ObjectCycler<string>;
   private images = [
@@ -56,13 +56,12 @@ export class StartWithSurveyOption implements OnInit, OnDestroy{
     navParams: NavParams
   ) {
 
+    Utils.logoutIfNecessary(this.navCtrl);
     this.defaultOnly = navParams.get("defaultOnly") === true || this.defaultOnly;
     this.cancelPreviousSession = navParams.get("cancelPreviousSession") || this.cancelPreviousSession;
   }
 
   ngOnInit() {
-
-    Utils.logoutIfNecessary(this.navCtrl);
 
     this.cycler = new ObjectCycler<string>(null, ...this.images);
     this.cycler.onNewObj.subscribe((next:string)=>this.leftImage = next);

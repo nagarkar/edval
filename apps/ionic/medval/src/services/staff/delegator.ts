@@ -42,10 +42,10 @@ export class StaffService extends DelegatingService<Staff> {
     if (staffList && role) {
       staffListIntermediate = this.filterStaffByRole(staffList, role);
     }
-    if (staffListIntermediate.length == 0 && role) {
+    if (!staffListIntermediate || staffListIntermediate.length == 0 && role) {
       staffListIntermediate = this.getStaffByRole(role);
     }
-    if (staffListIntermediate.length == 0 && staffList) {
+    if (!staffListIntermediate && staffListIntermediate.length == 0 && staffList) {
       staffListIntermediate = staffList;
     }
     return this.getFirstNames(staffListIntermediate);
@@ -64,7 +64,10 @@ export class StaffService extends DelegatingService<Staff> {
     })
   }
 
-  private getFirstNames(staffList: Staff[]): string {
+  private getFirstNames(staffList?: Staff[]): string {
+    if (!staffList) {
+      return null;
+    }
     let names =  staffList.map((staff: Staff)=>{
       return staff.properties.firstName;
     })

@@ -32,9 +32,15 @@ export class StaffComponent extends AdminComponent  {
   }
 
   ngOnInit(): void {
-    super.ngOnInit();
-    this.listenToUpdatesAndRefresh();
-    this.getStaffList();
+    try {
+
+      super.ngOnInit();
+      this.listenToUpdatesAndRefresh();
+      this.getStaffList();
+
+    } catch(err) {
+      super.handleErrorAndCancel(err);
+    }
   }
 
   public cancel() {

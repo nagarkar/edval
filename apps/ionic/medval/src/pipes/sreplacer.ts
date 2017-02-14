@@ -14,6 +14,7 @@ import {AccountService} from "../services/account/delegator";
 import {Config} from "../shared/config";
 import {StaffService} from "../services/staff/delegator";
 import {SessionService} from "../services/session/delegator";
+import {Utils} from "../shared/stuff/utils";
 
 declare function compile(src);
 
@@ -52,7 +53,7 @@ export class SReplacer implements PipeTransform {
 
   /**
    * Transform the expression, replacing any scripted values.
-   * 
+   *
    * @param expression The expression to evaluate.
    * @param dataMap Additional attributes to pass in (staff, onlyStaff, role, metric) or override (staffSvc).
    * Certain attributes like account, accountSvc, session cannot be overriden.
@@ -70,14 +71,19 @@ export class SReplacer implements PipeTransform {
   transform(expression: string, dataMap?: SReplacerDataMap, fresh?: boolean ): string {
     let func: Function = this.getFunctionForExpression(expression, fresh);
     let localDataMap: SReplacerDataMap = {};
-    localDataMap.account    = this.dataPack.account;
-    localDataMap.accountSvc = this.dataPack.accountSvc;
-    localDataMap.staffSvc   = (dataMap && dataMap.staffSvc)? dataMap.staffSvc : this.dataPack.staffSvc;
-    localDataMap.session    = (this.sessionSvc.hasCurrentSession() ? this.sessionSvc.getCurrentSession(): undefined);
-    localDataMap.metric     = dataMap? dataMap.metric: null;
-    localDataMap.role       = this.decideRole(dataMap);
-    localDataMap.staff      = this.decideStaffFor(dataMap);
-    localDataMap.onlyStaff  = this.decideOnlyStaff(localDataMap);
+    try {
+      localDataMap.account = this.dataPack.account;
+      localDataMap.accountSvc = this.dataPack.accountSvc;
+      localDataMap.staffSvc = (dataMap && dataMap.staffSvc) ? dataMap.staffSvc : this.dataPack.staffSvc;
+      localDataMap.session = (this.sessionSvc.hasCurrentSession() ? this.sessionSvc.getCurrentSession() : undefined);
+      localDataMap.metric = dataMap ? dataMap.metric : null;
+      localDataMap.role = this.decideRole(dataMap);
+      localDataMap.staff = this.decideStaffFor(dataMap);
+      localDataMap.onlyStaff = this.decideOnlyStaff(localDataMap);
+    } catch (err) {
+      let errMsg = Utils.format("Unexpected error: {0}, with stack trace {1}", err, err.stack || new Error().stack);
+      Utils.error(errMsg);
+    }
     return func(localDataMap);
   }
 
@@ -118,7 +124,11 @@ export class SReplacer implements PipeTransform {
         let staffList: Staff[] = this.staffSvc.listCached().filter((staff: Staff) => {
           return names.indexOf(staff.username) >= 0;
         })
-        let roles: string[] = this.accountSvc.getCached(Config.CUSTOMERID).getStandardRoles();
+        let account: Account = this.accountSvc.getCached(Config.CUSTOMERID) || this.dataPack.account;
+        if(!account) {
+          return staffList; // may be empty.
+        }
+        let roles: string[] = account.getStandardRoles();
         roles.forEach((role: string) =>{
           let onlyStaff: Staff = this.staffSvc.getOnly(role);
           if (onlyStaff && staffList.indexOf(onlyStaff) < 0) {
@@ -149,6 +159,9 @@ export class SReplacer implements PipeTransform {
       staffs = staffs.filter((staff: Staff)=>{
         return staff.role == role;
       });
+      if (!staffs) {
+        return null;
+      }
       if (staffs.length == 1) {
         return staffs[0];
       }

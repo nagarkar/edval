@@ -47,7 +47,7 @@ export class SettingsComponent {
     this.replacerDataWithoutHardcodedStaff = this.constructSessionReplacerMap();
 
     this.setupSessionAndSelectedUsers();
-    Utils.error("In Settings Component");
+    Utils.log("In Settings Component");
   }
 
   setValue(key: string, event: any) {
@@ -102,9 +102,10 @@ export class SettingsComponent {
     let roles: string[] = this.accountsvc.getCached(Config.CUSTOMERID).getStandardRoles();
     let usernames = [];
     roles.forEach((role: string)=>{
-      usernames.push(staffList.filter((staff: Staff) => {
-        return staff.role == role;
-      })[0].username);
+      let staffInRole: Staff = this.staffsvc.getOnly(role);
+      if (staffInRole) {
+        usernames.push(staffInRole.username);
+      };
     });
     this.sessionsvc.getCurrentSession().properties.selectedStaffUserNames = usernames;
   }
