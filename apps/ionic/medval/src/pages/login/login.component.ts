@@ -17,9 +17,11 @@ import {Config} from "../../shared/config";
 import {HttpClient} from "../../shared/stuff/http.client";
 import {Http} from "@angular/http";
 import {Validators, FormControl, FormGroup} from "@angular/forms";
-import {SpinnerDialog} from "ionic-native";
+import {SpinnerDialog, Entry, RemoveResult} from "ionic-native";
 import { File } from 'ionic-native';
 import { SocialSharing } from 'ionic-native';
+
+declare let cordova;
 
 @Component({
   templateUrl: './login.component.html'
@@ -57,34 +59,69 @@ export class LoginComponent {
   }
 
   ngOnInit() {
-    let path: "cordova.file.documentsDirectory";
+
+    let path = cordova.file.documentsDirectory;
+    alert('cordova.file.documentsDirectory Path:' + cordova.file.documentsDirectory);
     let file = "report.txt";
-    //checkFile(path, file)
-    //createFile(path, file, true /* replace */)
-    let fullpath;
-    File.writeFile(path, file, "ABCDEFG", {replace: true}).then((response)=>{
-      // https://cordova.apache.org/docs/en/2.4.0/cordova/file/fileentry/fileentry.html
-      fullpath = response.fullPath;
-      alert(fullpath);
-    }).catch((err) => {
-      alert(err);
-    });
 
-    setTimeout(()=> {
-      File.removeFile(path, file)
-    }, 5 * 60 * 1000);
+    var deleteFile = ()=> {
+      setTimeout(()=> {
+        File.removeFile(path, file).then((response: RemoveResult)=> {
+          alert("File Removal Successful: " + response.success);
+          if (response.success) {
+            alert("File Removed: " + response.fileRemoved.fullPath);
+          }
+        })
+      }, 5 * 60 * 1000);
+    };
 
-    // Check if sharing via email is supported
-    SocialSharing.canShareViaEmail().then(() => {
-      let message = "Your revvolve metrics report data on " + Date.now();
-      let toEmail = "chinmay@healthcaretech.io";
-      let promise: Promise<any> = SocialSharing.shareViaEmail(message, 'Revvolve Report', [toEmail], [], ["chinmay.nagarkar@gmail.com"], path + "/" + file);
-      promise.then((emailResponse)=>{
-        alert("email sent");
-      }).catch((err)=>{alert("email error: " + err)})
-    }).catch(() => {
-      alert("Sharing via email is not supported on this device");
-    });
+    var emailFile = (fullpath: string)=>{
+      SocialSharing.canShareViaEmail()
+        .then(() => {
+          let message = "Your revvolve metrics report data on " + Date.now();
+          let toEmail = "chinmay@healthcaretech.io";
+          let promise: Promise<any> = SocialSharing.shareViaEmail(
+            message, 'Revvolve Report', [toEmail], [], ["chinmay.nagarkar@gmail.com"], fullpath);
+          promise
+            .then((emailResponse)=>{
+              alert("email sent");
+            })
+            .catch((err)=>{
+              alert("email error: " + err)
+            })
+        })
+        .catch(() => {
+          alert("Sharing via email is not supported on this device");
+        });
+      }
+
+    File.checkFile(path, file)
+      .then((fileExists: boolean)=>{
+        alert('File Exists:' + path + file);
+        if (fileExists) {
+          File.writeExistingFile(path, file, "ABCDE")
+            .then(()=>{
+              alert('wrote text to file');
+              deleteFile();
+            })
+            .catch((reason) => {
+              alert('Error writing existing file: ' + reason);
+            })
+        } else {
+          File.writeFile(path, file, "ABCDE", {replace: true})
+            .then((response: Entry)=>{
+              alert('wrote text to file' + response.fullPath);
+              emailFile(response.fullPath);
+              deleteFile();
+            })
+            .catch((reason) => {
+              alert('Error writing file: ' + reason);
+            })
+        }
+      })
+      .catch((err)=>{
+        alert('check file error: ' + err);
+      });
   }
 
   forgotPassword() {
