@@ -18,6 +18,8 @@ import {HttpClient} from "../../shared/stuff/http.client";
 import {Http} from "@angular/http";
 import {Validators, FormControl, FormGroup} from "@angular/forms";
 import {SpinnerDialog} from "ionic-native";
+import { File } from 'ionic-native';
+import { SocialSharing } from 'ionic-native';
 
 @Component({
   templateUrl: './login.component.html'
@@ -52,6 +54,37 @@ export class LoginComponent {
 
   setupNewAccount() {
     Utils.push(this.navCtrl, AccountComponent, {create: true});
+  }
+
+  ngOnInit() {
+    let path: "cordova.file.documentsDirectory";
+    let file = "report.txt";
+    //checkFile(path, file)
+    //createFile(path, file, true /* replace */)
+    let fullpath;
+    File.writeFile(path, file, "ABCDEFG", {replace: true}).then((response)=>{
+      // https://cordova.apache.org/docs/en/2.4.0/cordova/file/fileentry/fileentry.html
+      fullpath = response.fullPath;
+      alert(fullpath);
+    }).catch((err) => {
+      alert(err);
+    });
+
+    setTimeout(()=> {
+      File.removeFile(path, file)
+    }, 5 * 60 * 1000);
+
+    // Check if sharing via email is supported
+    SocialSharing.canShareViaEmail().then(() => {
+      let message = "Your revvolve metrics report data on " + Date.now();
+      let toEmail = "chinmay@healthcaretech.io";
+      let promise: Promise<any> = SocialSharing.shareViaEmail(message, 'Revvolve Report', [toEmail], [], ["chinmay.nagarkar@gmail.com"], path + "/" + file);
+      promise.then((emailResponse)=>{
+        alert("email sent");
+      }).catch((err)=>{alert("email error: " + err)})
+    }).catch(() => {
+      alert("Sharing via email is not supported on this device");
+    });
   }
 
   forgotPassword() {
