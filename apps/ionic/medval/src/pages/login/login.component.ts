@@ -60,8 +60,14 @@ export class LoginComponent {
 
   ngOnInit() {
 
-    let path = cordova.file.documentsDirectory;
-    alert('cordova.file.documentsDirectory Path:' + cordova.file.documentsDirectory);
+    let path = cordova.file.dataDirectory;
+    alert([
+      'cordova.file.documentsDirectory Path: ' ,cordova.file.documentsDirectory,
+      'cordova.file.dataDirectory: ' ,cordova.file.dataDirectory,
+      'cordova.file.cacheDirectory: ' ,cordova.file.cacheDirectory,
+      'cordova.file.tempDirectory: ' ,cordova.file.tempDirectory,
+      'cordova.file.syncedDataDirectory: ' ,cordova.file.syncedDataDirectory,
+      'cordova.file.documentsDirectory: ', cordova.file.documentsDirectory].join("\n"));
     let file = "report.txt";
 
     var deleteFile = ()=> {
@@ -69,19 +75,21 @@ export class LoginComponent {
         File.removeFile(path, file).then((response: RemoveResult)=> {
           alert("File Removal Successful: " + response.success);
           if (response.success) {
-            alert("File Removed: " + response.fileRemoved.fullPath);
+            let filerem = response.fileRemoved;
+            alert(Utils.format("File Removed: {0}, internal url: {1}, external url: {2}"
+              + filerem.fullPath, filerem.toInternalURL(), filerem.toURL()));
           }
         })
       }, 5 * 60 * 1000);
     };
 
-    var emailFile = (fullpath: string)=>{
+    var emailFile = (file: Entry)=>{
       SocialSharing.canShareViaEmail()
         .then(() => {
           let message = "Your revvolve metrics report data on " + Date.now();
           let toEmail = "chinmay@healthcaretech.io";
           let promise: Promise<any> = SocialSharing.shareViaEmail(
-            message, 'Revvolve Report', [toEmail], [], ["chinmay.nagarkar@gmail.com"], fullpath);
+            message, 'Revvolve Report', [toEmail], [], ["chinmay.nagarkar@gmail.com"], file.toURL());
           promise
             .then((emailResponse)=>{
               alert("email sent");
@@ -109,9 +117,10 @@ export class LoginComponent {
             })
         } else {
           File.writeFile(path, file, "ABCDE", {replace: true})
-            .then((response: Entry)=>{
-              alert('wrote text to file' + response.fullPath);
-              emailFile(response.fullPath);
+            .then((fileWritten: Entry)=>{
+              alert(Utils.format("File Written: {0}, internal url: {1}, external url: {2}"
+                + fileWritten.fullPath, fileWritten.toInternalURL(), fileWritten.toURL()));
+              emailFile(fileWritten);
               deleteFile();
             })
             .catch((reason) => {

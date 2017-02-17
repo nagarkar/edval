@@ -142,7 +142,7 @@ export class AccessTokenService {
           }, Config.ACCESS_TOKEN_REFRESH_TIME/3);
         }
       });
-    }, );
+    }, Config.ACCESS_TOKEN_REFRESH_TIME);
   }
 
   private startAuthenticatingUser(internalCallback): void {
