@@ -17,9 +17,7 @@ import {Config} from "../../shared/config";
 import {HttpClient} from "../../shared/stuff/http.client";
 import {Http} from "@angular/http";
 import {Validators, FormControl, FormGroup} from "@angular/forms";
-import {SpinnerDialog, Entry, RemoveResult} from "ionic-native";
-import { File } from 'ionic-native';
-import { SocialSharing } from 'ionic-native';
+import {SpinnerDialog } from "ionic-native";
 
 declare let cordova;
 
@@ -56,81 +54,6 @@ export class LoginComponent {
 
   setupNewAccount() {
     Utils.push(this.navCtrl, AccountComponent, {create: true});
-  }
-
-  ngOnInit() {
-
-    let path = cordova.file.dataDirectory;
-    alert([
-      'cordova.file.documentsDirectory Path: ' ,cordova.file.documentsDirectory,
-      'cordova.file.dataDirectory: ' ,cordova.file.dataDirectory,
-      'cordova.file.cacheDirectory: ' ,cordova.file.cacheDirectory,
-      'cordova.file.tempDirectory: ' ,cordova.file.tempDirectory,
-      'cordova.file.syncedDataDirectory: ' ,cordova.file.syncedDataDirectory,
-      'cordova.file.documentsDirectory: ', cordova.file.documentsDirectory].join("\n"));
-    let file = "report.txt";
-
-    var deleteFile = ()=> {
-      setTimeout(()=> {
-        File.removeFile(path, file).then((response: RemoveResult)=> {
-          alert("File Removal Successful: " + response.success);
-          if (response.success) {
-            let filerem = response.fileRemoved;
-            alert(Utils.format("File Removed: {0}, internal url: {1}, external url: {2}"
-              + filerem.fullPath, filerem.toInternalURL(), filerem.toURL()));
-          }
-        })
-      }, 5 * 60 * 1000);
-    };
-
-    var emailFile = (file: Entry)=>{
-      SocialSharing.canShareViaEmail()
-        .then(() => {
-          let message = "Your revvolve metrics report data on " + Date.now();
-          let toEmail = "chinmay@healthcaretech.io";
-          let promise: Promise<any> = SocialSharing.shareViaEmail(
-            message, 'Revvolve Report', [toEmail], [], ["chinmay.nagarkar@gmail.com"], file.toURL());
-          promise
-            .then((emailResponse)=>{
-              alert("email sent");
-            })
-            .catch((err)=>{
-              alert("email error: " + err)
-            })
-        })
-        .catch(() => {
-          alert("Sharing via email is not supported on this device");
-        });
-      }
-
-    File.checkFile(path, file)
-      .then((fileExists: boolean)=>{
-        alert('File Exists:' + path + file);
-        if (fileExists) {
-          File.writeExistingFile(path, file, "ABCDE")
-            .then(()=>{
-              alert('wrote text to file');
-              deleteFile();
-            })
-            .catch((reason) => {
-              alert('Error writing existing file: ' + reason);
-            })
-        } else {
-          File.writeFile(path, file, "ABCDE", {replace: true})
-            .then((fileWritten: Entry)=>{
-              alert(Utils.format("File Written: {0}, internal url: {1}, external url: {2}"
-                + fileWritten.fullPath, fileWritten.toInternalURL(), fileWritten.toURL()));
-              emailFile(fileWritten);
-              deleteFile();
-            })
-            .catch((reason) => {
-              alert('Error writing file: ' + reason);
-            })
-        }
-      })
-      .catch((err)=>{
-        alert('check file error: ' + err);
-      });
   }
 
   forgotPassword() {
