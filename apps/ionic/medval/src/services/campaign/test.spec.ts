@@ -20,13 +20,10 @@ let testData: TestData<Campaign> = {
   updateConfig: {
     update: ((acc: Campaign)=> {
       acc.properties.name = "modifiedName:" + __rand;
-      metricSubjects.push(acc.statistics.metrics[0].metricSubject);
-      acc.statistics.metrics[0].metricSubject = "modifiedSubject" + __rand;
       return true;
     }),
     verify: ((acc: Campaign)=> {
       expect(acc.properties.name).toEqual("modifiedName:" + __rand);
-      expect(acc.statistics.metrics[0].metricSubject).toEqual(metricSubjects.shift());
     }),
   }
 }

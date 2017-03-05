@@ -52,9 +52,14 @@ export class MockSurveyService extends AbstractMockService<Survey> {
       id: "default",
       entityStatus: "ACTIVE",
       properties: {
-        name: "Short Survey",
+        name: "Default",
         purpose: "Continuous Measurement",
-        timeCommitment: "Default"
+        description: `This is the default, short, 1 minute survey. If you are in survey mode, 
+          you will see this option if a survey is completed and cycles back, or if a survey times out. This survey
+          is designed to adjust based on responses. If patients provide a detractor response (less than 4 out of 5 stars)
+           for the first question on overal favorability, we ask fewer questions. If the patient provides 5/5 stars on overall favorability,
+           we ask for a review. For more information about how this app helps you capture reviews and handle unhappy customers
+            proactively, please see the application notes.`
       },
       workflowProperties: {
         avgSteps: 3,
@@ -90,7 +95,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
               shadowColor: '#C0B'
             },
             graphicalMetricGroupIndicators: {
-              imgSrc: "assets/img/patient_journey.jpg",
+              imgSrc: "assets/img/journeymap.png",
               metricGroups: [{
                 coords: "483,371,503,361,520,359,533,366,547,359,562,359,577,363,589,359,606,358,623,363,632,373,648,380,655,390,655,400,662,414,657,429,645,441,626,444,620,456,601,464,584,466,571,463,559,476,533,481,510,478,494,469,476,473,449,469,432,459,406,451,403,437,410,431,396,420,398,407,420,398,425,380,455,366",
                 metricIds:"95a8659497274ffe9f8fb14fa45b21e5, 6e0f99cdd7a34a058ff2fb22fbe51738, 0f99cdd7a34a058ff2fb22fbe51738, 34182735427d4f2eba99eb0acb66078f"
@@ -147,7 +152,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
             },
             title:`"What part of your experience " + account.customerName + " was the most satisfying?"`,
             graphicalMetricGroupIndicators: {
-              imgSrc: "assets/img/patient_journey.jpg",
+              imgSrc: "assets/img/journeymap.png",
               metricGroups: [{
                 coords: "483,371,503,361,520,359,533,366,547,359,562,359,577,363,589,359,606,358,623,363,632,373,648,380,655,390,655,400,662,414,657,429,645,441,626,444,620,456,601,464,584,466,571,463,559,476,533,481,510,478,494,469,476,473,449,469,432,459,406,451,403,437,410,431,396,420,398,407,420,398,425,380,455,366",
                 metricIds:"95a8659497274ffe9f8fb14fa45b21e5, 6e0f99cdd7a34a058ff2fb22fbe51738, 0f99cdd7a34a058ff2fb22fbe51738, 34182735427d4f2eba99eb0acb66078f"
@@ -212,109 +217,20 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         },
       ]
     }));
-    /*
-    map.set("twominute", Object.assign(new Survey(), {
-      customerId: Config.CUSTOMERID,
-      campaign_id: "twominute",
-      entityStatus: "ACTIVE",
-      properties: {
-        name: "Medium Sized Survey",
-        purpose: "In-visit survey",
-        timeCommitment: "I have 2-3 minutes"
-      },
-      workflowProperties: {
-        avgSteps: 5,
-        showJokes: true,
-        showWheel: false,
-      },
-      workflow:[
-        {
-          campaign_id:'start',
-          component:"SingleMetricComponent",
-          params:{
-            metricId: "root"
-          },
-        },
-        {
-          campaign_id:'strong.detractor.score',
-          fn:"StrongDetractor",
-          params:{
-            metricId: "root"
-          },
-          navigateOnResult: {
-            "false": "pick.staff",
-            "true": "unhappy"
-          }
-        },
-        {
-          campaign_id:'unhappy',
-          component:"HandleComplaintComponent",
-          isTerminal:true
-        },
-        {
-          campaign_id:'pick.staff',
-          component:"PickStaffComponent",
-          params: {
-            roles: ["MD", "Orthodontic Assitant"]
-          }
-        },
-        {
-          campaign_id:'staff.nps',
-          component:"ToplineForStaffComponent",
-          executeIf: 'session.properties.selectedStaffUserNames.length > 0'
-        },
-        {
-          campaign_id:'any.detractors',
-          fn:"AnyDetractors",
-          navigateOnResult: {
-            "false": "things.done.poorly",
-            "true": "unhappy"
-          }
-        },
-        {
-          campaign_id:'things.done.poorly',
-          component:"TopInfluencerComponent",
-          params: {
-            title: `"What can " + account.properties.customerName + " improve?"`,
-            valueOrderDesc: false,
-            maxMetrics:4,
-            rootMetricId: null,
-          },
-        },
-        {
-          campaign_id:'things.done.well',
-          component:"TopInfluencerComponent",
-          params: {
-            title: `"What is " + account.properties.customerName + " doing well"`,
-            valueOrderDesc: true,
-            maxMetrics: 4,
-            rootMetricId: null
-          }
-        },
-        {
-          campaign_id:'all.promoter.scores',
-          fn: "AllPromoters",
-          navigateOnResult: {
-            "true": "request.review",
-            "false": Infinity.toString() // end if false.
-          }
-        },
-        {
-          campaign_id:'request.review',
-          component:"RequestReviewComponent2",
-          isTerminal:true
-        },
-      ]
-    }));
-    */
     map.set("full", Object.assign(new Survey(), {
       customerId: Config.CUSTOMERID,
       id: "full",
       entityStatus: "ACTIVE",
       properties: {
-        name: "Full Survey with CAHPS",
+        name: "CAHPS based",
         purpose: "Six month survey",
-        timeCommitment: "6 Month Survey"
+        description: `This survey is based on CAHPS and takes about 5 minutes to complete. 
+          It includes questions to cover <a href='https://www.ahrq.gov/cahps/surveys-guidance/dental/about/survey-measures.html'>CAHPS</a> requirements but is not
+          a replacement for an official CAHPS survey (contact us to learn more about this). Patients could be reasonably expected 
+          to provide this survey every six months to a year. The survey includes questions about doctors, the orthodontic assistants and the Front office. If
+          you have configured staff in the Administrative Dashboard, patients are also asked who they worked with and all metrics are tracked by staff member.
+          This survey option does not show by default. You see this option if you arrive on this page from the Dashboard. 
+          If you are in survey mode, you can tap the 'toolbar' icon on the top right of your screen to see this option.`
       },
       workflowProperties: {
         avgSteps: 6,

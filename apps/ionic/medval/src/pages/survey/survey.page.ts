@@ -14,6 +14,9 @@ import {Subject} from "rxjs";
 import {StartWithSurveyOption} from "./start/start.with.survey.option.component";
 import {Config} from "../../shared/config";
 import {SurveyNavigator} from "../../services/survey/survey.navigator";
+import {SpinnerDialog} from "ionic-native";
+import {LoginComponent} from "../login/login.component";
+import {AccessTokenService} from "../../shared/aws/access.token.service";
 
 export class SurveyPage {
 
@@ -35,6 +38,10 @@ export class SurveyPage {
     protected idle?: Idle) {
 
     try {
+      setTimeout(()=>{
+        SpinnerDialog.hide();
+      }, Config.SURVEY_PAGE_IDLE_SECONDS/4);
+
       if (sessionSvc.hasCurrentSession()) {
         sessionSvc.recordNavigatedLocationInCurrentSession(Utils.getObjectName(this));
         this.progress = sessionSvc.surveyNavigator.getProgressFraction();
@@ -48,11 +55,13 @@ export class SurveyPage {
   }
 
   static GOING_TO_ROOT_TEST: boolean = false;
-  ngOnInit() {
 
+  ngOnInit() {
     try {
 
-      Utils.logoutIfNecessary(this.navCtrl);
+      if (!AccessTokenService.authResult) {
+        this.navCtrl.setRoot(LoginComponent);
+      }
 
       let idle = this.idle;
       if (!idle) {

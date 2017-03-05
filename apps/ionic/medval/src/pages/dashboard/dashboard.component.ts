@@ -6,7 +6,7 @@
  * site or application without licensing is strictly prohibited.
  */
 import {Component} from "@angular/core";
-import {NavController} from "ionic-angular";
+import {NavController, AlertController, ToastController} from "ionic-angular";
 import {AccountComponent} from "../account/account.component";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {LoginComponent} from "../login/login.component";
@@ -14,18 +14,85 @@ import {TermComponent} from "./terms/term.component";
 import {PolicyComponent} from "./policy/policy.component";
 import {StaffComponent} from "../staff/staff.component";
 import {Utils} from "../../shared/stuff/utils";
-import {AllTrendsComponent} from "../charts/all.trends";
 import {SettingsComponent} from "../settings/settings.component";
 import {StartWithSurveyOption} from "../survey/start/start.with.survey.option.component";
-import {ReportingDashboard} from "../reporting/reporting.dashboard.component";
+import {CampaignDashboard} from "../reporting/campaign.dashboard";
+import {StaffService} from "../../services/staff/delegator";
+import {Staff} from "../../services/staff/schema";
+import {AccountService} from "../../services/account/delegator";
+import {Account} from "../../services/account/schema";
+import {Config} from "../../shared/config";
+import {ValidationService} from "../../shared/components/validation/validation.service";
+import {HelpMessages} from "../../shared/stuff/HelpMessages";
+import {AdminComponent} from "../admin.component";
+import {FollowupPage} from "../followups/followup.page";
+import {Http} from "@angular/http";
 
 @Component({
   templateUrl: './dashboard.component.html'
 })
 
-export class DashboardComponent {
+export class DashboardComponent extends AdminComponent {
 
-  constructor(private navCtrl: NavController, private accessTokenProvider: AccessTokenService) {
+  constructor(
+    navCtrl: NavController,
+    http: Http,
+    private alertCtrl: AlertController,
+    private toastCtrl: ToastController,
+    private accessTokenProvider: AccessTokenService,
+    private staffSvc: StaffService,
+    private accSvc: AccountService) {
+
+    super(navCtrl, http);
+  }
+
+  ngOnInit() {
+    this.staffSvc.list(true/*don't use cache*/)
+      .then((list: Staff[]) => {
+        if (list && list.length > 0) {
+          return;
+        }
+        Utils.presentInvalidEntryAlert(
+          this.alertCtrl,
+          "Important Tip!",
+          "If you setup your staff members, additional screens will show up in the " +
+          "long term survey and you can access reports on how your staff are evaluated in survey data! " +
+          "We highly recommend you setup your staff members!",
+          "bighelp");
+      })
+      .catch((err)=>{
+        Utils.presentTopToast(this.toastCtrl, HelpMessages.get('UNEXPECTED_INTERNAL_ERROR'), 10 * 1000);
+      })
+    this.accSvc.get(Config.CUSTOMERID)
+      .then((account: Account)=> {
+        let thingsToSay = [];
+        if (!account.properties.configuration.SWEEPSTAKES_SHOW_WHEEL) {
+          thingsToSay.push(`Consider enabling the Wheel of Fortune game. It's a great incentive for patients 
+            to keep coming back and give you more reviews! You can set this up on the Account Settings page.`);
+        }
+        if (!ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_FACEBOOK)) {
+          thingsToSay.push(`Consider adding a valid Facebook page URL on the Account Settings page so we can start helping your happy patients provide Facebook reviews!`);
+        }
+        if (!ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_GOOGLE)) {
+          thingsToSay.push(`Consider adding a valid Google review URL on the Account Settings page so we can start helping your happy patients provide Google reviews!`);
+        }
+        if (!ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_YELP)) {
+          thingsToSay.push(`Consider adding a valid Yelp review URL on the Account Settings page so we can start helping your happy patients provide Yelp reviews!`);
+        }
+        if (thingsToSay.length == 0) {
+          return;
+        }
+        Utils.presentInvalidEntryAlert(
+          this.alertCtrl,
+          "Important Tip!",
+          `Visit the Account Settings page and configure this App and take full advantage of it!
+            <ol>` + thingsToSay.map((item: string)=> {return ['<li>', item, '</li>'].join('')}).join("") + `</ol>`,
+          'bighelp');
+      })
+      .catch((err)=>{
+        Utils.presentTopToast(this.toastCtrl, HelpMessages.get('UNEXPECTED_INTERNAL_ERROR'), 10 * 1000);
+      });
+
   }
 
   gotoHome(): void {
@@ -45,11 +112,11 @@ export class DashboardComponent {
   }
 
   gotoMetricsPage() {
-    this.push(ReportingDashboard);//MetricSummaryComponent
+    this.push(CampaignDashboard);
   }
 
-  gotoBusinessHealthPage() {
-    this.push(AllTrendsComponent);
+  gotoFollowupsPage() {
+    this.push(FollowupPage);
   }
 
   gotoSurveyPage() {

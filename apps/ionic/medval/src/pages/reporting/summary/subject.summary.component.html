@@ -1,0 +1,47 @@
+<!--
+<div *ngIf="insufficientData">
+  <h3>Insufficient Data for {{metricAndSubject?.metricName}}</h3>
+</div>
+-->
+<ion-grid (click)="drilldown()" *ngIf="!insufficientData" style="font-size:0.7em;" class="subject-summary-container">
+  <ion-row style="padding: .2em;">
+    <ion-col>
+      <div style="height:1em; max-height:1em">
+        <span class="nowrap" style="padding:.4em; font-size: 1.15em"><b>{{metricAndSubject.getHeading()}}</b></span><br/>
+        <span class="nowrap" style="padding:.4em; font-size: 1em"><b>{{metricAndSubject.getSubHeading()}}</b></span>
+      </div>
+      <div class="flex" style="margin:1.5em 0 0 2em;">
+        <button class="pctbutton" ion-button>
+          <span><b>{{currentRatingAsPercentage}}%</b></span>
+        </button>
+        <span class="avgratingmsg">Average Rating</span>
+        <button class="meantrendbutton" ion-button>
+          <ion-icon [name]="meanTrendingUp() ? 'trending-up' : 'trending-down'"></ion-icon>
+        </button>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <progress-bar class="meanprogressbar"
+                    [progress]="currentRating" [prefix]="''" [showProgress]="false"></progress-bar>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <div class="flex" style="margin:0.4em 0.4em 0.4em 3em">
+        <span class="dt-pt">
+          <b>{{round((currentDetractors/currentTotals) * 100)}}% detractors</b></span>
+        <button [ngStyle]="{'background-color': detractorTrendingUp() ? 'green' : 'red'}" class="dt-pt-trend-button" ion-button>
+          <ion-icon [name]="detractorTrendingUp() ? 'trending-up' : 'trending-down'"></ion-icon>
+        </button>
+        &nbsp;
+        <span class="dt-pt">
+          <b>{{round((currentPromoters/currentTotals) * 100)}}% promoters</b></span>
+        <button [ngStyle]="{'background-color': promoterTrendingUp() ? 'green' : 'red'}" class="dt-pt-trend-button" ion-button>
+          <ion-icon [name]="promoterTrendingUp() ? 'trending-up' : 'trending-down'"></ion-icon>
+        </button>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>

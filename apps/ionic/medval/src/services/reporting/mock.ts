@@ -29,7 +29,6 @@ export class MockDailyDataService extends AbstractMockService<DailyDataList> {
     accessProvider: AccessTokenService) {
 
     super(utils, accessProvider);
-    Utils.log("Created Mock Campaign Service");
   }
 
   reset() {

@@ -17,8 +17,12 @@ export class EmailProviderService {
   findEmailProviders() {
     return this.http.get('assets/data/emailProvider.json')
       .toPromise()
-      .then(res => <any[]> res.json().data)
-      .then(data => { return data; })
-      .catch((err)=> Utils.error(err));
+      .then((res) => {
+        return <any[]> res.json().data;
+      })
+      .catch((err)=> {
+        Utils.error(err)
+        throw err;
+      });
   }
 }

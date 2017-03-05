@@ -8,7 +8,7 @@
 import {AccessTokenService} from "../aws/access.token.service";
 import {inject} from "@angular/core/testing";
 import {TestUtils} from "../../test";
-import {RevvolveApp} from "../../app/app.component";
+import {RevvolveApp} from "../../app/revvolve.app";
 import {ServiceInterface} from "../service/interface.service";
 import {Utils} from "../stuff/utils";
 
@@ -132,7 +132,7 @@ export class ServiceTest <T> {
       } else if (!Utils.nou(this.testData.defaultNumberOfEntities)) {
         expectedCount = this.testData.defaultNumberOfEntities;
       }
-      Utils.log("Test Parameters: {0}; knownEntityList: {1}; defaultNumberOfEntities: {2}",
+      Utils.info("Test Parameters: {0}; knownEntityList: {1}; defaultNumberOfEntities: {2}",
         expectedCount, Utils.stringify(this.knownEntityList), this.testData.defaultNumberOfEntities);
       let svc: ServiceInterface<T> = this.svc;
       svc.list().then((entities: T[]) => {

@@ -11,20 +11,26 @@ import {Utils} from "./stuff/utils";
 @Injectable()
 export class Config {
 
+  static PING_INTERVAL: number = 5 * 60 * 1000;
+  static LOCALE: string = 'en-US';
+  static SOFTWARE_VERSION: string = "v1.0";
+
   static LAST_SESSION_CREATED: number;
   static LOG_LENGTH: number = 1000;
   static ERR_LENGTH: number = 1000;
 
-  //private static _baseUrl: string = "https://localhost:8091";
+  private static _baseUrl: string = "https://localhost:8091";
+  //private static _baseUrl: string = 'https://prodapi.healthcaretech.io';
   //private static _baseUrl: string = "http://34.197.108.208";
-  private static _baseUrl: string = "https://testapi.healthcaretech.io";
+  //private static _baseUrl: string = "https://testapi.healthcaretech.io";
 
   static DEFAULT_CACHE_AGE: number = Infinity;
 
   static readonly DEFAULT_CITY_CODE = "206";
 
-  static readonly SHOW_NEW_ACCOUNT = false;
-  static readonly SHOW_FORGOT_PASSWORD = false;
+  static readonly SHOW_NEW_ACCOUNT = true;
+  static readonly SHOW_FORGOT_PASSWORD = true;
+
   static readonly REQUEST_REVIEW_MIN_SCORE: number = 0.9;
 
 
@@ -47,7 +53,7 @@ export class Config {
     IDENTITY_POOL_ID: 'us-east-1:ee9bbe7d-c315-4c88-baaa-4f32e1ee541d',
     USER_POOL_ID : 'us-east-1_WRjTRJPkD', // Your user pool metricId here
     CLIENT_ID: 's8koda3rkc3rsjt3fdlvdnvia', // Your client metricId here
-    LOG_BATCH_SIZE: 2
+    LOG_BATCH_SIZE: 20
   }
 
   static POOL_DATA = {
@@ -55,10 +61,20 @@ export class Config {
     ClientId : Config.AWS_CONFIG.CLIENT_ID,
   };
 
-  static ACCESS_TOKEN_REFRESH_TIME: number = 15 * 60 * 1000;
+  // Time between sucessful token refreshes. This should be long, typically 15 minutes.
+  static ACCESS_TOKEN_REFRESH_TIME: number = 1 * 60 * 1000;
+
+  // Time between retries for initial login. This should be short as it makes the user wait.
+  static ACCESS_TOKEN_RETRY_INTERVAL_INITIAL_LOGIN: number = 3 * 1000;
+
+  static MAX_TOKEN_REFRESH_ERRORS_BEFORE_STOP: number = 2;
 
   static SURVEY_PAGE_IDLE_SECONDS: number = 60;
   static SURVEY_PAGE_TIMEOUT_SECONDS: number = 60;
+  static SESSION_SAVE_RETRY_TIME: number = 2 * 60 * 1000;
+
+  static BACKOFF_MULTIPLIER: number = 2;
+  static SESSION_RETRIES: number = 5;
 
   static THANKS_PAGE_IDLE_SECONDS: number = 30;
   static THANKS_PAGE_TIMEOUT_SECONDS: number = 30;
@@ -67,11 +83,12 @@ export class Config {
 
   static MOCK_DATA : {[key: string]: boolean} = {
     "Session": false,
-    "Metric": true,
+    "Metric": false,
     "Account": false,
     "Staff": false,
+    "Campaign": false,
+    "SessionFollowup": false,
     "Survey": true,
-    "Campaign": true,
     "DailyDataList": true,
   };
 

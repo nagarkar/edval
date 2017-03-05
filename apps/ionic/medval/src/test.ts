@@ -34,7 +34,7 @@ import {SessionService} from "./services/session/delegator";
 import {MetricService} from "./services/metric/delegator";
 import {SurveyService} from "./services/survey/delegator";
 import {DDBSessionService} from "./services/session/ddb";
-import {RevvolveApp} from "./app/app.component";
+import {RevvolveApp} from "./app/revvolve.app";
 import {HttpModule, JsonpModule} from "@angular/http";
 import {NgIdleModule} from "@ng-idle/core";
 import {AbstractService} from "./shared/service/abstract.service";

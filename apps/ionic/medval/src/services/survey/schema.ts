@@ -6,10 +6,12 @@
  * site or application without licensing is strictly prohibited.
  */
 import {Utils} from "../../shared/stuff/utils";
+import {Config} from "../../shared/config";
 
 export class Survey {
 
   constructor () {
+    this.softwareVersion = Config.SOFTWARE_VERSION;
     this.workflowProperties = {avgSteps: 4};
     this.properties = {};
   }
@@ -17,10 +19,11 @@ export class Survey {
   customerId: string;
   id: string;
   entityStatus?:string;
+  softwareVersion: string = Config.SOFTWARE_VERSION;
   properties?: {
     name?: string;
     purpose?: string;
-    timeCommitment?: string;
+    description?: string;
   };
   workflowProperties: WorkflowProperties;
 
@@ -36,11 +39,8 @@ export class Survey {
 }
 
 export interface WorkflowProperties {
-  avgSteps: number;
-  showJokes?: boolean;
-  showWheel?: boolean;
-  award?: number;
-  costPerUse?: number;
+  avgSteps: number; // Average steps in the workflow.
+  showJokes?: boolean; // Whether or not to show jokes.
 }
 
 export interface WorkflowElement {

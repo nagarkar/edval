@@ -39,35 +39,39 @@ export class HttpClient<T> {
   */
   public ping() : Promise<string>{
     // TODO Revert line
-    return this.http.get(Config.pingUrl, this.createRequestOptionsArgs())
+    return this.http.get(Config.pingUrl, HttpClient.createRequestOptionsArgs())
       .toPromise()
-      .then((response: Response)=>{return response.text();})
-      .catch((err)=> {return Promise.reject(err);});
+      .then((response: Response)=>{
+        if (response.statusText.toLowerCase() != "ok") {
+          throw response.statusText;
+        }
+        return response.text();
+      })
   }
 
   public list<T>(path : string | '') : Promise<Array<T>> {
-    return this.http.get(Config.baseUrl + path, this.createRequestOptionsArgs())
+    return this.http.get(Config.baseUrl + path, HttpClient.createRequestOptionsArgs())
       .toPromise()
       .then(this.extractData)
       .catch(this.handleError);
   }
 
   public get<T>(path : string, id: string | '') : Promise<T> {
-    return  this.http.get(Config.baseUrl + path + "/" + id, this.createRequestOptionsArgs())
+    return  this.http.get(Config.baseUrl + path + "/" + id, HttpClient.createRequestOptionsArgs())
       .toPromise()
       .then(this.extractData)
       .catch(this.handleError);
   }
 
   public put<T>(path : string, id: string | '', body: T) : Promise<T> {
-    return this.http.put(Config.baseUrl + path + "/" + id, serialize(body), this.createRequestOptionsArgs())
+    return this.http.put(Config.baseUrl + path + "/" + id, serialize(body), HttpClient.createRequestOptionsArgs())
       .toPromise()
       .then(this.extractData)
       .catch(this.handleError);
   }
 
   public post<T>(path : string, body: T) : Promise<T> {
-    return this.http.post(Config.baseUrl + path, serialize(body), this.createRequestOptionsArgs())
+    return this.http.post(Config.baseUrl + path, serialize(body), HttpClient.createRequestOptionsArgs())
       .toPromise()
       .then(this.extractData)
       .catch(this.handleError);
@@ -75,13 +79,13 @@ export class HttpClient<T> {
 
   public delete(path : string, id: string | '') : Promise<void> {
     return this.http.delete(Config.baseUrl + path + "/" + id,
-      this.createRequestOptionsArgs())
+      HttpClient.createRequestOptionsArgs())
       .toPromise()
       .then((res: Response) => {
         if (this.extractData(res) != null) {
           return;
         } else {
-          Promise.reject('http.client delete failed');
+          throw 'delete failed';
         }
       })
       .catch(this.handleError);
@@ -91,13 +95,14 @@ export class HttpClient<T> {
     let body: any = null;
     try {
       if (res.headers.get('content-type') != "application/json") {
-        Utils.error("Unexpected condition; content type was not jSON");
-        Utils.throw("Unexpected condition; content type was not jSON");
+        let formattedErr = "Unexpected condition; content type was not jSON";
+        Utils.error(formattedErr);
+        throw formattedErr;
+      }
+      if (!res.ok || new String(res.statusText).toLowerCase() != "ok") {
+        throw res.statusText;
       }
       body = res.json(); // try to parse it. This should always work, if not, handle the exception.
-      if (body.status && new String(body.status).toLowerCase() == "ok") {
-        return true;
-      }
       if (!this.clazz) {
         return body;
       }
@@ -107,8 +112,9 @@ export class HttpClient<T> {
         body = deserialize<T>(this.clazz, res.text());
       }
     } catch(error) {
-      Utils.error('in extract data, error {0} occurred' + error);
-      Utils.error('in extract data, response was: {0}, with text {1}' + res, res.text());
+      let formattedErr = Utils.format("Eror: {0}, response: {1}, response.text: {2}", error, res, res.text());
+      Utils.error(formattedErr);
+      throw formattedErr;
     }
     return body;
   }
@@ -127,11 +133,11 @@ export class HttpClient<T> {
     } else {
       errMsg = error.message ? error.message : error.toString();
     }
-    Utils.error(errMsg);
-    return Promise.reject(errMsg);
+    Utils.error("In Handle Error, with error {0}", errMsg);
+    throw errMsg;
   }
 
-  private createRequestOptionsArgs() : RequestOptionsArgs {
+  public static createRequestOptionsArgs() : RequestOptionsArgs {
     let result : AuthResult = AccessTokenService.authResult;
     return {
       headers: new Headers({

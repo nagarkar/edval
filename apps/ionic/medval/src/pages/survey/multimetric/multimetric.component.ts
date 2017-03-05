@@ -73,17 +73,17 @@ export class MultimetricComponent extends SurveyPage {
 
   navigateToNext() {
     this.displayMetrics.forEach((metric: Metric, idx: number)=>{
-      this.updateMetricInSession(this.metricValues[idx], metric);
+    this.updateMetricInSession(this.metricValues[idx], metric);
     });
     super.navigateToNext();
   }
 
-  setValue(data: any, metric: Metric) {
-    //First time someone's made a change! If you strongly disagree with everything, the survey does not move forward.
+  setValue(data: any, idx: number) {
+    //First time someone's made a change! If you strongly agree with every default (zero), the survey does not move forward.
     if (!this.dirty) {
       setTimeout(()=>{
         this.done = true;
-      }, 500)
+      }, 50)
     }
     this.dirty = true;
   }

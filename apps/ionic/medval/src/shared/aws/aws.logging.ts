@@ -54,6 +54,7 @@ export class AWSLogging {
         this.nextSequenceToken = data.nextSequenceToken;
       }
       if (err) {
+        Utils.log("Error in Logging to AWS: {0}", [err.name, err.message].join(":"));
         if (err.code == 'InvalidSequenceTokenException') {
           let matches = err.message.match(/[0-9]+/g);
           if (matches.length > 0) {
@@ -61,7 +62,6 @@ export class AWSLogging {
             this.logToAws(events);
           }
         }
-        Utils.log("Error in Logging to AWS: {0}", [err.name, err.message].join(":"));
       }
     });
   }
@@ -78,7 +78,7 @@ export class AWSLogging {
 
     this.cloudwatch.describeLogStreams(params, (err, data) => {
       if (err) {
-        Utils.log("Error in Describing Log Streams: {0}", [err.name, err.message].join(":"))
+        Utils.info("Error in Describing Log Streams: {0}", [err.name, err.message].join(":"))
         return;
       }
       if (data.logStreams.length == 0) {
@@ -88,7 +88,7 @@ export class AWSLogging {
         };
         this.cloudwatch.createLogStream(params, (err: Error, data)=> {
           if (err) {
-            Utils.log("Error in creating log stream: {0}: {1} \n {2}", err.name , err.message, err.stack);
+            Utils.info("Error in creating log stream: {0}: {1} \n {2}", err.name , err.message, err.stack);
           } else {
             setTimeout(()=> {
               this.updateNextSequenceToken();

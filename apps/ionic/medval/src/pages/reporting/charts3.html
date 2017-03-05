@@ -1,0 +1,176 @@
+<html>
+<head>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    let url = 'https://localhost:8091/api/customers/OEX/chartdata';
+
+    google.charts.load('current', { packages: ['corechart', 'controls', 'table'] });
+    google.charts.setOnLoadCallback(()=>{
+
+      var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
+
+      let createNewYearSlider = (divId)=> {
+        return new google.visualization.ControlWrapper({
+          controlType: 'DateRangeFilter',
+          containerId: divId,
+          options: {
+            filterColumnIndex: 0,
+            ui: {
+              labelStacking: 'vertical',
+              format: {pattern: 'yyyy-MMMM'}
+            }
+          }
+        });
+      }
+
+      let renderDashboard = (queryStr, sliders, chartDiv, dashboardDiv, datatable, columns, chartOptions) => {
+        let query = new google.visualization.Query(url);
+        query.setQuery(queryStr);
+        query.send((response)=>{
+          let table = response.getDataTable();
+          new google.visualization.Table(document.getElementById(datatable)).draw(table);
+          //let yearFormat = new google.visualization.DateFormat({pattern: 'yyyy'});
+          //yearFormat.format(table, 0);
+          //monthFormat.format(table, 0);
+          let dashboard = new google.visualization.Dashboard(
+            document.getElementById(dashboardDiv));
+
+          let chart = new google.visualization.ChartWrapper({
+            chartType:'ColumnChart',
+            containerId: chartDiv,
+            view: [
+              {columns: columns(table)},
+            ],
+            options: chartOptions
+          });
+          dashboard.bind(sliders, chart);
+          dashboard.draw(table);
+        });
+      };
+      let standardOptions = {
+        isStacked: 'percent',
+        hAxis: {
+          title: 'Time'
+        },
+        vAxis: {
+          title: 'Rating',
+          format: '#',
+          minValue: 0,
+          ticks: [0, .3, .6, .9, 1],
+          //ticks: [0, 1, 2, 3, 4, 5]
+        },
+        trendlines: {
+          0: {
+            type: 'linear',
+            color: 'green',
+            lineWidth: 3,
+            opacity: 0.3,
+            showR2: true,
+            visibleInLegend: true
+          }
+        }    // Draw a trendline for data series 0.
+      }
+      renderDashboard(
+//        `select datemonth, avg(value)
+//            where metricId= 'Favorability - Doctors'
+//            group by datemonth
+//            pivot subjecttype
+//            order by datemonth limit 2500`,
+
+//        `select datemonth, avg(value)
+//            where parentMetricId=""
+//            and subjecttype = 'staff'
+//            group by datemonth
+//            pivot subjectvalue
+//            order by datemonth limit 2500`,
+
+//        `select datemonth, avg(value)
+//            where parentMetricId=""
+//            and subjecttype = 'org'
+//            group by datemonth
+//            pivot subjectvalue
+//            order by datemonth limit 2500`,
+
+//        `select datemonth, avg(value)
+//            where parentMetricId != ""
+//            and subjecttype = 'role'
+//            group by datemonth
+//            pivot subjectvalue, metricId
+//            order by datemonth limit 2500`,
+
+//        `select datemonth, avg(value)
+//            where subjectvalue='DDS'
+//            and subjecttype = 'role'
+//            group by datemonth
+//            pivot metricId
+//            order by datemonth limit 2500`,
+
+        // Convert query on first page (subject-summary) into query for drill downs
+//          `select datemonth, avg(value)
+//              where parentMetricId != '' and subjecttype = 'org' and subjectvalue = ''
+//              group by datemonth
+//              pivot metricId
+//              order by datemonth desc`,
+
+        // Convert query on first page (subject-summary) into query for drill downs
+//            `select datemonth, avg(value)
+//                where parentMetricId = 'Favorability - Frontoffice' and subjecttype = 'role' and subjectvalue = 'FrontOffice'
+//                group by datemonth
+//                pivot metricId
+//                order by datemonth desc`,
+
+        // Convert query on first page (subject-summary) into query for drill downs
+//              `select datemonth, avg(value)
+//                  where parentMetricId = 'Favorability - Doctors' and subjecttype = 'role' and subjectvalue = 'DDS'
+//                  group by datemonth
+//                  pivot metricId
+//                  order by datemonth desc`,
+
+        // Convert query on first page (subject-summary) into query for drill downs
+//        `select datemonth, avg(value)
+//                  where parentMetricId = 'Favorability - Assistants' and subjecttype = 'role' and subjectvalue = 'Orthodontic Assistant'
+//                  group by datemonth
+//                  pivot metricId
+//                  order by datemonth desc`,
+        "select datemonth, avg(value) where parentMetricId = 'Favorability - Doctors'  and subjecttype = 'staff'  and subjectvalue = 'celeron'  group by datemonth pivot metricId order by datemonth desc",
+//        "select datemonth, avg(value) where parentMetricId = 'Favorability - Frontoffice' " +
+//        "and subjecttype = 'staff' and subjectvalue = 'ermania'" +
+//        " group by datemonth " +
+//        "pivot metricId order by datemonth desc",
+        createNewYearSlider("slider"),
+        'chart', 'dashboard', 'datatable',
+        () => {
+          return [{
+            calc: (datatable, rowIndex) => {
+              let dt = datatable.getValue(rowIndex, 0);
+              return [monthNames[dt.getMonth()], (dt.getYear() + 1900)].join('-');
+            },
+            type: 'string',
+          },
+          1,2,3,4];
+        },
+        Object.assign(standardOptions, {
+          title:'Overall Favorability',
+          legend:'bottom',
+        })
+      );
+      let createNewCategoryFilter = (...usernames)=>{
+        let options = {
+          values: usernames,
+          ui: {
+            allowMultiple: true
+          }
+        }
+      }
+
+    });
+  </script>
+</head>
+<body>
+<div id='dashboard'>
+  <div id="slider"></div>
+  <div id='chart'></div>
+  <div id='datatable'></div>
+</div>
+</body>
+</html>

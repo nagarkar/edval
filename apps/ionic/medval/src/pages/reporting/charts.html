@@ -1,0 +1,242 @@
+<html>
+<head>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    let customerId = 'OEX';
+    let url = 'https://localhost:8091/api/customers/OEX/chartdata';
+
+    google.charts.load('current', { packages: ['corechart', 'controls', 'table'] });
+    google.charts.setOnLoadCallback(()=>{
+
+      let chart;
+
+      chart = new google.visualization.ChartWrapper({
+        'chartType':'Table',
+        'dataSourceUrl': url,
+        'containerId':'allData',
+        'query':"select *",
+        'options': {'title':'All Data', 'legend':'none'}
+      });
+      chart.draw();
+
+      var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
+      function toMonth(somedate) {
+        /*
+         var newDate = new Date(somedate);
+         newDate.setHours(0);
+         newDate.setMinutes(0);
+         newDate.setSeconds(0);
+         newDate.setDate(1);
+         return newDate;
+         */
+      }
+      let createNewYearSlider = (divId)=> {
+        return new google.visualization.ControlWrapper({
+          controlType: 'DateRangeFilter',
+          containerId: divId,
+          options: {
+            filterColumnIndex: 0,
+            ui: {
+              labelStacking: 'vertical',
+              format: {pattern: 'yyyy-MMMM'}
+            }
+          }
+        });
+      }
+
+      let renderDashboard = (queryStr, sliders, chartDiv, dashboardDiv, datatable, columns, chartOptions) => {
+        let query = new google.visualization.Query(url);
+        query.setQuery(queryStr);
+        query.send((response)=>{
+          let table = response.getDataTable();
+          new google.visualization.Table(document.getElementById(datatable)).draw(table);
+          //let yearFormat = new google.visualization.DateFormat({pattern: 'yyyy'});
+          //yearFormat.format(table, 0);
+          //monthFormat.format(table, 0);
+          let dashboard = new google.visualization.Dashboard(
+            document.getElementById(dashboardDiv));
+
+          let chart = new google.visualization.ChartWrapper({
+            chartType:'ColumnChart',
+            containerId: chartDiv,
+            view: [
+              {columns: columns(table)},
+            ],
+            options: chartOptions
+          });
+          dashboard.bind(sliders, chart);
+          dashboard.draw(table);
+        });
+      };
+      let standardOptions = {
+        hAxis: {
+          title: 'Time'
+        },
+        vAxis: {
+          title: 'Rating',
+          format: '#',
+          ticks: [0, 1, 2, 3, 4, 5]
+        },
+        trendlines: {
+          0: {
+            type: 'linear',
+            color: 'green',
+            lineWidth: 3,
+            opacity: 0.3,
+            showR2: true,
+            visibleInLegend: true
+          }
+        }    // Draw a trendline for data series 0.
+      }
+      renderDashboard(
+        `select datemonth, avg(value)
+            where subjecttype = 'org' and parentMetricId = ''
+            group by datemonth
+            order by datemonth limit 2500`,
+        createNewYearSlider("yearSlider1"),
+        'orgFavorability', 'orgDashboard', 'datatable1',
+        () => {
+          return [{
+            calc: (datatable, rowIndex) => {
+              let dt = datatable.getValue(rowIndex, 0);
+              return [monthNames[dt.getMonth()], (dt.getYear() + 1900)].join('-');
+            },
+            type: 'string',
+          },
+          1];
+        },
+        Object.assign(standardOptions, {
+          title:'Overall Favorability',
+          legend:'none',
+        })
+      );
+      let createNewCategoryFilter = (...usernames)=>{
+        let options = {
+          values: usernames,
+          ui: {
+            allowMultiple: true
+          }
+        }
+      }
+
+      let thingsToRender = ['jaite', 'celeron'];
+      renderDashboard(
+        `select datemonth, avg(value)
+            where subjecttype = 'staff' and parentMetricId = ''
+            group by datemonth
+            pivot subjectvalue
+            order by datemonth limit 2500`,
+        createNewYearSlider("yearSlider2"),
+        'staffFavorability', 'staffDashboard', 'datatable2',
+        (datatable)=> {
+          let numColumns = datatable.getNumberOfColumns();
+          let columns = [];
+          let nextIndex = 0;
+          columns[nextIndex++] = {
+            calc: (datatable, rowIndex)=>{
+              let dt = datatable.getValue(rowIndex, 0);
+              return [monthNames[dt.getMonth()], (dt.getYear() + 1900)].join('-');
+            },
+            type: 'string',
+          };
+          for(let i = nextIndex; i < numColumns; i++) {
+            if (thingsToRender.indexOf(datatable.getColumnLabel(i)) >= 0) {
+              columns[nextIndex++] = i;
+            }
+          }
+          return columns;
+        },
+        Object.assign(standardOptions, {
+          title:'Staff Favorability',
+          legend: {position: 'right', textStyle: {color: 'purple', fontSize: '1em'}}
+        })
+      );
+
+      let rolesToRender = ['DDS', 'Orthodontic Assistant', 'FrontOffice']; // account.getStandardRoles(...);
+      renderDashboard(
+        `select datemonth, avg(value)
+            where subjecttype = 'role' and parentMetricId = ''
+            group by datemonth
+            pivot subjectvalue
+            order by datemonth limit 2500`,
+        createNewYearSlider("yearSlider3"),
+        'roleFavorability', 'roleDashboard', 'datatable3',
+        (datatable)=> {
+          let numColumns = datatable.getNumberOfColumns();
+          let columns = [];
+          let nextIndex = 0;
+          columns[nextIndex++] = {
+            calc: (datatable, rowIndex)=>{
+              let dt = datatable.getValue(rowIndex, 0);
+              return [monthNames[dt.getMonth()], (dt.getYear() + 1900)].join('-');
+            },
+            type: 'string',
+          };
+          for(let i = nextIndex; i < numColumns; i++) {
+            if (rolesToRender.indexOf(datatable.getColumnLabel(i)) >= 0) {
+              columns[nextIndex++] = i;
+            }
+          }
+          return columns;
+        },
+        Object.assign(standardOptions, {
+          title:'Role Favorability',
+          legend: {position: 'right', textStyle: {color: 'purple', fontSize: '1em'}}
+        })
+      );
+
+      chart = new google.visualization.ChartWrapper({
+        'chartType':'BarChart',
+        'dataSourceUrl': url,
+        'containerId':'favorabilityByRole',
+        'query':"select subjectvalue, avg(value) where subjecttype = 'role' and parentMetricId = '' group by subjectvalue",
+        'options': {'title':'Role Favorability', 'legend':'none'}
+      });
+      chart.draw();
+
+      chart = new google.visualization.ChartWrapper({
+        'chartType':'BarChart',
+        'dataSourceUrl': url,
+        'containerId':'favorabilityByStaff',
+        'query':"select subjectvalue, avg(value) where subjecttype = 'staff' and parentMetricId = '' group by subjectvalue",
+        'options': {'title':'Staff Favorability', 'legend':'none'}
+      });
+      chart.draw();
+
+      chart = new google.visualization.ChartWrapper({
+        'chartType':'LineChart',
+        'dataSourceUrl': url,
+        'containerId':'metricBreakdown',
+        'query':"select subjectvalue, avg(value) where subjecttype = 'staff' and parentMetricId <> '' group by subjectvalue",
+        'options': {'title':'Staff Favorability', 'legend':'none'}
+      });
+      chart.draw();
+
+      google.visualization.drawToolbar(document.getElementById('toolbar'), [{type: 'csv', datasource: url}]);
+    });
+  </script>
+</head>
+<body>
+<div id='subjectMetrics'></div>
+<div id='orgDashboard'>
+  <div id="yearSlider1"></div>
+  <div id='orgFavorability'></div>
+  <div id='datatable1'></div>
+</div>
+<div id='staffDashboard'>
+  <div id="yearSlider2"></div>
+  <div id='staffFavorability'></div>
+  <div id='datatable2'></div>
+</div>
+<div id='roleDashboard'>
+  <div id="yearSlider3"></div>
+  <div id='roleFavorability'></div>
+  <div id='datatable3'></div>
+</div>
+<div id='favorabilityByRole'></div>
+<div id='favorabilityByStaff'></div>
+<div id='metricBreakdown'></div>
+<div id='toolbar'></div>
+<div id='allData'></div>
+</body>
+</html>

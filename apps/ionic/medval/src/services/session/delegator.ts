@@ -49,15 +49,41 @@ export class SessionService extends DelegatingService<Session> {
     return session;
   }
 
-  closeCurrentSession(skipSave?: boolean) {
+  closeCurrentSession() {
     if (!this.hasCurrentSession()) {
       return;
     }
-    if (!skipSave) {
-      super.create(this.getCurrentSession());
-    }
-    this.getCurrentSession().close();
+    this.getCurrentSession().readyToSave();
+    let session: Session =this.getCurrentSession();
+    this.updateWithRetries(session, Config.SESSION_SAVE_RETRY_TIME, Config.SESSION_RETRIES);
     this.surveyNavigator = null;
+  }
+
+  updateWithRetries(session: Session, delay: number, retries: number): Promise<Session> {
+    if (retries < 0 || !session || !delay) {
+      Utils.errorAndThrow(new Error("Invalid input in updateWithRetries"));
+    }
+    return new Promise((resolve, reject)=>{
+      if (retries < 0) {
+        reject("Exhausted Retries")
+        return;
+      }
+      super.update(session)
+        .then((session: Session)=>{
+          resolve(session);
+          return session;
+        })
+        .catch((err)=>{
+          retries--;
+          setTimeout(()=>{
+            this.updateWithRetries(session, delay * Config.BACKOFF_MULTIPLIER, retries)
+              .then((session: Session)=>{
+                resolve(session);
+                return session;
+              })
+          }, delay)
+        })
+    });
   }
 
   recordNavigatedLocationInCurrentSession(location: string) {
@@ -68,20 +94,12 @@ export class SessionService extends DelegatingService<Session> {
     }
   }
 
-  get(id: string, dontuseCache?: boolean) : Promise<Session> {
-    return Promise.reject<Session>(Utils.unsupportedOperationError("get", this));
-  }
-
   list(dontuseCache?: boolean): Promise<Session[]> {
     return Promise.reject<Session[]>(Utils.unsupportedOperationError("list", this));
   }
 
-  getCached(id: string) :  Session{
-    throw Utils.logAndThrow(Utils.unsupportedOperationError("getCached", this));
-  }
-
   listCached(): Session[] {
-   throw Utils.logAndThrow(Utils.unsupportedOperationError("listCached", this));
+   throw Utils.errorAndThrow(Utils.unsupportedOperationError("listCached", this));
   }
 
   delete(id: string): Promise<void> {

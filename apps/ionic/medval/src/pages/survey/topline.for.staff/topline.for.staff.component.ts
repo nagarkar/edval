@@ -81,10 +81,15 @@ export class ToplineForStaffComponent extends SurveyPage {
   }
 
   public onSelection(data: SReplacerDataMap, value: string) {
-    data['value'] = value;
     let navigator: SurveyNavigator = this.sessionSvc.surveyNavigator;
     navigator.session.addMetricValue(data.metric.subject, new MetricValue(data.metric.metricId, value));
-    if (this.displayData.every((data: SReplacerDataMap) => {return data['value'] != null})) {
+
+    let staff: Staff = this.staffSvc.getCached(Metric.getStaffInSubject(data.metric.subject));
+    if (staff) {
+      navigator.session.addMetricValue(Metric.createRoleSubject(staff.role), new MetricValue(data.metric.metricId, value));
+    }
+
+    if (this.displayData.every((data: SReplacerDataMap) => {return value != null})) {
       this.done = true;
     }
   }
@@ -98,7 +103,14 @@ export class ToplineForStaffComponent extends SurveyPage {
     return styles;
   }
 
-  private setupDisplayData(displayCount:number, staffNames: string[]) {
+  /**
+   * Creates the Metrics for display. If the
+   * @param displayCount
+   * @param staffNames Staff Names for which metrics should be displayed. The staff names determine the subject of
+   * corresponding metric.
+   * @returns {Array<SReplacerDataMap>} The data map for each metric.
+   */
+  private setupDisplayData(displayCount:number, staffNames: string[]): Array<SReplacerDataMap> {
     let displayData: Array<SReplacerDataMap> = [];
     for (let i = 0; i < staffNames.length && this.displayData.length < this.displayCount; i++) {
       let staffName = staffNames[i];

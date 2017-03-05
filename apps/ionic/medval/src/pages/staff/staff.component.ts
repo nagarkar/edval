@@ -12,6 +12,7 @@ import {Utils} from "../../shared/stuff/utils";
 import {StaffService} from "../../services/staff/delegator";
 import {AdminComponent} from "../admin.component";
 import {StaffEditComponent} from "./staff.edit.component";
+import {Http} from "@angular/http";
 
 @Component({
   templateUrl: './staff.component.html'
@@ -23,12 +24,13 @@ export class StaffComponent extends AdminComponent  {
 
   constructor(
     navCtrl: NavController,
+    http: Http,
     private toastCtrl: ToastController,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     private staffSvc : StaffService) {
 
-    super(navCtrl);
+    super(navCtrl, http);
   }
 
   ngOnInit(): void {
@@ -61,13 +63,15 @@ export class StaffComponent extends AdminComponent  {
 
   public delete(staffMember: Staff) {
     Utils.presentProceedCancelPrompt(this.alertCtrl, ()=> {
-      Utils.showLoadingBar();
+      Utils.showSpinner('Processing', 'Please wait..');
       this.staffSvc.delete(staffMember.username)
         .then(() => {
           this.getStaffList();
           Utils.presentTopToast(this.toastCtrl, "Deleted", 3000)
         })
-        .catch((err) => Utils.presentTopToast(this.toastCtrl, err || "Could not delete staff member", 3000))
+        .catch((err) => {
+          Utils.presentTopToast(this.toastCtrl, err || "Could not delete staff member", 3000);
+        })
     }, "You can't undo this action")
 
   }

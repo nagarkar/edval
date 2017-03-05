@@ -8,7 +8,7 @@
 
 import {NgModule, enableProdMode} from "@angular/core";
 import {IonicApp, IonicModule} from "ionic-angular";
-import {RevvolveApp} from "./app.component";
+import {RevvolveApp} from "./revvolve.app";
 import {LoginComponent} from "../pages/login/login.component";
 import {Utils} from "../shared/stuff/utils";
 import {AccessTokenService} from "../shared/aws/access.token.service";
@@ -35,9 +35,6 @@ import {SessionService} from "../services/session/delegator";
 import {MetricService} from "../services/metric/delegator";
 import {MockMetricService} from "../services/metric/mock";
 import {LiveMetricService} from "../services/metric/live";
-import {NpsTrendComponent} from "../pages/charts/nps.trend.component";
-import {RevvolveMetricsComponent} from "../pages/charts/revvolve.metrics.component";
-import {AllTrendsComponent} from "../pages/charts/all.trends";
 import {SettingsComponent} from "../pages/settings/settings.component";
 import {MetricSummaryComponent} from "../pages/metricsetup/metric.summary.component";
 import {MetricDetailComponent} from "../pages/metricsetup/metric.detail.component";
@@ -66,15 +63,28 @@ import {AutoCompleteModule} from "../shared/components/autocomplete/autocomplete
 import {ImageMapComponent} from "../shared/components/imgmap/imgmap.component";
 import {PickMetricGroups} from "../pages/survey/PickMetricGroups/pick.metricgroups.component";
 import {AccountSetupService} from "../services/accountsetup/account.setup.service";
-import {ReportingModule} from "../modules/reporting/module";
 import {RevvolveCommonModule} from "../shared/revvolve.common.module";
-import {ReportingDashboard} from "../pages/reporting/reporting.dashboard.component";
 import {CampaignService} from "../services/campaign/delegator";
 import {MockCampaignService} from "../services/campaign/mock";
 import {LiveCampaignService} from "../services/campaign/live";
 import {DailyDataService} from "../services/reporting/delegator";
 import {MockDailyDataService} from "../services/reporting/mock";
 import {LiveDailyDataService} from "../services/reporting/live";
+import {ChartService} from "../pages/reporting/chart.service";
+import {CampaignDashboard} from "../pages/reporting/campaign.dashboard";
+import {CampaignSummaryComponent} from "../pages/reporting/summary/campaign.summary.component";
+import {SubjectSummaryComponent} from "../pages/reporting/summary/subject.summary.component";
+import {ChartComponent} from "../pages/reporting/chart.component";
+import {TopInfluencersTable} from "../pages/reporting/influencers/top.influencers.component";
+import {PromoterDrilldownComponent} from "../pages/reporting/summary/promoter.drilldown.component";
+import {SubjectDetailComponent} from "../pages/reporting/metricdetails/subject.detail.component";
+import {LiveSessionFollowupService} from "../services/followup/live";
+import {MockSessionFollowupService} from "../services/followup/mock";
+import {SessionFollowupService} from "../services/followup/delegator";
+import {RevvolveDatePipe} from "../pipes/date.filters";
+import {FollowupPage} from "../pages/followups/followup.page";
+import {Suggestion} from "../shared/aws/dynamodb";
+import {SuggestionComponent} from "../shared/components/suggestions/suggestions.page";
 
 enableProdMode();
 
@@ -85,6 +95,7 @@ enableProdMode();
     /** Pipes **/
     SReplacer,
     PhonePipe,
+    RevvolveDatePipe,
 
     /** Shared components **/
     //HeaderComponent,
@@ -98,6 +109,7 @@ enableProdMode();
     /** Common **/
     LoginComponent,
     CustomerTextEmailComponent,
+    SuggestionComponent,
 
     /** Administrative Components */
     DashboardComponent,
@@ -107,6 +119,7 @@ enableProdMode();
     TermComponent,
     StaffEditComponent,
     SettingsComponent,
+    FollowupPage,
 
     /** Survey Components */
     RatingComponent,
@@ -122,11 +135,14 @@ enableProdMode();
     PickMetricGroups,
 
     /** Reporting */
-    NpsTrendComponent,
-    RevvolveMetricsComponent,
-    AllTrendsComponent,
-    ReportingDashboard,
-    //ChartComponent,
+    ChartComponent,
+
+    CampaignDashboard,
+    CampaignSummaryComponent,
+    TopInfluencersTable,
+    SubjectSummaryComponent,
+    PromoterDrilldownComponent,
+    SubjectDetailComponent,
 
     /** Metric Management */
     MetricSummaryComponent,
@@ -138,7 +154,7 @@ enableProdMode();
     JsonpModule,
     NgIdleModule.forRoot(),
     AutoCompleteModule,
-    ReportingModule,
+    //ReportingModule,
     RevvolveCommonModule
   ],
   bootstrap: [IonicApp],
@@ -156,6 +172,7 @@ enableProdMode();
     /** Common **/
     LoginComponent,
     CustomerTextEmailComponent,
+    SuggestionComponent,
 
     /** Administrative Components */
     DashboardComponent,
@@ -165,6 +182,7 @@ enableProdMode();
     TermComponent,
     StaffEditComponent,
     SettingsComponent,
+    FollowupPage,
 
     /** Survey Components */
     RatingComponent,
@@ -180,22 +198,25 @@ enableProdMode();
     PickMetricGroups,
 
     /** Reporting */
-    NpsTrendComponent,
-    RevvolveMetricsComponent,
-    AllTrendsComponent,
-    ReportingDashboard,
-    //ChartComponent,
+    ChartComponent,
+
+    CampaignDashboard,
+    CampaignSummaryComponent,
+    TopInfluencersTable,
+    SubjectSummaryComponent,
+    PromoterDrilldownComponent,
+    SubjectDetailComponent,
 
     /** Metric Management */
     MetricSummaryComponent,
     MetricDetailComponent
-
   ],
   providers: [
     { provide: Config, useClass: Config},
     { provide: Utils, useClass: Utils },
     { provide: AccessTokenService, useClass: AccessTokenService},
     //{ provide: ErrorHandler, useClass: CustomErrorHandler },
+    ChartService,
     StaffService, MockStaffService, LiveStaffService,
     AccountService, MockAccountService, LiveAccountService,
     LiveSessionService, MockSessionService, SessionService,
@@ -205,9 +226,12 @@ enableProdMode();
     EmailProviderService,
     AccountSetupService,
     SReplacer,
+    RevvolveDatePipe,
     LiveCampaignService, MockCampaignService, CampaignService,
     LiveDailyDataService, MockDailyDataService, DailyDataService,
-    Idle
+    SessionFollowupService, MockSessionFollowupService, LiveSessionFollowupService,
+    Idle,
+    //ChartService
   ]
 })
 

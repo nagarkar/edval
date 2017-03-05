@@ -7,7 +7,6 @@
  */
 import {Component, Input, Output, EventEmitter, ElementRef} from "@angular/core";
 import {SlideItem} from "../carousel/carousel.schema";
-import {Utils} from "../../stuff/utils";
 
 @Component({
   selector: 'rotating-carousel',
@@ -57,7 +56,6 @@ export class RotatingCarousel {
   }
 
   constructor(private eleRef: ElementRef) {
-    Utils.log("in carousel constructor")
   }
 
 

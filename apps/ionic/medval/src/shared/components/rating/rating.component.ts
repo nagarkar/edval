@@ -6,7 +6,6 @@
  * site or application without licensing is strictly prohibited.
  */
 import {Component, Input, Output, EventEmitter} from "@angular/core";
-import {Utils} from "../../stuff/utils";
 
 @Component({
   selector: 'rating',
@@ -41,7 +40,6 @@ export class RatingComponent {
   set ratingMax(max: number) {
     this._ratingMax = max;
     this.ratingRange  = new Array(max);
-    Utils.log("In rating nginit: " + this.ratingRange + ":");
   }
 
   setRating(value: number) {
@@ -63,10 +61,8 @@ export class RatingComponent {
       this.ratingValueChange.emit(value);
     }
     this.popped = true;
-    Utils.log("In setRating value:{0}, hasbeenselected:{1}", value.toString(), this.popped.toString());
     setTimeout(()=> {
       this.popped = false;
-      Utils.log("Reset hasBeenSelected: {0}", this.popped.toString());
     }, 1300);
   }
 }

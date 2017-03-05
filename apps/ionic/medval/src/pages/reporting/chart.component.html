@@ -1,0 +1,71 @@
+<mdval-header></mdval-header>
+<ion-content padding class="m-t-3">
+  <ion-grid padding>
+    <ion-row>
+      <ion-col>
+        <h4>Here are the top drivers for high favorability ratings</h4>
+        <h6>(Improve the top drivers to improve favorability ratings)</h6>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-33>
+        <h5>For Overall Favorability</h5>
+        <div id="topInfluencers1"></div>
+      </ion-col>
+      <ion-col>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <h5>For Favorability of Doctors</h5>
+              <div id="topInfluencers3"></div>
+            </ion-col>
+            <ion-col>
+              <h5>For Favorability of Front Office</h5>
+              <div id="topInfluencers7"></div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <h5>For Favorability of Orthodontic Assistants</h5>
+              <div id="topInfluencers5"></div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <button ion-button (tap)="emailFavorabilityInfluencerReport()">Email Report</button>
+
+  <div id ="metricsByRoleDashboard">
+    <div id="roleCategoryFilter1"></div>
+    <div id="metricsByRole"></div>
+    <div id="metricsByRoleDatatable"></div>
+  </div>
+  <div id ="metricsByStaffDashboard">
+    <div id="staffCategoryFilter1"></div>
+    <div id="metricsByStaff"></div>
+    <div id="metricsByStaffDatatable"></div>
+  </div>
+  <div id='subjectMetrics'></div>
+  <div id='orgDashboard'>
+    <div id="yearSlider1"></div>
+    <div id='orgFavorability'></div>
+    <div id='datatable1'></div>
+  </div>
+  <div id='staffDashboard'>
+    <div id="yearSlider2"></div>
+    <div id='staffFavorability'></div>
+    <div id='datatable2'></div>
+  </div>
+  <div id='roleDashboard'>
+    <div id="yearSlider3"></div>
+    <div id='roleFavorability'></div>
+    <div id='datatable3'></div>
+  </div>
+  <div id='favorabilityByRole'></div>
+  <div id='favorabilityByStaff'></div>
+  <div id='metricBreakdown'></div>
+  <div id='allData'></div>
+  <div id="toolbar"></div>
+</ion-content>

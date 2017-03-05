@@ -6,14 +6,14 @@
   <ion-grid *ngIf="displayData.length > 0" style="max-height:100%; padding-top:3em">
     <ion-row center *ngFor="let data of displayData; let idx = index">
       <ion-col width-20>
-        <img class="border" [ngStyle]="styles.img" src="{{data.onlyStaff.properties?.photoUrl}}" alt="{{data.onlyStaff.displayName}}">
+        <ion-img cache class="border" [ngStyle]="styles.img" src="{{data.onlyStaff.properties?.photoUrl}}" alt="{{data.onlyStaff.displayName}}"></ion-img>
       </ion-col>
       <ion-col [ngStyle]="styles.text">
           <span>{{data.metric.properties.question | sReplacer:data}}</span>
           <p class="pos-rel" style="margin:0" text-center *ngIf="data.metric.isNpsType()">
             <rating class="staffrating" (ratingValueChange)="onSelection(data, $event);"
                     [ratingMax]="data.metric.properties.definition.npsType.range"
-                    [ratingValue]="1"
+                    [ratingValue]="0"
                     [showLabels]="false"></rating>
           </p>
       </ion-col>

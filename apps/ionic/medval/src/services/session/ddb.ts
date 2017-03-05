@@ -22,7 +22,6 @@ export class DDBSessionService implements ServiceInterface<Session> {
   onDelete: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() {
-    Utils.log("Created DdbSessionService: " + typeof this);
   }
 
   getId(member: Session): string {

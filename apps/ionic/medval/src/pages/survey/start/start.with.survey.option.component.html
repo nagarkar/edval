@@ -4,7 +4,9 @@
     <ion-row>
       <ion-col width-40>
         <!--img src="http://img.picturequotes.com/2/26/25637/when-you-know-better-you-do-better-quote-1.jpg"/-->
-        <img height="650em" src={{leftImage}} style="-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);position:relative; bottom:-1em">
+        <div #imgDiv>
+          <img>
+        </div>
       </ion-col>
       <ion-col>
         <h1 style='font-size: 3em;' class="m-b-0 m-t-2"><b>{{'account.properties.customerName' | sReplacer}}</b></h1>
@@ -23,7 +25,7 @@
         </div>
         <div *ngIf="!defaultOnly">
           <button *ngFor="let survey of surveys; let idx = index;" ion-button medium type="button" color="primary" (tap)="pickSurvey(survey.id);">
-            <div class="card-title">{{survey.properties.timeCommitment}}</div>
+            <div class="card-title">{{survey.properties.name}}</div>
           </button>
         </div>
       </ion-col>

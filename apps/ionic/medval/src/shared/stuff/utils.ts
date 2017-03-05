@@ -17,13 +17,16 @@ import {
   AlertInputOptions,
   NavController
 } from "ionic-angular";
-import {CameraOptions, Camera, SpinnerDialog} from "ionic-native";
+import {CameraOptions, Camera, SpinnerDialog, Device, TextToSpeech} from "ionic-native";
 import {ErrorType} from "./error.types";
 import {Config} from "../config";
 import {AwsClient} from "../aws/aws.client";
 import {CircularList} from "./circular.list";
 import {AccessTokenService} from "../aws/access.token.service";
 import {LoginComponent} from "../../pages/login/login.component";
+import {HelpMessages} from "./HelpMessages";
+import {HttpClient} from "./http.client";
+import {Http} from "@angular/http";
 
 @Injectable()
 export class Utils {
@@ -46,10 +49,33 @@ export class Utils {
     return navCtrl.push(component, params || {}, Utils.forwardAnimation());
   }
 
+  static getPrefix(type: string) {
+    return ["[", type, " ", (new Date).toLocaleTimeString(), ":", Device.uuid, "] "].join("");
+  }
+
+  static info(message: string, ...args: any[]) : void {
+
+    let fmsg = Utils.format(Utils.getPrefix('INFO') + message, ...args);
+    if (console && window['REVVOLVE_PROD_ENV'] == false) {
+      console.info(fmsg);
+    }
+  }
+
   static log(message: string, ...args: any[]) : void {
-    let fmsg = Utils.format(message, ...args);
+    Utils.logInternal(true, message, ...args);
+  }
+
+  static logWithoutAWS(message: string, ...args: any[]) : void {
+    Utils.logInternal(false, message, ...args);
+  }
+
+  private static logInternal(logAws: boolean, message: string, ...args: any[]): void {
+    let fmsg = Utils.format(Utils.getPrefix('DEBUG') + message, ...args);
     if (console && window['REVVOLVE_PROD_ENV'] == false) {
       console.log(fmsg);
+    }
+    if (logAws) {
+      AwsClient.logEvent(fmsg);
     }
     try {
       Utils.logData.add(fmsg);
@@ -63,11 +89,11 @@ export class Utils {
   }
 
   static error(message: string, ...args: any[]) : void {
-    let fmsg = Utils.format(message, ...args);
+    let fmsg = Utils.format(Utils.getPrefix('ERROR') + message, ...args);
     if (console) {
       console.error("Courtsey of Utils.error():" + fmsg);
     }
-    AwsClient.logEvent(message);
+    AwsClient.logEvent(fmsg);
     try {
       Utils.errData.add(fmsg);
     }catch(err) {console.log('Could not log in errData: ' + err)};
@@ -194,10 +220,10 @@ export class Utils {
     return profileModal;
   }
 
-  static presentTopToast(toastCtrl: ToastController, message: string, delay?: number) {
+  static presentTopToast(toastCtrl: ToastController, message: string, duration?: number) {
     let toast = toastCtrl.create({
       message: message || 'Success!',
-      duration: delay || 3000,
+      duration: duration || 3000,
       position: 'top'
     });
     toast.present();
@@ -256,10 +282,17 @@ export class Utils {
     actionSheet.present();
   }
 
-  static presentInvalidEntryAlert(alertCtrl: AlertController, message: string, ...args: string[]): Alert {
+  static showHelp(alertCtrl: AlertController, item: string, cssClass) {
+    let helpMsgData = HelpMessages.getTitleAndMessage(item);
+    Utils.presentInvalidEntryAlert(alertCtrl, helpMsgData.title, helpMsgData.message, cssClass);
+  }
+
+  static presentInvalidEntryAlert(alertCtrl: AlertController, title: string, message?: string, cssClass?: string): Alert {
     let alert : Alert = alertCtrl.create({
-      title: Utils.format(message, ...args),
-      buttons: ['Dismiss']
+      title: title,
+      message: message,
+      buttons: ['Dismiss'],
+      cssClass: cssClass
     });
     alert.present();
     return alert;
@@ -288,7 +321,8 @@ export class Utils {
   static presentAlertPrompt (
     alertCtrl: AlertController,
     onselect: (result: string | any) => void,
-    title?: string, inputs?: Array<AlertInputOptions>): Alert {
+    title?: string,
+    inputs?: Array<AlertInputOptions>): Alert {
 
     let alert = alertCtrl.create({
       title: title || '',
@@ -298,27 +332,20 @@ export class Utils {
           text: 'Cancel',
           role: 'cancel',
           handler: (data: any) => {
-            Utils.log('Cancel clicked');
           }
         },
         {
           text: 'Save',
           handler: (data: any) => {
-            onselect(data);
+            if (onselect) {
+              onselect(data);
+            }
           }
         }
       ]
     });
     alert.present();
     return alert;
-  }
-
-  static showLoadingBar() {
-    SpinnerDialog.show('Processing', 'Please wait..');
-  }
-
-  static hideLoadingBar() {
-    SpinnerDialog.hide();
   }
 
   static isWebView(): boolean {
@@ -373,7 +400,6 @@ export class Utils {
           text: 'Cancel',
           role: 'cancel',
           handler: (data: any) => {
-            Utils.log('Cancel clicked');
           }
         },
         {
@@ -423,7 +449,7 @@ export class Utils {
     return obj == null || obj == undefined || (Utils.isString(obj) && obj.length == 0);
   }
 
-  static logAndThrow(err: Error) {
+  static errorAndThrow(err: Error) {
     if (!err) {
       return;
     }
@@ -464,10 +490,55 @@ export class Utils {
     return Object.prototype.toString.call(obj) == '[object String]';
   }
 
-  static logoutIfNecessary(navCtrl: NavController) {
+  static logoutIfNecessary(navCtrl: NavController, http: Http) {
     if (!AccessTokenService.authResult) {
       navCtrl.setRoot(LoginComponent);
     }
+    let client: HttpClient<string> = new HttpClient<string>(http);
+    client.ping()
+      .catch((err)=>{
+        navCtrl.setRoot(LoginComponent);
+      })
+  }
+
+  static isNumeric(value: any) {
+    return !isNaN(parseFloat(value)) && isFinite(value);
+  }
+
+  static isBoolean(value: any) {
+    return typeof(value) === "boolean";
+  }
+
+  static isDate(value: any) {
+    return value && !Utils.isNumeric(value) && value.constructor.name === "Date";
+  }
+
+  private static spinnerCount = 0;
+  static killSpinner() {
+    Utils.spinnerCount = 0;
+    SpinnerDialog.hide();
+  }
+
+  static showSpinner(title?: string, message?: string) {
+    Utils.spinnerCount++;
+    SpinnerDialog.show(title, message);
+  }
+
+  static hideSpinner() {
+    Utils.spinnerCount--;
+    if (Utils.spinnerCount == 0) {
+      SpinnerDialog.hide();
+    }
+  }
+
+  static speak(message: string) {
+    TextToSpeech.speak({text: message, locale: Config.LOCALE})
+      .then(() => {
+        Utils.log('Successfully spoke this message: {0}', message);
+      })
+      .catch((reason: any) => {
+        Utils.log('Failed to speak message: {0}', message);
+      });
   }
 }
 

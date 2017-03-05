@@ -7,6 +7,7 @@
  */
 import {Utils} from "../../shared/stuff/utils";
 import {Type as tType} from "class-transformer";
+import {Config} from "../../shared/config";
 
 export class Type {}
 
@@ -57,6 +58,10 @@ export class MetricDefinition {
 
 export class Metric {
 
+  static readonly ROLE_SUBJECT_TYPE = "role";
+  static readonly ORG_SUBJECT_TYPE = "org";
+  static readonly STAFF_SUBJECT_TYPE = "staff";
+
   // Test regex changes here: https://regex101.com/
   private static readonly rolePattern = /^role:(.*)/i;
   private static readonly staffPattern = /^staff:(.*)/i;
@@ -67,6 +72,8 @@ export class Metric {
   subject   : string;
   parentMetricId: string;
   entityStatus: string;
+  softwareVersion: string = Config.SOFTWARE_VERSION;
+
   @tType(() => MetricProperties)
   properties: MetricProperties = new MetricProperties();
 
@@ -78,6 +85,7 @@ export class Metric {
     this.metricId = id;
     this.subject = subject;
     this.properties.definition.setType(type);
+    this.softwareVersion = Config.SOFTWARE_VERSION;
   }
 
   toString() {

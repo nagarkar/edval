@@ -1,14 +1,57 @@
+<ion-footer no-border>
+  <ion-toolbar>
+  <ion-grid class="nopadding">
+    <ion-row>
+      <ion-col class="p-t-1 nopadding" width-20 *ngIf="showLastWin">
+        <div text-left>
+          <div>Last Win: {{lastWinTime | date:'medium'}}</div>
+          <div>Last Survey: {{lastSessionTime | date:'medium'}}</div>
+        </div>
+      </ion-col>
+      <ion-col class="nopadding">
+        <ion-title *ngIf="!reassure">Revvolve Metrics is developed by HC Technology Inc.</ion-title>
+        <ion-title *ngIf="reassure">Your feedback <b>is always anonymous</b></ion-title>
+      </ion-col>
+      <ion-col class="nopadding" width-20 *ngIf="showSuggestionBox">
+        <div text-right>
+          <button ion-button clear (tap)="displaySuggestionBox()">Suggestions<br/>\&&nbsp;Contact</button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  </ion-toolbar>
+</ion-footer>
+<!--
+    <div>
+      <button ion-button outline icon-right>
+        Suggestions?
+        <ion-icon name="star"></ion-icon>
+      </button>
+    </div>
+
 <ion-footer>
   <ion-navbar no-padding text-center>
     <div text-center>
       <ion-list class="reassure" no-padding no-margin text-center>
+        <ion-item *ngIf="showLastWin" class="hc-cstm-footer-list">
+          <div text-left style="font-size:.75em; -webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);position:absolute; display:inline; bottom:1em">
+            <div>Last Win Time: {{lastWinTime | date:'medium'}}</div>
+            <div>Last Survey Time: {{lastSessionTime | date:'medium'}}</div>
+          </div>
+        </ion-item>
         <ion-item *ngIf="reassure" class="hc-cstm-footer-list">
           Your feedback <b>is always anonymous</b>
         </ion-item>
         <ion-item *ngIf="!reassure" class="hc-cstm-footer-list">
           Revvolve Metrics is developed by HC Technology Inc.
         </ion-item>
+        <ion-item *ngIf="showSuggestionBox">
+          <div text-right>
+            <button ion-button>Suggestions/Problems?</button>
+          </div>
+        </ion-item>
       </ion-list>
     </div>
   </ion-navbar>
 </ion-footer>
+-->

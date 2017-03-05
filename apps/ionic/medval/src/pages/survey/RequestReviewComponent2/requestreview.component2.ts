@@ -15,6 +15,10 @@ import {CustomerTextEmailComponent} from "./customer.text.email.component";
 import {SessionProperties} from "../../../services/session/schema";
 import {Idle} from "@ng-idle/core";
 import {SurveyPage} from "../survey.page";
+import {AccountService} from "../../../services/account/delegator";
+import {Config} from "../../../shared/config";
+import {Account} from "../../../services/account/schema";
+import {ValidationService} from "../../../shared/components/validation/validation.service";
 
 @Component({
   templateUrl: './requestreview.component2.html',
@@ -24,15 +28,29 @@ import {SurveyPage} from "../survey.page";
 @RegisterComponent
 export class RequestReviewComponent2 extends SurveyPage {
 
-  public reviewMsg: string;
+  reviewMsg: string;
+  showGoogle: boolean;
+  showFacebook: boolean;
+  showYelp: boolean;
 
   constructor(idle: Idle,
               utils: Utils,
               navCtrl: NavController,
               sessionSvc: SessionService,
+              private accountSvc: AccountService,
               private modalCtrl: ModalController) {
 
     super(navCtrl, sessionSvc, idle);
+    try {
+      let account: Account = this.accountSvc.getCached(Config.CUSTOMERID);
+      if (account && account.properties) {
+        this.showFacebook = ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_FACEBOOK);
+        this.showGoogle = ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_GOOGLE);
+        this.showYelp = ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_YELP);
+      }
+    } catch (err) {
+      Utils.error(err);
+    }
   }
 
   navigateToNext() {

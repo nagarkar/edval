@@ -44,11 +44,16 @@ export class PickStaffComponent extends SurveyPage {
     params: NavParams) {
 
     super(navCtrl, sessionSvc, idle);
+
     try {
+
       this.displayCount = params.get('displayCount') || this.displayCount;
       this.roles = params.get("roles") || this.roles;
       this.message = params.get("message") || this.message;
-
+      if (this.staffSvc.listCached().length == 0) {
+        super.navigateToNext(true /* Force Navigate */);
+        return;
+      }
       this.setupSlides();
     } catch(err) {
       super.handleErrorAndCancel(err);
@@ -98,9 +103,6 @@ export class PickStaffComponent extends SurveyPage {
   private setupSlides() {
     this.staffSvc.list()
       .then((staffList: Staff[]) => {
-        if (!staffList || staffList.length == 0) {
-          this.navigateToNext(true /* Force Navigate */);
-        }
         this.slideToStaffMap = new Map<number, Staff>();
         let count = 0;
         //this.utils.log("got staff for carousel " + Utils.stringify(staffList));

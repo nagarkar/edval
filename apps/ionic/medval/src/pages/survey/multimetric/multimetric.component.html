@@ -16,7 +16,7 @@
               <ion-range
                 style="padding-top: 1.1em"
                 [(ngModel)]="metricValues[idx]"
-                (ionChange)="setValue($event, metric)"
+                (ionChange)="setValue($event, idx)"
                 min="1"
                 max="{{metric.properties.definition.npsType.range}}"
                 snaps="true"

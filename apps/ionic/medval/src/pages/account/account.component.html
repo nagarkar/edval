@@ -74,36 +74,107 @@
                [(ngModel)]="account.properties.contactName"></ion-input>
         </ion-col>
       </ion-row>
+      <ion-row>
+        <ion-col width-33>
+          <ion-label>Location Address</ion-label>
+        </ion-col>
+        <ion-col>
+          <ion-input placeholder="Street Line 1" [(ngModel)]="account.properties.address.street1"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-33>
+        </ion-col>
+        <ion-col>
+          <ion-input placeholder="Street Line 2" [(ngModel)]="account.properties.address.street2"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row class="group-fields">
+        <ion-col width-33></ion-col>
+        <ion-col>
+          <ion-input placeholder="City" [(ngModel)]="account.properties.address.city"></ion-input>
+        </ion-col>
+        <ion-col>
+          <ion-select class="rev-select" [(ngModel)]="account.properties.address.state">
+            <ion-option *ngFor="let state of states"
+                        [value]="state.key" [selected]="account.properties.address.state == state.key">{{state.value}}
+            </ion-option>
+          </ion-select>
+        </ion-col>
+        <ion-col>
+          <ion-input placeholder="Zip" [(ngModel)]="account.properties.address.zip"></ion-input>
+        </ion-col>
+      </ion-row>
       <div *ngIf="isEdit">
-        <ion-row>
-          <ion-col width-33>
-            <ion-label>Location Address</ion-label>
+        <ion-row class="border-around-text">
+          <ion-col width-20>
+            <ion-label>Spinwheel Configuration</ion-label>
           </ion-col>
           <ion-col>
-            <ion-input placeholder="Street Line 1" [(ngModel)]="account.properties.address.street1"></ion-input>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-label (tap)="showHelp('SWEEPSTAKES_SHOW_WHEEL')" item-left>Show SpinWheel Game (?)</ion-label>
+                  <ion-checkbox item-right [(ngModel)]="account.properties.configuration.SWEEPSTAKES_SHOW_WHEEL"></ion-checkbox>
+                </ion-col>
+                <ion-col>
+                  <ion-label (tap)="showHelp('SWEEPSTAKES_AWARD_AMOUNT')" item-left>Award Amount (?)</ion-label>
+                  <ion-input type="number" item-right [(ngModel)]="account.properties.configuration.SWEEPSTAKES_AWARD_AMOUNT"></ion-input>
+                </ion-col>
+                <ion-col>
+                  <ion-label (tap)="showHelp('SWEEPSTAKES_COST_PER_USE')" item-left>Spend per Customer (?)</ion-label>
+                  <ion-input type="number" item-right [(ngModel)]="account.properties.configuration.SWEEPSTAKES_COST_PER_USE"></ion-input>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
           </ion-col>
         </ion-row>
-        <ion-row>
-          <ion-col width-33>
+        <ion-row class="border-around-text">
+          <ion-col width-20>
+            <ion-label (tap)="showHelp('REVIEW_URL')">Review Urls (?)</ion-label>
           </ion-col>
           <ion-col>
-            <ion-input placeholder="Street Line 2" [(ngModel)]="account.properties.address.street2"></ion-input>
+            <ion-grid>
+              <ion-row>
+                <ion-col width-20>
+                  <ion-label (tap)="showHelp('REVIEW_URL_FACEBOOK')" item-left>Facebook Url (?)</ion-label>
+                </ion-col>
+                <ion-col>
+                  <ion-input type="url" item-right [(ngModel)]="account.properties.configuration.REVIEW_URL_FACEBOOK"></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col width-20>
+                  <ion-label (tap)="showHelp('REVIEW_URL_GOOGLE')" item-left>Google Url (?)</ion-label>
+                </ion-col>
+                <ion-col>
+                  <ion-input type="url" item-right [(ngModel)]="account.properties.configuration.REVIEW_URL_GOOGLE"></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col width-20>
+                  <ion-label (tap)="showHelp('REVIEW_URL_YELP')" item-left>Yelp Url (?)</ion-label>
+                </ion-col>
+                <ion-col>
+                  <ion-input type="url"  item-right [(ngModel)]="account.properties.configuration.REVIEW_URL_YELP"></ion-input>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
           </ion-col>
         </ion-row>
-        <ion-row class="group-fields">
-          <ion-col width-33></ion-col>
-          <ion-col>
-            <ion-input placeholder="City" [(ngModel)]="account.properties.address.city"></ion-input>
+        <ion-row class="border-around-text">
+          <ion-col width-20>
+            <ion-label>Other Configuration</ion-label>
           </ion-col>
           <ion-col>
-            <ion-select class="rev-select" [(ngModel)]="account.properties.address.state">
-              <ion-option *ngFor="let state of states"
-                  [value]="state.key" [selected]="account.properties.address.state == state.key">{{state.value}}
-              </ion-option>
-            </ion-select>
-          </ion-col>
-          <ion-col>
-            <ion-input placeholder="Zip" [(ngModel)]="account.properties.address.zip"></ion-input>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-label (tap)="showHelp('SHOW_JOKES_ON_THANK_YOU_PAGE')" item-left>Selective Humor (?)</ion-label>
+                  <ion-checkbox item-right [(ngModel)]="account.properties.configuration.SHOW_JOKES_ON_THANK_YOU_PAGE"></ion-checkbox>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
           </ion-col>
         </ion-row>
       </div>
@@ -115,36 +186,3 @@
   </div>
 </ion-content>
 <mdval-footer *ngIf="showHeaderFooter" ></mdval-footer>
-
-<!--
-<div class="m-t-4" *ngIf="!isEdit">
-  <ion-list class="list custom-form-list">
-    <ion-list-header>
-      <ion-title>Please provide an administrator username and phone number.</ion-title>
-      <ion-title>We will send you an SMS with a temporary password for this username.</ion-title>
-    </ion-list-header>
-    <ion-item class="item-custom">
-      <ion-label item-left>Username</ion-label>
-      <ion-input item-right [(ngModel)]="username"></ion-input>
-    </ion-item>
-    <ion-item class="item-custom">
-      <ion-label item-left>Phone Number </ion-label>
-      <ion-input item-right placeholder="(255) 555-3333" [ngModel]="phoneNumber | phoneFormat" (ngModelChange)="phoneNumber=$event"></ion-input>
-    </ion-item>
-    <ion-item class="item-custom">
-      <ion-label item-left>Email Address</ion-label>
-      <ion-input item-right [(ngModel)]="email"></ion-input>
-    </ion-item>
-  </ion-list>
-</div>
-
-
-    <ion-list class="list custom-form-list">
-      <div *ngIf='isEdit'>
-        <ion-item class="item-custom">
-            <ion-label></ion-label>
-        </ion-item>
-      </div>
-    </ion-list>
-
--->

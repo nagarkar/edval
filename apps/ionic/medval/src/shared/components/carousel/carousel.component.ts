@@ -78,7 +78,7 @@ export class CarouselComponent implements OnChanges {
   selectItem(item: SlideItem){
     item.isSelected = !item.isSelected;
     this.slider.slideTo(this.slider.getActiveIndex(), 1000);
-    Utils.log('selected slide: ' + Utils.stringify(item));
+    Utils.info('selected slide: ' + Utils.stringify(item));
     this.selectSlide.emit(item);
   }
 

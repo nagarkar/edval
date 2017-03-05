@@ -19,6 +19,7 @@ import {SurveyPage} from "../survey.page";
 import {FormGroup, FormControl, Validators} from "@angular/forms";
 import {EmailProviderService} from "../../../shared/service/email.provider.service";
 import {AutoComplete} from "../../../shared/components/autocomplete/autocomplete";
+import {ValidationService} from "../../../shared/components/validation/validation.service";
 
 @Component({
   templateUrl: './handle.complaint.component.html',
@@ -88,8 +89,8 @@ export class HandleComplaintComponent extends SurveyPage {
     try {
       super.ngOnInit();
       this.complaintForm = new FormGroup({
-        email: new FormControl('', Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)),
-        phone: new FormControl('', Validators.pattern(/^(\([0-9]{3}\)\s)?[0-9]{3}\-[0-9]{4}$/)),
+        email: new FormControl('', ValidationService.EmailValidator),
+        phone: new FormControl('', ValidationService.PhoneValidator),
         complaintMsg: new FormControl('', Validators.minLength(5))
       });
     } catch (err) {

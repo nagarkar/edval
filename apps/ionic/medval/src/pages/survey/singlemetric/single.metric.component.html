@@ -1,13 +1,13 @@
 <mdval-header [home]="'survey'"></mdval-header>
 <ion-content class="card-background-page">
   <ion-card class="nobox" *ngIf="currentMetric.isNpsType()">
-    <img src="https://notalwaysrelated.com/wp-content/uploads/2016/03/Family-Photo-1024x683.jpg"/>
+    <img src="assets/img/root_OrthodonticClinic.jpg"/>
     <div class="card-conversation-setup">{{currentMetric?.properties?.conversationSetup | sReplacer}}</div>
     <div class="card-title">{{currentMetric?.properties?.question | sReplacer}}</div>
     <p text-center class="card-subtitle">
       <rating (ratingValueChange)="onSelection($event);" class="pos-rel"
               [ratingMax]="currentMetric.properties.definition.npsType.range"
-              [ratingValue]="1"></rating>
+              [ratingValue]="0"></rating>
     </p>
   </ion-card>
   <ion-label *ngIf="!currentMetric.isNpsType()">

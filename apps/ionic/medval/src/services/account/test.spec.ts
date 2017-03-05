@@ -18,7 +18,14 @@ let testData: TestData<Account> = {
   updateConfig: {
     update: ((acc: Account)=> {
       acc.properties.verticalId = "modifiedVerticalId:" + __rand;
-      acc.properties.configuration = {'standardRoles':'MD,Orthodontic Assistant'};
+      acc.properties.configuration = {
+        STANDARD_ROLES: "Orthodontic Assistant,DDS,FrontOffice",
+        SWEEPSTAKES_INTERVAL:1,
+        SWEEPSTAKES_SHOW_WHEEL: false,
+        SWEEPSTAKES_AWARD_AMOUNT: 5,
+        SWEEPSTAKES_COST_PER_USE: 1,
+        SHOW_JOKES_ON_THANK_YOU_PAGE: true
+      };
       acc.properties.address = {
         street1: 'street 1',
         street2: 'street 2'
@@ -29,7 +36,12 @@ let testData: TestData<Account> = {
       expect(acc.properties.verticalId).toEqual("modifiedVerticalId:" + __rand);
       expect(acc.properties.address.street1).toEqual('street 1');
       expect(acc.properties.configuration).toEqual({
-        'standardRoles': 'DDS,Orthodontic Assistant'
+        STANDARD_ROLES: "Orthodontic Assistant,DDS,FrontOffice",
+        SWEEPSTAKES_INTERVAL:1,
+        SWEEPSTAKES_SHOW_WHEEL: false,
+        SWEEPSTAKES_AWARD_AMOUNT: 5,
+        SWEEPSTAKES_COST_PER_USE: 1,
+        SHOW_JOKES_ON_THANK_YOU_PAGE: true
       });
     }),
   }

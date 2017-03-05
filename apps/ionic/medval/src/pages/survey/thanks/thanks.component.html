@@ -22,16 +22,18 @@
           </ion-row>
         </ion-col>
       </ion-row>
-      <ion-row class="m-t-1" *ngIf="whatToShow == 'joke' && showJokes">
+      <ion-row class="m-t-1" *ngIf="showJokes">
         <ion-col width-100 text-center>
-          <img src={{joke}}/>
+          <div #imgDiv>
+            <img>
+          </div>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="whatToShow == 'wheel' && showWheel" padding>
+      <!--ion-row *ngIf="showWheel" padding>
         <ion-col width-100 text-center>
           <wheel (animationDone)="showWheelMessage()" [options]="wheelOptions"></wheel>
         </ion-col>
-      </ion-row>
+      </ion-row-->
     </ion-grid>
   </div>
 </ion-content>

@@ -11,17 +11,17 @@
           <h6 ion-text color="black" class="m-t-0">Pick your favorite site (Google, Yelp or Facebook)!</h6>
         </ion-col>
       </ion-row>
-      <ion-row class="separator-bottom">
+      <ion-row *ngIf="showFacebook || showGoogle || showYelp" class="separator-bottom">
         <ion-col>
           <ion-grid>
             <ion-row center>
-              <ion-col>
+              <ion-col *ngIf="showGoogle">
                 <img [ngClass]="{'pulse-once': !someDataProvided}" src="assets/img/google-review-button.png" (tap)="googleReview()" height="60em" style="margin-left: 1.2em" />
               </ion-col>
-              <ion-col>
+              <ion-col *ngIf="showFacebook">
                 <img [ngClass]="{'pulse-once': !someDataProvided}" src="assets/img/facebook-review-button.png" (tap)="facebookReview()" height="60em" />
               </ion-col>
-              <ion-col>
+              <ion-col *ngIf="showYelp">
                 <img [ngClass]="{'pulse-once': !someDataProvided}" src="assets/img/yelp-review-button.png" (tap)="yelpReview()" height="60em" />
               </ion-col>
             </ion-row>

@@ -26,6 +26,8 @@ export class AccessTokenService {
   private lastAuthTokenCreationTime: number = Infinity;
 
   private _cognitoUser : any;
+  // Tracks state of login. If defined, login process has started. After login process starts, this variable indicates
+  // the number of login errors.
   private loginErrors: number;
   private _username : string = null;
   private authenticationDetails: any = null;
@@ -68,10 +70,9 @@ export class AccessTokenService {
   private tryStartNewSession(
     username : string,
     password : string,
-    externalCallback: (result: AuthResult, err: any)=> void,
-    loginErrors?: number) {
+    externalCallback: (result: AuthResult, err: any)=> void) {
 
-    this.loginErrors = loginErrors || 0;
+    this.loginErrors = this.loginErrors || 0;
     Utils.log("Trying to log in {0} ", username);
     this._username = username;
     var authenticationData: {Username: string, Password: string} = {
@@ -80,6 +81,7 @@ export class AccessTokenService {
     };
 
     if (this.sameUserAuthenticatingWithinShortPeriod(authenticationData) && !this.authTokenIsOld()) {
+      Utils.info("Logging in same user");
       this.processUserInitiatedLoginSuccess(externalCallback);
       return;
     }
@@ -98,21 +100,24 @@ export class AccessTokenService {
     this._cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
     this.startAuthenticatingUser((result?: AuthResult, err?: any)=>{
       if (err) {
-        this.loginErrors++;
+        this.incrementLoginErrors();
+        Utils.info("Error occurred in login {0}, number of errors:", err, this.loginErrors);
       }
       if (err && this.loginErrors > 1) {
+        Utils.info("Too many errors. Number of errors: {0}", this.loginErrors);
+        this.call(externalCallback, null, err);
         this.resetLoginErrors();
-        externalCallback(null, err);
       } else if (result) {
+        Utils.info("Login Success, calling callback");
+        this.call(externalCallback, result, null);
         this.resetLoginErrors();
-        externalCallback(result, null);
+        this.refreshAtIntervals();
       } else {
         setTimeout(()=>{
-          this.tryStartNewSession(username, password, externalCallback, this.loginErrors);
-        }, 3 * 1000);
+          this.tryStartNewSession(username, password, externalCallback);
+        }, Config.ACCESS_TOKEN_RETRY_INTERVAL_INITIAL_LOGIN);
       }
     });
-    this.refreshAtIntervals();
   }
 
    get cognitoUser(): any {
@@ -123,23 +128,19 @@ export class AccessTokenService {
     this.clearAuthenticatingIntervalTimerIfValid();
     let refreshErrors = _refreshErrors || 0;
     AccessTokenService.authenticatingIntervalTimer = setInterval(()=> {
-      if (this.currentlyLoggingIn()) {
-        return;
-      }
       this._cognitoUser.getSession((err?: any, session?: any)=>{
         if (err) {
           refreshErrors++;
+          Utils.info("Refresh Login Failure {0}, # of errors so far: {1}", err, refreshErrors);
         }
-        if (err && refreshErrors > 2) {
+        if (err && refreshErrors > Config.MAX_TOKEN_REFRESH_ERRORS_BEFORE_STOP) {
           Utils.error("Clearing Login Signals from refreshAtIntervals: {0}", err);
           this.clearLoginSignals();
           this.clearAuthenticatingIntervalTimerIfValid();
         } else if (session) {
+          Utils.info("Refreshed Token");
+          refreshErrors = 0;
           this.createNewAuthToken(session)
-        } else {
-          setTimeout(()=>{
-            this.refreshAtIntervals(refreshErrors);
-          }, Config.ACCESS_TOKEN_REFRESH_TIME/3);
         }
       });
     }, Config.ACCESS_TOKEN_REFRESH_TIME);
@@ -147,14 +148,14 @@ export class AccessTokenService {
 
   private startAuthenticatingUser(internalCallback): void {
     var me = this;
-    Utils.log("Starting Authentication");
+    Utils.info("Starting Authentication");
     //AWSCognito.config.update({accessKeyId: 'anything', secretAccessKey: 'anything'})
     this._cognitoUser.authenticateUser(this.authenticationDetails, {
       onSuccess: (session) => {
-        this.handleSuccessfullAuthentication(session, internalCallback);
+        me.handleSuccessfullAuthentication(session, internalCallback);
       },
       onFailure: (err) => {
-        internalCallback(null, err);
+        me.call(internalCallback, null, err);
       },
       newPasswordRequired: function(userAttributes, requiredAttributes) {
         // User was signed up by an admin and must provide new
@@ -168,7 +169,7 @@ export class AccessTokenService {
                 me.handleSuccessfullAuthentication(session, internalCallback);
               },
               onFailure: function(error) {
-                internalCallback(null, error);
+                me.call(internalCallback, null, error);
               }
             });
           },
@@ -208,10 +209,11 @@ export class AccessTokenService {
 
   processUserInitiatedLoginSuccess(callback) {
     this.lastAuthTokenCreationTime = Date.now();
-    callback(AccessTokenService.authResult);
+    this.resetLoginErrors();
+    this.call(callback, AccessTokenService.authResult, undefined);
     AwsClient.reInitialize();
     this.serviceFactory.resetRegisteredServices();
-    Utils.log("Completed processUserInitiatedLoginSuccess at time: {0}", this.lastAuthTokenCreationTime);
+    Utils.info("Completed processUserInitiatedLoginSuccess at time: {0}", this.lastAuthTokenCreationTime);
   }
 
   private authTokenIsOld(): boolean {
@@ -226,22 +228,28 @@ export class AccessTokenService {
 
   private createNewAuthToken(session: any) {
 
-    this.lastAuthTokenCreationTime = Date.now();
+    try {
 
-    AccessTokenService.authResult = new AuthResult(
-      session.getAccessToken().getJwtToken(),
-      session.getIdToken().getJwtToken());
+      this.lastAuthTokenCreationTime = Date.now();
 
-    // See https://goo.gl/xJsiHp for detailed discussion of how to get credentials.
-    AWS.config.update({
-      credentials : new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: Config.AWS_CONFIG.IDENTITY_POOL_ID,
-        Logins: {
-          'cognito-idp.us-east-1.amazonaws.com/us-east-1_WRjTRJPkD': session.getIdToken().getJwtToken()
-        }
-      }),
-      region: Config.AWS_CONFIG.REGION
-    });
+      AccessTokenService.authResult = new AuthResult(
+        session.getAccessToken().getJwtToken(),
+        session.getIdToken().getJwtToken());
+
+      // See https://goo.gl/xJsiHp for detailed discussion of how to get credentials.
+      AWS.config.update({
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: Config.AWS_CONFIG.IDENTITY_POOL_ID,
+          Logins: {
+            'cognito-idp.us-east-1.amazonaws.com/us-east-1_WRjTRJPkD': session.getIdToken().getJwtToken()
+          }
+        }),
+        region: Config.AWS_CONFIG.REGION
+      });
+    } catch(err) {
+      Utils.error("Error Occurred while creating new Auth Token: {0}", err);
+    }
+
   }
 
   private clearLoginSignals() {
@@ -250,11 +258,15 @@ export class AccessTokenService {
   }
 
   public resetLoginErrors() {
-    this.loginErrors = -1;
+    this.loginErrors = undefined;
   }
 
-  private currentlyLoggingIn() {
-    return this.loginErrors >= 0;
+  private incrementLoginErrors() {
+    this.loginErrors++;
+  }
+
+  private currentlyLoggingIn() : boolean {
+    return this.loginErrors !== undefined;
   }
 
   private initState() {
@@ -266,15 +278,15 @@ export class AccessTokenService {
   }
 
   private handleSuccessfullAuthentication(session: any, callback) {
-    Utils.log("AccessTokenSvc.onSuccess");
+    Utils.info("AccessTokenSvc.onSuccess");
     this.createNewAuthToken(session);
 
-    Utils.log("After aws.config.update");
+    Utils.info("After aws.config.update");
 
     let gotCustomerId = false;
     this._cognitoUser.getUserAttributes((err, result) => {
       if (err) {
-        Utils.log(Utils.format("Error while trying to get cognito user attributes for user {0} , error: {1}",
+        Utils.error(Utils.format("Error while trying to get cognito user attributes for user {0} , error: {1}",
           this._username, err));
         this.clearLoginSignals();
       }
@@ -285,7 +297,7 @@ export class AccessTokenService {
             if (Config.CUSTOMERID) {
               gotCustomerId = true;
             }
-            Utils.log('Got userattrbute customerid {0}', Config.CUSTOMERID);
+            Utils.info('Got userattrbute customerid {0}', Config.CUSTOMERID);
             this.processUserInitiatedLoginSuccess(callback);
           }
         }
@@ -297,6 +309,14 @@ export class AccessTokenService {
       }
     });
 
+  }
+
+  private call(externalCallback: (result: AuthResult, err: any)=>void, result: any, err: any) {
+    try {
+      externalCallback(result, err);
+    } catch(err) {
+      Utils.error("Error calling external callback {0}", err);
+    }
   }
 }
 

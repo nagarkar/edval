@@ -1,0 +1,50 @@
+<mdval-header></mdval-header>
+<ion-content>
+  <div class="m-t-3" padding>
+    <ion-segment [(ngModel)]="section">
+      <ion-segment-button value="summary">
+        Summary
+      </ion-segment-button>
+      <ion-segment-button value="influencers">
+        Influencers
+      </ion-segment-button>
+      <ion-segment-button value="metricdrilldowns">
+        Drilldown into detailed metrics
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+  <div *ngIf="hasData()">
+    <div [ngSwitch]="section">
+      <div *ngSwitchCase="'metricdrilldowns'">
+        <subject-detail>
+        </subject-detail>
+      </div>
+      <div *ngSwitchCase="'summary'">
+        <campaign-summary [metricAndSubjects]="metricAndSubjects">
+        </campaign-summary>
+      </div>
+      <div *ngSwitchCase="'influencers'">
+        <ion-grid padding>
+          <ion-row>
+            <ion-col class="border-around-text">
+              <ion-slides slidesPerView="2">
+                <ion-slide *ngFor="let metricAndSubject of metricAndSubjectsForOrgAndRole">
+                  <topinfluencertable [metricName]="metricAndSubject.metricName" promoterOrDetractor="true"></topinfluencertable>
+                </ion-slide>
+              </ion-slides>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="border-around-text">
+              <button ion-button small (tap)="emailInfluencersReportDetails()">Email Details</button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!hasData()" padding class="border-around-text">
+    <h3>Insufficient data available. Once you start using this application more often, more data will show up.</h3>
+    <h4>The data shown in this section is refreshed daily. However some reports show monthly data, so it takes up to a month to see data in some sections.</h4>
+  </div>
+</ion-content>

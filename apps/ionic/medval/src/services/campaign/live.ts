@@ -8,7 +8,6 @@
 import {AbstractService} from "../../shared/service/abstract.service";
 import {Campaign} from "./schema";
 import {Config} from "../../shared/config";
-import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
@@ -23,7 +22,6 @@ export class LiveCampaignService extends AbstractService<Campaign> {
     accessProvider: AccessTokenService) {
 
     super(accessProvider, http, Campaign);
-    Utils.log("Created LiveCampaignService: " + typeof this);
   }
 
   getId(member: Campaign): string {

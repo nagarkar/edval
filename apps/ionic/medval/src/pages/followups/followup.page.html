@@ -1,0 +1,105 @@
+<mdval-header></mdval-header>
+<ion-content>
+  <div class="m-t-3" padding>
+    <ion-segment [(ngModel)]="section">
+      <ion-segment-button value="standard">
+        Standard 'Window' Followups
+      </ion-segment-button>
+      <ion-segment-button value="targeted">
+        Targeted Followups
+      </ion-segment-button>
+      <ion-segment-button value="automatic">
+        Automatic Followups
+      </ion-segment-button>
+    </ion-segment>
+    <div class="m-t-3" [ngSwitch]="section">
+      <div class="border-around-text" *ngSwitchCase="'standard'">
+        <div>
+          Follow up with patients in the indicated Feedback Time Window. To find out what patients visited you during the
+          window, please check your appointment records. One or more patients in these windows have either requested a
+          follow-up, or have given poor feedback. Here are some important points to consider:
+          <ol>
+            <li>Patients who have left poor feedback should be contacted by a senior staff member.</li>
+            <li>We don't share precise time of appointment of patients who have provided poor feedback to maintain patient anonymity!</li>
+          </ol>
+        </div>
+        <div *ngIf="standardFollowups.length == 0">
+          <h4>There are no follow-ups in this category so far</h4>
+        </div>
+        <ion-grid *ngIf="standardFollowups.length > 0">
+          <ion-row>
+            <ion-col class="header" (tap)="showHelp('FEEDBACK_TIME')">Feedback Time Window (?)</ion-col>
+            <ion-col class="header" (tap)="showHelp('FOLLOWUP_STATUS')">Followup Status (?)</ion-col>
+            <ion-col class="header" (tap)="showHelp('FOLLOWUP_MARK_AS_COMPLETE')">Mark as complete (?)</ion-col>
+          </ion-row>
+          <ion-row *ngFor="let fp of standardFollowups" (tap)="showSession">
+            <ion-col class="regular">
+              {{fp.sessionId | rDate}}
+            </ion-col>
+            <ion-col class="regular">
+              {{fp.taskState}}
+            </ion-col>
+            <ion-col class="regular">
+              <ion-toggle [disabled]="isComplete(fp)" [checked]="isComplete(fp)" (ionChange)="setComplete(fp)"></ion-toggle>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <button ion-button small (tap)="saveChanges()">Save Changes</button>
+      </div>
+      <div class="border-around-text" *ngSwitchCase="'targeted'">
+        <div>{{getHelp('FOLLOWUP_TARGETED')}}</div>
+        <div *ngIf="targetedFollowups.length == 0">
+          <h4>There are no follow-ups in this category so far</h4>
+        </div>
+        <ion-grid *ngIf="targetedFollowups.length > 0">
+          <ion-row>
+            <ion-col class="header" (tap)="showHelp('FEEDBACK_TIME')">Feedback Time (?)</ion-col>
+            <ion-col class="header" (tap)="showHelp('FOLLOWUP_STATUS')">Followup Status (?)</ion-col>
+            <ion-col class="header">Contact Information (?)</ion-col>
+            <ion-col class="header" (tap)="showHelp('FOLLOWUP_MARK_AS_COMPLETE')">Mark as complete (?)</ion-col>
+          </ion-row>
+          <ion-row *ngFor="let fp of targetedFollowups" (tap)="showSession">
+            <ion-col class="regular">
+              {{fp.sessionId | date:short}}
+            </ion-col>
+            <ion-col class="regular">
+              {{fp.taskState}}
+            </ion-col>
+            <ion-col (tap)="showContactInfo(fp, true)" class="regular">
+              Tap to view
+            </ion-col>
+            <ion-col class="regular">
+              <ion-toggle [disabled]="isComplete(fp)" [checked]="isComplete(fp)" (ionChange)="setComplete(fp)"></ion-toggle>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <button ion-button small (tap)="saveChanges()">Save Changes</button>
+      </div>
+      <div class="border-around-text" *ngSwitchCase="'automatic'">
+        <div>{{getHelp('FOLLOWUP_AUTOMATIC')}}</div>
+        <div *ngIf="automaticFollowups.length == 0">
+          <h4>There are no follow-ups in this category so far</h4>
+        </div>
+        <ion-grid *ngIf="automaticFollowups.length > 0">
+          <ion-row>
+            <ion-col class="header" (tap)="showHelp('FEEDBACK_TIME')">Feedback Time (?)</ion-col>
+            <ion-col class="header">Contact Information (?)</ion-col>
+            <ion-col class="header" (tap)="showHelp('FOLLOWUP_STATUS')">Current Status (?) </ion-col>
+          </ion-row>
+          <ion-row *ngFor="let fp of automaticFollowups" (tap)="showSession">
+            <ion-col class="regular">
+              {{fp.sessionId | date:short}}
+            </ion-col>
+            <ion-col (tap)="showContactInfo(fp, false)" class="regular">
+              Tap to view
+            </ion-col>
+            <ion-col class="regular">
+              {{fp.taskState}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<mdval-footer></mdval-footer>

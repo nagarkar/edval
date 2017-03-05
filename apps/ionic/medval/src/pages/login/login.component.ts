@@ -17,7 +17,7 @@ import {Config} from "../../shared/config";
 import {HttpClient} from "../../shared/stuff/http.client";
 import {Http} from "@angular/http";
 import {Validators, FormControl, FormGroup} from "@angular/forms";
-import {SpinnerDialog } from "ionic-native";
+import {SpinnerDialog, NativeAudio} from "ionic-native";
 
 declare let cordova;
 
@@ -36,21 +36,53 @@ export class LoginComponent {
 
   showForgotPwd: boolean = Config.SHOW_FORGOT_PASSWORD;
 
-  http: HttpClient<string>;
-
   constructor(
     private navCtrl: NavController,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
     private accSetupSvc: AccountSetupService,
-    private authProvider: AccessTokenService,
-    http: Http) {
+    private authProvider: AccessTokenService) {
 
     if (authProvider.supposedToBeLoggedIn()) {
-      Utils.log("Login Attempt while already logged in");
+      Utils.info("Login Attempt while already logged in");
     }
     authProvider.resetLoginErrors();
   }
+
+  static MUSIC_INTERVAL_HANDLE: number;
+  static MUSIC_ID: string = "assets/mp3/bingbong.mp3";
+  static MUSIC_PRELOADED: boolean = false;
+  ngOnInit() {
+    let musicId = LoginComponent.MUSIC_ID;
+    if (!LoginComponent.MUSIC_PRELOADED) {
+      NativeAudio.preloadSimple(musicId, musicId)
+        .then(()=>{
+          LoginComponent.MUSIC_PRELOADED = true;
+        })
+        .catch((err)=>{
+          Utils.error("Could not preload music in login component : {0}", err);
+        });
+    }
+    LoginComponent.MUSIC_INTERVAL_HANDLE = setInterval(()=>{
+      if (LoginComponent.MUSIC_PRELOADED) {
+        NativeAudio.play(musicId, ()=>{} /* Nothing to do on completion */)
+            .then(()=>{
+              Utils.info("Played sound {0} in Logincomponent", musicId);
+            })
+            .catch((err)=>{
+              Utils.error("Unable to play sound {0} in Logincomponent", musicId);
+            })
+        }
+    }, 2 * 60 * 1000)
+  }
+  ngOnDestroy() {
+
+  }
+  //TODO DELETE THIS ***************************
+  // ngOnInit() {
+  //   this.loginWithCreds('celeron', 'passWord@1');
+  // }
+  //*********************************************
 
   setupNewAccount() {
     Utils.push(this.navCtrl, AccountComponent, {create: true});
@@ -61,21 +93,25 @@ export class LoginComponent {
       let username = data.username;
       this.accSetupSvc.forgotPassword(username)
         .then((result: string) => {
-          Utils.presentAlertPrompt(this.alertCtrl, ()=>{}, result);
+          Utils.presentAlertPrompt(this.alertCtrl, null, result);
         })
         .catch((err)=> {
-          Utils.presentAlertPrompt(this.alertCtrl, ()=>{}, err);
+          Utils.presentAlertPrompt(this.alertCtrl, null, err);
         })
     }), 'Provide your username', [{name: "username", label: 'User Name'}]);
   }
 
   login() {
 
-    let username: string = this.loginForm.controls[ 'username' ].value.trim().toLowerCase();
-    let password: string = this.loginForm.controls[ 'password' ].value.trim();
+    let username: string = this.loginForm.controls['username'].value.trim().toLowerCase();
+    let password: string = this.loginForm.controls['password'].value.trim();
+
+    this.loginWithCreds(username, password);
+  }
+
+  loginWithCreds(username: string, password: string) {
 
     SpinnerDialog.show();
-
     let finishedLoginProcess = false;
     setTimeout(()=>{
       if (!finishedLoginProcess) {
@@ -113,7 +149,6 @@ export class LoginComponent {
   }
 
   private navigateToDashboardPage() {
-    Utils.log("about to navigate to dashboard");
     Utils.setRoot(this.navCtrl, DashboardComponent);
   }
 

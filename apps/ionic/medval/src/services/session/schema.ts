@@ -8,6 +8,7 @@
 import {MetricValue, Metric} from "../metric/schema";
 import {Utils} from "../../shared/stuff/utils";
 import {Type} from "class-transformer";
+import {Config} from "../../shared/config";
 
 export interface ReviewData {
   email?: string,
@@ -45,14 +46,16 @@ export class Session {
   customerId: string;
   sessionId: string;
   entityStatus: string;
+  softwareVersion: string = Config.SOFTWARE_VERSION;
   @Type(() => SessionProperties)
   properties: SessionProperties = new SessionProperties();
 
   constructor() {
     this.sessionId = "" + Date.now();
+    this.softwareVersion = Config.SOFTWARE_VERSION;
   }
 
-  close() {
+  readyToSave() {
     this.entityStatus = "ACTIVE";
     this.properties.endTime = Date.now();
     this.properties.aggregationProcessed = false;

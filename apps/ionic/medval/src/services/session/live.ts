@@ -8,7 +8,6 @@
 import {AbstractService} from "../../shared/service/abstract.service";
 import {Session} from "./schema";
 import {Config} from "../../shared/config";
-import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
@@ -24,7 +23,6 @@ export class LiveSessionService extends AbstractService<Session> {
     accessProvider: AccessTokenService) {
 
     super(accessProvider, http, Session);
-    Utils.log("Created LiveSessionService: " + typeof this);
   }
 
   getId(member: Session): string {

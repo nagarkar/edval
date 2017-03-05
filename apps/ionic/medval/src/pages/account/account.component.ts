@@ -16,6 +16,9 @@ import {Config} from "../../shared/config";
 import {AccountSetupService, AccountSetup} from "../../services/accountsetup/account.setup.service";
 import {LoginComponent} from "../login/login.component";
 import {SpinnerDialog} from "ionic-native";
+import {ValidationService} from "../../shared/components/validation/validation.service";
+import {HelpMessages} from "../../shared/stuff/HelpMessages";
+import {Http} from "@angular/http";
 
 @Component({
   selector:'account',
@@ -28,11 +31,12 @@ export class AccountComponent extends AdminComponent {
               private alertCtrl: AlertController,
               private toastCtrl: ToastController,
               navCtrl: NavController,
+              http: Http,
               private accountSvc : AccountService,
               private setupService: AccountSetupService,
               navParams: NavParams
   ) {
-    super(navCtrl);
+    super(navCtrl, http);
     let create = navParams.get('create');
     this.isEdit = !create;
   }
@@ -57,9 +61,6 @@ export class AccountComponent extends AdminComponent {
     { key: "CA", value:"CA"}
   ];
 
-
-  //err: string = "";
-
   ngOnInit(): void {
 
     try {
@@ -78,6 +79,10 @@ export class AccountComponent extends AdminComponent {
     } catch(err) {
       super.handleErrorAndCancel(err);
     }
+  }
+
+  showHelp(item: string) {
+    Utils.showHelp(this.alertCtrl, item, 'bighelp');
   }
 
   ngOnDestroy() {
@@ -114,6 +119,18 @@ export class AccountComponent extends AdminComponent {
     if (!this.username) {
       err += "\nPlease provide a username";
     }
+    if (!this.email) {
+      err += "\nPlease provide a valid email address";
+    } else {
+      try {
+        let isEmail = ValidationService.emailRegEx.test(this.email);
+        if (!isEmail) {
+          err += "\nPlease provide a valid email address";
+        }
+      } catch (err) {
+        err += "\nPlease provide a valid email address";
+      }
+    }
     if (!this.phoneNumber) {
       err += "\nPlease provide a valid phone number with 10 digits";
     } else {
@@ -140,11 +157,17 @@ export class AccountComponent extends AdminComponent {
           .then((customerexists)=> {
             customerIdAvailable = !customerexists;
             if (customerIdAvailable === true) {
-              svc.create({customer: this.account, userName: this.username, phoneNumber: this.phoneNumber})
+              let accountSetupObj = {
+                customer: this.account,
+                userName: this.username,
+                phoneNumber: this.phoneNumber,
+                emailAddress: this.email
+              };
+              svc.create(accountSetupObj)
                 .then((accountSetup: AccountSetup)=>{
                   created = true;
-                  this.dismissLoadingShowAlertClearInterval(`Please check your phone for a text message. Please
-                    login with the username you selected on this page and the temporary password in the text message.`, true);
+                  this.dismissLoadingShowAlertClearInterval(`Please check your email for a message from no-reply@verificationemail.com (Make sure it's not in spam).
+                    Login with the username you selected on this page and the temporary password in the message!`, true);
                 })
                 .catch((err) => {
                   created = false;
@@ -179,6 +202,7 @@ export class AccountComponent extends AdminComponent {
     this.accountSvc.update(this.account)
       .catch((errResp) => {
         Utils.error(errResp);
+        Utils.presentTopToast(this.toastCtrl, errResp);
       })
   }
 

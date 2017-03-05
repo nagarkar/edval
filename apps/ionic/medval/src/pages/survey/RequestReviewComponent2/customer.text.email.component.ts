@@ -8,12 +8,13 @@
 import {Component, ViewChild} from "@angular/core";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
 import {NavParams, ViewController, NavController} from "ionic-angular";
-import {FormGroup, FormBuilder, Validators, AbstractControl, FormControl} from "@angular/forms";
+import {FormGroup, FormBuilder, AbstractControl, FormControl} from "@angular/forms";
 import {SurveyPage} from "../survey.page";
 import {Idle} from "@ng-idle/core";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
 import {AutoComplete} from "../../../shared/components/autocomplete/autocomplete";
+import {ValidationService} from "../../../shared/components/validation/validation.service";
 
 @Component({
   templateUrl: './customer.text.email.component.html',
@@ -58,8 +59,8 @@ export class CustomerTextEmailComponent extends SurveyPage {
     super.ngOnInit();
     this.myForm = new FormGroup({
       // http://emailregex.com/
-      email: new FormControl('', Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)),
-      phone: new FormControl('', Validators.pattern(/^(\([0-9]{3}\)\s)?[0-9]{3}\-[0-9]{4}$/)),
+      email: new FormControl('', ValidationService.EmailValidator),
+      phone: new FormControl('', ValidationService.PhoneValidator),
     });
   }
 
@@ -101,5 +102,9 @@ export class CustomerTextEmailComponent extends SurveyPage {
   dismiss() {
     let data = { 'email': this.autoemail.value, 'phone': this.phone };
     this.viewCtrl.dismiss(data);
+  }
+
+  onSelectEmail(value){
+    this.email = value;
   }
 }

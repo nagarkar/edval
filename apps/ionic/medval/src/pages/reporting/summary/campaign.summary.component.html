@@ -1,0 +1,40 @@
+<div padding>
+  <ion-grid>
+    <ion-row wrap>
+      <ion-col class="border-around-text">
+        This is a summary of your current stats at a glance!
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="border-around-text">
+        <ion-grid>
+          <ion-row>
+            <ion-col width-67><b>Date of First Feedback</b></ion-col>
+            <ion-col>{{campaign?.properties?.firstSessionId | date}}</ion-col>
+          </ion-row>
+          <ion-row class="separator-bottom">
+            <ion-col width-67><b>Date of Last Feedback</b></ion-col>
+            <ion-col>{{campaign?.properties?.lastSessionId  | date}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <div #tableDiv></div>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-slides slidesPerView="3" zoom="true">
+                <ion-slide *ngFor="let metricAndSubject of metricAndSubjects">
+                  <subject-summary [metricAndSubject]="metricAndSubject"></subject-summary>
+                </ion-slide>
+              </ion-slides>
+            </ion-col>
+          </ion-row>
+          <ion-row padding>
+            <ion-col>
+              <button ion-button small (tap)="emailPromoterCountsReportDetails()">Email Details</button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>

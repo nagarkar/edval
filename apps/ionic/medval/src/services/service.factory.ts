@@ -24,8 +24,7 @@ export class ServiceFactory {
 
   private serviceMap: Map<string, ServiceInterface<any>> = new Map<string, ServiceInterface<any>>();
 
-  constructor(private injector: Injector) {
-  }
+  constructor(private injector: Injector) { }
 
   registerService(instance: ServiceInterface<any>) {
     this.serviceMap.set(instance.constructor.name, instance);
@@ -42,6 +41,7 @@ export class ServiceFactory {
         value.reset();
       }
     })
+    //this.chartSvc.cache.clear();
   }
 
   static registerService(constructor: Function) {

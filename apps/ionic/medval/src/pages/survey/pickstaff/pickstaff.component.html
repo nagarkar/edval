@@ -1,19 +1,21 @@
 <mdval-header [home]="'survey'"></mdval-header>
 <ion-content>
-  <h1 style="margin-top:3em" class="title" text-center><b>{{message | sReplacer}}</b></h1>
+  <div *ngIf="slides.length > 0">
+    <h1 style="margin-top:3em" class="title" text-center><b>{{message | sReplacer}}</b></h1>
 
-  <!--
-    <carousel *ngIf="slides.length < 4" [slides]="slides" (done)="navigateToNext()" (selectSlide)="selectStaff($event);">
-    </carousel>
-  -->
-  <rotating-carousel [slides]="slides" (done)="navigateToNext()" (imageClicked)="imageClick($event);">
-  </rotating-carousel>
+    <!--
+      <carousel *ngIf="slides.length < 4" [slides]="slides" (done)="navigateToNext()" (selectSlide)="selectStaff($event);">
+      </carousel>
+    -->
+    <rotating-carousel [slides]="slides" (done)="navigateToNext()" (imageClicked)="imageClick($event);">
+    </rotating-carousel>
 
-  <div text-center style="z-index:100; -webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);position: absolute; display: flex; bottom: 4em; left:5em; width:100%">
-    <div style="display:block; width:66%">
-      <progress-bar style="display:inline" [progress]="progress">
-      </progress-bar>
-      <button class="progress-bar-side-button" small ion-button (tap)="cancelAndRestart()">Cancel & Restart</button>
+    <div text-center style="z-index:100; -webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);position: absolute; display: flex; bottom: 4em; left:5em; width:100%">
+      <div style="display:block; width:66%">
+        <progress-bar style="display:inline" [progress]="progress">
+        </progress-bar>
+        <button class="progress-bar-side-button" small ion-button (tap)="cancelAndRestart()">Cancel & Restart</button>
+      </div>
     </div>
   </div>
 </ion-content>

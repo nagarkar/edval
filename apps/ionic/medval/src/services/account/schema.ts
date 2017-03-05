@@ -6,11 +6,24 @@
  * site or application without licensing is strictly prohibited.
  */
 import {Utils} from "../../shared/stuff/utils";
+import {Config} from "../../shared/config";
+
+export interface AccountConfiguration {
+  STANDARD_ROLES: string;
+  SWEEPSTAKES_INTERVAL: number;
+  SWEEPSTAKES_SHOW_WHEEL: boolean;
+  SWEEPSTAKES_AWARD_AMOUNT: number;
+  SWEEPSTAKES_COST_PER_USE: number;
+  SHOW_JOKES_ON_THANK_YOU_PAGE: boolean;
+  REVIEW_URL_FACEBOOK?: string; // url
+  REVIEW_URL_GOOGLE?: string;   // url
+  REVIEW_URL_YELP?: string;     // url
+}
 
 export class Account {
 
   customerId: string;
-  lockingVersion: string;
+  softwareVersion: string = Config.SOFTWARE_VERSION;
   properties : {
     verticalId?: string,
     customerName?: string,
@@ -25,11 +38,8 @@ export class Account {
       state?:string;
       country?: string;
     },
-    configuration?: {
-      [key: string] : string
-    }
+    configuration?: AccountConfiguration
   };
-
 
   constructor() {
     this.properties = {
@@ -40,6 +50,7 @@ export class Account {
       verticalId: Account.ORTHODONTIC_CLINIC
     };
     this.properties.configuration = Account.StandardConfiguration[this.properties.verticalId];
+    this.softwareVersion = Config.SOFTWARE_VERSION;
   }
 
   toString() {
@@ -47,10 +58,10 @@ export class Account {
   }
 
   getStandardRoles(): string[] {
-    if (!this.properties.configuration["STANDARD_ROLES"]) {
+    if (!this.properties.configuration.STANDARD_ROLES) {
       this.properties.configuration = Account.StandardConfiguration[this.properties.verticalId];
     }
-    return this.properties.configuration["STANDARD_ROLES"].split(',');
+    return this.properties.configuration.STANDARD_ROLES.split(',');
   }
 
   isInvalid() {
@@ -63,8 +74,13 @@ export class Account {
   static ORTHODONTIC_CLINIC: string = "OrthodonticClinic";
 
   static StandardConfiguration: any = {
-    'OrthodonticClinic': {
-      STANDARD_ROLES: "Orthodontic Assistant,DDS,FrontOffice"
-    }
+    OrthodonticClinic: {
+      STANDARD_ROLES: "Orthodontic Assistant,DDS,FrontOffice",
+      SWEEPSTAKES_INTERVAL:1,
+      SWEEPSTAKES_SHOW_WHEEL: false,
+      SWEEPSTAKES_AWARD_AMOUNT: 5,
+      SWEEPSTAKES_COST_PER_USE: 1,
+      SHOW_JOKES_ON_THANK_YOU_PAGE: true,
+    },
   }
 }

@@ -5,45 +5,54 @@
  * of this application without permission. Copying and re-posting on another
  * site or application without licensing is strictly prohibited.
  */
-import {Component, OnInit, OnDestroy} from "@angular/core";
+import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from "@angular/core";
 import {NavController, NavParams, Modal, ModalController} from "ionic-angular";
 import {Config} from "../../../shared/config";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
-import {ObjectCycler} from "../../../shared/stuff/object.cycler";
+import {ImageCycler} from "../../../shared/stuff/object.cycler";
 import {AccountService} from "../../../services/account/delegator";
 import {Idle} from "@ng-idle/core";
 import {StartWithSurveyOption} from "../start/start.with.survey.option.component";
 import {WheelComponent} from "../../../shared/components/wheel/wheel.component";
 import {SurveyPage} from "../survey.page";
-import {WorkflowProperties} from "../../../services/survey/schema";
 import {AnyDetractors} from "../../../services/survey/survey.functions";
+import {AccountConfiguration} from "../../../services/account/schema";
+import {Subscription} from "rxjs";
 
 @Component({
   templateUrl: './thanks.component.html',
 })
 export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
 
-  whatToShow: string = "joke";
   showWheel: boolean = false;
-  showJokes: boolean = true;
+  showJokes: boolean = false;
 
   message: string[];
-  cycler: ObjectCycler<string>;
-  jokes = Utils.shuffle([
-    "https://s3.amazonaws.com/revvolveapp/jokes/joke2.gif",
-    "https://s3.amazonaws.com/revvolveapp/jokes/joke3.jpg",
-    "https://s3.amazonaws.com/revvolveapp/jokes/joke5.jpg",
-    "https://s3.amazonaws.com/revvolveapp/jokes/joke6.jpg",
-    "https://s3.amazonaws.com/revvolveapp/jokes/joke7.jpg",
-    "https://s3.amazonaws.com/revvolveapp/jokes/joke8.gif",
-    "https://s3.amazonaws.com/revvolveapp/jokes/joke9.gif",
-    "https://s3.amazonaws.com/revvolveapp/jokes/joke10.gif",
-    "https://s3.amazonaws.com/revvolveapp/jokes/joke11.jpg",
-    "https://s3.amazonaws.com/revvolveapp/jokes/joke13.jpg",
-    "https://s3.amazonaws.com/revvolveapp/jokes/joke13.png",
-  ]);
-  joke: {} = this.jokes[0];
+  private static cycler: ImageCycler = new ImageCycler(
+    null, // Height
+    null, // Width
+    // {webkitTransform: "translate3d(0, 0, 0);", transform: "translate3d(0, 0, 0)", position:"relative", bottom:"-1em"},
+    null, // Style
+    null,
+    ...Utils.shuffle([
+      "https://s3.amazonaws.com/revvolveapp/jokes/joke2.gif",
+      "https://s3.amazonaws.com/revvolveapp/jokes/joke3.jpg",
+      "https://s3.amazonaws.com/revvolveapp/jokes/joke5.jpg",
+      "https://s3.amazonaws.com/revvolveapp/jokes/joke6.jpg",
+      "https://s3.amazonaws.com/revvolveapp/jokes/joke7.jpg",
+      "https://s3.amazonaws.com/revvolveapp/jokes/joke8.gif",
+      "https://s3.amazonaws.com/revvolveapp/jokes/joke9.gif",
+      "https://s3.amazonaws.com/revvolveapp/jokes/joke10.gif",
+      "https://s3.amazonaws.com/revvolveapp/jokes/joke11.jpg",
+      "https://s3.amazonaws.com/revvolveapp/jokes/joke13.jpg",
+      "https://s3.amazonaws.com/revvolveapp/jokes/joke13.png",
+    ])
+  );
+  private imageSubscription: Subscription;
+
+  @ViewChild("imgDiv")
+  imgDiv: ElementRef;
 
   wheelOptions: any;
   costPerUse: number;
@@ -68,23 +77,38 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
 
     super(navCtrl, sessionSvc, idle);
 
-    this.message = this.constructMessage(navParams.get('message'));
+    try {
+      this.message = this.constructMessage(navParams.get('message'));
+    } catch(err) {
+      Utils.error(err);
+    }
+
 
   }
 
   ngOnInit() {
-    let isPromoterOrMiddle = (new AnyDetractors().execute(this.sessionSvc.surveyNavigator, {}) == "false");
+    try {
+      let isPromoterOrMiddle = (new AnyDetractors().execute(this.sessionSvc.surveyNavigator, {}) == "false");
+      Utils.speak("Thanks for your Feedback!");
 
-    if (isPromoterOrMiddle) {
-      this.cycler = new ObjectCycler<string>(Config.TIME_PER_JOKE, ...this.jokes);
-      this.cycler.onNewObj.subscribe((next:string) => { this.joke = next;});
-      this.setupAttractions();
+      if (isPromoterOrMiddle) {
+        this.setupAttractions();
+        Utils.speak("It's your lucky day! Play for an instant reward!!")
+      }
+      setTimeout(()=>{
+        let svc = this.sessionSvc;
+        if(svc.hasCurrentSession()) {
+          svc.updateWithRetries(svc.getCurrentSession(), Config.SESSION_SAVE_RETRY_TIME, Config.SESSION_RETRIES);
+        }
+      }, 50)
+    } catch(err) {
+      Utils.error(err);
     }
   }
 
   ngOnDestroy() {
-    if (this.cycler) {
-      this.cycler.ngOnDestroy();
+    if (this.imageSubscription) {
+      this.imageSubscription.unsubscribe();
     }
   }
 
@@ -113,6 +137,19 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
       this.closeSession();
     }, Config.TIMEOUT_AFTER_SHOWING_YOU_WON_MESSAGE)
 
+  }
+
+  private setupImageHandling() {
+    let cycler = ThanksComponent.cycler;
+    let setImage = (next: HTMLImageElement) => {
+      let div: HTMLDivElement = this.imgDiv.nativeElement;
+      div.removeChild(div.children.item(0));
+      div.appendChild(next);
+    }
+    setImage(cycler.currentObject);
+    this.imageSubscription = cycler.onNewObj.subscribe((next: HTMLImageElement)=> {
+      setImage(next);
+    });
   }
 
   private closeSession() {
@@ -182,13 +219,17 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
   };
 
   private setupAttractions() {
-    let wfProperties: WorkflowProperties =
-      this.sessionSvc.hasCurrentSession() ? this.sessionSvc.surveyNavigator.survey.workflowProperties: {avgSteps: 4};
-    this.showJokes = wfProperties.showJokes || this.showJokes;
-    this.showWheel = wfProperties.showWheel || this.showWheel;
+    let config: AccountConfiguration = this.accountSvc.getCached(Config.CUSTOMERID).properties.configuration;
+    this.showJokes = config.SHOW_JOKES_ON_THANK_YOU_PAGE || this.showJokes;
+    if (this.showJokes) {
+      setTimeout(()=>{
+        this.setupImageHandling();
+      }, 50);
+    }
+    this.showWheel = config.SWEEPSTAKES_SHOW_WHEEL || this.showWheel;
     if (this.showWheel) {
-      this.costPerUse = +wfProperties.costPerUse || 1;
-      this.award = +wfProperties.award || 5;
+      this.costPerUse = +config.SWEEPSTAKES_COST_PER_USE || 1;
+      this.award = +config.SWEEPSTAKES_AWARD_AMOUNT || 5;
       this.giftMessage = ["$", this.award, ' Gift Card!'].join('');
       this.wheelOptions = ThanksComponent.getDefaultOptions(this.giftMessage, this.costPerUse,this.award);
     }

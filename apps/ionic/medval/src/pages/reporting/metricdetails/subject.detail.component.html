@@ -1,0 +1,30 @@
+<div padding>
+  <ion-grid padding>
+    <ion-row padding>
+      <ion-col>
+        Drilldown into top level metrics!
+      </ion-col>
+    </ion-row>
+    <ion-row wrap padding>
+      <ion-col class="border-around-text">
+        <ion-item item-left>
+          <ion-label stacked>Select Top Level Metric</ion-label>
+          <ion-select [(ngModel)]="selectedMetricAndSubject">
+            <ion-option *ngFor="let metricAndSubject of metricAndSubjects" [value]="metricAndSubject">
+              {{getDisplayValue(metricAndSubject)}}
+            </ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row padding>
+      <ion-col class="border-around-text">
+        <div #errorDiv></div>
+        <div #dashboard>
+          <div #yearSlider></div>
+          <div #chart></div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>

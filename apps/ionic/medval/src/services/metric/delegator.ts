@@ -117,4 +117,14 @@ export class MetricService extends DelegatingService<Metric> {
   getMetricById(metricId: string) {
     return super.getCached(metricId);
   }
+
+  getMetricByName(mName: string) {
+    let metric: Metric;
+    super.listCached().forEach((m: Metric)=>{
+      if (m.properties && m.properties.metricName == mName) {
+        metric = m;
+      }
+    })
+    return metric;
+  }
 }

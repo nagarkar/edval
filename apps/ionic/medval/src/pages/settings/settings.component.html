@@ -1,5 +1,6 @@
-<mdval-header [title]="'Settings'"></mdval-header>
+<mdval-header [title]="'Error Log'"></mdval-header>
 <ion-content padding class="copypaste">
+  <!--
   <ion-title>Mock State</ion-title>
   <ion-item *ngFor="let key of keys">
     <ion-label>{{key}}</ion-label>
@@ -40,6 +41,7 @@
       {{metric.properties.positiveImpact | sReplacer:replacerDataWithoutHardcodedStaff[metric.metricId]:true}}</ion-row>
 
   </ion-grid>
+  -->
   <ion-list>
     <ion-item-divider>Errors:</ion-item-divider>
     <div *ngFor="let err of errData">{{err}}</div>

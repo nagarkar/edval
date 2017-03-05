@@ -21,7 +21,6 @@ export class MockSessionService extends AbstractMockService<Session> {
     accessProvider: AccessTokenService) {
 
     super(utils, accessProvider);
-    Utils.log("Created Mock Session Service object)");
   }
 
   reset() {

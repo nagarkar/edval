@@ -6,13 +6,12 @@
  * site or application without licensing is strictly prohibited.
  */
 import {OnInit} from "@angular/core";
-import {AccessTokenService} from "../shared/aws/access.token.service";
 import {NavController} from "ionic-angular";
-import {LoginComponent} from "./login/login.component";
 import {Utils} from "../shared/stuff/utils";
-import {Session} from "../services/session/schema";
 import {Config} from "../shared/config";
 import {DashboardComponent} from "./dashboard/dashboard.component";
+import {SpinnerDialog} from "ionic-native";
+import {Http} from "@angular/http";
 
 /**
  * Subclasses should implement ngOnInit() and call super.ngOnInit() before calling the account to load
@@ -20,10 +19,14 @@ import {DashboardComponent} from "./dashboard/dashboard.component";
  */
 export abstract class AdminComponent implements OnInit {
 
-  constructor(protected  navCtrl: NavController) { }
+  constructor(protected  navCtrl: NavController, private http: Http) {
+    setTimeout(()=>{
+      SpinnerDialog.hide();
+    }, Config.SURVEY_PAGE_IDLE_SECONDS/4);
+  }
 
   ngOnInit() {
-    Utils.logoutIfNecessary(this.navCtrl);
+    Utils.logoutIfNecessary(this.navCtrl, this.http);
   }
 
   handleErrorAndCancel(err: any) {

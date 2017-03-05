@@ -60,7 +60,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       properties: {
         conversationSetup: "'Your overall rating for ' + account.properties.customerName + ''",
         question: "'Would you recommend ' + account.properties.customerName + ' to your friends and family?'",
-        metricName: "",
+        metricName: "Overall Favorability",
         metricDescription: "Organization Level Metric. This metric is always present by default and cannot be deleted",
         definition: {
           npsType: {
@@ -77,7 +77,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       properties: {
         question: `onlyStaff ? "How would you rate " + onlyStaff.displayName + " as an Orthodontic Assistant?"
           : "How would you rate the Doctor's Assistants at " + account.properties.customerName + "?"`,
-        metricName: "NPS Metric for Role Orthodontic Assistant",
+        metricName: "Favorability - Assistants",
         definition: {
           npsType: {
             range: 5
@@ -94,7 +94,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       properties: {
         question: `onlyStaff ? "Is " + onlyStaff.displayName + " friendly and courteous?"
           : "Are the Doctor's Assistants friendly and courteous?"`,
-        metricName: 'FriendlycourteousAssistants',
+        metricName: 'Friendly and Courteous',
         positiveImpact: `onlyStaff ? onlyStaff.displayName + " is friendly. " + onlyStaff.personalPronoun() + " treats me with the utmost respect"
             : "The Doctor's Assistants are friendly and respectful"`,
         improvement: `(staff && staff.length == 1 ? staff[0].displayName : "The Doctor's Assistants") + " could be more friendly and courteous"`,
@@ -111,7 +111,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:Orthodontic Assistant",
       properties: {
-        metricName: 'Doctor Skill',
+        metricName: 'Medical Skills - Assistants',
         question: `onlyStaff ? "Do you feel " + onlyStaff.displayName + " is skillful in performing tasks?" 
           : "Are the Doctor's Assistants skillful in performing tasks?"`,
         positiveImpact: `(onlyStaff ? onlyStaff.displayName + ' is' : "The Doctor's Assistants are") + ' skillful in performing tasks'`,
@@ -130,7 +130,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:Orthodontic Assistant",
       properties: {
-        metricName: 'Treatment progress',
+        metricName: 'Responsiveness',
         question: `(onlyStaff ? 'Does ' + onlyStaff.displayName : "Do the Doctor's assistants ") + ' keep you well-informed about progress & answer your questions?'`,
         positiveImpact: `onlyStaff ? onlyStaff.displayName + ' keeps me informed of treatment progress & answers my questions' 
           : "The Doctors Assistants answer my questions and keep me informed of the treatment progress"`,
@@ -148,7 +148,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:Orthodontic Assistant",
       properties: {
-        metricName: "Genuine Interest",
+        metricName: "Interest in Outcomes - Assistants",
         question: `onlyStaff ? 'Does ' + onlyStaff.displayName + ' show genuine interest your well being?'
           : "Do the Doctor's Assistants show genuine interest in you?"`,
         positiveImpact: `onlyStaff ? onlyStaff.displayName + ' shows genuine interest in ' + onlyStaff.possessivePronoun(true) + ' patients' 
@@ -171,7 +171,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
         question: `'Would you recommend ' 
           + (onlyStaff ? onlyStaff.displayName : ('the doctors at ' + account.properties.customerName)) 
           + ' to your friends and family?'`,
-        metricName: "NPS Metric for Role DDS",
+        metricName: "Favorability - Doctors",
         definition: {
           npsType: {
             range: 5
@@ -187,7 +187,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:DDS",
       properties: {
         question: 'Was your doctor friendly and courteous?',
-        metricName: 'FriendlycourteousDDS',
+        metricName: 'Friendly and Courteous Doctors',
         //positiveImpact: ` ? "": ""`,
         positiveImpact: `onlyStaff ? onlyStaff.displayName  + " is friendly and treats me with the utmost courtesy and respect"
           : "The doctors are friendly and treat me with the utmost courtesy and respect"`,
@@ -205,7 +205,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:DDS",
       properties: {
-        metricName: 'Doctor Skill',
+        metricName: 'Medical Skill - Doctors',
         question: "'Do you feel the doctor(s) at ' + account.properties.customerName + ' are skillful in providing treatment?'",
         positiveImpact: `onlyStaff ? onlyStaff.displayName  + " is skilled in providing treatment"
           : "The doctors are skilled in providing treatment"`,
@@ -223,7 +223,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:DDS",
       properties: {
-        metricName: 'Treatment progress',
+        metricName: 'Responsiveness - Doctors',
         question: 'Are you kept well-informed about the progress of your treatment & are your questions answered?',
         positiveImpact: `onlyStaff ? onlyStaff.displayName  + " keeps me informed of treatment progress & answers my questions"
           : "The doctors keep me informed of treatment progress & answer my questions"`,
@@ -241,9 +241,9 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:DDS",
       properties: {
-        metricName: `onlyStaff ? 'Did ' + onlyStaff.displayName + ' address your concerns and questions?'
+        metricName: 'Interest in Outcomes - Doctors',
+        question: `onlyStaff ? 'Did ' + onlyStaff.displayName + ' address your concerns and questions?'
             'Did the doctors at Orthodontic Excellence address your concerns and questions?'`,
-        question: 'Does the doctor show genuine interest in patients?',
         positiveImpact: `onlyStaff ? onlyStaff.displayName  + " shows genuine interest in patients"
           : "The doctors show genuine interest in patients"`,
         improvement: "The doctor could show more interest in patients",
@@ -260,7 +260,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:FrontOffice",
       properties: {
-        metricName: 'How do you rate the office and support staff?',
+        metricName: 'Favorability - Frontoffice',
         question: `onlyStaff ? "How do you rate " +  onlyStaff.displayName + " in the front-office?" 
            : "How would you rate the support staff in the front-office?"`,
         definition: {
@@ -276,7 +276,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:FrontOffice",
       properties: {
-        metricName: 'FinancialCoordination',
+        metricName: 'Financial Coordination',
         question: 'Did the Financial Coordinator present information clearly',
         positiveImpact: 'Information about costs and payment plans is presented clearly',
         improvement: 'Information about payment plans and costs could be presented more clearly',
@@ -293,7 +293,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:FrontOffice",
       properties: {
-        metricName: 'Was it easy and convenient to book an appointment?',
+        metricName: 'Easy Appointments',
         question: 'Do you usually get an appointment at a time and location convenient to you?',
         positiveImpact: `It's always easy to book an appointment`,
         improvement: "Make it easier to get convenient appointments",
@@ -310,7 +310,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:FrontOffice",
       properties: {
-        metricName: 'Once you arrived, did you see your doctor on time?',
+        metricName: 'Low Waiting Time',
         question: 'Do you usually wait less than 5 minutes after you arrive for your appointment?',
         positiveImpact: 'My wait time is always less than 5 minutes after I arrive',
         improvement: 'I had to wait too long in the waiting area',
@@ -327,7 +327,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:FrontOffice",
       properties: {
-        metricName: 'cleanliness',
+        metricName: 'Cleanliness',
         question: 'Was the reception area comfortable & clean?',
         positiveImpact: 'The reception area is always comfortable & the clinic is clean and tidy',
         improvement: 'Sometimes, the reception area is not comfortable and/or clean',

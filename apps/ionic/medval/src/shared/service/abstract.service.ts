@@ -47,7 +47,9 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
   }
 
   get(id: string, dontuseCache?: boolean) : Promise<T> {
-    this.checkGate();
+    if (!this.checkGate()) {
+      return Promise.reject("Not Logged In");
+    }
     Utils.throwIfNull(id);
     const tryuseCache = !dontuseCache && !Utils.nou(this.lastCacheClearMillis);
 
@@ -63,12 +65,16 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
         this.updateCache(value, this.getPath(), id);
         return value;
       }).catch((err)=> {
-        Utils.error("Error: {0}, Stack: {1}", err, new Error().stack)
+        let formatErr = Utils.format("Error: {0}, Stack: {1}", err, new Error().stack);
+        Utils.error(formatErr)
+        throw err;
       });
   }
 
   list(dontuseCache?: boolean) : Promise<Array<T>> {
-    this.checkGate();
+    if (!this.checkGate()) {
+      return Promise.reject("Not Logged In");
+    }
 
     const tryuseCache = !dontuseCache && !Utils.nou(this.lastCacheClearMillis);
 
@@ -87,7 +93,9 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
         })
         return value;
       }).catch((err)=> {
-        Utils.error("Error: {0}, Stack: {1}", err, new Error().stack)
+        let formattedErr = Utils.format("Error: {0}, Stack: {1}", err, new Error().stack)
+        Utils.error(formattedErr);
+        throw formattedErr;
       });
   }
 
@@ -100,48 +108,53 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
   }
 
   create(member: T): Promise<T> {
-    this.checkGate();
+    if (!this.checkGate()) {
+      return Promise.reject("Not Logged In");
+    }
     Utils.throwIfNull(member);
 
     return this.httpClient.post(this.getPath(), member)
       .then((value: T) => {
-        if (value === null || value === undefined) {
-          Utils.error("Failed to create member {0} at AbstracteService.create, for class {1}",
-            member, this.constructor.name);
-          return;
-        }
-        this.updateCache(value, this.getPath(), this.getId(value));
+        this.procesCreatedOrUpdatedValue(value, member);
         this.onCreate.emit(value);
         return value;
       }).catch((err)=> {
-        Utils.error("Error: {0}, Stack: {1}", err, new Error().stack)
+        let formattedError = Utils.format("Error: {0}, Stack: {1}", err, new Error().stack)
+        return formattedError;
       });
   }
 
   update(member: T): Promise<T> {
-    this.checkGate();
+    if (!this.checkGate()) {
+      return Promise.reject("Not Logged In");
+    }
     Utils.throwIfAnyNull([member, this.getId(member)]);
 
     return this.httpClient.put(this.getPath(), this.getId(member), member)
       .then((value: T) => {
-        this.updateCache(value, this.getPath(), this.getId(value));
+        this.procesCreatedOrUpdatedValue(value, member);
         this.onUpdate.emit(value);
         return value;
       }).catch((err)=> {
-        Utils.error("Error: {0}, Stack: {1}", err, new Error().stack)
+        let formattedErr = Utils.format("Error: {0}, Stack: {1}", err, new Error().stack)
+        throw formattedErr;
       });
   }
 
   delete(id: string): Promise<void> {
-    this.checkGate();
+    if (!this.checkGate()) {
+      return Promise.reject("Not Logged In");
+    }
 
     return this.httpClient.delete(this.getPath(), id)
       .then(() => {
         this.deleteCachedValue(this.getPath(), id);
         this.onDelete.emit(id);
-        return Promise.resolve();
+        return;
       }).catch((err)=> {
-        Utils.error("Error: {0}, Stack: {1}", err, new Error().stack)
+        let formatErr = Utils.format("Error: {0}, Stack: {1}", err, new Error().stack);
+        Utils.error(formatErr);
+        throw formatErr;
       });
   }
 
@@ -200,5 +213,15 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
 
   private getPathFromPathElements(pathElements: string[]) {
     return pathElements.join('/');
+  }
+
+  private procesCreatedOrUpdatedValue(value: T, member) {
+    if (value === null || value === undefined) {
+      Utils.error("Failed to create member {0} at AbstracteService.create, for class {1}",
+        member, this.constructor.name);
+      return;
+    }
+    this.updateCache(value, this.getPath(), this.getId(value));
+    this.updateCache(value, this.getPath(), this.getId(value));
   }
 }

@@ -12,7 +12,6 @@ import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
-import {SurveyNavUtils} from "../SurveyNavUtils";
 import {MetricService} from "../../../services/metric/delegator";
 import {Metric, MetricValue} from "../../../services/metric/schema";
 import {Account} from "../../../services/account/schema";

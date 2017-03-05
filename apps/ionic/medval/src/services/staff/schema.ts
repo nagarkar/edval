@@ -11,12 +11,14 @@ export class Staff {
 
   constructor () {
     this.properties = this.properties || { title: "Dr."};
+    this.softwareVersion = Config.SOFTWARE_VERSION;
   }
 
   customerId: string;
   username: string;
   role: string;
   entityStatus:string;
+  softwareVersion: string = Config.SOFTWARE_VERSION;
   properties: {
     title?: string;
     firstName?: string;

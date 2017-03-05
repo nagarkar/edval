@@ -47,19 +47,6 @@ export class SettingsComponent {
     this.replacerDataWithoutHardcodedStaff = this.constructSessionReplacerMap();
 
     this.setupSessionAndSelectedUsers();
-    Utils.log("In Settings Component");
-  }
-
-  setValue(key: string, event: any) {
-    Utils.log("Set Value {0} for key {1}", event, key);
-  }
-
-  get serviceUrl() {
-    return Config.baseUrl;
-  }
-
-  set serviceUrl(url: string) {
-    Config.baseUrl = url;
   }
 
   private constructSessionReplacerMap(): {[key: string] : SReplacerDataMap} {

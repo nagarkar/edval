@@ -74,10 +74,11 @@ export class StaffEditComponent {
     resultPromise
       .then(() => {
         this.navCtrl.pop();
+        Utils.presentTopToast(this.toastCtrl, "Staff Member Updated");
       })
       .catch((reason) => {
-        Utils.presentTopToast(this.toastCtrl, reason || "Could not update Staff Member", 3000);
         this.navCtrl.pop();
+        Utils.presentTopToast(this.toastCtrl, reason || "Could not update Staff Member");
       });
   }
 

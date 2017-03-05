@@ -21,7 +21,6 @@ export class MockCampaignService extends AbstractMockService<Campaign> {
     accessProvider: AccessTokenService) {
 
     super(utils, accessProvider);
-    Utils.log("Created Mock Campaign Service");
   }
 
   reset() {

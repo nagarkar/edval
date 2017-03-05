@@ -66,7 +66,29 @@
       display: flex;
     }
   }
+}
 
+// Help
+.bighelp {
+  div.alert-wrapper {
+    max-width:80%
+  }
+}
+
+ol {
+  text-align: left;
+}
+
+// Tables
+ion-col.header {
+  border: solid 1px grey;
+  background-color:lightgrey;
+  padding:10px;
+}
+
+ion-col.regular {
+  border: solid 1px grey;
+  padding:10px;
 }
 
 //Common App Background
@@ -130,6 +152,10 @@
   position: relative;
 }
 
+.pos-fixed {
+  position: fixed;
+}
+
 //Override ios border on header
 .toolbar-background-ios {
   border-bottom-width: 0px;
@@ -169,6 +195,9 @@
   font-size:1.4em;
 }
 
+.nopadding {
+  padding: 0em;
+}
 .p-t-1 {
   padding-top:1em
 }
