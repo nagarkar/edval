@@ -21,6 +21,7 @@ export interface AccountConfiguration {
   REVIEW_URL_YELP?: string;     // url
   SPEAK_GREETING: boolean;
   SPEAK_GREETING_RATE: number;
+  CHIME_INTERVAL: number;
 }
 
 export class Account {
@@ -86,6 +87,7 @@ export class Account {
       SHOW_JOKES_ON_THANK_YOU_PAGE: true,
       SPEAK_GREETING: false,
       SPEAK_GREETING_RATE: undefined,
+      CHIME_INTERVAL: 1
     },
   }
 
@@ -110,6 +112,10 @@ export class Account {
     if(config.SPEAK_GREETING_RATE > 2) {
       errors.push("The Voice Speed should not exceed 2");
       config.SPEAK_GREETING_RATE = 1.1;
+    }
+    if(config.CHIME_INTERVAL < .1 || config.CHIME_INTERVAL > 100) {
+      errors.push("The Chime Interval is between .1 and 100 (minutes)");
+      config.CHIME_INTERVAL = 1;
     }
     if (errors.length == 0) {
       return null;

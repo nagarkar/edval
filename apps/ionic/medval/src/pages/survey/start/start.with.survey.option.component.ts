@@ -20,6 +20,8 @@ import {Survey} from "../../../services/survey/schema";
 import {Subscription} from "rxjs";
 import {NativeAudio} from "ionic-native";
 import {Http} from "@angular/http";
+import {AccountService} from "../../../services/account/delegator";
+import {Config} from "../../../shared/config";
 
 @Component({
   templateUrl: './start.with.survey.option.component.html'
@@ -36,7 +38,6 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
 
 
   leftImage: string;// = StartWithSurveyOption.cycler.currentImage.src;
-  account: Account = new Account();
 
   surveys : Survey[] = [];
 
@@ -56,6 +57,7 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
     private tokenProvider: AccessTokenService,
     private surveySvc: SurveyService,
     private sessionSvc: SessionService,
+    private accountSvc: AccountService,
     navParams: NavParams
   ) {
 
@@ -78,9 +80,11 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
   ngOnDestroy(){
     if (StartWithSurveyOption.imageSubscription) {
       StartWithSurveyOption.imageSubscription.unsubscribe();
+      StartWithSurveyOption.cycler.ngOnDestroy();
     }
     if (StartWithSurveyOption.soundSubscription) {
       StartWithSurveyOption.soundSubscription.unsubscribe();
+      StartWithSurveyOption.soundCycler.ngOnDestroy();
     }
   }
 
@@ -140,7 +144,12 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
   }
 
   private setupSoundHandling() {
-    this.createSoundCyclerIfNecessary();
+    let account = this.accountSvc.getCached(Config.CUSTOMERID);
+    let intervalMinutes = 1;
+    if (account && account.properties && account.properties.configuration) {
+      intervalMinutes = account.properties.configuration.CHIME_INTERVAL;
+    }
+    this.createSoundCyclerIfNecessary(intervalMinutes);
     let cycler = StartWithSurveyOption.soundCycler;
     StartWithSurveyOption.soundSubscription = cycler.onNewObj.subscribe((id: string)=> {
       NativeAudio.play(id, ()=>{} /* Nothing to do on completion */)
@@ -153,10 +162,10 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
     });
   }
 
-  private createSoundCyclerIfNecessary() {
+  private createSoundCyclerIfNecessary(intervalMinutes: number) {
     if (!StartWithSurveyOption.soundCycler) {
       StartWithSurveyOption.soundCycler = new SoundCycler(
-        10 * 60 * 1000, // 10 minutes
+        (intervalMinutes || 1) * 60 * 1000, // 10 minutes
         'assets/mp3/bingbong.mp3',
         'assets/mp3/coindrop.mp3',
         'assets/mp3/game_sound1.mp3',

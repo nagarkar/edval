@@ -31,6 +31,12 @@ export class HelpMessages {
       in your Account Settings`],
     SPEAK_GREETING: ['Say Thank you!',`The App includes a Speech component. Patients can be thanked by the App after they provide a review.`],
     SPEAK_GREETING_RATE: ['How fast to speak', `Set the speed of audio greetings between 1-1.5`],
+    CHIME_INTERVAL: [
+      'Chime',
+      `On the Survey Start page, there is a series of various short, inconspicuous sounds that play at 
+        intervals. This is a useful feature to attract patient attention. By setting a large interval, you can effectively 
+        disable this feature if you want.`
+    ],
     REVIEW_URL_FACEBOOK: ['Get Facebook Reviews',`In order to get Facebook reviews and ratings, you'll need to make sure that your Page's category is “Local Business”
      in your Page Settings.
         <ol style='text-align:left'>
