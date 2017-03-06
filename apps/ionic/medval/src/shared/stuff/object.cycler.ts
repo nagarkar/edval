@@ -7,6 +7,7 @@
  */
 import {EventEmitter} from "@angular/core";
 import {NativeAudio} from "ionic-native";
+import {Utils} from "./utils";
 /**
  * Created by chinmay on 12/21/16.
  */
@@ -64,8 +65,14 @@ export class ImageCycler extends ObjectCycler<any> {
 export class SoundCycler extends ObjectCycler<any> {
 
   constructor(interval?: number, ...urlsToCycle: string[]) {
-    urlsToCycle.forEach((url: string)=>{
-      NativeAudio.preloadSimple(url, url);
+    urlsToCycle.forEach((url: string) => {
+      NativeAudio.preloadSimple(url, url)
+        .then(()=>{
+          Utils.info("Preloaded url " + url);
+        })
+        .catch(()=>{
+          Utils.error("Could not preload audio: " + url);
+        })
     });
     super(interval, ...urlsToCycle);
   }

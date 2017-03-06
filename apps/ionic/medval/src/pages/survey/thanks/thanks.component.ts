@@ -19,6 +19,7 @@ import {SurveyPage} from "../survey.page";
 import {AnyDetractors} from "../../../services/survey/survey.functions";
 import {AccountConfiguration} from "../../../services/account/schema";
 import {Subscription} from "rxjs";
+import {DeviceServices} from "../../../shared/service/DeviceServices";
 
 @Component({
   templateUrl: './thanks.component.html',
@@ -88,13 +89,11 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     try {
-      let isPromoterOrMiddle = (new AnyDetractors().execute(this.sessionSvc.surveyNavigator, {}) == "false");
-      Utils.speak("Thanks for your Feedback!");
+      this.setupMessagesAndAttractions()
+        .then(()=>{
+          Utils.info("All Messages Spoken")
+        });
 
-      if (isPromoterOrMiddle) {
-        this.setupAttractions();
-        Utils.speak("It's your lucky day! Play for an instant reward!!")
-      }
       setTimeout(()=>{
         let svc = this.sessionSvc;
         if(svc.hasCurrentSession()) {
@@ -177,7 +176,7 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
     let outcomes = this.getSuccessAndTotalOutcomeIntegers(costPerUse, award);
     let ret: any = {
       giftMessage: giftMessage,
-      chance: Utils.format("{0} in {1}", outcomes.costPerUse, outcomes.award)
+      chance: Utils.format("about {0}%", Math.floor(100*outcomes.costPerUse/outcomes.award))
     }
 
     let giftSegment = {'fillStyle' : '#eae56f', 'text': giftMessage, win: true};
@@ -241,5 +240,24 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
       costPerUse: costPerUse,
       award: award
     }
+  }
+
+  private setupMessagesAndAttractions(): Promise<any> {
+    let isPromoterOrMiddle = (new AnyDetractors().execute(this.sessionSvc.surveyNavigator, {}) == "false");
+    let messages: string[] = [];
+    messages.push("Thanks for your Feedback!");
+
+    if (isPromoterOrMiddle) {
+      this.setupAttractions();
+      messages.push("It's your lucky day! Play for an instant reward!!");
+    }
+    let config: AccountConfiguration = this.accountSvc.getCached(Config.CUSTOMERID).properties.configuration;
+    let speak = Utils.isStringBooleanTrue(config.SPEAK_GREETING)
+    if (!speak) {
+      return Promise.resolve();
+    }
+    let speakRate = +config.SPEAK_GREETING_RATE || 1.1;
+
+    return DeviceServices.speakAll(speakRate, ...messages);
   }
 }

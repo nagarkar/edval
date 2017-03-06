@@ -1,16 +1,16 @@
 <mdval-header *ngIf="isEdit" title="Account Information"></mdval-header>
 <mdval-header *ngIf="!isEdit" title="Setup New Administrator Account and Organization"></mdval-header>
-<ion-content class="rev-form" padding text-center>
+<ion-content class="rev-form" padding>
   <div class="m-t-4" *ngIf="!isEdit">
-    <ion-title>Please provide an administrator username and phone number.</ion-title>
-    <h6>We will send you an SMS with a temporary password for this username.</h6>
+    <ion-title>Please provide an administrator username and email address.</ion-title>
+    <h6>We will send you an email with a temporary password for this username.</h6>
     <ion-grid>
       <ion-row>
         <ion-col width-33>
           <ion-label item-left>Username</ion-label>
         </ion-col>
         <ion-col>
-          <ion-input item-right [(ngModel)]="username"></ion-input>
+          <ion-input #focusField item-right [(ngModel)]="username"></ion-input>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -108,22 +108,22 @@
       <div *ngIf="isEdit">
         <ion-row class="border-around-text">
           <ion-col width-20>
-            <ion-label>Spinwheel Configuration</ion-label>
+            <ion-label item-left>Spinwheel Game</ion-label>
           </ion-col>
           <ion-col>
             <ion-grid>
               <ion-row>
-                <ion-col>
-                  <ion-label (tap)="showHelp('SWEEPSTAKES_SHOW_WHEEL')" item-left>Show SpinWheel Game (?)</ion-label>
-                  <ion-checkbox item-right [(ngModel)]="account.properties.configuration.SWEEPSTAKES_SHOW_WHEEL"></ion-checkbox>
+                <ion-col width-30>
+                  <ion-label (tap)="showHelp('SWEEPSTAKES_SHOW_WHEEL')">Enable Game (?)</ion-label>
+                  <ion-toggle [(ngModel)]="account.properties.configuration.SWEEPSTAKES_SHOW_WHEEL"></ion-toggle>
                 </ion-col>
                 <ion-col>
-                  <ion-label (tap)="showHelp('SWEEPSTAKES_AWARD_AMOUNT')" item-left>Award Amount (?)</ion-label>
-                  <ion-input type="number" item-right [(ngModel)]="account.properties.configuration.SWEEPSTAKES_AWARD_AMOUNT"></ion-input>
+                  <ion-label (tap)="showHelp('SWEEPSTAKES_AWARD_AMOUNT')" >Award Amount(?)</ion-label>
+                  <ion-input type="number" [(ngModel)]="account.properties.configuration.SWEEPSTAKES_AWARD_AMOUNT"></ion-input>
                 </ion-col>
                 <ion-col>
-                  <ion-label (tap)="showHelp('SWEEPSTAKES_COST_PER_USE')" item-left>Spend per Customer (?)</ion-label>
-                  <ion-input type="number" item-right [(ngModel)]="account.properties.configuration.SWEEPSTAKES_COST_PER_USE"></ion-input>
+                  <ion-label (tap)="showHelp('SWEEPSTAKES_COST_PER_USE')" >Spend/Patient (?)</ion-label>
+                  <ion-input type="number" [(ngModel)]="account.properties.configuration.SWEEPSTAKES_COST_PER_USE"></ion-input>
                 </ion-col>
               </ion-row>
             </ion-grid>
@@ -131,7 +131,7 @@
         </ion-row>
         <ion-row class="border-around-text">
           <ion-col width-20>
-            <ion-label (tap)="showHelp('REVIEW_URL')">Review Urls (?)</ion-label>
+            <ion-label item-left (tap)="showHelp('REVIEW_URL')">Review Urls (?)</ion-label>
           </ion-col>
           <ion-col>
             <ion-grid>
@@ -164,14 +164,22 @@
         </ion-row>
         <ion-row class="border-around-text">
           <ion-col width-20>
-            <ion-label>Other Configuration</ion-label>
+            <ion-label item-left>Other Configuration</ion-label>
           </ion-col>
           <ion-col>
             <ion-grid>
               <ion-row>
-                <ion-col>
-                  <ion-label (tap)="showHelp('SHOW_JOKES_ON_THANK_YOU_PAGE')" item-left>Selective Humor (?)</ion-label>
-                  <ion-checkbox item-right [(ngModel)]="account.properties.configuration.SHOW_JOKES_ON_THANK_YOU_PAGE"></ion-checkbox>
+                <ion-col width-30>
+                  <ion-label (tap)="showHelp('SHOW_JOKES_ON_THANK_YOU_PAGE')">Selective Humor(?)</ion-label>
+                  <ion-toggle [(ngModel)]="account.properties.configuration.SHOW_JOKES_ON_THANK_YOU_PAGE"></ion-toggle>
+                </ion-col>
+                <ion-col width-30>
+                  <ion-label (tap)="showHelp('SPEAK_GREETING')" item-left>Thank you voice(?)</ion-label>
+                  <ion-toggle [(ngModel)]="account.properties.configuration.SPEAK_GREETING"></ion-toggle>
+                </ion-col>
+                <ion-col width-30>
+                  <ion-label (tap)="showHelp('SPEAK_GREETING_RATE')" item-left>Voice Speed(?)</ion-label>
+                  <ion-input type="number" [(ngModel)]="account.properties.configuration.SPEAK_GREETING_RATE"></ion-input>
                 </ion-col>
               </ion-row>
             </ion-grid>

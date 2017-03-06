@@ -27,32 +27,12 @@ import {Http} from "@angular/http";
 
 export class StartWithSurveyOption implements OnInit, OnDestroy {
 
-  private static cycler: ImageCycler = new ImageCycler(
-    503, 650,
-    // {webkitTransform: "translate3d(0, 0, 0);", transform: "translate3d(0, 0, 0)", position:"relative", bottom:"-1em"},
-    "-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);position:relative; bottom:-1em",
-    null,
-    'https://s3.amazonaws.com/revvolveapp/quotes/quote1.jpg',
-    'https://s3.amazonaws.com/revvolveapp/quotes/quote2.jpg',
-    'https://s3.amazonaws.com/revvolveapp/quotes/quote3.jpg',
-    'https://s3.amazonaws.com/revvolveapp/quotes/quote1.jpg',
-    'https://s3.amazonaws.com/revvolveapp/quotes/quote4.jpg',
-    'https://s3.amazonaws.com/revvolveapp/quotes/quote1.jpg',
-    'https://s3.amazonaws.com/revvolveapp/quotes/quote5.jpg',
-    'https://s3.amazonaws.com/revvolveapp/quotes/quote2.jpg',
-  );
-  private imageSubscription: Subscription;
+  private static cycler: ImageCycler;
+  private static imageSubscription: Subscription;
 
   private static SPEAK_TIMER_HANDLE: number;
-  private static soundCycler: SoundCycler = new SoundCycler(
-    10 * 60 * 1000, // 10 minutes
-    'assets/mp3/bingbong.mp3',
-    'assets/mp3/coindrop.mp3',
-    'assets/mp3/game_sound1.mp3',
-    'assets/mp3/game_sound3.mp3',
-    'assets/mp3/servicebell.mp3',
-  );
-  private soundSubscription: Subscription;
+  private static soundCycler: SoundCycler;
+  private static soundSubscription: Subscription;
 
 
   leftImage: string;// = StartWithSurveyOption.cycler.currentImage.src;
@@ -96,11 +76,11 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    if (this.imageSubscription) {
-      this.imageSubscription.unsubscribe();
+    if (StartWithSurveyOption.imageSubscription) {
+      StartWithSurveyOption.imageSubscription.unsubscribe();
     }
-    if (this.soundSubscription) {
-      this.soundSubscription.unsubscribe();
+    if (StartWithSurveyOption.soundSubscription) {
+      StartWithSurveyOption.soundSubscription.unsubscribe();
     }
   }
 
@@ -127,11 +107,26 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
 
   private setImage(next: HTMLImageElement) {
     let div: HTMLDivElement = this.imgDiv.nativeElement;
-    div.removeChild(div.children.item(0));
-    div.appendChild(next);
+    if (!div) {
+      Utils.error("No Image Div (nativeElement) found in StartWithSurveyOption");
+      return;
+    }
+    try {
+      if (div.children.item(0)) {
+        div.removeChild(div.children.item(0));
+      }
+    } catch(err) {
+      Utils.error("Could not remove No Image Div (nativeElement) found in StartWithSurveyOption");
+    }
+    try {
+      div.appendChild(next);
+    } catch(err) {
+      Utils.error("Could not append child (nativeElement) found in StartWithSurveyOption");
+    }
   }
 
   private setupImageHandling() {
+    this.createImageCyclerIfNecessary();
     let cycler = StartWithSurveyOption.cycler;
     let setImage = (next: HTMLImageElement) => {
       let div: HTMLDivElement = this.imgDiv.nativeElement;
@@ -139,14 +134,15 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
       div.appendChild(next);
     }
     setImage(cycler.currentObject);
-    this.imageSubscription = cycler.onNewObj.subscribe((next: HTMLImageElement)=> {
+    StartWithSurveyOption.imageSubscription = cycler.onNewObj.subscribe((next: HTMLImageElement)=> {
       setImage(next);
     });
   }
 
   private setupSoundHandling() {
+    this.createSoundCyclerIfNecessary();
     let cycler = StartWithSurveyOption.soundCycler;
-    this.soundSubscription = cycler.onNewObj.subscribe((id: string)=> {
+    StartWithSurveyOption.soundSubscription = cycler.onNewObj.subscribe((id: string)=> {
       NativeAudio.play(id, ()=>{} /* Nothing to do on completion */)
         .then(()=>{
           Utils.info("Played sound {0}", id);
@@ -155,5 +151,37 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
           Utils.error("Unable to play sound {0}", id);
         })
     });
+  }
+
+  private createSoundCyclerIfNecessary() {
+    if (!StartWithSurveyOption.soundCycler) {
+      StartWithSurveyOption.soundCycler = new SoundCycler(
+        10 * 60 * 1000, // 10 minutes
+        'assets/mp3/bingbong.mp3',
+        'assets/mp3/coindrop.mp3',
+        'assets/mp3/game_sound1.mp3',
+        'assets/mp3/game_sound3.mp3',
+        'assets/mp3/servicebell.mp3',
+      );
+    }
+  }
+
+  private createImageCyclerIfNecessary() {
+    if (!StartWithSurveyOption.cycler) {
+      StartWithSurveyOption.cycler = new ImageCycler(
+        503, 650,
+        // {webkitTransform: "translate3d(0, 0, 0);", transform: "translate3d(0, 0, 0)", position:"relative", bottom:"-1em"},
+        "-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);position:relative; bottom:-1em",
+        null,
+        'https://s3.amazonaws.com/revvolveapp/quotes/quote1.jpg',
+        'https://s3.amazonaws.com/revvolveapp/quotes/quote2.jpg',
+        'https://s3.amazonaws.com/revvolveapp/quotes/quote3.jpg',
+        'https://s3.amazonaws.com/revvolveapp/quotes/quote1.jpg',
+        'https://s3.amazonaws.com/revvolveapp/quotes/quote4.jpg',
+        'https://s3.amazonaws.com/revvolveapp/quotes/quote1.jpg',
+        'https://s3.amazonaws.com/revvolveapp/quotes/quote5.jpg',
+        'https://s3.amazonaws.com/revvolveapp/quotes/quote2.jpg',
+      );
+    }
   }
 }

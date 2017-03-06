@@ -38,6 +38,7 @@ import {Config} from "../shared/config";
 import {GoogleChartsConfig as ChartConfig} from "../pages/reporting/config";
 import {AccessTokenService} from "../shared/aws/access.token.service";
 import {Subscription} from "rxjs";
+import {DeviceServices} from "../shared/service/DeviceServices";
 
 declare let google;
 
@@ -47,8 +48,6 @@ declare let google;
 export class RevvolveApp {
 
   private static CONNECTION_CHECK_HANDLE: number;
-  private static BATTERY_SUBSCRIPTION: Subscription;
-  private static INITIAL_INSTALL_TIMESTAMP = "INITIAL_INSTALL_TIMESTAMP";
 
   rootPage = LoginComponent;
   rootParams = {defaultOnly: true}
@@ -83,24 +82,12 @@ export class RevvolveApp {
       HeaderComponent.DEFAULT_HOME = LoginComponent;
 
       this.initiateConnectionCheck(http);
-
-      google.charts.load('current', { packages: ['corechart', 'controls', 'table'] });
-      google.charts.setOnLoadCallback(()=>{
-        ChartConfig.CHARTS_LOADED = true;
-      });
-
-      this.setupCodePush();
-      this.setupBatteryCheck();
-      this.setupOnPause();
-      this.storeInitialInstallDate();
+      this.initializeGoogleCharts();
+      DeviceServices.initialize();
     });
   }
 
-  private setupOnPause() {
-    document.addEventListener("pause", ()=>{
-      Utils.log("Application Paused");
-    }, false);
-  }
+
 
   private initiateConnectionCheck(http: Http) {
     let client: HttpClient<string> = new HttpClient<string>(http);
@@ -136,58 +123,10 @@ export class RevvolveApp {
     this.connectionRetries = 3;
   }
 
-  private setupCodePush() {
-    Utils.log("Setup Code Push");
-    CodePush.sync();
-  }
-
-  private setupBatteryCheck() {
-    let setBrightnessAndScreenOn = (b: number, o: boolean)=>{
-      Utils.info("Setting brightness: {0}, screenon: {1}", b, o);
-      Brightness.setBrightness(b);
-      Brightness.setKeepScreenOn(o);
-    }
-    // watch change in battery status
-    if (RevvolveApp.BATTERY_SUBSCRIPTION) {
-      RevvolveApp.BATTERY_SUBSCRIPTION.unsubscribe();
-    }
-    RevvolveApp.BATTERY_SUBSCRIPTION = BatteryStatus.onChange().subscribe(
-      (status: BatteryStatusResponse) => {
-        Utils.log("In brightness observable");
-        if (status.isPlugged) {
-          setBrightnessAndScreenOn(0.9, true);
-          return;
-        }
-        if (status.level > 0.9) {
-          setBrightnessAndScreenOn(0.9, true);
-        } else if (status.level > 0.8) {
-          setBrightnessAndScreenOn(0.8, true);
-        } else if (status.level > 0.3) {
-          setBrightnessAndScreenOn(0.7, true);
-        } else {
-          setBrightnessAndScreenOn(-1, false);
-        }
-      }
-    );
-  }
-
-  private storeInitialInstallDate() {
-    NativeStorage.getItem(RevvolveApp.INITIAL_INSTALL_TIMESTAMP)
-      .then((timestamp)=>{
-        Utils.info("Retrieved {0} for Device {2}: {1}", RevvolveApp.INITIAL_INSTALL_TIMESTAMP, timestamp, Device.serial);
-        if (!timestamp) {
-          let currentTime = new Date().getTime();
-          NativeStorage.setItem(RevvolveApp.INITIAL_INSTALL_TIMESTAMP, currentTime)
-            .then(()=>{
-              Utils.info("Stored {0} for device {2}: {1}", RevvolveApp.INITIAL_INSTALL_TIMESTAMP, currentTime, Device.serial);
-            })
-            .catch((err)=>{
-              Utils.error("In NativeStorage.setItem(INITIAL_INSTALL_TIMESTAMP) for Device {1}; {0}", Utils.stringify(err), Device.serial);
-            })
-        }
-      })
-      .catch((err)=>{
-        Utils.error("In NativeStorage.getItem(INITIAL_INSTALL_TIMESTAMP) for Device {1}; {0}", err, Device.serial);
-      })
+  private initializeGoogleCharts() {
+    google.charts.load('current', { packages: ['corechart', 'controls', 'table'] });
+    google.charts.setOnLoadCallback(()=>{
+      ChartConfig.CHARTS_LOADED = true;
+    });
   }
 }

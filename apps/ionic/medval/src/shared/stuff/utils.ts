@@ -533,16 +533,6 @@ export class Utils {
     }
   }
 
-  static speak(message: string) {
-    TextToSpeech.speak({text: message, locale: Config.LOCALE})
-      .then(() => {
-        Utils.log('Successfully spoke this message: {0}', message);
-      })
-      .catch((reason: any) => {
-        Utils.log('Failed to speak message: {0}', message);
-      });
-  }
-
   static isStringBooleanTrue(someBool: any): boolean {
     if (Utils.isBoolean(someBool)) {
       return someBool;

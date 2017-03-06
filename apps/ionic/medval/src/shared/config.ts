@@ -87,6 +87,8 @@ export class Config {
     "DailyDataList": true,
   };
 
+  static ENABLE_TTS: boolean = true;
+
   static get baseUrl() {
     return Config._baseUrl;
   }

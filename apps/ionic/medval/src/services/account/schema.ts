@@ -7,6 +7,7 @@
  */
 import {Utils} from "../../shared/stuff/utils";
 import {Config} from "../../shared/config";
+import {ValidationService} from "../../shared/components/validation/validation.service";
 
 export interface AccountConfiguration {
   STANDARD_ROLES: string;
@@ -18,6 +19,8 @@ export interface AccountConfiguration {
   REVIEW_URL_FACEBOOK?: string; // url
   REVIEW_URL_GOOGLE?: string;   // url
   REVIEW_URL_YELP?: string;     // url
+  SPEAK_GREETING: boolean;
+  SPEAK_GREETING_RATE: number;
 }
 
 export class Account {
@@ -81,6 +84,37 @@ export class Account {
       SWEEPSTAKES_AWARD_AMOUNT: 5,
       SWEEPSTAKES_COST_PER_USE: 1,
       SHOW_JOKES_ON_THANK_YOU_PAGE: true,
+      SPEAK_GREETING: false,
+      SPEAK_GREETING_RATE: undefined,
     },
   }
+
+  cleanupConfiguration(): string {
+    let config: AccountConfiguration = this.properties.configuration;
+    if (!config) {
+      return;
+    }
+    let errors = [];
+    if (!ValidationService.urlValidator.test(config.REVIEW_URL_FACEBOOK)){
+      errors.push("The Facebook URL is invalid");
+      config.REVIEW_URL_FACEBOOK = undefined;
+    }
+    if (!ValidationService.urlValidator.test(config.REVIEW_URL_GOOGLE)){
+      errors.push("The Google URL is invalid");
+      config.REVIEW_URL_GOOGLE = undefined;
+    }
+    if (!ValidationService.urlValidator.test(config.REVIEW_URL_YELP)){
+      errors.push("The Yelp URL is invalid");
+      config.REVIEW_URL_YELP = undefined;
+    }
+    if(config.SPEAK_GREETING_RATE > 2) {
+      errors.push("The Voice Speed should not exceed 2");
+      config.SPEAK_GREETING_RATE = 1.1;
+    }
+    if (errors.length == 0) {
+      return null;
+    }
+    return errors.join("\n");
+  }
+
 }

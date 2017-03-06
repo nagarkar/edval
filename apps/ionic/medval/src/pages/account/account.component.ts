@@ -6,8 +6,11 @@
  * site or application without licensing is strictly prohibited.
  */
 
-import {Component} from "@angular/core";
-import {NavController, ActionSheetController, AlertController, ToastController, NavParams} from "ionic-angular";
+import {Component, ViewChild} from "@angular/core";
+import {
+  NavController, ActionSheetController, AlertController, ToastController, NavParams,
+  TextInput
+} from "ionic-angular";
 import {Account} from "../../services/account/schema";
 import {AccountService} from "../../services/account/delegator";
 import {Utils} from "../../shared/stuff/utils";
@@ -40,6 +43,9 @@ export class AccountComponent extends AdminComponent {
     this.isEdit = !create;
   }
 
+  @ViewChild('focusField')
+  focusField: TextInput;
+
   account: Account = new Account();
 
   username:string;
@@ -61,7 +67,9 @@ export class AccountComponent extends AdminComponent {
 
   ngOnInit(): void {
     try {
+
       if (!this.isEdit) {
+        this.focusFieldAndPopupKeyboard();
         return;
       }
       super.ngOnInit();
@@ -73,6 +81,7 @@ export class AccountComponent extends AdminComponent {
           Utils.error(err);
           Utils.presentTopToast(this.toastCtrl, err || "Could not retrieve Account");
         });
+
     } catch(err) {
       super.handleErrorAndCancel(err);
     }
@@ -80,10 +89,6 @@ export class AccountComponent extends AdminComponent {
 
   showHelp(item: string) {
     Utils.showHelp(this.alertCtrl, item, 'bighelp');
-  }
-
-  ngOnDestroy() {
-    this.save();
   }
 
   collectUrl() {
@@ -94,16 +99,20 @@ export class AccountComponent extends AdminComponent {
 
   navigate() {
     if (this.isEdit) {
-      this.navCtrl.pop();
+      this.save()
+        .then(()=>{
+          this.navCtrl.pop();
+        })
       return;
     }
     this.tryCreateAccount();
   }
 
-  private save() {
+  private save(): Promise<any> {
     if (this.isEdit) {
-      this.update();
+      return this.update();
     }
+    return Promise.resolve();
   }
 
   private static handle: number;
@@ -195,12 +204,18 @@ export class AccountComponent extends AdminComponent {
     }, checkInterval);
   }
 
-  private update() {
-    this.accountSvc.update(this.account)
+  private update(): Promise<any> {
+    let errors = this.account.cleanupConfiguration();
+    if (errors) {
+      Utils.presentInvalidEntryAlert(this.alertCtrl, 'Errors', errors);
+      return Promise.reject(errors);
+    }
+    return this.accountSvc.update(this.account)
       .catch((errResp) => {
         Utils.error(errResp);
         Utils.presentTopToast(this.toastCtrl, errResp);
-      })
+        throw errResp;
+      });
   }
 
   private transformPhoneNumberOrThrowException(phone: string) {
@@ -232,5 +247,11 @@ export class AccountComponent extends AdminComponent {
       return this.username == null || this.phoneNumber == null || this.account.isInvalid();
     }
     return this.account.isInvalid()
+  }
+
+  private focusFieldAndPopupKeyboard() {
+    setTimeout(() => {
+      this.focusField.setFocus();
+    }, 50);
   }
 }

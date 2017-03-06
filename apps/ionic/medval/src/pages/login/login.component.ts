@@ -142,27 +142,17 @@ export class LoginComponent {
   }
 
   loginWithCreds(username: string, password: string) {
-
-    let finishedLoginProcess = false;
-    setTimeout(()=>{
-      if (!finishedLoginProcess) {
-        Utils.presentTopToast(
-          this.toastCtrl, "Could not reach login server. Are you sure your device has a working internet connection?");
-      }
-    }, 3 * 60 * 1000)
     // Start new session and dismiss loading screen on success/failure (this dismiss step is required for ios/not for web)
     this.authProvider.startNewSession(username, password,
       (token: AuthResult, err: any): void => {
         if(token) {
           this.navigateToDashboardPage();
-          finishedLoginProcess = true;
           SpinnerDialog.hide();
           this.logDeviceInfo();
         }
         if(err) {
           Utils.error("LoginComponent.login().startNewSession:" + err);
           Utils.presentTopToast(this.toastCtrl, "Login Failed with error: " + err + ". Please try again!");
-          finishedLoginProcess = true;
           SpinnerDialog.hide();
         }
       });

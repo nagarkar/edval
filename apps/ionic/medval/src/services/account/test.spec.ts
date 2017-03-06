@@ -24,7 +24,9 @@ let testData: TestData<Account> = {
         SWEEPSTAKES_SHOW_WHEEL: false,
         SWEEPSTAKES_AWARD_AMOUNT: 5,
         SWEEPSTAKES_COST_PER_USE: 1,
-        SHOW_JOKES_ON_THANK_YOU_PAGE: true
+        SHOW_JOKES_ON_THANK_YOU_PAGE: true,
+        SPEAK_GREETING: false,
+        SPEAK_GREETING_RATE: undefined
       };
       acc.properties.address = {
         street1: 'street 1',
@@ -41,7 +43,9 @@ let testData: TestData<Account> = {
         SWEEPSTAKES_SHOW_WHEEL: false,
         SWEEPSTAKES_AWARD_AMOUNT: 5,
         SWEEPSTAKES_COST_PER_USE: 1,
-        SHOW_JOKES_ON_THANK_YOU_PAGE: true
+        SHOW_JOKES_ON_THANK_YOU_PAGE: true,
+        SPEAK_GREETING: false,
+        SPEAK_GREETING_RATE: undefined
       });
     }),
   }
