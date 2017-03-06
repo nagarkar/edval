@@ -27,7 +27,6 @@ import {HelpMessages} from "../../shared/stuff/HelpMessages";
 import {AdminComponent} from "../admin.component";
 import {FollowupPage} from "../followups/followup.page";
 import {Http} from "@angular/http";
-import {Device} from "ionic-native";
 
 @Component({
   templateUrl: './dashboard.component.html'

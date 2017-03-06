@@ -8,6 +8,7 @@
 import {Component, Input} from "@angular/core";
 import {ModalController} from "ionic-angular";
 import {SuggestionComponent} from "../suggestions/suggestions.page";
+import {Config} from "../../config";
 
 @Component({
   templateUrl: './footer.component.html',
@@ -25,5 +26,17 @@ export class FooterComponent {
 
   displaySuggestionBox() {
     this.modalCtrl.create(SuggestionComponent).present();
+  }
+
+  get lastWinTime(): number {
+    return Config.LAST_WIN_TIME;
+  }
+
+  get lastSessionTime(): number {
+    return Config.LAST_SESSION_CREATED;
+  }
+
+  get isAuthenticated() : boolean {
+    return Config.CUSTOMERID != null;
   }
 }

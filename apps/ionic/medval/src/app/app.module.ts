@@ -83,7 +83,6 @@ import {MockSessionFollowupService} from "../services/followup/mock";
 import {SessionFollowupService} from "../services/followup/delegator";
 import {RevvolveDatePipe} from "../pipes/date.filters";
 import {FollowupPage} from "../pages/followups/followup.page";
-import {Suggestion} from "../shared/aws/dynamodb";
 import {SuggestionComponent} from "../shared/components/suggestions/suggestions.page";
 
 enableProdMode();

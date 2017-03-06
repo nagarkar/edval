@@ -8,12 +8,15 @@
           <div>Last Survey: {{lastSessionTime | date:'medium'}}</div>
         </div>
       </ion-col>
-      <ion-col class="nopadding">
-        <ion-title *ngIf="!reassure">Revvolve Metrics is developed by HC Technology Inc.</ion-title>
-        <ion-title *ngIf="reassure">Your feedback <b>is always anonymous</b></ion-title>
+      <ion-col text-center class="nopadding">
+        <ion-title *ngIf="!reassure && isAuthenticated">Revvolve Metrics is developed by HC Technology Inc.</ion-title>
+        <ion-title *ngIf="reassure && isAuthenticated">Your feedback <b>is always anonymous</b></ion-title>
+        <ion-title *ngIf="!isAuthenticated">
+          Contact <a href="mailto:someone@example.com?Subject=Urgent%20Issue">admin@healthcaretech.io</a> for urgent issues
+        </ion-title>
       </ion-col>
-      <ion-col class="nopadding" width-20 *ngIf="showSuggestionBox">
-        <div text-right>
+      <ion-col text-right class="nopadding" width-20 *ngIf="showSuggestionBox">
+        <div>
           <button ion-button clear (tap)="displaySuggestionBox()">Suggestions<br/>\&&nbsp;Contact</button>
         </div>
       </ion-col>

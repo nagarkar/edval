@@ -17,7 +17,6 @@ import {AccountSetupService, AccountSetup} from "../../services/accountsetup/acc
 import {LoginComponent} from "../login/login.component";
 import {SpinnerDialog} from "ionic-native";
 import {ValidationService} from "../../shared/components/validation/validation.service";
-import {HelpMessages} from "../../shared/stuff/HelpMessages";
 import {Http} from "@angular/http";
 
 @Component({

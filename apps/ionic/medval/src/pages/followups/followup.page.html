@@ -2,14 +2,14 @@
 <ion-content>
   <div class="m-t-3" padding>
     <ion-segment [(ngModel)]="section">
+      <ion-segment-button value="automatic">
+        Online Review Followups
+      </ion-segment-button>
       <ion-segment-button value="standard">
-        Standard 'Window' Followups
+        Standard 'Window' Followups (Dissatisfied
       </ion-segment-button>
       <ion-segment-button value="targeted">
-        Targeted Followups
-      </ion-segment-button>
-      <ion-segment-button value="automatic">
-        Automatic Followups
+        Individual Followups (Dissatisfied)
       </ion-segment-button>
     </ion-segment>
     <div class="m-t-3" [ngSwitch]="section">
@@ -102,4 +102,4 @@
     </div>
   </div>
 </ion-content>
-<mdval-footer></mdval-footer>
+<mdval-footer [showSuggestionBox]="true"></mdval-footer>

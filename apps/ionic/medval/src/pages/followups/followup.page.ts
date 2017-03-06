@@ -22,7 +22,7 @@ import {Http} from "@angular/http";
 })
 export class FollowupPage extends AdminComponent {
 
-  section: string = 'standard';
+  section: string = 'automatic';
   list: SessionFollowup[] = [];
   followupsByTaskName: Map<string, SessionFollowup[]> = new Map<string, SessionFollowup[]>();
   changes: {} = {};

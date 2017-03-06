@@ -220,13 +220,13 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
 
   private setupAttractions() {
     let config: AccountConfiguration = this.accountSvc.getCached(Config.CUSTOMERID).properties.configuration;
-    this.showJokes = config.SHOW_JOKES_ON_THANK_YOU_PAGE || this.showJokes;
+    this.showJokes = Utils.isStringBooleanTrue(config.SHOW_JOKES_ON_THANK_YOU_PAGE) || this.showJokes;
     if (this.showJokes) {
       setTimeout(()=>{
         this.setupImageHandling();
       }, 50);
     }
-    this.showWheel = config.SWEEPSTAKES_SHOW_WHEEL || this.showWheel;
+    this.showWheel = Utils.isStringBooleanTrue(config.SWEEPSTAKES_SHOW_WHEEL) || this.showWheel;
     if (this.showWheel) {
       this.costPerUse = +config.SWEEPSTAKES_COST_PER_USE || 1;
       this.award = +config.SWEEPSTAKES_AWARD_AMOUNT || 5;

@@ -540,6 +540,15 @@ export class Utils {
         Utils.log('Failed to speak message: {0}', message);
       });
   }
+
+  static isStringBooleanTrue(someBool: any): boolean {
+    if (Utils.isBoolean(someBool)) {
+      return someBool;
+    } else {
+      let stringBool: string = "" + someBool;
+      return stringBool.toLowerCase() == 'true';
+    }
+  }
 }
 
 export declare type ClassType<T> = {

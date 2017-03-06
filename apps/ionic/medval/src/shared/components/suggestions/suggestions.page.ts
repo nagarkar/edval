@@ -15,7 +15,7 @@ import {Http} from "@angular/http";
 
 @Component({
   template: `
-    <ion-content>
+    <ion-content padding>
       <ion-list>
         <ion-item>
           <ion-label stacked>Your suggestion or comments</ion-label>
@@ -25,8 +25,13 @@ import {Http} from "@angular/http";
           <ion-label stacked>Preferred Email or Phone number</ion-label>
           <ion-input [(ngModel)]="suggestion.contactMethod"></ion-input>
         </ion-item>
-      </ion-list>      
-      <button (tap)="submit()" ion-button>Submit</button>
+        <ion-item>
+          <button padding (tap)="submit()" ion-button>Submit</button>
+        </ion-item>
+        <ion-item>
+          <ion-label>For urgent issues, contact <a href="mailto:someone@example.com?Subject=Urgent%20Issue">admin@healthcaretech.io</a></ion-label> 
+        </ion-item>
+      </ion-list>
     </ion-content>
   `,
   selector: 'suggestion'

@@ -38,7 +38,6 @@ import {Config} from "../shared/config";
 import {GoogleChartsConfig as ChartConfig} from "../pages/reporting/config";
 import {AccessTokenService} from "../shared/aws/access.token.service";
 import {Subscription} from "rxjs";
-import {FollowupPage} from "../pages/followups/followup.page";
 
 declare let google;
 
@@ -183,7 +182,7 @@ export class RevvolveApp {
               Utils.info("Stored {0} for device {2}: {1}", RevvolveApp.INITIAL_INSTALL_TIMESTAMP, currentTime, Device.serial);
             })
             .catch((err)=>{
-              Utils.error("In NativeStorage.setItem(INITIAL_INSTALL_TIMESTAMP) for Device {1}; {0}", err, Device.serial);
+              Utils.error("In NativeStorage.setItem(INITIAL_INSTALL_TIMESTAMP) for Device {1}; {0}", Utils.stringify(err), Device.serial);
             })
         }
       })

@@ -20,7 +20,6 @@ import {Survey} from "../../../services/survey/schema";
 import {Subscription} from "rxjs";
 import {NativeAudio} from "ionic-native";
 import {Http} from "@angular/http";
-import {HttpClient} from "../../../shared/stuff/http.client";
 
 @Component({
   templateUrl: './start.with.survey.option.component.html'

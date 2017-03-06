@@ -6,7 +6,7 @@
   <ion-grid *ngIf="displayData.length > 0" style="max-height:100%; padding-top:3em">
     <ion-row center *ngFor="let data of displayData; let idx = index">
       <ion-col width-20>
-        <ion-img cache class="border" [ngStyle]="styles.img" src="{{data.onlyStaff.properties?.photoUrl}}" alt="{{data.onlyStaff.displayName}}"></ion-img>
+        <img class="border" [ngStyle]="styles.img" src="{{data.onlyStaff.properties?.photoUrl || 'assets/img/placeholder.png'}}"/>
       </ion-col>
       <ion-col [ngStyle]="styles.text">
           <span>{{data.metric.properties.question | sReplacer:data}}</span>

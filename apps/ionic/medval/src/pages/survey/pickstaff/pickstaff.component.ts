@@ -35,6 +35,10 @@ export class PickStaffComponent extends SurveyPage {
   slideToStaffMap: Map<number, Staff> = new Map<number, Staff>();
   selectedStaff: Set<Staff> = new Set<Staff>();
 
+  get haveSlidesToShow(): boolean {
+    return this.slides.length > 0
+  }
+
   constructor(
     idle: Idle,
     utils: Utils,

@@ -14,8 +14,6 @@ import {SettingsComponent} from "../settings/settings.component";
 import {AccountComponent} from "../account/account.component";
 import {AccountSetupService} from "../../services/accountsetup/account.setup.service";
 import {Config} from "../../shared/config";
-import {HttpClient} from "../../shared/stuff/http.client";
-import {Http} from "@angular/http";
 import {Validators, FormControl, FormGroup} from "@angular/forms";
 import {SpinnerDialog, NativeAudio, Device} from "ionic-native";
 
@@ -135,14 +133,6 @@ export class LoginComponent {
           SpinnerDialog.hide();
         }
       });
-  }
-
-  get lastWinTime(): number {
-    return Config.LAST_WIN_TIME;
-  }
-
-  get lastSessionTime(): number {
-    return Config.LAST_SESSION_CREATED;
   }
 
   get isLoggedIn(): boolean {
