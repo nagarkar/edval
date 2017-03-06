@@ -16,10 +16,12 @@
       </ion-item>
       <div padding>
         <button ion-button color="revvolve" block type="submit">Sign In</button>
-        <button *ngIf="showNewAccount" small block ion-button color="light" (tap)="setupNewAccount()">Create a New Account</button>
-        <button *ngIf="showForgotPwd" small block ion-button color="light" (tap)="forgotPassword()">Forgot Password</button>
       </div>
     </form>
+    <div padding>
+      <button *ngIf="showNewAccount" small block ion-button color="light" (tap)="setupNewAccount()">Create a New Account</button>
+      <button *ngIf="showForgotPwd" small block ion-button color="light" (tap)="forgotPassword()">Forgot Password</button>
+    </div>
   </div>
   <mdval-footer [showLastWin]="'true'"></mdval-footer>
 </ion-content>

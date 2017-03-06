@@ -104,12 +104,14 @@ export class LoginComponent {
     let username: string = this.loginForm.controls['username'].value.trim().toLowerCase();
     let password: string = this.loginForm.controls['password'].value.trim();
 
-    this.loginWithCreds(username, password);
+    SpinnerDialog.show();
+    setTimeout(()=>{
+      this.loginWithCreds(username, password);
+    }, 100);
   }
 
   loginWithCreds(username: string, password: string) {
 
-    SpinnerDialog.show();
     let finishedLoginProcess = false;
     setTimeout(()=>{
       if (!finishedLoginProcess) {
