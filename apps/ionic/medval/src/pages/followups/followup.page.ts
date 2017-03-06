@@ -54,6 +54,7 @@ export class FollowupPage extends AdminComponent {
   }
 
   ngOnInit() {
+    super.ngOnInit();
     this.svc.list(true)
       .then((list: SessionFollowup[])=> {
         this.list = list.sort((a: SessionFollowup, b: SessionFollowup)=>{

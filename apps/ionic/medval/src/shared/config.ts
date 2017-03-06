@@ -61,8 +61,8 @@ export class Config {
     ClientId : Config.AWS_CONFIG.CLIENT_ID,
   };
 
-  // Time between sucessful token refreshes. This should be long, typically 15 minutes.
-  static ACCESS_TOKEN_REFRESH_TIME: number = 1 * 60 * 1000;
+  // Time between sucessful token refreshes. This should be long, typically 5 - 15 minutes.
+  static ACCESS_TOKEN_REFRESH_TIME: number = 5 * 60 * 1000;
 
   // Time between retries for initial login. This should be short as it makes the user wait.
   static ACCESS_TOKEN_RETRY_INTERVAL_INITIAL_LOGIN: number = 3 * 1000;
@@ -75,11 +75,6 @@ export class Config {
 
   static BACKOFF_MULTIPLIER: number = 2;
   static SESSION_RETRIES: number = 5;
-
-  static THANKS_PAGE_IDLE_SECONDS: number = 30;
-  static THANKS_PAGE_TIMEOUT_SECONDS: number = 30;
-
-  static REVIEW_TIME_MINUTES: number = 5;
 
   static MOCK_DATA : {[key: string]: boolean} = {
     "Session": false,

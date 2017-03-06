@@ -62,7 +62,7 @@ export class AccountComponent extends AdminComponent {
   ];
 
   ngOnInit(): void {
-
+    super.ngOnInit();
     try {
       if (!this.isEdit) {
         return;

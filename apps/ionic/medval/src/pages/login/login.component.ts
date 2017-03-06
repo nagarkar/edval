@@ -17,7 +17,7 @@ import {Config} from "../../shared/config";
 import {HttpClient} from "../../shared/stuff/http.client";
 import {Http} from "@angular/http";
 import {Validators, FormControl, FormGroup} from "@angular/forms";
-import {SpinnerDialog, NativeAudio} from "ionic-native";
+import {SpinnerDialog, NativeAudio, Device} from "ionic-native";
 
 declare let cordova;
 
@@ -126,6 +126,7 @@ export class LoginComponent {
           this.navigateToDashboardPage();
           finishedLoginProcess = true;
           SpinnerDialog.hide();
+          this.logDeviceInfo();
         }
         if(err) {
           Utils.error("LoginComponent.login().startNewSession:" + err);
@@ -158,5 +159,19 @@ export class LoginComponent {
 
   public gotoSettings() {
     Utils.push(this.navCtrl, SettingsComponent);
+  }
+
+  private logDeviceInfo() {
+    Utils.log(["Device Information;",
+      "uuid:", Device.uuid, ";",
+      "cordova version:", Device.cordova, ";",
+      "model:", Device.model, ";",
+      "os name:", Device.platform, ";",
+      "os version:", Device.version, ";",
+      "manufacturer:", Device.manufacturer, ";",
+      "is running on a simulator:", Device.isVirtual, ";",
+      "device hardware serial number:", Device.serial, ";",
+      "device Revvolve version:", Config.SOFTWARE_VERSION
+    ].join(''));
   }
 }

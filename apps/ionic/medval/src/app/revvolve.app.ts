@@ -90,7 +90,6 @@ export class RevvolveApp {
         ChartConfig.CHARTS_LOADED = true;
       });
 
-      this.logDeviceInfo();
       this.setupCodePush();
       this.setupBatteryCheck();
       this.setupOnPause();
@@ -101,8 +100,6 @@ export class RevvolveApp {
   private setupOnPause() {
     document.addEventListener("pause", ()=>{
       Utils.log("Application Paused");
-      RevvolveApp.BATTERY_SUBSCRIPTION.unsubscribe();
-      clearInterval(RevvolveApp.CONNECTION_CHECK_HANDLE);
     }, false);
   }
 
@@ -147,6 +144,7 @@ export class RevvolveApp {
 
   private setupBatteryCheck() {
     let setBrightnessAndScreenOn = (b: number, o: boolean)=>{
+      Utils.info("Setting brightness: {0}, screenon: {1}", b, o);
       Brightness.setBrightness(b);
       Brightness.setKeepScreenOn(o);
     }
@@ -174,36 +172,23 @@ export class RevvolveApp {
     );
   }
 
-  private logDeviceInfo() {
-    Utils.log(["Device Information;",
-      "uuid:", Device.uuid, ";",
-      "cordova version:", Device.cordova, ";",
-      "model:", Device.model, ";",
-      "os name:", Device.platform, ";",
-      "os version:", Device.version, ";",
-      "manufacturer:", Device.manufacturer, ";",
-      "is running on a simulator:", Device.isVirtual, ";",
-      "device hardware serial number:", Device.serial, ";"
-    ].join(''));
-  }
-
   private storeInitialInstallDate() {
     NativeStorage.getItem(RevvolveApp.INITIAL_INSTALL_TIMESTAMP)
       .then((timestamp)=>{
-        Utils.log("Retrieved {0}: {1}", RevvolveApp.INITIAL_INSTALL_TIMESTAMP, timestamp);
+        Utils.info("Retrieved {0} for Device {2}: {1}", RevvolveApp.INITIAL_INSTALL_TIMESTAMP, timestamp, Device.serial);
         if (!timestamp) {
           let currentTime = new Date().getTime();
           NativeStorage.setItem(RevvolveApp.INITIAL_INSTALL_TIMESTAMP, currentTime)
             .then(()=>{
-              Utils.log("Stored {0}: {1}", RevvolveApp.INITIAL_INSTALL_TIMESTAMP, currentTime);
+              Utils.info("Stored {0} for device {2}: {1}", RevvolveApp.INITIAL_INSTALL_TIMESTAMP, currentTime, Device.serial);
             })
             .catch((err)=>{
-              Utils.error("In NativeStorage.setItem(INITIAL_INSTALL_TIMESTAMP); {0}", err);
+              Utils.error("In NativeStorage.setItem(INITIAL_INSTALL_TIMESTAMP) for Device {1}; {0}", err, Device.serial);
             })
         }
       })
       .catch((err)=>{
-        Utils.error("In NativeStorage.getItem(INITIAL_INSTALL_TIMESTAMP); {0}", err);
+        Utils.error("In NativeStorage.getItem(INITIAL_INSTALL_TIMESTAMP) for Device {1}; {0}", err, Device.serial);
       })
   }
 }

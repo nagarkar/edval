@@ -27,6 +27,7 @@ import {HelpMessages} from "../../shared/stuff/HelpMessages";
 import {AdminComponent} from "../admin.component";
 import {FollowupPage} from "../followups/followup.page";
 import {Http} from "@angular/http";
+import {Device} from "ionic-native";
 
 @Component({
   templateUrl: './dashboard.component.html'
@@ -47,6 +48,8 @@ export class DashboardComponent extends AdminComponent {
   }
 
   ngOnInit() {
+    super.ngOnInit();
+
     this.staffSvc.list(true/*don't use cache*/)
       .then((list: Staff[]) => {
         if (list && list.length > 0) {
