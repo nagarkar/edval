@@ -249,7 +249,6 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
 
     if (isPromoterOrMiddle) {
       this.setupAttractions();
-      messages.push("It's your lucky day! Play for an instant reward!!");
     }
     let config: AccountConfiguration = this.accountSvc.getCached(Config.CUSTOMERID).properties.configuration;
     let speak = Utils.isStringBooleanTrue(config.SPEAK_GREETING)

@@ -36,17 +36,17 @@ export class DeviceServices {
     }
     DeviceServices.BATTERY_SUBSCRIPTION = BatteryStatus.onChange().subscribe(
       (status: BatteryStatusResponse) => {
-        Utils.log("In brightness observable with plugged: {0}, level: {1}" + status.isPlugged, status.level);
+        Utils.log("In brightness observable with plugged: {0}, level: {1}", status.isPlugged, status.level);
         if (status.isPlugged) {
-          setBrightnessAndScreenOn(0.9, true);
+          setBrightnessAndScreenOn(90, true);
           return;
         }
-        if (status.level > 0.9) {
-          setBrightnessAndScreenOn(0.9, true);
-        } else if (status.level > 0.8) {
-          setBrightnessAndScreenOn(0.8, true);
-        } else if (status.level > 0.3) {
-          setBrightnessAndScreenOn(0.7, true);
+        if (status.level > 90) {
+          setBrightnessAndScreenOn(90, true);
+        } else if (status.level > 80) {
+          setBrightnessAndScreenOn(80, true);
+        } else if (status.level > 30) {
+          setBrightnessAndScreenOn(70, true);
         } else {
           setBrightnessAndScreenOn(-1, false);
         }

@@ -68,10 +68,10 @@ export class SoundCycler extends ObjectCycler<any> {
     urlsToCycle.forEach((url: string) => {
       NativeAudio.preloadSimple(url, url)
         .then(()=>{
-          Utils.info("Preloaded url " + url);
+          Utils.info("Preloaded url {0}", url);
         })
-        .catch(()=>{
-          Utils.error("Could not preload audio: " + url);
+        .catch((err)=>{
+          Utils.error("Could not preload audio: {0}, err: {1}", url, err);
         })
     });
     super(interval, ...urlsToCycle);

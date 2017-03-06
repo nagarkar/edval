@@ -3,7 +3,7 @@
        class="circleicon" *ngIf="done" right middle>
     <button (tap)="navigateToNext()" ion-fab>Next</button>
   </ion-fab>
-  <ion-grid class="m-t-2" text-center>
+  <ion-grid text-center>
     <ion-row text-center>
       <ion-col>
         <br/>
@@ -15,7 +15,7 @@
       </ion-col>
     </ion-row>
     <ion-row *ngFor="let i of rows" style="padding-left:1em; margin-left:-2em">
-      <ion-col  class="influencer" *ngFor="let metric of displayMetrics | slice:(i*numCols):(i+1)*numCols; let j = index;">
+      <ion-col  class="influencer" *ngFor="let metric of displayMetrics | slice:(i * numCols):(i+1)*numCols; let j = index;">
         <div class="row responsive-md pos-rel">
           <ion-badge *ngIf="isSelected(metric)" class="cstm-badge">{{rankedMetrics.indexOf(metric) + 1}}</ion-badge>
           <button ion-button

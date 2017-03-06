@@ -148,7 +148,7 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
           Utils.info("Played sound {0}", id);
         })
         .catch((err)=>{
-          Utils.error("Unable to play sound {0}", id);
+          Utils.error("Unable to play sound {0}, due to {1}", id, err);
         })
     });
   }
@@ -160,7 +160,7 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
         'assets/mp3/bingbong.mp3',
         'assets/mp3/coindrop.mp3',
         'assets/mp3/game_sound1.mp3',
-        'assets/mp3/game_sound3.mp3',
+        'assets/mp3/game_sound2.mp3',
         'assets/mp3/servicebell.mp3',
       );
     }
