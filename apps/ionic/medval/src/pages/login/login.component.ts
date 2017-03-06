@@ -17,7 +17,9 @@ import {Config} from "../../shared/config";
 import {Validators, FormControl, FormGroup} from "@angular/forms";
 import {SpinnerDialog, NativeAudio, Device} from "ionic-native";
 
-declare let cordova;
+declare let AWSCognito:any;
+declare let AWS:any;
+
 
 @Component({
   templateUrl: './login.component.html'
@@ -87,14 +89,43 @@ export class LoginComponent {
   }
 
   forgotPassword() {
+    var me = this;
     Utils.presentAlertPrompt(this.alertCtrl, ((data)=>{
       let username = data.username;
+      let userPool =
+        new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(Config.POOL_DATA);
+      let cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser({
+        Username : username,
+        Pool : userPool
+      });
       this.accSetupSvc.forgotPassword(username)
         .then((result: string) => {
-          Utils.presentAlertPrompt(this.alertCtrl, null, result);
+          // Please user the reset code in the email or phone number you registered. This as your password
+          Utils.presentInvalidEntryAlert(this.alertCtrl, "Reset your password", result);
         })
         .catch((err)=> {
-          Utils.presentAlertPrompt(this.alertCtrl, null, err);
+          if (err && Utils.stringify(err).toLowerCase().indexOf("error") >=0){
+            Utils.presentInvalidEntryAlert(this.alertCtrl, "Error", err);
+          }
+          else {
+            Utils.presentAlertPrompt(
+              me.alertCtrl,
+              ((data)=> {
+                let verificationCode = data.verificationCode;
+                let newPassword = data.newPassword;
+                cognitoUser.confirmPassword(verificationCode, newPassword,  {
+                  onSuccess: function (result) {
+                    Utils.presentInvalidEntryAlert(me.alertCtrl, "Done");
+                  },
+                  onFailure: function (err) {
+                    Utils.presentInvalidEntryAlert(me.alertCtrl, "Error", err);
+                  }
+                });
+              }),
+              "Verification Code and Password",
+              [{name: "verificationCode", label: 'Verification Code'}, {name: "newPassword", label: 'New Password'}],
+              "Please check your registered email address and input the verification code we just sent to you, along with the new password!");
+          }
         })
     }), 'Provide your username', [{name: "username", label: 'User Name'}]);
   }

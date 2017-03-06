@@ -80,7 +80,7 @@ export class AccessTokenService {
       Password : password,
     };
 
-    if (this.sameUserAuthenticatingWithinShortPeriod(authenticationData) && !this.authTokenIsOld()) {
+    if (!this.loginErrors && this.sameUserAuthenticatingWithinShortPeriod(authenticationData) && !this.authTokenIsOld()) {
       Utils.info("Logging in same user");
       this.processUserInitiatedLoginSuccess(externalCallback);
       return;
@@ -273,6 +273,7 @@ export class AccessTokenService {
     this.resetLoginErrors();
     this._cognitoUser = null;
     this.lastAuthTokenCreationTime = Infinity;
+    this.authenticationDetails = null;
     AccessTokenService.authResult = null;
     this.clearAuthenticatingIntervalTimerIfValid();
   }

@@ -322,10 +322,12 @@ export class Utils {
     alertCtrl: AlertController,
     onselect: (result: string | any) => void,
     title?: string,
-    inputs?: Array<AlertInputOptions>): Alert {
+    inputs?: Array<AlertInputOptions>,
+    message?: string): Alert {
 
     let alert = alertCtrl.create({
       title: title || '',
+      message: message,
       inputs: inputs,
       buttons: [
         {

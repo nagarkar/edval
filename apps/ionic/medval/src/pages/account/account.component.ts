@@ -138,7 +138,7 @@ export class AccountComponent extends AdminComponent {
       }
     }
     if (err) {
-      this.dismissLoadingShowAlertClearInterval(err);
+      this.dismissLoadingShowAlertClearInterval('Error', err);
       return;
     }
     let usernameAvailable: boolean;
@@ -163,13 +163,13 @@ export class AccountComponent extends AdminComponent {
               svc.create(accountSetupObj)
                 .then((accountSetup: AccountSetup)=>{
                   created = true;
-                  this.dismissLoadingShowAlertClearInterval(`Please check your email for a message from no-reply@verificationemail.com (Make sure it's not in spam).
-                    Login with the username you selected on this page and the temporary password in the message!`, true);
+                  this.dismissLoadingShowAlertClearInterval("Created Account",`You will receive an emails from no-reply@verificationemail.com with a temporary password.
+                    You will need to change your password on first login!`, true);
                 })
                 .catch((err) => {
                   created = false;
                   err += "Account Creation failed: " + err;
-                  this.dismissLoadingShowAlertClearInterval(err);
+                  this.dismissLoadingShowAlertClearInterval('Error', err);
                 });
             };
           });
@@ -181,15 +181,15 @@ export class AccountComponent extends AdminComponent {
     AccountComponent.handle = setInterval(()=>{
       if (usernameAvailable === false) {
         err += "\nThe username you seleted is not available";
-        this.dismissLoadingShowAlertClearInterval(err);
+        this.dismissLoadingShowAlertClearInterval('Error', err);
       }
       if (customerIdAvailable === false) {
         err += "\nThe Organization ID you seleted is not available";
-        this.dismissLoadingShowAlertClearInterval(err);
+        this.dismissLoadingShowAlertClearInterval('Error', err);
       }
       totalWait -= 100;
       if (totalWait <= 0) {
-        this.dismissLoadingShowAlertClearInterval(`Could not create a new account. Please contact technical support 
+        this.dismissLoadingShowAlertClearInterval('Error', `Could not create a new account. Please contact technical support 
           at 206-407-8536.`);
       }
     }, checkInterval);
@@ -215,9 +215,9 @@ export class AccountComponent extends AdminComponent {
     return phone;
   }
 
-  private dismissLoadingShowAlertClearInterval(msg: string, navigate?: boolean) {
+  private dismissLoadingShowAlertClearInterval(title: string, msg: string, navigate?: boolean) {
     SpinnerDialog.hide();
-    Utils.presentInvalidEntryAlert(this.alertCtrl, msg)
+    Utils.presentInvalidEntryAlert(this.alertCtrl, title, msg)
       .onDidDismiss(()=>{
         if (navigate) {
           Utils.setRoot(this.navCtrl, LoginComponent);

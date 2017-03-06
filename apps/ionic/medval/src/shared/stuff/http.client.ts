@@ -114,7 +114,7 @@ export class HttpClient<T> {
     } catch(error) {
       let formattedErr = Utils.format("Eror: {0}, response: {1}, response.text: {2}", error, res, res.text());
       Utils.error(formattedErr);
-      throw formattedErr;
+      throw Utils.format("{0}", res.text());
     }
     return body;
   }

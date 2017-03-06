@@ -28,10 +28,12 @@ import {AdminComponent} from "../admin.component";
 import {FollowupPage} from "../followups/followup.page";
 import {Http} from "@angular/http";
 
+declare let AWSCognito:any;
+declare let AWS:any;
+
 @Component({
   templateUrl: './dashboard.component.html'
 })
-
 export class DashboardComponent extends AdminComponent {
 
   constructor(
@@ -95,6 +97,34 @@ export class DashboardComponent extends AdminComponent {
         Utils.presentTopToast(this.toastCtrl, HelpMessages.get('UNEXPECTED_INTERNAL_ERROR'), 10 * 1000);
       });
 
+  }
+
+  showHelp() {
+    Utils.presentInvalidEntryAlert(this.alertCtrl, "Help", `Visit our <a href="http://www.revvolve.io/md/help" target="_blank">webpage</a> for comprehensive help and tips!`);
+  }
+
+  verifyEmail() {
+    var me = this;
+    var cognitoUser = this.accessTokenProvider.cognitoUser;
+    cognitoUser.getAttributeVerificationCode('email', {
+      onSuccess: function (result) {
+        Utils.log('Get Attribute Verification Code completed');
+      },
+      onFailure: function(err) {
+        Utils.presentTopToast(me.toastCtrl, "Internal Error: " + err, 10*1000);
+      },
+      inputVerificationCode: function() {
+        Utils.presentAlertPrompt(
+          me.alertCtrl,
+          ((data)=> {
+            let verificationCode = data.verificationCode;
+            cognitoUser.verifyAttribute('email', verificationCode, this);
+          }),
+          "Please check your registered email address and input the verification code we just sent to you!",
+          [{name: "verificationCode", label: 'Verification Code'}]);
+
+      }
+    });
   }
 
   gotoHome(): void {

@@ -86,7 +86,8 @@ export class SettingsComponent {
   private setupSessionAndSelectedUsers() {
     let staffList: Staff[] = this.staffsvc.listCached();
     this.sessionsvc.newCurrentSession('default');
-    let roles: string[] = this.accountsvc.getCached(Config.CUSTOMERID).getStandardRoles();
+    let account = this.accountsvc.getCached(Config.CUSTOMERID);
+    let roles: string[] = account ? account.getStandardRoles() : [];
     let usernames = [];
     roles.forEach((role: string)=>{
       let staffInRole: Staff = this.staffsvc.getOnly(role);
