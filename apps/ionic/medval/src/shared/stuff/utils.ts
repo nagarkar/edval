@@ -541,6 +541,17 @@ export class Utils {
       return stringBool.toLowerCase() == 'true';
     }
   }
+
+  static randomElement(arr: any[]): any {
+    let maxIndex: number = arr.length - 1;
+    let random = Math.random();
+    random = random * (maxIndex + 1);
+    random = Math.floor(random);
+    if (random > maxIndex) { // rare chance that random = maxindex + 1 depending on Math.random() impl.
+      return arr[maxIndex];
+    }
+    return arr[random];
+  }
 }
 
 export declare type ClassType<T> = {

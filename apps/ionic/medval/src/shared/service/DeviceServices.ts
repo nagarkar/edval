@@ -2,7 +2,7 @@ import {Subscription} from "rxjs";
 import {Utils} from "../stuff/utils";
 import {
   Brightness, BatteryStatus, BatteryStatusResponse, CodePush, NativeStorage, Device,
-  TextToSpeech
+  TextToSpeech, NativeAudio
 } from "ionic-native";
 import {Config} from "../config";
 /**
@@ -85,6 +85,63 @@ export class DeviceServices {
       })
   }
 
+  static preloadSimpleAll(...paths: string[]): Promise<any> {
+    if (!paths || !Array.isArray(paths) || paths.length == 1) {
+      return Promise.resolve();
+    }
+    return DeviceServices.preloadSimple(paths[0])
+      .then(()=>{
+        if (paths.length > 1) {
+          return DeviceServices.preloadSimpleAll(...paths.slice(1));
+        }
+      })
+      .catch((err) =>{
+        if (paths.length > 1) {
+          return DeviceServices.preloadSimpleAll(...paths.slice(1));
+        }
+      });
+  }
+
+  static preloadSimple(path: string): Promise<any> {
+    return NativeAudio.preloadSimple(path, path)
+      .then(()=>{
+        Utils.info("Preloaded sound {0}", path);
+      })
+      .catch((err) =>{
+        Utils.error("Unable to preload sound {0}, due to {1}", path, err);
+        throw err;
+      });
+  }
+
+  static playAll(...ids: string[]): Promise<any> {
+    if (!ids || !Array.isArray(ids) || ids.length == 1) {
+      return Promise.resolve();
+    }
+    return DeviceServices.play(ids[0])
+      .then(()=>{
+        if (ids.length > 1) {
+          return DeviceServices.playAll(...ids.slice(1));
+        }
+      })
+      .catch((err) =>{
+        if (ids.length > 1) {
+          return DeviceServices.playAll(...ids.slice(1));
+        }
+      });
+  }
+
+  static play(id: string): Promise<any> {
+    return NativeAudio.play(id, ()=>{} /* Nothing to do on completion */)
+      .then(()=>{
+        Utils.info("Played sound {0}", id);
+      })
+      .catch((err)=>{
+        Utils.error("Unable to play sound {0}, due to {1}", id, err);
+        throw err;
+      })
+  }
+
+  /*
   static speakAll(rate: number, ...messages: string[]): Promise<any>{
     if (!messages) {
       return Promise.resolve();
@@ -116,4 +173,5 @@ export class DeviceServices {
         throw reason;
       });
   }
+  */
 }

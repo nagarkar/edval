@@ -20,6 +20,7 @@ import {AnyDetractors} from "../../../services/survey/survey.functions";
 import {AccountConfiguration} from "../../../services/account/schema";
 import {Subscription} from "rxjs";
 import {DeviceServices} from "../../../shared/service/DeviceServices";
+import {NativeAudio} from "ionic-native";
 
 @Component({
   templateUrl: './thanks.component.html',
@@ -52,6 +53,11 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
   );
   private imageSubscription: Subscription;
 
+  private static thanksSounds: string[] = ['assets/mp3/aryathanks.mp3', 'assets/mp3/arhantthanks.mp3'];
+  private static playSounds: string[] = ['assets/mp3/aryaspin.mp3', 'assets/mp3/arhantspin.mp3'];
+
+  private static soundsInitialized: boolean;
+
   @ViewChild("imgDiv")
   imgDiv: ElementRef;
 
@@ -80,6 +86,7 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
 
     try {
       this.message = this.constructMessage(navParams.get('message'));
+      this.initializeSoundsIfNecessary();
     } catch(err) {
       Utils.error(err);
     }
@@ -217,7 +224,7 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
     return ret;
   };
 
-  private setupAttractions() {
+  private setupAttractions(sounds: string[]) {
     let config: AccountConfiguration = this.accountSvc.getCached(Config.CUSTOMERID).properties.configuration;
     this.showJokes = Utils.isStringBooleanTrue(config.SHOW_JOKES_ON_THANK_YOU_PAGE) || this.showJokes;
     if (this.showJokes) {
@@ -227,6 +234,7 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
     }
     this.showWheel = Utils.isStringBooleanTrue(config.SWEEPSTAKES_SHOW_WHEEL) || this.showWheel;
     if (this.showWheel) {
+      sounds.push(Utils.randomElement(ThanksComponent.playSounds));
       this.costPerUse = +config.SWEEPSTAKES_COST_PER_USE || 1;
       this.award = +config.SWEEPSTAKES_AWARD_AMOUNT || 5;
       this.giftMessage = ["$", this.award, ' Gift Card!'].join('');
@@ -244,19 +252,33 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
 
   private setupMessagesAndAttractions(): Promise<any> {
     let isPromoterOrMiddle = (new AnyDetractors().execute(this.sessionSvc.surveyNavigator, {}) == "false");
-    let messages: string[] = [];
-    messages.push("Thanks for your Feedback!");
+    let sounds: string[] = [];
+    sounds.push(Utils.randomElement(ThanksComponent.thanksSounds));
 
     if (isPromoterOrMiddle) {
-      this.setupAttractions();
+      this.setupAttractions(sounds);
     }
+
     let config: AccountConfiguration = this.accountSvc.getCached(Config.CUSTOMERID).properties.configuration;
     let speak = Utils.isStringBooleanTrue(config.SPEAK_GREETING)
     if (!speak) {
       return Promise.resolve();
     }
-    let speakRate = +config.SPEAK_GREETING_RATE || 1.1;
+    DeviceServices.playAll(...sounds);
+  }
 
-    return DeviceServices.speakAll(speakRate, ...messages);
+  private initializeSoundsIfNecessary() {
+    if (ThanksComponent.soundsInitialized) {
+      return;
+    }
+    let allPaths = ThanksComponent.playSounds.concat(...ThanksComponent.thanksSounds);
+    DeviceServices.preloadSimpleAll(...allPaths)
+      .then(()=>{
+        ThanksComponent.soundsInitialized = true;
+        Utils.info("Preloaded sounds {0}", allPaths.join('   '));
+      })
+      .catch((err)=>{
+        Utils.error("Could not preload audio files: {0}, err: {1}", allPaths.join('   '), err);
+      })
   }
 }

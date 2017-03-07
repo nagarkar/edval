@@ -97,23 +97,23 @@ export class Account {
       return;
     }
     let errors = [];
-    if (!ValidationService.urlValidator.test(config.REVIEW_URL_FACEBOOK)){
+    if (config.REVIEW_URL_FACEBOOK && !ValidationService.urlValidator.test(config.REVIEW_URL_FACEBOOK)){
       errors.push("The Facebook URL is invalid");
       config.REVIEW_URL_FACEBOOK = undefined;
     }
-    if (!ValidationService.urlValidator.test(config.REVIEW_URL_GOOGLE)){
+    if (config.REVIEW_URL_GOOGLE && !ValidationService.urlValidator.test(config.REVIEW_URL_GOOGLE)){
       errors.push("The Google URL is invalid");
       config.REVIEW_URL_GOOGLE = undefined;
     }
-    if (!ValidationService.urlValidator.test(config.REVIEW_URL_YELP)){
+    if (config.REVIEW_URL_YELP && !ValidationService.urlValidator.test(config.REVIEW_URL_YELP)){
       errors.push("The Yelp URL is invalid");
       config.REVIEW_URL_YELP = undefined;
     }
-    if(config.SPEAK_GREETING_RATE > 2) {
+    if(config.SPEAK_GREETING_RATE && config.SPEAK_GREETING_RATE > 2) {
       errors.push("The Voice Speed should not exceed 2");
       config.SPEAK_GREETING_RATE = 1.1;
     }
-    if(config.CHIME_INTERVAL < .1 || config.CHIME_INTERVAL > 100) {
+    if(config.CHIME_INTERVAL && (config.CHIME_INTERVAL < .1 || config.CHIME_INTERVAL > 100)) {
       errors.push("The Chime Interval is between .1 and 100 (minutes)");
       config.CHIME_INTERVAL = 1;
     }
