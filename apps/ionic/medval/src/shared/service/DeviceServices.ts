@@ -86,7 +86,7 @@ export class DeviceServices {
   }
 
   static preloadSimpleAll(...paths: string[]): Promise<any> {
-    if (!paths || !Array.isArray(paths) || paths.length == 1) {
+    if (!paths || !Array.isArray(paths) || paths.length == 0) {
       return Promise.resolve();
     }
     return DeviceServices.preloadSimple(paths[0])
@@ -114,23 +114,26 @@ export class DeviceServices {
   }
 
   static playAll(...ids: string[]): Promise<any> {
-    if (!ids || !Array.isArray(ids) || ids.length == 1) {
+    if (!ids || !Array.isArray(ids) || ids.length == 0) {
       return Promise.resolve();
     }
-    return DeviceServices.play(ids[0])
-      .then(()=>{
+    return NativeAudio.play(
+      ids[0],
+      ()=>{
         if (ids.length > 1) {
-          return DeviceServices.playAll(...ids.slice(1));
+          DeviceServices.playAll(...ids.slice(1));
         }
       })
-      .catch((err) =>{
-        if (ids.length > 1) {
-          return DeviceServices.playAll(...ids.slice(1));
-        }
-      });
+      .then(()=>{
+        Utils.info("Played sound {0}", ids[0]);
+      })
+      .catch((err)=>{
+        Utils.error("Unable to play sound {0}, due to {1}", ids[0], err);
+        throw err;
+      })
   }
 
-  static play(id: string): Promise<any> {
+  static play(id: string, nextId?: string): Promise<any> {
     return NativeAudio.play(id, ()=>{} /* Nothing to do on completion */)
       .then(()=>{
         Utils.info("Played sound {0}", id);
