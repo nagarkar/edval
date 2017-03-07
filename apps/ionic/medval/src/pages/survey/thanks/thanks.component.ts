@@ -29,7 +29,6 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
 
   showWheel: boolean = false;
   showJokes: boolean = false;
-  wheelShown: boolean = false; // To track that wheel was shown once so we don't show it multiple times.
 
   message: string[];
   private static cycler: ImageCycler = new ImageCycler(
@@ -131,13 +130,9 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
   }
 
   showWheelModal() {
-    if (this.wheelShown) {
+    if (!this.shouldOfferWheel) {
       return;
     }
-    if (!this.showWheel) {
-      return;
-    }
-    this.wheelShown = true;
     Config.LAST_SWEEPSTAKE_MILLIS = Date.now();
     this.idle.stop();
     let profileModal : Modal = this.modalctrl.create(WheelComponent, {options: this.wheelOptions});
@@ -241,7 +236,7 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
       }, 50);
     }
     this.showWheel = Utils.isStringBooleanTrue(config.SWEEPSTAKES_SHOW_WHEEL) || this.showWheel;
-    if (this.showWheel) {
+    if (this.shouldOfferWheel) {
       sounds.push(Utils.randomElement(ThanksComponent.playSounds));
       this.costPerUse = +config.SWEEPSTAKES_COST_PER_USE || 1;
       this.award = +config.SWEEPSTAKES_AWARD_AMOUNT || 5;
