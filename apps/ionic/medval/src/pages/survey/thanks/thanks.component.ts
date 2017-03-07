@@ -134,6 +134,9 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
     if (this.wheelShown) {
       return;
     }
+    if (!this.showWheel) {
+      return;
+    }
     this.wheelShown = true;
     Config.LAST_SWEEPSTAKE_MILLIS = Date.now();
     this.idle.stop();
