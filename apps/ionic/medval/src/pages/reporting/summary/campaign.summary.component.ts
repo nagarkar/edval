@@ -15,6 +15,7 @@ import {AccountService} from "../../../services/account/delegator";
 import {StaffService} from "../../../services/staff/delegator";
 import {MetricAndSubject} from "../metric.subject";
 import {QueryUtils} from "../query.utils";
+import {AlertController} from "ionic-angular";
 
 @Component({
   selector: 'campaign-summary',
@@ -30,8 +31,8 @@ export class CampaignSummaryComponent extends BaseChartComponent {
   @ViewChild('tableDiv')
   tableDiv: ElementRef;
 
-  constructor(svc: ChartService, asvc: AccountService, ssvc: StaffService, campaignService: CampaignService){
-    super(svc, ssvc, asvc);
+  constructor(alertCtrl: AlertController, svc: ChartService, asvc: AccountService, ssvc: StaffService, campaignService: CampaignService){
+    super(alertCtrl, svc, ssvc, asvc);
     this.campaign = campaignService.getCached(Campaign.DEFAULT_CAMPAIGN_ID);
   }
 

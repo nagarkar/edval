@@ -5,7 +5,7 @@
  * of this application without permission. Copying and re-posting on another
  * site or application without licensing is strictly prohibited.
  */
-import {NavParams} from "ionic-angular";
+import {NavParams, AlertController} from "ionic-angular";
 import {Component} from "@angular/core";
 import {ChartService} from "./chart.service";
 import {BaseChartComponent} from "./base.chart.component";
@@ -25,8 +25,8 @@ export class CampaignDashboard extends BaseChartComponent {
   metricAndSubjects: Array<MetricAndSubject> = [];
   metricAndSubjectsForOrgAndRole: Array<MetricAndSubject> = [];
 
-  constructor(svc: ChartService, asvc: AccountService, ssvc: StaffService, navParams: NavParams) {
-    super(svc, ssvc, asvc);
+  constructor(alertCtrl: AlertController, svc: ChartService, asvc: AccountService, ssvc: StaffService, navParams: NavParams) {
+    super(alertCtrl, svc, ssvc, asvc);
   }
 
   ngOnInit() {

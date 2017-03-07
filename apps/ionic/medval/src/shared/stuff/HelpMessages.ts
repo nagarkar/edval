@@ -11,9 +11,12 @@ import {Utils} from "./utils";
 export class HelpMessages {
 
   private static helpContent = {
-    'account.properties.customerName': ['Organization Name', 'This field should be the name of your clinic'],
-    'account.properties.contactName': ['Contact Person', `Your clinic has some primary contact person, typically one
-        of the senior doctors or administrators`],
+    'account.properties.customerName': ['Organization Name', `This field should be the name of your clinic. A name 
+        between 15 and 25 characters works best. If this field is not set properly, it may leave a bad impression with patients.`],
+    'account.properties.contactName': ['Contact Person', `This is the title and name of an individual who has the authority
+        to follow up with satisfied and dissatisfied patients. This is typically one
+        of the senior doctors or administrators. This is an important setting, and is used in the surveys. If this field 
+        is not set properly, it may leave a bad impression with patients.`],
     'account.properties.verticalId': ['The type of practice', 'Currently, only Orthodontic Clinics are supported'],
     'account.customerId': ['Your Unique Organization Id', `When you contact us for support, it would be useful to 
         provide this the Organization Id. The Organization Id should not have any whitespace characters.`],
@@ -23,23 +26,25 @@ export class HelpMessages {
     'account.username': ['Username', 'You will login using this username. Please provide a valid username: numbers, digits ' +
         'and special charaters are ok, whitespace characters are not ok)'],
     SWEEPSTAKES_INTERVAL: ['Setting Interval',``],
-    SWEEPSTAKES_SHOW_WHEEL: ['Wheel of Fortune Game', `Show a 'Wheel of Fortune' game to patients on the 'Thank You' page. A patient can 'spin the wheel'
-      after a survey, and win a gift card. You can configure the amount (defaults to $5). You 
-      can also decide how much you want to spend per patient. For example, if you decide you want the gift card to be
-      $5, and want to spend $1 per patient, the game adjusts the odds so that one in five patients
-      wins! This game is only displayed if the patient is not upset or with your service.`],
-    SWEEPSTAKES_AWARD_AMOUNT: ['Amount Won', `If you have enabled the 'Wheel of Fortune' game, patients win a gift card in 
-      this amount if they win. Usually set to a value between 5 and 25 (dollars). 
-      Please make sure you have some gift cards in this amount ready in case someone wins!`],
+    SWEEPSTAKES_SHOW_WHEEL: ['Wheel of Fortune Game', `Show a 'Wheel of Fortune' game to patients on the 'Thank You' page. 
+      <ol>
+        <li>A game is a great way to get patients to keep giving feedback</li>
+        <li>A patient who provides a review can 'spin the wheel' after a survey, and win a gift card </li>
+        <li>You can configure the gift card amount (default: $5). You can also decide how much you want to spend per patient</li>
+      </ol>
+      For example, if you decide you want the gift card to be $5, and want to spend $1 per patient who provides a review, the game adjusts 
+      the odds so that only one in five patients wins. This game is only displayed if the patient is not upset with your service.`],
+    SWEEPSTAKES_AWARD_AMOUNT: ['Amount Won in $', `If you have enabled the 'Wheel of Fortune' game, patients win a gift card in 
+      this amount if they win. Usually set to a value between 5 and 25. Please make sure you have some gift cards in this amount ready in case someone wins!`],
     SWEEPSTAKES_COST_PER_USE: ['How much you want to spend per patient', `If you have enabled the 'Wheel of Fortune' game, this is the amount 
       you will spend on gift cards per patient who plays this game. Usually set to a value between 0.5 and 5 (dollars).`],
     SHOW_JOKES_ON_THANK_YOU_PAGE: ['Show Jokes', `Control whether you want to show jokes on the thank you page. Jokes make people smile,
       and why not! A smile is a great gift after a healthcare appointment. The jokes are only shown if a patient is not
       upset or highly dissatisfied with service.`],
-    REVIEW_URL: ['Online Reviews',`If a patient is highly likely to give a good review, after a survey, we request patients to provide their
-      phone or email address so we can send them instructions to provide a review. In these instructions, we mention the positive
-      things they have expressed, and provide specific instructions (e.g. web-links to your business page that you have setup 
-      in your Account Settings`],
+    REVIEW_URL: ['Online Reviews',`When patients are pleased and express interest in providing an online review, we 
+      ask them if they would like to receive a reminder with instructions to do so. In these instructions, we mention 
+      the positive things they have expressed about your clinic and provide the link to your clinic's review url. 
+      <br/>Click on the help icons for the various review sites on the right, to see how to set up these URLs.`],
     SPEAK_GREETING: ['Say Thank you!',`The App includes a Speech component. Patients can be thanked by the App after they provide a review.`],
     SPEAK_GREETING_RATE: ['How fast to speak', `Set the speed of audio greetings between 1-1.5`],
     CHIME_INTERVAL: [
@@ -48,12 +53,14 @@ export class HelpMessages {
         intervals. This is a useful feature to attract patient attention. By setting a large interval, you can effectively 
         disable this feature if you want.`
     ],
-    REVIEW_URL_FACEBOOK: ['Get Facebook Reviews',`In order to get Facebook reviews and ratings, you'll need to make sure that your Page's category is “Local Business”
-     in your Page Settings.
+    REVIEW_URL_FACEBOOK: ['Get Facebook Reviews',`In order to get Facebook reviews and ratings, you'll need to make sure that your Page category is set to “Local Business”
+     in your settings&nbsp;<a href="https://www.facebook.com/help/222732947737668" target="_blank">(instructions)</a>. You can get your page URL with these steps:
         <ol style='text-align:left'>
           <li>Copy your Facebook 'Local Business' page URL (usually looks like 'https://www.facebook.com/{yourBusiness}'</li>
           <li>Optionally, shorten the URL using something like <a href="https://goo.gl/">this URL shortener</a></li>
-          <li>Copy the URL into the Account Settings page.</li>
+          <li>Copy the URL</li>
+          <li>Go to the Account Settings page in this App, and paste the URL into the correct field</li>
+          <li>Instructions for copy/pasting text and urls can be found <a href="http://appleinsider.com/articles/15/06/15/inside-ios-9-apples-quicktype-keyboard-gains-quick-cut-copy-paste-more-on-ipad" target="_blank">here</a></li>
         </ol>`],
     REVIEW_URL_GOOGLE: ['Get Google Reviews', `Here are the steps to get your Google Page URL into this App:
         <ol style='text-align:left'>
@@ -61,15 +68,17 @@ export class HelpMessages {
           <li>Click on the button “Write a review”</li>
           <li>You'll see a Google review box has popped up, copy the URL out of the address bar</li>
           <li>Optionally, shorten the URL using something like <a href="https://goo.gl/">this URL shortener</a>.</li>
-          <li>Copy the URL into the Account Settings page.</li>
+          <li>Go to the Account Settings page in this App, and paste the URL into the correct field</li>
+          <li>Instructions for copy/pasting text and urls can be found <a href="http://appleinsider.com/articles/15/06/15/inside-ios-9-apples-quicktype-keyboard-gains-quick-cut-copy-paste-more-on-ipad" target="_blank">here</a></li>
         </ol>`],
     REVIEW_URL_YELP: ['Get Yelp Reviews', `Here are the steps to get your Yelp Page URL into this App:
         <ol style='text-align:left''>
           <li>Copy your Yelp page URL (usually looks like 'https://www.yelp.com/biz/{yourbusiness}'</li>
           <li>Optionally, shorten the URL using something like <a href="https://goo.gl/">this URL shortener</a></li>
-          <li>Copy the URL into the Account Settings page.</li>
+          <li>Go to the Account Settings page in this App, and paste the URL into the correct field</li>
+          <li>Instructions for copy/pasting text and urls can be found <a href="http://appleinsider.com/articles/15/06/15/inside-ios-9-apples-quicktype-keyboard-gains-quick-cut-copy-paste-more-on-ipad" target="_blank">here</a></li>
         </ol>`],
-    UNEXPECTED_INTERNAL_ERROR: "Unexpected Internal Error. You may need to restart this App",
+    UNEXPECTED_INTERNAL_ERROR: "Unexpected Internal Error. You may have lost your internet connection.",
     FOLLOWUP_STANDARD: [
       'Service Hour Followup',
       `This section helps you address patients who gave feedback indicating a poor experience but chose not to provide their

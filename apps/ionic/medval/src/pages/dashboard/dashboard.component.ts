@@ -27,6 +27,7 @@ import {HelpMessages} from "../../shared/stuff/HelpMessages";
 import {AdminComponent} from "../admin.component";
 import {FollowupPage} from "../followups/followup.page";
 import {Http} from "@angular/http";
+import {HelpPage} from "./help/help.page";
 
 declare let AWSCognito:any;
 declare let AWS:any;
@@ -53,10 +54,6 @@ export class DashboardComponent extends AdminComponent {
 
     this.dispatchAlertTipForAccountSettings();
     this.dispatchAlertTipForStaffSettings();
-  }
-
-  showHelp() {
-    Utils.presentInvalidEntryAlert(this.alertCtrl, "Help", `Visit our <a href="http://www.revvolve.io/md/help" target="_blank">webpage</a> for comprehensive help and tips!`);
   }
 
   verifyEmail() {
@@ -89,6 +86,10 @@ export class DashboardComponent extends AdminComponent {
 
       }
     });
+  }
+
+  gotoHelp() {
+    this.push(HelpPage);
   }
 
   gotoHome(): void {

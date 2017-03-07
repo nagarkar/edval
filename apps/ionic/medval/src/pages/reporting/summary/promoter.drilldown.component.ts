@@ -8,7 +8,7 @@
 import {Component, ViewChild, ElementRef} from "@angular/core";
 import {ChartService} from "../chart.service";
 import {BaseChartComponent} from "../base.chart.component";
-import {NavParams} from "ionic-angular";
+import {NavParams, AlertController} from "ionic-angular";
 import {Filters} from "../filters";
 import {QueryUtils} from "../query.utils";
 import {AccountService} from "../../../services/account/delegator";
@@ -67,8 +67,8 @@ export class PromoterDrilldownComponent extends BaseChartComponent {
   @ViewChild('errorDiv')
   errorDiv: ElementRef;
 
-  constructor(svc: ChartService, asvc: AccountService, ssvc: StaffService, navParams: NavParams) {
-    super(svc, ssvc, asvc);
+  constructor(alertCtrl: AlertController, svc: ChartService, asvc: AccountService, ssvc: StaffService, navParams: NavParams) {
+    super(alertCtrl, svc, ssvc, asvc);
     this.metricAndSubject = navParams.get('metricAndSubject');
   }
 

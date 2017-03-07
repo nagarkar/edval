@@ -3,7 +3,7 @@
   <ion-grid class="has-header">
     <ion-row>
       <ion-col width-75 class="dashboardbutton">
-        <button ion-button block  (tap)="gotoSurveyPage()" color="green"><img src="assets/img/user-stars.png"><span class="button-text">Go to Survey Mode</span></button>
+        <button ion-button block  (tap)="gotoSurveyPage()" color="green"><img src="assets/img/user-stars.png"><span class="button-text">Enter Feedback Mode</span></button>
       </ion-col>
       <ion-col width-25 class="dashboardbutton">
         <button ion-button block color="danger" (tap)="logout()" >Sign Out</button>
@@ -47,7 +47,15 @@
           <div class="box-content" (tap)="gotoFollowupsPage()">
             <div class="box-inner-content">
               <img src="assets/img/user-icon1.png">
-              <span class="button-text rowtext">Followup With Patients</span>
+              <span class="button-text rowtext">Patient&nbsp;Followups</span>
+            </div>
+          </div>
+        </ion-col>
+        <ion-col>
+          <div class="box-content" (tap)="gotoHelp()">
+            <div class="box-inner-content">
+              <img src="assets/img/settings1.png">
+              <span class="button-text rowtext">Getting&nbsp;Started</span>
             </div>
           </div>
         </ion-col>
@@ -64,9 +72,6 @@
       </ion-col>
       <ion-col>
         <button ion-button color="blue" (tap)="verifyEmail()" outline icon-left><ion-icon name="lock"></ion-icon><span class="button-text">Verify Email</span></button>
-      </ion-col>
-      <ion-col>
-        <button ion-button color="blue" (tap)="showHelp()" outline icon-left><ion-icon name="lock"></ion-icon><span class="button-text">Help</span></button>
       </ion-col>
     </ion-row>
   </ion-grid>

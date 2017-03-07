@@ -16,6 +16,7 @@ import {AccountService} from "../../services/account/delegator";
 import {Config} from "../../shared/config";
 import {Metric} from "../../services/metric/schema";
 import {MetricAndSubject} from "./metric.subject";
+import {AlertController} from "ionic-angular";
 
 declare let google;
 
@@ -42,7 +43,7 @@ export abstract class BaseChartComponent {
 
   static SELECT_UP_TO_LIMIT_ROWS = 'select * limit 2500';
 
-  constructor(protected svc: ChartService, protected staffsvc: StaffService, protected accountsvc: AccountService){}
+  constructor(protected alertCtrl: AlertController, protected svc: ChartService, protected staffsvc: StaffService, protected accountsvc: AccountService){}
 
   protected getMetricAndSubjectValues(): Promise<Array<MetricAndSubject>> {
     let subjectsAndMetricNames: Array<MetricAndSubject> = [];
@@ -219,19 +220,23 @@ export abstract class BaseChartComponent {
   }
 
   protected emailPromoterCountsReportDetails(): Promise<any> {
-    return this.emailData(BaseChartComponent.SELECT_UP_TO_LIMIT_ROWS, QueryUtils.PROMOTER_COUNTS_REPORT,'report.csv');
+    return this.emailData(BaseChartComponent.SELECT_UP_TO_LIMIT_ROWS, QueryUtils.PROMOTER_COUNTS_REPORT,'promoters.csv')
   }
 
   protected emailCampaignMetricsDetails(): Promise<any> {
-    return this.emailData(BaseChartComponent.SELECT_UP_TO_LIMIT_ROWS, QueryUtils.CAMPAIGN_METRICS_REPORT,'report.csv');
+    return this.emailData(BaseChartComponent.SELECT_UP_TO_LIMIT_ROWS, QueryUtils.CAMPAIGN_METRICS_REPORT,'summary.csv')
   }
 
   protected emailChartDataReportDetails(): Promise<any> {
-    return this.emailData(BaseChartComponent.SELECT_UP_TO_LIMIT_ROWS, QueryUtils.CHART_DATA_REPORT,'report.csv');
+    return this.emailData(BaseChartComponent.SELECT_UP_TO_LIMIT_ROWS, QueryUtils.CHART_DATA_REPORT,'metricdrilldown.csv')
   }
 
   protected emailInfluencersReportDetails(): Promise<any> {
-    return this.emailData(BaseChartComponent.SELECT_UP_TO_LIMIT_ROWS, QueryUtils.INFLUENCERS_REPORT,'report.csv');
+    return this.emailData(BaseChartComponent.SELECT_UP_TO_LIMIT_ROWS, QueryUtils.INFLUENCERS_REPORT,'influencers.csv')
+  }
+
+  protected emailDetails(query: Query, fileName: string): Promise<any> {
+    return this.emailQuery(query, fileName);
   }
 
   protected renderInfluencers(
@@ -290,14 +295,20 @@ export abstract class BaseChartComponent {
     clearTimeout(timeoutHandle);
   }
 
+  private emailQuery(query: Query, fileName: string): Promise<any> {
+    return this.emailData(query.queryStr, query.reportType, fileName);
+  }
+
+
   private emailData(query: string, reportName: string, fileName: string): Promise<any> {
     return this.svc.postReportEmail(query, reportName, fileName)
       .catch((err)=>{
         Dialogs.alert('Error while emailing report:' + err);
         throw err;
       })
-      .then(()=>{
+      .then((result:any)=>{
         Dialogs.alert('Email sent! Give it a few minutes and then check the email address associated with your login username');
+        return result;
       })
 
   }

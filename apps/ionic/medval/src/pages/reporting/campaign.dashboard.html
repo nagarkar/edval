@@ -27,6 +27,12 @@
         <ion-grid padding>
           <ion-row>
             <ion-col class="border-around-text">
+              <ion-title>Where are you doing great (and not so well) according to your promoters (and detractors)?</ion-title>
+              <ion-label>Visit the Getting Started page to find out more about reports</ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="border-around-text">
               <ion-slides slidesPerView="2">
                 <ion-slide *ngFor="let metricAndSubject of metricAndSubjectsForOrgAndRole">
                   <topinfluencertable [metricName]="metricAndSubject.metricName" promoterOrDetractor="true"></topinfluencertable>

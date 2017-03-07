@@ -22,9 +22,9 @@
         </div>
         <ion-grid *ngIf="standardFollowups.length > 0">
           <ion-row>
-            <ion-col class="header" (tap)="showHelp('FEEDBACK_TIME')">Feedback Time Window (?)</ion-col>
-            <ion-col class="header" (tap)="showHelp('FOLLOWUP_STATUS')">Followup Status (?)</ion-col>
-            <ion-col class="header" (tap)="showHelp('FOLLOWUP_MARK_AS_COMPLETE')">Mark as complete (?)</ion-col>
+            <ion-col class="header" (tap)="showHelp('FEEDBACK_TIME')">Feedback Time Window   <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-col>
+            <ion-col class="header" (tap)="showHelp('FOLLOWUP_STATUS')">Followup Status   <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-col>
+            <ion-col class="header" (tap)="showHelp('FOLLOWUP_MARK_AS_COMPLETE')">Mark as complete   <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-col>
           </ion-row>
           <ion-row *ngFor="let fp of standardFollowups" (tap)="showSession">
             <ion-col class="regular">
@@ -49,10 +49,10 @@
         </div>
         <ion-grid *ngIf="targetedFollowups.length > 0">
           <ion-row>
-            <ion-col class="header" (tap)="showHelp('FEEDBACK_TIME')">Feedback Time (?)</ion-col>
-            <ion-col class="header" (tap)="showHelp('FOLLOWUP_STATUS')">Followup Status (?)</ion-col>
-            <ion-col class="header">Contact Information (?)</ion-col>
-            <ion-col class="header" (tap)="showHelp('FOLLOWUP_MARK_AS_COMPLETE')">Mark as complete (?)</ion-col>
+            <ion-col class="header" (tap)="showHelp('FEEDBACK_TIME')">Feedback Time   <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-col>
+            <ion-col class="header" (tap)="showHelp('FOLLOWUP_STATUS')">Followup Status   <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-col>
+            <ion-col class="header">Contact Information   <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-col>
+            <ion-col class="header" (tap)="showHelp('FOLLOWUP_MARK_AS_COMPLETE')">Mark as complete   <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-col>
           </ion-row>
           <ion-row *ngFor="let fp of targetedFollowups" (tap)="showSession">
             <ion-col class="regular">
@@ -80,9 +80,9 @@
         </div>
         <ion-grid *ngIf="automaticFollowups.length > 0">
           <ion-row>
-            <ion-col class="header" (tap)="showHelp('FEEDBACK_TIME')">Feedback Time (?)</ion-col>
-            <ion-col class="header">Contact Information (?)</ion-col>
-            <ion-col class="header" (tap)="showHelp('FOLLOWUP_STATUS')">Current Status (?) </ion-col>
+            <ion-col class="header" (tap)="showHelp('FEEDBACK_TIME')">Feedback Time   <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-col>
+            <ion-col class="header">Contact Information   <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-col>
+            <ion-col class="header" (tap)="showHelp('FOLLOWUP_STATUS')">Current Status   <ion-icon name="help" style="font-size:1.5em"></ion-icon> </ion-col>
           </ion-row>
           <ion-row *ngFor="let fp of automaticFollowups" (tap)="showSession">
             <ion-col class="regular">

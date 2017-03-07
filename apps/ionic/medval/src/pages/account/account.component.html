@@ -5,7 +5,7 @@
     <ion-grid>
       <ion-row>
         <ion-col width-33>
-          <ion-label (tap)="showHelp('account.username')" item-left>Username&nbsp;&nbsp;&nbsp;<ion-icon name="help-circle"></ion-icon></ion-label>
+          <ion-label (tap)="showHelp('account.username')" item-left>Username&nbsp;&nbsp;&nbsp;<ion-icon name="help"></ion-icon></ion-label>
         </ion-col>
         <ion-col>
           <ion-input #focusField item-right [(ngModel)]="username"></ion-input>
@@ -14,7 +14,7 @@
       </ion-row>
       <ion-row>
         <ion-col width-33>
-          <ion-label (tap)="showHelp('account.email')" item-left>Email Address&nbsp;&nbsp;&nbsp;<ion-icon name="help-circle"></ion-icon></ion-label>
+          <ion-label (tap)="showHelp('account.email')" item-left>Email Address&nbsp;&nbsp;&nbsp;<ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-label>
         </ion-col>
         <ion-col>
           <ion-input item-right [(ngModel)]="email"></ion-input>
@@ -27,7 +27,7 @@
     <ion-grid>
       <ion-row>
         <ion-col width-33>
-          <ion-label (tap)="showHelp('account.customerId')">Organization ID&nbsp;&nbsp;&nbsp;<ion-icon name="help-circle"></ion-icon></ion-label>
+          <ion-label (tap)="showHelp('account.customerId')">Organization ID&nbsp;&nbsp;&nbsp;<ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-label>
         </ion-col>
         <ion-col>
           <ion-input [disabled]="isEdit" [(ngModel)]="account.customerId"></ion-input>
@@ -36,7 +36,7 @@
       </ion-row>
       <ion-row>
         <ion-col width-33>
-          <ion-label (tap)="showHelp('account.properties.verticalId')">Organization Type&nbsp;&nbsp;&nbsp;<ion-icon name="help-circle"></ion-icon></ion-label>
+          <ion-label (tap)="showHelp('account.properties.verticalId')">Organization Type&nbsp;&nbsp;&nbsp;<ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-label>
         </ion-col>
         <ion-col>
           <ion-select class="rev-select" [disabled]="isEdit" [(ngModel)]="account.properties.verticalId">
@@ -49,7 +49,7 @@
       </ion-row>
       <ion-row>
         <ion-col width-33>
-          <ion-label (tap)="showHelp('account.properties.customerName')">Organization Name&nbsp;&nbsp;&nbsp;<ion-icon name="help-circle"></ion-icon></ion-label>
+          <ion-label (tap)="showHelp('account.properties.customerName')">Organization Name&nbsp;&nbsp;&nbsp;<ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-label>
         </ion-col>
         <ion-col>
           <ion-input placeholder="Acme Inc." [(ngModel)]="account.properties.customerName"></ion-input>
@@ -58,7 +58,7 @@
       </ion-row>
       <ion-row>
         <ion-col width-33>
-          <ion-label (tap)="showHelp('account.properties.contactName')">Primary Contact Name&nbsp;&nbsp;&nbsp;<ion-icon name="help-circle"></ion-icon></ion-label>
+          <ion-label (tap)="showHelp('account.properties.contactName')">Primary Contact Name&nbsp;&nbsp;&nbsp;<ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-label>
         </ion-col>
         <ion-col>
           <ion-input placeholder="The responsible employee or the owner"
@@ -106,15 +106,15 @@
             <ion-grid>
               <ion-row>
                 <ion-col width-30>
-                  <ion-label (tap)="showHelp('SWEEPSTAKES_SHOW_WHEEL')">Enable Game (?)</ion-label>
+                  <ion-label (tap)="showHelp('SWEEPSTAKES_SHOW_WHEEL')">Enable Game <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-label>
                   <ion-toggle [(ngModel)]="account.properties.configuration.SWEEPSTAKES_SHOW_WHEEL"></ion-toggle>
                 </ion-col>
                 <ion-col>
-                  <ion-label (tap)="showHelp('SWEEPSTAKES_AWARD_AMOUNT')" >Award Amount(?)</ion-label>
+                  <ion-label (tap)="showHelp('SWEEPSTAKES_AWARD_AMOUNT')" >Award Amount in $$ <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-label>
                   <ion-input type="number" [(ngModel)]="account.properties.configuration.SWEEPSTAKES_AWARD_AMOUNT"></ion-input>
                 </ion-col>
                 <ion-col>
-                  <ion-label (tap)="showHelp('SWEEPSTAKES_COST_PER_USE')" >Spend/Patient (?)</ion-label>
+                  <ion-label (tap)="showHelp('SWEEPSTAKES_COST_PER_USE')" >Spend/Patient <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-label>
                   <ion-input type="number" [(ngModel)]="account.properties.configuration.SWEEPSTAKES_COST_PER_USE"></ion-input>
                 </ion-col>
               </ion-row>
@@ -123,13 +123,13 @@
         </ion-row>
         <ion-row class="border-around-text">
           <ion-col width-20>
-            <ion-label item-left (tap)="showHelp('REVIEW_URL')">Review Urls (?)</ion-label>
+            <ion-label item-left (tap)="showHelp('REVIEW_URL')">Review Urls <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-label>
           </ion-col>
           <ion-col>
             <ion-grid>
               <ion-row>
                 <ion-col width-20>
-                  <ion-label (tap)="showHelp('REVIEW_URL_FACEBOOK')" item-left>Facebook Url (?)</ion-label>
+                  <ion-label (tap)="showHelp('REVIEW_URL_FACEBOOK')" item-left>Facebook Url <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-label>
                 </ion-col>
                 <ion-col>
                   <ion-input type="url" item-right [(ngModel)]="account.properties.configuration.REVIEW_URL_FACEBOOK"></ion-input>
@@ -137,7 +137,7 @@
               </ion-row>
               <ion-row>
                 <ion-col width-20>
-                  <ion-label (tap)="showHelp('REVIEW_URL_GOOGLE')" item-left>Google Url (?)</ion-label>
+                  <ion-label (tap)="showHelp('REVIEW_URL_GOOGLE')" item-left>Google Url <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-label>
                 </ion-col>
                 <ion-col>
                   <ion-input type="url" item-right [(ngModel)]="account.properties.configuration.REVIEW_URL_GOOGLE"></ion-input>
@@ -145,7 +145,7 @@
               </ion-row>
               <ion-row>
                 <ion-col width-20>
-                  <ion-label (tap)="showHelp('REVIEW_URL_YELP')" item-left>Yelp Url (?)</ion-label>
+                  <ion-label (tap)="showHelp('REVIEW_URL_YELP')" item-left>Yelp Url <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-label>
                 </ion-col>
                 <ion-col>
                   <ion-input type="url"  item-right [(ngModel)]="account.properties.configuration.REVIEW_URL_YELP"></ion-input>
@@ -162,15 +162,15 @@
             <ion-grid>
               <ion-row>
                 <ion-col width-30>
-                  <ion-label (tap)="showHelp('SHOW_JOKES_ON_THANK_YOU_PAGE')">Selective Humor(?)</ion-label>
+                  <ion-label (tap)="showHelp('SHOW_JOKES_ON_THANK_YOU_PAGE')">Selective Humor  <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-label>
                   <ion-toggle [(ngModel)]="account.properties.configuration.SHOW_JOKES_ON_THANK_YOU_PAGE"></ion-toggle>
                 </ion-col>
                 <ion-col width-30>
-                  <ion-label (tap)="showHelp('CHIME_INTERVAL')">Chime Interval(?)</ion-label>
+                  <ion-label (tap)="showHelp('CHIME_INTERVAL')">Chime Interval  <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-label>
                   <ion-input type="number" [(ngModel)]="account.properties.configuration.CHIME_INTERVAL"></ion-input>
                 </ion-col>
                 <ion-col width-30>
-                  <ion-label (tap)="showHelp('SPEAK_GREETING')" item-left>Thank you voice(?)</ion-label>
+                  <ion-label (tap)="showHelp('SPEAK_GREETING')" item-left>Thank you voice  <ion-icon name="help" style="font-size:1.5em"></ion-icon></ion-label>
                   <ion-toggle [(ngModel)]="account.properties.configuration.SPEAK_GREETING"></ion-toggle>
                 </ion-col>
                 <!--ion-col width-30>

@@ -45,7 +45,7 @@ export class DeviceServices {
           setBrightnessAndScreenOn(90, true);
         } else if (status.level > 80) {
           setBrightnessAndScreenOn(80, true);
-        } else if (status.level > 30) {
+        } else if (status.level > 15) {
           setBrightnessAndScreenOn(70, true);
         } else {
           setBrightnessAndScreenOn(-1, false);

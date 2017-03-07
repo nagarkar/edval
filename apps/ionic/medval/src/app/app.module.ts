@@ -84,6 +84,7 @@ import {SessionFollowupService} from "../services/followup/delegator";
 import {RevvolveDatePipe} from "../pipes/date.filters";
 import {FollowupPage} from "../pages/followups/followup.page";
 import {SuggestionComponent} from "../shared/components/suggestions/suggestions.page";
+import {HelpPage} from "../pages/dashboard/help/help.page";
 
 enableProdMode();
 
@@ -109,6 +110,7 @@ enableProdMode();
     LoginComponent,
     CustomerTextEmailComponent,
     SuggestionComponent,
+    HelpPage,
 
     /** Administrative Components */
     DashboardComponent,
@@ -172,6 +174,7 @@ enableProdMode();
     LoginComponent,
     CustomerTextEmailComponent,
     SuggestionComponent,
+    HelpPage,
 
     /** Administrative Components */
     DashboardComponent,

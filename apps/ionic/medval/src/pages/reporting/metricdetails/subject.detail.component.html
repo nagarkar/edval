@@ -1,14 +1,15 @@
 <div padding>
   <ion-grid padding>
     <ion-row padding>
-      <ion-col>
-        Drilldown into top level metrics!
+      <ion-col class="border-around-text">
+        <ion-title>Drilldown into metrics across roles and staff!</ion-title>
+        <ion-label>Visit the Getting Started page to find out more about metrics (survey questions), and reports</ion-label>
       </ion-col>
     </ion-row>
     <ion-row wrap padding>
-      <ion-col class="border-around-text">
+      <ion-col>
         <ion-item item-left>
-          <ion-label stacked>Select Top Level Metric</ion-label>
+          <ion-label stacked>Select top level metric to explore</ion-label>
           <ion-select [(ngModel)]="selectedMetricAndSubject">
             <ion-option *ngFor="let metricAndSubject of metricAndSubjects" [value]="metricAndSubject">
               {{getDisplayValue(metricAndSubject)}}
@@ -24,6 +25,11 @@
           <div #yearSlider></div>
           <div #chart></div>
         </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="border-around-text">
+        <button ion-button small (tap)="emailReportDetails()">Email Details</button>
       </ion-col>
     </ion-row>
   </ion-grid>

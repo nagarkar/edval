@@ -6,7 +6,7 @@
  * site or application without licensing is strictly prohibited.
  */
 
-import {ModalController} from "ionic-angular";
+import {ModalController, AlertController} from "ionic-angular";
 import {StaffService} from "../../../services/staff/delegator";
 import {BaseChartComponent} from "../base.chart.component";
 import {ChartService, ChartDataResponse} from "../chart.service";
@@ -42,12 +42,13 @@ export class SubjectSummaryComponent extends BaseChartComponent {
   insufficientData = false;
 
   constructor(
+    alertCtrl: AlertController,
     svc: ChartService,
     private modalCtrl: ModalController,
     staffsvc: StaffService,
     asvc: AccountService) {
 
-    super(svc, staffsvc, asvc);
+    super(alertCtrl, svc, staffsvc, asvc);
   }
 
   ngOnInit() {

@@ -7,7 +7,7 @@
  */
 
 import {ChartService, ChartDataResponse} from "../chart.service";
-import {NavParams} from "ionic-angular";
+import {NavParams, AlertController} from "ionic-angular";
 import {Component, ViewChild, ElementRef, Input} from "@angular/core";
 import {BaseChartComponent} from "../base.chart.component";
 import {AccountService} from "../../../services/account/delegator";
@@ -39,8 +39,8 @@ export class TopInfluencersTable extends BaseChartComponent {
   @ViewChild("errorDiv")
   errorDiv: ElementRef;
 
-  constructor(svc: ChartService, asvc: AccountService, ssvc: StaffService, navParams: NavParams) {
-    super(svc, ssvc, asvc);
+  constructor(alertCtrl: AlertController, svc: ChartService, asvc: AccountService, ssvc: StaffService, navParams: NavParams) {
+    super(alertCtrl, svc, ssvc, asvc);
   }
 
   ngOnInit() {

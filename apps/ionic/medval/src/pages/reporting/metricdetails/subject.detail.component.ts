@@ -12,7 +12,7 @@ import {Campaign} from "../../../services/campaign/schema";
 import {Input, ElementRef, ViewChild, Component} from "@angular/core";
 import {CampaignService} from "../../../services/campaign/delegator";
 import {Utils} from "../../../shared/stuff/utils";
-import {NavParams} from "ionic-angular";
+import {NavParams, AlertController} from "ionic-angular";
 import {AccountService} from "../../../services/account/delegator";
 import {StaffService} from "../../../services/staff/delegator";
 import {MetricAndSubject} from "../metric.subject";
@@ -69,6 +69,7 @@ export class SubjectDetailComponent extends BaseChartComponent {
   errorDiv: ElementRef;
 
   constructor(
+    alertCtrl: AlertController,
     svc: ChartService,
     asvc: AccountService,
     ssvc: StaffService,
@@ -76,7 +77,7 @@ export class SubjectDetailComponent extends BaseChartComponent {
     private metricSvc: MetricService,
     navParams: NavParams){
 
-    super(svc, ssvc, asvc);
+    super(alertCtrl, svc, ssvc, asvc);
     this.campaign = campaignService.getCached(Campaign.DEFAULT_CAMPAIGN_ID);
     this.metricAndSubjects = navParams.get('metricAndSubjects') || [];
   }
@@ -119,6 +120,9 @@ export class SubjectDetailComponent extends BaseChartComponent {
     }
   }
 
+  emailReportDetails(){
+    super.emailDetails(QueryUtils.CHILD_METRIC_QUERY(this.selectedMetricAndSubject), this.selectedMetricAndSubject.getHeading().replace(/ /g,'')+".csv");
+  }
   private renderMetricSeriesChart() {
     let columnsGenerator = Filters.getColumnGeneratorWithDateAsFirstMonthAndRemainingColumns();
 
@@ -159,6 +163,7 @@ export class SubjectDetailComponent extends BaseChartComponent {
       this.dashboard.nativeElement,
       this.errorDiv.nativeElement)
   }
+
 
   private removeMetricsWithNoChildre(values: Array<MetricAndSubject>) {
     return values.filter((value: MetricAndSubject)=>{
