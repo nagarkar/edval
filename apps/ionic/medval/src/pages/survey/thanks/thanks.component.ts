@@ -264,7 +264,7 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
     if (!speak) {
       return Promise.resolve();
     }
-    DeviceServices.playAll(...sounds);
+    return DeviceServices.playAll(...sounds);
   }
 
   private initializeSoundsIfNecessary() {
