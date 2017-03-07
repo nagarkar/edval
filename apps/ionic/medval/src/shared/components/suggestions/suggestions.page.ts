@@ -29,7 +29,7 @@ import {Http} from "@angular/http";
           <button padding (tap)="submit()" ion-button>Submit</button>
         </ion-item>
         <ion-item>
-          <ion-label>For urgent issues, contact <a href="mailto:someone@example.com?Subject=Urgent%20Issue">admin@healthcaretech.io</a></ion-label> 
+          <ion-label>For urgent issues, contact <a href="mailto:admin@healthcaretech.io?Subject=Urgent%20Issue">admin@healthcaretech.io</a></ion-label> 
         </ion-item>
       </ion-list>
     </ion-content>

@@ -11,12 +11,23 @@ import {Utils} from "./utils";
 export class HelpMessages {
 
   private static helpContent = {
+    'account.properties.customerName': ['Organization Name', 'This field should be the name of your clinic'],
+    'account.properties.contactName': ['Contact Person', `Your clinic has some primary contact person, typically one
+        of the senior doctors or administrators`],
+    'account.properties.verticalId': ['The type of practice', 'Currently, only Orthodontic Clinics are supported'],
+    'account.customerId': ['Your Unique Organization Id', `When you contact us for support, it would be useful to 
+        provide this the Organization Id. The Organization Id should not have any whitespace characters.`],
+    'account.email': ['Email', `We will send you your temporary password to 
+        this email address, along with other reports/data you ask for, from within the app. After logging in finishing account setup, please verify
+        your password, so we can send you recovery passwords when necessary.`],
+    'account.username': ['Username', 'You will login using this username. Please provide a valid username: numbers, digits ' +
+        'and special charaters are ok, whitespace characters are not ok)'],
     SWEEPSTAKES_INTERVAL: ['Setting Interval',``],
     SWEEPSTAKES_SHOW_WHEEL: ['Wheel of Fortune Game', `Show a 'Wheel of Fortune' game to patients on the 'Thank You' page. A patient can 'spin the wheel'
       after a survey, and win a gift card. You can configure the amount (defaults to $5). You 
       can also decide how much you want to spend per patient. For example, if you decide you want the gift card to be
       $5, and want to spend $1 per patient, the game adjusts the odds so that one in five patients
-      wins! This game is only displayed if the patient is not upset or very unhappy with your service.`],
+      wins! This game is only displayed if the patient is not upset or with your service.`],
     SWEEPSTAKES_AWARD_AMOUNT: ['Amount Won', `If you have enabled the 'Wheel of Fortune' game, patients win a gift card in 
       this amount if they win. Usually set to a value between 5 and 25 (dollars). 
       Please make sure you have some gift cards in this amount ready in case someone wins!`],
@@ -60,24 +71,24 @@ export class HelpMessages {
         </ol>`],
     UNEXPECTED_INTERNAL_ERROR: "Unexpected Internal Error. You may need to restart this App",
     FOLLOWUP_STANDARD: [
-      'Standard Followup',
-      `Follow up with patients in the indicated Feedback Time Window. To find out what patients visited you during the 
-        window, please check your appointment records. One or more patients in these windows have either requested a 
-        follow-up, or have given poor feedback. Here are some important points to consider:
-        <ol>
-          <li>Patients who have left poor feedback should be contacted by a senior staff member.</li>
-          <li>We don't share precise time of appointment of patients who have provided poor feedback to maintain patient anonymity!</li>
-        </ol>
+      'Service Hour Followup',
+      `This section helps you address patients who gave feedback indicating a poor experience but chose not to provide their
+          contact information. We want to maintain patient confidentiality, but also want to help you address patient concerns. As
+          a compromise, we indicate in the table below, the service-hour during which you received poor feedback. Please 
+          follow up with patients in the indicated service-hour. To find out what patients visited you during the
+          window, please check your appointment records. We recommend these contacts be conducted by a senior or
+           experienced staff member.
       `],
     FOLLOWUP_TARGETED: [
-      'Targeted Followup',
+      'Targeted Followups ',
       `Follow up with patients who have left their contact information and indicated that a follow-up may be useful.
        These patients should be contacted by a senior staff member!`],
     FOLLOWUP_AUTOMATIC: [
       'Automatic Followup',
-      `The Revvolve App System automatically follows up with patients who have left their contact information
-       and indicated that they would like to provide a online review. The status of these follow up activities is provided
-       here for your information.`
+      `We automatically follow up with patients who have left their contact information and indicated that they would
+       like to provide an online review. We send a short email or SMS message indicating when they provided their feedback
+       in the clinic, a brief summary of the feedback and the review link you've previously configured in account settings.
+        The status of these follow-up activities is provided here for your information, or in case you want to follow up yourself.`
     ],
     FOLLOWUP_MARK_AS_COMPLETE: [
       'Marking items as complete',

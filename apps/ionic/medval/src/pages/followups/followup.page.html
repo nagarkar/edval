@@ -6,24 +6,18 @@
         Online Review Followups
       </ion-segment-button>
       <ion-segment-button value="standard">
-        Standard 'Window' Followups (Dissatisfied)
+        Service-hour Followups (Dissatisfied Patients)
       </ion-segment-button>
       <ion-segment-button value="targeted">
-        Individual Followups (Dissatisfied)
+        Individual Followups (Dissatisfied Patients)
       </ion-segment-button>
     </ion-segment>
     <div class="m-t-3" [ngSwitch]="section">
       <div class="border-around-text" *ngSwitchCase="'standard'">
         <div>
-          Follow up with patients in the indicated Feedback Time Window. To find out what patients visited you during the
-          window, please check your appointment records. One or more patients in these windows have either requested a
-          follow-up, or have given poor feedback. Here are some important points to consider:
-          <ol>
-            <li>Patients who have left poor feedback should be contacted by a senior staff member.</li>
-            <li>We don't share precise time of appointment of patients who have provided poor feedback to maintain patient anonymity!</li>
-          </ol>
+          <ion-label (tap)="showHelp('FOLLOWUP_STANDARD')">Tap here to learn more about Service-Hour Follow-ups</ion-label>
         </div>
-        <div *ngIf="standardFollowups.length == 0">
+        <div class="m-t-1" *ngIf="standardFollowups.length == 0">
           <h4>There are no follow-ups in this category so far</h4>
         </div>
         <ion-grid *ngIf="standardFollowups.length > 0">
@@ -40,15 +34,17 @@
               {{fp.taskState}}
             </ion-col>
             <ion-col class="regular">
-              <ion-toggle [disabled]="isComplete(fp)" [checked]="isComplete(fp)" (ionChange)="setComplete(fp)"></ion-toggle>
+              <ion-toggle [checked]="isComplete(fp)" (ionChange)="setComplete(fp, $event)"></ion-toggle>
             </ion-col>
           </ion-row>
         </ion-grid>
-        <button ion-button small (tap)="saveChanges()">Save Changes</button>
+        <button ion-button small (tap)="saveChanges('Standard Followup')">Save Changes</button>
       </div>
       <div class="border-around-text" *ngSwitchCase="'targeted'">
-        <div>{{getHelp('FOLLOWUP_TARGETED')}}</div>
-        <div *ngIf="targetedFollowups.length == 0">
+        <div>
+          <ion-label (tap)="showHelp('FOLLOWUP_TARGETED')">Tap here to get help with dissatisfied patients who have asked for a follow-up</ion-label>
+        </div>
+        <div class="m-t-2" *ngIf="targetedFollowups.length == 0">
           <h4>There are no follow-ups in this category so far</h4>
         </div>
         <ion-grid *ngIf="targetedFollowups.length > 0">
@@ -69,16 +65,18 @@
               Tap to view
             </ion-col>
             <ion-col class="regular">
-              <ion-toggle [disabled]="isComplete(fp)" [checked]="isComplete(fp)" (ionChange)="setComplete(fp)"></ion-toggle>
+              <ion-toggle [checked]="isComplete(fp)" (ionChange)="setComplete(fp, $event)"></ion-toggle>
             </ion-col>
           </ion-row>
         </ion-grid>
-        <button ion-button small (tap)="saveChanges()">Save Changes</button>
+        <button ion-button small (tap)="saveChanges('Targeted Followup')">Save Changes</button>
       </div>
       <div class="border-around-text" *ngSwitchCase="'automatic'">
-        <div>{{getHelp('FOLLOWUP_AUTOMATIC')}}</div>
+        <div>
+          <ion-label (tap)="showHelp('FOLLOWUP_AUTOMATIC')">Tap here to find out how we encourage your satisfied patients to provide online reviews!</ion-label>
+        </div>
         <div *ngIf="automaticFollowups.length == 0">
-          <h4>There are no follow-ups in this category so far</h4>
+          <h4>There is nothing to follow-up on at this time!</h4>
         </div>
         <ion-grid *ngIf="automaticFollowups.length > 0">
           <ion-row>

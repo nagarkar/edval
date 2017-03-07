@@ -223,7 +223,7 @@ export class Utils {
   static presentTopToast(toastCtrl: ToastController, message: string, duration?: number) {
     let toast = toastCtrl.create({
       message: message || 'Success!',
-      duration: duration || 3000,
+      duration: duration || 10 * 1000,
       position: 'top'
     });
     toast.present();
@@ -448,7 +448,7 @@ export class Utils {
   }
 
   static nullOrEmptyString(obj: string): boolean {
-    return obj == null || obj == undefined || (Utils.isString(obj) && obj.length == 0);
+    return obj == null || obj == undefined || (Utils.isString(obj) && obj.trim().length == 0);
   }
 
   static errorAndThrow(err: Error) {

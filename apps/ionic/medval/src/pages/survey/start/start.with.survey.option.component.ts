@@ -30,11 +30,10 @@ import {Config} from "../../../shared/config";
 export class StartWithSurveyOption implements OnInit, OnDestroy {
 
   private static cycler: ImageCycler;
-  private static imageSubscription: Subscription;
+  private static imageTimerHandle: number;
 
-  private static SPEAK_TIMER_HANDLE: number;
   private static soundCycler: SoundCycler;
-  private static soundSubscription: Subscription;
+  private static soundTimerHandle: number;
 
 
   leftImage: string;// = StartWithSurveyOption.cycler.currentImage.src;
@@ -73,19 +72,13 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
         return survey.id == 'default';
       })
     });
+    this.clearTimerHandles();
     this.setupImageHandling();
     this.setupSoundHandling();
   }
 
   ngOnDestroy(){
-    if (StartWithSurveyOption.imageSubscription) {
-      StartWithSurveyOption.imageSubscription.unsubscribe();
-      StartWithSurveyOption.cycler.ngOnDestroy();
-    }
-    if (StartWithSurveyOption.soundSubscription) {
-      StartWithSurveyOption.soundSubscription.unsubscribe();
-      StartWithSurveyOption.soundCycler.ngOnDestroy();
-    }
+    this.clearTimerHandles();
   }
 
   gotoLogin() {
@@ -138,9 +131,10 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
       div.appendChild(next);
     }
     setImage(cycler.currentObject);
-    StartWithSurveyOption.imageSubscription = cycler.onNewObj.subscribe((next: HTMLImageElement)=> {
+    StartWithSurveyOption.imageTimerHandle = setInterval(()=>{
+      let next: HTMLImageElement = cycler.currentObject;
       setImage(next);
-    });
+    }, 15 * 1000);
   }
 
   private setupSoundHandling() {
@@ -151,15 +145,16 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
     }
     this.createSoundCyclerIfNecessary(intervalMinutes);
     let cycler = StartWithSurveyOption.soundCycler;
-    StartWithSurveyOption.soundSubscription = cycler.onNewObj.subscribe((id: string)=> {
-      NativeAudio.play(id, ()=>{} /* Nothing to do on completion */)
-        .then(()=>{
+    StartWithSurveyOption.soundTimerHandle = setInterval(()=> {
+      let id = cycler.currentObject;
+      NativeAudio.play(id, ()=> {} /* Nothing to do on completion */)
+        .then(()=> {
           Utils.info("Played sound {0}", id);
         })
-        .catch((err)=>{
+        .catch((err)=> {
           Utils.error("Unable to play sound {0}, due to {1}", id, err);
         })
-    });
+    }, (intervalMinutes || 1) * 60 * 1000);
   }
 
   private createSoundCyclerIfNecessary(intervalMinutes: number) {
@@ -191,6 +186,15 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
         'https://s3.amazonaws.com/revvolveapp/quotes/quote5.jpg',
         'https://s3.amazonaws.com/revvolveapp/quotes/quote2.jpg',
       );
+    }
+  }
+
+  private clearTimerHandles() {
+    if (StartWithSurveyOption.imageTimerHandle) {
+      clearInterval(StartWithSurveyOption.imageTimerHandle);
+    }
+    if (StartWithSurveyOption.soundTimerHandle) {
+      clearInterval(StartWithSurveyOption.soundTimerHandle);
     }
   }
 }

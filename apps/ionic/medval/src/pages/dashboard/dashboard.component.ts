@@ -51,52 +51,8 @@ export class DashboardComponent extends AdminComponent {
   ngOnInit() {
     super.ngOnInit();
 
-    this.staffSvc.list(true/*don't use cache*/)
-      .then((list: Staff[]) => {
-        if (list && list.length > 0) {
-          return;
-        }
-        Utils.presentInvalidEntryAlert(
-          this.alertCtrl,
-          "Important Tip!",
-          "If you setup your staff members, additional screens will show up in the " +
-          "long term survey and you can access reports on how your staff are evaluated in survey data! " +
-          "We highly recommend you setup your staff members!",
-          "bighelp");
-      })
-      .catch((err)=>{
-        Utils.presentTopToast(this.toastCtrl, HelpMessages.get('UNEXPECTED_INTERNAL_ERROR'), 10 * 1000);
-      })
-    this.accSvc.get(Config.CUSTOMERID)
-      .then((account: Account)=> {
-        let thingsToSay = [];
-        if (!account.properties.configuration.SWEEPSTAKES_SHOW_WHEEL) {
-          thingsToSay.push(`Consider enabling the Wheel of Fortune game. It's a great incentive for patients 
-            to keep coming back and give you more reviews! You can set this up on the Account Settings page.`);
-        }
-        if (!ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_FACEBOOK)) {
-          thingsToSay.push(`Consider adding a valid Facebook page URL on the Account Settings page so we can start helping your happy patients provide Facebook reviews!`);
-        }
-        if (!ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_GOOGLE)) {
-          thingsToSay.push(`Consider adding a valid Google review URL on the Account Settings page so we can start helping your happy patients provide Google reviews!`);
-        }
-        if (!ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_YELP)) {
-          thingsToSay.push(`Consider adding a valid Yelp review URL on the Account Settings page so we can start helping your happy patients provide Yelp reviews!`);
-        }
-        if (thingsToSay.length == 0) {
-          return;
-        }
-        Utils.presentInvalidEntryAlert(
-          this.alertCtrl,
-          "Important Tip!",
-          `Visit the Account Settings page and configure this App and take full advantage of it!
-            <ol>` + thingsToSay.map((item: string)=> {return ['<li>', item, '</li>'].join('')}).join("") + `</ol>`,
-          'bighelp');
-      })
-      .catch((err)=>{
-        Utils.presentTopToast(this.toastCtrl, HelpMessages.get('UNEXPECTED_INTERNAL_ERROR'), 10 * 1000);
-      });
-
+    this.dispatchAlertTipForAccountSettings();
+    this.dispatchAlertTipForStaffSettings();
   }
 
   showHelp() {
@@ -118,7 +74,15 @@ export class DashboardComponent extends AdminComponent {
           me.alertCtrl,
           ((data)=> {
             let verificationCode = data.verificationCode;
-            cognitoUser.verifyAttribute('email', verificationCode, this);
+
+            cognitoUser.verifyAttribute('email', verificationCode, {
+              onFailure(err) {
+                Utils.presentInvalidEntryAlert(me.alertCtrl, 'Problems...', 'Could not verify your code: ' + err.message);
+              },
+              onSuccess() {
+                Utils.presentInvalidEntryAlert(me.alertCtrl, 'Email Verified!', 'If you forget your password, you can now request a new password with your username!');
+              }
+            });
           }),
           "Please check your registered email address and input the verification code we just sent to you!",
           [{name: "verificationCode", label: 'Verification Code'}]);
@@ -178,6 +142,62 @@ export class DashboardComponent extends AdminComponent {
 
   private setRoot(component) {
     Utils.setRoot(this.navCtrl, component);
+  }
+
+  private dispatchAlertTipForAccountSettings() {
+    setTimeout(()=>{
+      this.accSvc.get(Config.CUSTOMERID)
+        .then((account: Account)=> {
+          let thingsToSay = [];
+          if (!account.properties.configuration.SWEEPSTAKES_SHOW_WHEEL) {
+            thingsToSay.push(`Consider enabling the Wheel of Fortune game. It's a great incentive for patients 
+            to keep coming back and give you more reviews! You can set this up on the Account Settings page.`);
+          }
+          if (!ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_FACEBOOK)) {
+            thingsToSay.push(`Consider adding a valid Facebook page URL on the Account Settings page so we can start helping your happy patients provide Facebook reviews!`);
+          }
+          if (!ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_GOOGLE)) {
+            thingsToSay.push(`Consider adding a valid Google review URL on the Account Settings page so we can start helping your happy patients provide Google reviews!`);
+          }
+          if (!ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_YELP)) {
+            thingsToSay.push(`Consider adding a valid Yelp review URL on the Account Settings page so we can start helping your happy patients provide Yelp reviews!`);
+          }
+          if (thingsToSay.length == 0) {
+            return;
+          }
+          Utils.presentInvalidEntryAlert(
+            this.alertCtrl,
+            "Important Tip!",
+            `Visit the Account Settings page and configure this App and take full advantage of it!
+            <ol>` + thingsToSay.map((item: string)=> {return ['<li>', item, '</li>'].join('')}).join("") + `</ol>`,
+            'bighelp');
+        })
+        .catch((err)=>{
+          Utils.presentTopToast(this.toastCtrl, HelpMessages.get('UNEXPECTED_INTERNAL_ERROR'), 10 * 1000);
+        });
+
+    }, 2 * 1000)
+  }
+
+  private dispatchAlertTipForStaffSettings() {
+    setTimeout(()=>{
+      this.staffSvc.list(true/*don't use cache*/)
+        .then((list: Staff[]) => {
+          if (list && list.length > 0) {
+            return;
+          }
+          Utils.presentInvalidEntryAlert(
+            this.alertCtrl,
+            "Important Tip!",
+            "If you setup your staff members, additional screens will show up in the " +
+            "long term survey and you can access reports on how your staff are evaluated in survey data! " +
+            "We highly recommend you setup your staff members!",
+            "bighelp");
+        })
+        .catch((err)=>{
+          Utils.presentTopToast(this.toastCtrl, HelpMessages.get('UNEXPECTED_INTERNAL_ERROR'), 10 * 1000);
+        })
+    }, 4 * 1000);
   }
 }
 

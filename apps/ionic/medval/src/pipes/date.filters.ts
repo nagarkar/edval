@@ -26,10 +26,15 @@ export class RevvolveDatePipe implements PipeTransform {
   }
 
   getHourString(hours: number): string {
-    if (hours >= 11) {
-      return "" + (hours + 1) + " PM";
-    } else {
-      return "" + (hours + 1) + " AM";
+    if (hours == 0) {
+      return 12 + " AM hour";
     }
+    if (hours == 12) {
+      return 12 + " PM hour";
+    }
+    if (hours > 12) {
+      return (hours - 12) + " PM hour";
+    }
+    return hours + " AM hour";
   }
 }

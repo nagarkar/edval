@@ -7,7 +7,7 @@
  */
 import {Component} from "@angular/core";
 import {AdminComponent} from "../admin.component";
-import {NavController, AlertController, ToastController} from "ionic-angular";
+import {NavController, AlertController, ToastController, Toggle} from "ionic-angular";
 import {SessionFollowupService} from "../../services/followup/delegator";
 import {SessionFollowup, FollowupTaskState, TaskNames} from "../../services/followup/schema";
 import {Utils} from "../../shared/stuff/utils";
@@ -25,7 +25,6 @@ export class FollowupPage extends AdminComponent {
   section: string = 'automatic';
   list: SessionFollowup[] = [];
   followupsByTaskName: Map<string, SessionFollowup[]> = new Map<string, SessionFollowup[]>();
-  changes: {} = {};
 
   constructor(
     navCtrl: NavController,
@@ -78,10 +77,6 @@ export class FollowupPage extends AdminComponent {
     Utils.showHelp(this.alertCtrl, item, 'bighelp');
   }
 
-  getHelp(item: string) {
-    return HelpMessages.getMessageFor(item);
-  }
-
   isComplete(fp: SessionFollowup): boolean {
     return fp.taskState == FollowupTaskState.COMPLETE;
   }
@@ -105,24 +100,28 @@ export class FollowupPage extends AdminComponent {
     return fp.taskState == FollowupTaskState.INITIATED || this.isComplete(fp);
   }
 
-  setComplete(fp: SessionFollowup){
-    let changedFp = this.changes[fp.compositeKey];
-    if (!changedFp) {
-      changedFp = {}
+  setComplete(fp: SessionFollowup, event: Toggle){
+    fp['touched'] = !fp['touched'];
+    if (event.checked) {
+      fp.taskState = FollowupTaskState.COMPLETE;
+    } else {
+      fp.taskState = FollowupTaskState.NOT_INITIATED;
     }
-    changedFp.taskState = FollowupTaskState.COMPLETE;
-    this.changes[fp.compositeKey] = changedFp;
   }
 
-  saveChanges() {
-    this.list.forEach((fp: SessionFollowup)=>{
-      let key = fp.compositeKey;
-      let changedFp = this.changes[key];
-      if (!changedFp) {
-        return;
+  saveChanges(taskName: string) {
+    let arr: SessionFollowup[] = this.followupsByTaskName.get(taskName);
+    if (!arr) {
+      return;
+    }
+    arr.forEach((fp: SessionFollowup)=>{
+      if (fp['touched']) {
+        delete fp['touched'];
+        this.svc.update(fp)
+          .then(()=>{
+            Utils.presentTopToast(this.toastCtrl, "Saved Changes", 4 * 1000);
+          });
       }
-      Object.assign(fp, changedFp);
-      this.svc.update(fp);
     });
   }
 }

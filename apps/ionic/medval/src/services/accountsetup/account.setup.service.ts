@@ -15,11 +15,13 @@ export class AccountSetupService {
 
   private http: HttpClient<boolean>;
   private httpA: HttpClient<AccountSetup>;
+  private httpString: HttpClient<string>;
 
   constructor(http: Http) {
 
     this.http = new HttpClient<boolean>(http);
     this.httpA = new HttpClient<AccountSetup>(http);
+    this.httpString = new HttpClient<string>(http);
   }
 
   userexists(username: string): Promise<boolean> {
@@ -35,13 +37,13 @@ export class AccountSetupService {
   }
 
   forgotPassword(username: string): Promise<string> {
-    return this.httpA.get("/api/accountsetup/forgotpassword", username);
+    return this.httpString.get("/api/accountsetup/forgotpassword", username);
   }
 }
 
 export interface AccountSetup {
   customer: Account;
-  emailAddress?: string;
-  phoneNumber: string;
+  emailAddress: string;
+  phoneNumber?: string;
   userName: string
 }

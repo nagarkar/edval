@@ -8,7 +8,7 @@
           <h4 ion-text padding color="darkslateblue" style="border-color: rgba(54, 39, 174, 0.33)">
             An Online Review would be a great way to help them make more wonderful smiles!
           </h4>
-          <h6 ion-text color="black" class="m-t-0">Pick your favorite site (Google, Yelp or Facebook)!</h6>
+          <h6 *ngIf="showFacebook || showGoogle || showYelp" ion-text color="black" class="m-t-0">Pick your favorite site (Google, Yelp or Facebook)!</h6>
         </ion-col>
       </ion-row>
       <ion-row *ngIf="showFacebook || showGoogle || showYelp" class="separator-bottom">
@@ -35,7 +35,7 @@
       <ion-col width-80>
         <ion-item>
             <ion-label padding ion-text color="black" style="margin-top:0em; padding-left: 0em;font-size: 1.5em;" stacked>
-              Optionally, leave direct feedback for the team!
+              You can also leave direct feedback for the team!
             </ion-label>
             <ion-textarea rows="5" name="reviewMsg" class="feedback-text" placeholder="Be specific if you like, or just say 'Great Job!'" [(ngModel)]="reviewMsg">
             </ion-textarea>

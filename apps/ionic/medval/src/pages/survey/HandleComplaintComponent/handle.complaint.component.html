@@ -12,14 +12,8 @@
       </ion-col>
       <ion-col text-center>
         <h1 *ngIf="title" class="m-b-1 .m-t-0p5"><b>{{title | sReplacer}}</b></h1>
-        <h2 *ngIf="title" class="font-40">
-          We're sorry if you had a bad experience
-        </h2>
-        <h1 *ngIf="!title" class="m-b-1 .m-t-0p5">
-          <b>We're sorry if you had a bad experience</b>
-        </h1>
         <h3 class="m-t-1 font-40">
-          {{ account.properties.contactName + " can follow-up with you"}}
+          {{"Would it be ok if " + account.properties.contactName + " followed up with you?"}}
         </h3>
         <ion-row responsive-sm>
           <ion-col width-60>

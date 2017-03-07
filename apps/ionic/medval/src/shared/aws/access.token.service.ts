@@ -164,7 +164,7 @@ export class AccessTokenService {
         Utils.presentAlertPrompt(
           me.alertCtrl,
           (data) => {
-            me._cognitoUser.completeNewPasswordChallenge(data.password, {"email": data.email}, {
+            me._cognitoUser.completeNewPasswordChallenge(data.password, {}, {
               onSuccess: function(session) {
                 me.handleSuccessfullAuthentication(session, internalCallback);
               },
@@ -173,16 +173,13 @@ export class AccessTokenService {
               }
             });
           },
-          "Please choose a new password",
+          "Choose a new password",
           [
             {
               name: 'password',
+              type: 'password',
               placeholder: 'New Password:'
             },
-            {
-              name: 'email',
-              placeholder: 'Your Email Address:'
-            }
           ]);
       },
       mfaRequired: function(codeDeliveryDetails) {

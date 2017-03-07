@@ -40,7 +40,7 @@ export class HandleComplaintComponent extends SurveyPage {
 
   complaintForm: FormGroup;
 
-  title: string = 'Did something go wrong?';
+  title: string = "We're sorry you didn't have a great experience...";
   image: string = this.images[0];
   account: Account = new Account();
 

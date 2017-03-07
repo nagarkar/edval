@@ -2,76 +2,68 @@
 <mdval-header *ngIf="!isEdit" title="Setup New Administrator Account and Organization"></mdval-header>
 <ion-content class="rev-form" padding>
   <div class="m-t-4" *ngIf="!isEdit">
-    <ion-title>Please provide an administrator username and email address.</ion-title>
-    <h6>We will send you an email with a temporary password for this username.</h6>
     <ion-grid>
       <ion-row>
         <ion-col width-33>
-          <ion-label item-left>Username</ion-label>
+          <ion-label (tap)="showHelp('account.username')" item-left>Username&nbsp;&nbsp;&nbsp;<ion-icon name="help-circle"></ion-icon></ion-label>
         </ion-col>
         <ion-col>
           <ion-input #focusField item-right [(ngModel)]="username"></ion-input>
+          <div *ngIf="isRequired('account.username')" class="alert">Required (case insensitive, no spaces)</div>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col width-33>
-          <ion-label item-left>Phone Number </ion-label>
-        </ion-col>
-        <ion-col>
-          <ion-input item-right placeholder="(255) 555-3333" [ngModel]="phoneNumber | phoneFormat" (ngModelChange)="phoneNumber=$event"></ion-input>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col width-33>
-          <ion-label item-left>Email Address</ion-label>
+          <ion-label (tap)="showHelp('account.email')" item-left>Email Address&nbsp;&nbsp;&nbsp;<ion-icon name="help-circle"></ion-icon></ion-label>
         </ion-col>
         <ion-col>
           <ion-input item-right [(ngModel)]="email"></ion-input>
+          <div *ngIf="isRequired('account.email')" class="alert">Required</div>
         </ion-col>
       </ion-row>
     </ion-grid>
   </div>
-  <div class="m-t-2">
-    <div *ngIf="!isEdit">
-      <ion-title>Please provide information about your organization. All fields are required.</ion-title>
-    </div>
+  <div [ngClass]="{'m-t-4': isEdit}">
     <ion-grid>
       <ion-row>
         <ion-col width-33>
-          <ion-label>Organization ID</ion-label>
+          <ion-label (tap)="showHelp('account.customerId')">Organization ID&nbsp;&nbsp;&nbsp;<ion-icon name="help-circle"></ion-icon></ion-label>
         </ion-col>
         <ion-col>
           <ion-input [disabled]="isEdit" [(ngModel)]="account.customerId"></ion-input>
+          <div *ngIf="isRequired('account.customerId')" class="alert">Required (no spaces)</div>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col width-33>
-          <ion-label>Organization Type</ion-label>
+          <ion-label (tap)="showHelp('account.properties.verticalId')">Organization Type&nbsp;&nbsp;&nbsp;<ion-icon name="help-circle"></ion-icon></ion-label>
         </ion-col>
         <ion-col>
           <ion-select class="rev-select" [disabled]="isEdit" [(ngModel)]="account.properties.verticalId">
             <div *ngFor="let vertical of verticals">
               <ion-option value="{{vertical.key}}" selected="{{account.properties.verticalId == vertical.key}}">{{vertical.value}}</ion-option>
+              <div *ngIf="isRequired('account.properties.verticalId')" class="alert">Required</div>
             </div>
           </ion-select>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col width-33>
-          <ion-label>Organization Name</ion-label>
+          <ion-label (tap)="showHelp('account.properties.customerName')">Organization Name&nbsp;&nbsp;&nbsp;<ion-icon name="help-circle"></ion-icon></ion-label>
         </ion-col>
         <ion-col>
           <ion-input placeholder="Acme Inc." [(ngModel)]="account.properties.customerName"></ion-input>
-          <div *ngIf="account.isInvalid()" class="alert">Required</div>
+          <div *ngIf="isRequired('account.properties.customerName')" class="alert">Required</div>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col width-33>
-          <ion-label>Primary Contact Name</ion-label>
+          <ion-label (tap)="showHelp('account.properties.contactName')">Primary Contact Name&nbsp;&nbsp;&nbsp;<ion-icon name="help-circle"></ion-icon></ion-label>
         </ion-col>
         <ion-col>
           <ion-input placeholder="The responsible employee or the owner"
                [(ngModel)]="account.properties.contactName"></ion-input>
+          <div *ngIf="isRequired('account.properties.contactName')" class="alert">Required</div>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -193,7 +185,7 @@
     </ion-grid>
   </div>
   <div padding text-center>
-    <button [disabled]="isInvalid()" ion-button color="revvolve" type="submit"
+    <button ion-button color="revvolve" type="submit"
             (tap)="navigate()">{{isEdit? 'Done' : 'Create Account'}}</button>
   </div>
 </ion-content>

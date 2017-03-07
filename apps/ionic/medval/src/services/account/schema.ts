@@ -68,13 +68,6 @@ export class Account {
     return this.properties.configuration.STANDARD_ROLES.split(',');
   }
 
-  isInvalid() {
-    let nou = Utils.nullOrEmptyString;
-    return nou(this.customerId) ||
-      nou(this.properties.customerName) ||
-      nou(this.properties.verticalId);
-  }
-
   static ORTHODONTIC_CLINIC: string = "OrthodonticClinic";
 
   static StandardConfiguration: any = {

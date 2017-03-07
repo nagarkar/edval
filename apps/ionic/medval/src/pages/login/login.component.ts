@@ -92,42 +92,53 @@ export class LoginComponent {
     var me = this;
     Utils.presentAlertPrompt(this.alertCtrl, ((data)=>{
       let username = data.username;
-      let userPool =
-        new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(Config.POOL_DATA);
+      let userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(Config.POOL_DATA);
       let cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser({
         Username : username,
         Pool : userPool
       });
       this.accSetupSvc.forgotPassword(username)
         .then((result: string) => {
-          // Please user the reset code in the email or phone number you registered. This as your password
-          Utils.presentInvalidEntryAlert(this.alertCtrl, "Reset your password", result);
+          // never invoked due to teh bad way backend is implemented.
         })
         .catch((err)=> {
           if (err && Utils.stringify(err).toLowerCase().indexOf("error") >=0){
-            Utils.presentInvalidEntryAlert(this.alertCtrl, "Error", err);
+            Utils.presentInvalidEntryAlert(me.alertCtrl, "Problems...", err);
+            return;
           }
-          else {
-            Utils.presentAlertPrompt(
-              me.alertCtrl,
-              ((data)=> {
-                let verificationCode = data.verificationCode;
-                let newPassword = data.newPassword;
-                cognitoUser.confirmPassword(verificationCode, newPassword,  {
-                  onSuccess: function (result) {
-                    Utils.presentInvalidEntryAlert(me.alertCtrl, "Done");
-                  },
-                  onFailure: function (err) {
-                    Utils.presentInvalidEntryAlert(me.alertCtrl, "Error", err);
-                  }
-                });
-              }),
-              "Verification Code and Password",
-              [{name: "verificationCode", label: 'Verification Code'}, {name: "newPassword", label: 'New Password'}],
-              "Please check your registered email address and input the verification code we just sent to you, along with the new password!");
-          }
+          Utils.presentAlertPrompt(
+            me.alertCtrl,
+            ((data)=> {
+              let verificationCode = data.verificationCode;
+              Utils.presentAlertPrompt(
+                me.alertCtrl,
+                ((passwordData)=> {
+                  me.tryNewPassword(username, cognitoUser, verificationCode, passwordData.newPassword);
+                }),
+                'Please pick a new password',
+                [{name: "newPassword", type: 'password', label: 'New Password'}]);
+            }),
+            "Provide Verification Code",
+            [{name: "verificationCode", type:'number', label: 'Verification Code'}],
+            "The verification code was just sent to your registered email address");
         })
-    }), 'Provide your username', [{name: "username", label: 'User Name'}]);
+    }), 'What is your username', [{name: "username", label: 'User Name'}]);
+  }
+
+  tryNewPassword(username: string, cognitoUser: any, verificationCode: string, newPassword: string) {
+    var me = this;
+    cognitoUser.confirmPassword(verificationCode, newPassword,  {
+      onSuccess: function (result) {
+        SpinnerDialog.show();
+        setTimeout(()=>{
+          me.loginWithCreds(username, newPassword);
+        }, 50);
+
+      },
+      onFailure: function (err) {
+        Utils.presentInvalidEntryAlert(me.alertCtrl, "Problems...", err);
+      }
+    });
   }
 
   login() {
@@ -152,7 +163,7 @@ export class LoginComponent {
         }
         if(err) {
           Utils.error("LoginComponent.login().startNewSession:" + err);
-          Utils.presentTopToast(this.toastCtrl, "Login Failed with error: " + err + ". Please try again!");
+          Utils.presentTopToast(this.toastCtrl, "Login Failed with error: " + err);
           SpinnerDialog.hide();
         }
       });

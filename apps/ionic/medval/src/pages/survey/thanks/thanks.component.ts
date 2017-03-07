@@ -53,8 +53,8 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
   );
   private imageSubscription: Subscription;
 
-  private static thanksSounds: string[] = ['assets/mp3/aryathanks.mp3', 'assets/mp3/arhantthanks.mp3'];
-  private static playSounds: string[] = ['assets/mp3/aryaspin.mp3', 'assets/mp3/arhantspin.mp3'];
+  private static thanksSounds: string[] = ['assets/mp3/aryathanks.mp3' /*, 'assets/mp3/arhantthanks.mp3'*/];
+  private static playSounds: string[] = ['assets/mp3/aryaspin.mp3'/*, 'assets/mp3/arhantspin.mp3'*/];
 
   private static soundsInitialized: boolean;
 
@@ -237,7 +237,7 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
     }
     this.showWheel = Utils.isStringBooleanTrue(config.SWEEPSTAKES_SHOW_WHEEL) || this.showWheel;
     if (this.shouldOfferWheel) {
-      sounds.push(Utils.randomElement(ThanksComponent.playSounds));
+      sounds.push(ThanksComponent.playSounds[0]/*Utils.randomElement(ThanksComponent.playSounds)*/);
       this.costPerUse = +config.SWEEPSTAKES_COST_PER_USE || 1;
       this.award = +config.SWEEPSTAKES_AWARD_AMOUNT || 5;
       this.giftMessage = ["$", this.award, ' Gift Card!'].join('');
@@ -256,7 +256,7 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
   private setupMessagesAndAttractions(): Promise<any> {
     let isPromoterOrMiddle = (new AnyDetractors().execute(this.sessionSvc.surveyNavigator, {}) == "false");
     let sounds: string[] = [];
-    sounds.push(Utils.randomElement(ThanksComponent.thanksSounds));
+    sounds.push(ThanksComponent.thanksSounds[0]/*Utils.randomElement(ThanksComponent.thanksSounds)*/);
 
     if (isPromoterOrMiddle) {
       this.setupAttractions(sounds);
