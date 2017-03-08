@@ -77,7 +77,7 @@ export class DeviceServices {
       })
       .catch((err)=>{
         if (err.code == 2) { // item Not found
-          return Promise.resolve(null);
+          return null;
         }
         throw err;
       });

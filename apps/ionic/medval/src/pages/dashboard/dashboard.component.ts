@@ -183,6 +183,8 @@ export class DashboardComponent extends AdminComponent {
 
         }, 2 * 1000)
       }
+    }).catch((err)=>{
+      Utils.error("Error in process tip for account settings, {0}", err);
     })
 
   }
@@ -208,6 +210,8 @@ export class DashboardComponent extends AdminComponent {
             })
         }, 4 * 1000);
       }
+    }).catch((err)=>{
+      Utils.error("Error in process tip for staff settings, {0}", err);
     })
   }
 
@@ -221,6 +225,8 @@ export class DashboardComponent extends AdminComponent {
           )
         }, 4 * 1000);
       }
+    }).catch((err)=>{
+      Utils.error("Error in process tip for gettng started settings, {0}", err);
     })
   }
 
