@@ -61,6 +61,9 @@ export class AccessTokenService {
     password : string,
     externalCallback: (result: AuthResult, err: any)=> void) {
 
+    if(this.currentlyLoggingIn()) {
+      return;
+    }
     this.tryStartNewSession(username, password, externalCallback);
   }
 
@@ -177,7 +180,12 @@ export class AccessTokenService {
               type: 'password',
               placeholder: 'New Password:'
             },
-          ]);
+          ],
+          null /* Message */,
+          (data: any)=>{
+            // Cancel handler
+            me.resetLoginErrors();
+          });
       },
       mfaRequired: function(codeDeliveryDetails) {
         // MFA is required to complete user authentication.
@@ -257,6 +265,10 @@ export class AccessTokenService {
 
   private incrementLoginErrors() {
     this.loginErrors++;
+  }
+
+  private currentlyLoggingIn() : boolean {
+    return this.loginErrors !== undefined;
   }
 
   private initState() {

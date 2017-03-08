@@ -321,9 +321,10 @@ export class Utils {
   static presentAlertPrompt (
     alertCtrl: AlertController,
     onselect: (result: string | any) => void,
-    title?: string,
-    inputs?: Array<AlertInputOptions>,
-    message?: string): Alert {
+    title: string,
+    inputs: Array<AlertInputOptions>,
+    message?: string,
+    cancelhandler?: (param: any)=> any): Alert {
 
     let alert = alertCtrl.create({
       title: title || '',
@@ -334,6 +335,9 @@ export class Utils {
           text: 'Cancel',
           role: 'cancel',
           handler: (data: any) => {
+            if (cancelhandler) {
+              cancelhandler(data);
+            }
           }
         },
         {

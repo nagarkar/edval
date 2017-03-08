@@ -110,7 +110,7 @@ export class LoginComponent {
                 ((passwordData)=> {
                   me.tryNewPassword(username, cognitoUser, verificationCode, passwordData.newPassword);
                 }),
-                'Please pick a new password',
+                "Please pick a new password",
                 [{name: "newPassword", type: 'password', label: 'New Password'}]);
             }),
             "Provide Verification Code",
