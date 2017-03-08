@@ -44,10 +44,14 @@ export class LoginComponent {
     private accSetupSvc: AccountSetupService,
     private authProvider: AccessTokenService) {
 
-    if (authProvider.supposedToBeLoggedIn()) {
-      Utils.info("Login Attempt while already logged in");
+    try {
+      if (authProvider.supposedToBeLoggedIn()) {
+        Utils.info("Login Attempt while already logged in");
+      }
+      authProvider.resetLoginErrors();
+    } catch(err) {
+      Utils.error("Error in LoginComponent.constructor {0}", err);
     }
-    authProvider.resetLoginErrors();
   }
 
   private static soundTimerHandle: number;
@@ -62,8 +66,12 @@ export class LoginComponent {
   static MUSIC_PRELOADED: boolean = false;
 
   ngOnInit() {
-    this.clearTimerHandles();
-    this.setupSoundHandling();
+    try {
+      this.clearTimerHandles();
+      this.setupSoundHandling();
+    } catch(err){
+      Utils.error("Error in LoginComponent.ngOnInit {0}", err);
+    }
   }
 
   ngOnDestroy() {
@@ -245,7 +253,7 @@ export class LoginComponent {
 
   private preloadSoundIfNecessary(): Promise<any> {
     if (LoginComponent.MUSIC_PRELOADED) {
-      return;
+      return Promise.resolve();
     }
     let id = LoginComponent.MUSIC_ID;
     return NativeAudio.preloadSimple(id, id)

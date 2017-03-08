@@ -26,7 +26,11 @@ export abstract class AdminComponent implements OnInit {
   }
 
   ngOnInit() {
-    Utils.logoutIfNecessary(this.navCtrl, this.http);
+    try {
+      Utils.logoutIfNecessary(this.navCtrl, this.http);
+    } catch(err) {
+      Utils.error("Error in AdminComponent.ngOnInit {0}", err);
+    }
   }
 
   handleErrorAndCancel(err: any) {

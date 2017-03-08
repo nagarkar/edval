@@ -53,10 +53,13 @@ export class DashboardComponent extends AdminComponent {
 
   ngOnInit() {
     super.ngOnInit();
-
-    this.dispatchAlertTipForAccountSettings();
-    this.dispatchAlertTipForStaffSettings();
-    this.dispatchAlertTipForGettingStarted();
+    try {
+      this.dispatchAlertTipForAccountSettings();
+      this.dispatchAlertTipForStaffSettings();
+      this.dispatchAlertTipForGettingStarted();
+    } catch(err) {
+      Utils.error("Error in DashboardComponent.ngOnInit {0}", err);
+    }
   }
 
   verifyEmail() {
@@ -237,12 +240,16 @@ export class DashboardComponent extends AdminComponent {
       message: message,
       buttons: [
         {
-          text: 'Remind me next time'
+          text: 'Remind me next time',
+          role: 'cancel'
         },
         {
           text: "Don't show me this again",
           handler: ()=>{
             DeviceServices.setItem(tipName, true)
+              .then(()=>{
+                Utils.presentTopToast(this.toastCtrl, "Saved user setting", 1 * 1000);
+              })
               .catch((err)=>{
                 Utils.presentTopToast(this.toastCtrl, "Could not save user setting", 1 * 1000);
               });
