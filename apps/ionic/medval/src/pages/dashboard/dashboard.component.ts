@@ -54,9 +54,13 @@ export class DashboardComponent extends AdminComponent {
   ngOnInit() {
     super.ngOnInit();
     try {
-      this.dispatchAlertTipForAccountSettings();
-      this.dispatchAlertTipForStaffSettings();
-      this.dispatchAlertTipForGettingStarted();
+      if (Math.random() > 0.5) {
+        this.dispatchAlertTipForAccountSettings();
+      } else if (Math.random() > 0.5) {
+        this.dispatchAlertTipForStaffSettings();
+      } else if (Math.random() > 0.5) {
+        this.dispatchAlertTipForGettingStarted();
+      }
     } catch(err) {
       Utils.error("Error in DashboardComponent.ngOnInit {0}", err);
     }
