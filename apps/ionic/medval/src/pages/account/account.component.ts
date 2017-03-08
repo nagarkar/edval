@@ -57,7 +57,16 @@ export class AccountComponent extends AdminComponent {
 
   account: Account = new Account();
 
-  username:string;
+  private _username: string;
+  set username(value:string) {
+    if (Utils.nullOrEmptyString(value)){
+      return;
+    }
+    this._username = value.toLowerCase().trim();
+  }
+  get username() {
+    return this._username;
+  }
 
   phoneNumber: string;
 

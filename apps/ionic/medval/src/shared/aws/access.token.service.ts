@@ -163,14 +163,18 @@ export class AccessTokenService {
         // User was signed up by an admin and must provide new
         // password and required attributes, if any, to complete
         // authentication.
+        Utils.hideSpinner();
         Utils.presentAlertPrompt(
           me.alertCtrl,
           (data) => {
+            Utils.showSpinner()
             me._cognitoUser.completeNewPasswordChallenge(data.password, {}, {
               onSuccess: function(session) {
+                Utils.hideSpinner();
                 me.handleSuccessfullAuthentication(session, internalCallback);
               },
               onFailure: function(error) {
+                Utils.hideSpinner();
                 me.call(internalCallback, null, error);
               }
             });
@@ -186,12 +190,14 @@ export class AccessTokenService {
           null /* Message */,
           (data: any)=>{
             // Cancel handler
+            Utils.hideSpinner();
             me.resetLoginErrors();
           });
       },
       mfaRequired: function(codeDeliveryDetails) {
         // MFA is required to complete user authentication.
         // Get the code from user and call
+        Utils.hideSpinner();
         alert('mfa required');
       }
     });
