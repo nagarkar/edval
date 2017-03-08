@@ -95,6 +95,38 @@ export class LoginComponent {
         Username : username,
         Pool : userPool
       });
+      cognitoUser.forgotPassword({
+        onSuccess: function (result) {
+          Utils.info('Forgotpassword call result: ' + result);
+        },
+        onFailure: function(err) {
+          Utils.presentTopToast(me.toastCtrl, "Error when calling forgotPassword");
+        },
+        inputVerificationCode() {
+          Utils.presentAlertPrompt(
+            me.alertCtrl,
+            ((data)=> {
+              let verificationCode = data.verificationCode;
+              if (Utils.nullOrEmptyString(verificationCode)) {
+                return false;
+              }
+              Utils.presentAlertPrompt(
+                me.alertCtrl,
+                ((passwordData)=> {
+                  if (Utils.nullOrEmptyString(passwordData.newPassword)) {
+                    return false;
+                  }
+                  me.tryNewPassword(username, cognitoUser, verificationCode.trim(), passwordData.newPassword.trim());
+                }),
+                "Please pick a new password",
+                [{name: "newPassword", type: 'password', label: 'New Password'}]);
+            }),
+            "Provide Verification Code",
+            [{name: "verificationCode", type:'number', label: 'Verification Code'}],
+            "The verification code was just sent to your registered email address");
+        }
+      });
+      /*
       this.accSetupSvc.forgotPassword(username)
         .then((result: string) => {
           // never invoked due to teh bad way backend is implemented.
@@ -126,6 +158,7 @@ export class LoginComponent {
             [{name: "verificationCode", type:'number', label: 'Verification Code'}],
             "The verification code was just sent to your registered email address");
         })
+      */
     }), 'What is your username', [{name: "username", label: 'User Name'}]);
   }
 
