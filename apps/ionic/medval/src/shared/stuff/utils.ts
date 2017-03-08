@@ -336,7 +336,7 @@ export class Utils {
           role: 'cancel',
           handler: (data: any) => {
             if (cancelhandler) {
-              cancelhandler(data);
+              cancelhandler(data); // Don't return here, since we don't ever want to get stuck in cancel.
             }
           }
         },
@@ -344,7 +344,7 @@ export class Utils {
           text: 'Save',
           handler: (data: any) => {
             if (onselect) {
-              onselect(data);
+              return onselect(data); // Returning false here results in not dismissing the control.
             }
           }
         }

@@ -87,6 +87,9 @@ export class LoginComponent {
     var me = this;
     Utils.presentAlertPrompt(this.alertCtrl, ((data)=>{
       let username = data.username;
+      if (Utils.nullOrEmptyString(username)) {
+        return false;
+      }
       let userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(Config.POOL_DATA);
       let cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser({
         Username : username,
@@ -105,10 +108,16 @@ export class LoginComponent {
             me.alertCtrl,
             ((data)=> {
               let verificationCode = data.verificationCode;
+              if (Utils.nullOrEmptyString(verificationCode)) {
+                return false;
+              }
               Utils.presentAlertPrompt(
                 me.alertCtrl,
                 ((passwordData)=> {
-                  me.tryNewPassword(username, cognitoUser, verificationCode, passwordData.newPassword);
+                  if (Utils.nullOrEmptyString(passwordData.newPassword)) {
+                    return false;
+                  }
+                  me.tryNewPassword(username, cognitoUser, verificationCode.trim(), passwordData.newPassword.trim());
                 }),
                 "Please pick a new password",
                 [{name: "newPassword", type: 'password', label: 'New Password'}]);
