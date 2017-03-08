@@ -16,6 +16,7 @@ import {AccountSetupService} from "../../services/accountsetup/account.setup.ser
 import {Config} from "../../shared/config";
 import {Validators, FormControl, FormGroup} from "@angular/forms";
 import {SpinnerDialog, NativeAudio, Device} from "ionic-native";
+import {HelpPage} from "../dashboard/help/help.page";
 
 declare let AWSCognito:any;
 declare let AWS:any;
@@ -49,34 +50,24 @@ export class LoginComponent {
     authProvider.resetLoginErrors();
   }
 
-  static MUSIC_INTERVAL_HANDLE: number;
+  private static soundTimerHandle: number;
+
+  private clearTimerHandles() {
+    if (LoginComponent.soundTimerHandle) {
+      clearInterval(LoginComponent.soundTimerHandle);
+    }
+  }
+
   static MUSIC_ID: string = "assets/mp3/bingbong.mp3";
   static MUSIC_PRELOADED: boolean = false;
-  ngOnInit() {
-    let musicId = LoginComponent.MUSIC_ID;
-    if (!LoginComponent.MUSIC_PRELOADED) {
-      NativeAudio.preloadSimple(musicId, musicId)
-        .then(()=>{
-          LoginComponent.MUSIC_PRELOADED = true;
-        })
-        .catch((err)=>{
-          Utils.error("Could not preload music in login component : {0}", err);
-        });
-    }
-    LoginComponent.MUSIC_INTERVAL_HANDLE = setInterval(()=>{
-      if (LoginComponent.MUSIC_PRELOADED) {
-        NativeAudio.play(musicId, ()=>{} /* Nothing to do on completion */)
-            .then(()=>{
-              Utils.info("Played sound {0} in Logincomponent", musicId);
-            })
-            .catch((err)=>{
-              Utils.error("Unable to play sound {0} in Logincomponent", musicId);
-            })
-        }
-    }, 2 * 60 * 1000)
-  }
-  ngOnDestroy() {
 
+  ngOnInit() {
+    this.clearTimerHandles();
+    this.setupSoundHandling();
+  }
+
+  ngOnDestroy() {
+    this.clearTimerHandles();
   }
   //TODO DELETE THIS ***************************
   // ngOnInit() {
@@ -86,6 +77,10 @@ export class LoginComponent {
 
   setupNewAccount() {
     Utils.push(this.navCtrl, AccountComponent, {create: true});
+  }
+
+  gotoHelp() {
+    this.navCtrl.push(HelpPage);
   }
 
   forgotPassword() {
@@ -183,6 +178,38 @@ export class LoginComponent {
 
   public gotoSettings() {
     Utils.push(this.navCtrl, SettingsComponent);
+  }
+
+  private setupSoundHandling() {
+    this.preloadSoundIfNecessary()
+      .then(()=>{
+        LoginComponent.soundTimerHandle = setInterval(()=> {
+          let id = LoginComponent.MUSIC_ID;
+          NativeAudio.play(id, ()=> {} /* Nothing to do on completion */)
+            .then(()=> {
+              Utils.info("Played sound {0}", id);
+            })
+            .catch((err)=> {
+              Utils.error("Unable to play sound {0}, due to {1}", id, err);
+            })
+        }, 2 * 60 * 1000);
+      })
+  }
+
+  private preloadSoundIfNecessary(): Promise<any> {
+    if (LoginComponent.MUSIC_PRELOADED) {
+      return;
+    }
+    let id = LoginComponent.MUSIC_ID;
+    return NativeAudio.preloadSimple(id, id)
+      .then((result: any)=>{
+        LoginComponent.MUSIC_PRELOADED = true;
+        return result;
+      })
+      .catch((err)=>{
+        Utils.error("Could not preload music in login component : {0}", err);
+        throw err;
+      });
   }
 
   private logDeviceInfo() {

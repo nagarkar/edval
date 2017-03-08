@@ -15,6 +15,8 @@ import {AccountService} from "../../services/account/delegator";
 import {SReplacerDataMap} from "../../pipes/sreplacer";
 import {Utils} from "../../shared/stuff/utils";
 import {SessionService} from "../../services/session/delegator";
+import {Clipboard} from "ionic-native";
+import {ToastController} from "ionic-angular";
 
 @Component({
   selector:'settings',
@@ -34,6 +36,7 @@ export class SettingsComponent {
   errData: Iterable<string> = Utils.errData;
 
   constructor(
+    private toastCtrl: ToastController,
     private metricsvc: MetricService,
     private staffsvc: StaffService,
     private accountsvc: AccountService,
@@ -47,6 +50,19 @@ export class SettingsComponent {
     this.replacerDataWithoutHardcodedStaff = this.constructSessionReplacerMap();
 
     this.setupSessionAndSelectedUsers();
+  }
+
+  copyToClipboard() {
+    let text = [];
+    Utils.errData.forEach((value)=>{
+      text.push(value);
+    })
+    Utils.logData.forEach((value)=>{
+      text.push(value);
+    })
+    Clipboard.copy(text.join('\n'))
+      .then(()=>Utils.presentTopToast(this.toastCtrl, "Copied text to Clipboard", 4 * 1000))
+      .catch(()=>Utils.presentTopToast(this.toastCtrl, "Could not copy text to Clipboard", 4 * 1000));
   }
 
   private constructSessionReplacerMap(): {[key: string] : SReplacerDataMap} {

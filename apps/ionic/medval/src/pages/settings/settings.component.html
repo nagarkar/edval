@@ -42,10 +42,14 @@
 
   </ion-grid>
   -->
-  <ion-list>
-    <ion-item-divider>Errors:</ion-item-divider>
-    <div *ngFor="let err of errData">{{err}}</div>
-    <ion-item-divider>Logs:</ion-item-divider>
-    <div *ngFor="let err of logData">{{err}}</div>
-  </ion-list>
+  <div class="m-t-4" padding>
+    <ion-title>You can email the information on this page to admin@healthcaretech.io)</ion-title>
+    <button ion-button (tap)="copyToClipboard()">Copy Errors and Logs to Clipboard (you can paste them into your email)</button>
+    <ion-list>
+      <ion-item-divider>Errors:</ion-item-divider>
+      <div *ngFor="let err of errData">{{err}}</div>
+      <ion-item-divider>Logs:</ion-item-divider>
+      <div *ngFor="let err of logData">{{err}}</div>
+    </ion-list>
+  </div>
 </ion-content>

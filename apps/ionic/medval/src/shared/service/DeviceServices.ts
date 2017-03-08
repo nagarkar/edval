@@ -65,24 +65,42 @@ export class DeviceServices {
     }, false);
   }
 
-  private static storeInitialInstallDate() {
-    NativeStorage.getItem(DeviceServices.INITIAL_INSTALL_TIMESTAMP)
-      .then((timestamp)=>{
-        Utils.info("Retrieved {0} for Device {2}: {1}", DeviceServices.INITIAL_INSTALL_TIMESTAMP, timestamp, Device.serial);
-        if (!timestamp) {
-          let currentTime = new Date().getTime();
-          NativeStorage.setItem(DeviceServices.INITIAL_INSTALL_TIMESTAMP, currentTime)
-            .then(()=>{
-              Utils.info("Stored {0} for device {2}: {1}", DeviceServices.INITIAL_INSTALL_TIMESTAMP, currentTime, Device.serial);
-            })
-            .catch((err)=>{
-              Utils.error("In NativeStorage.setItem(INITIAL_INSTALL_TIMESTAMP) for Device {1}; {0}", Utils.stringify(err), Device.serial);
-            })
-        }
+  static setItem(id: string, value: any): Promise<any> {
+    return NativeStorage.setItem(id, value);
+  }
+
+  static getItem(id: string): Promise<any> {
+    return NativeStorage.getItem(id)
+      .then((value: any)=>{
+        Utils.info("Retrieved value {0} from native storage, for id: {1}", value, id);
+        return value;
       })
       .catch((err)=>{
-        Utils.error("In NativeStorage.getItem(INITIAL_INSTALL_TIMESTAMP) for Device {1}; {0}", err, Device.serial);
+        if (err.code == 2) { // item Not found
+          return Promise.resolve(null);
+        }
+        throw err;
+      });
+  }
+
+  private static storeInitialInstallDate() {
+    DeviceServices.getItem(DeviceServices.INITIAL_INSTALL_TIMESTAMP)
+      .then((timestamp: any)=>{
+        if (!timestamp) {
+          let currentTime = new Date().getTime();
+          return DeviceServices.setItem(DeviceServices.INITIAL_INSTALL_TIMESTAMP, currentTime)
+            .then(()=>{
+              Utils.error("New Device Install at timestamp: {0} for device {1}", currentTime, Device.serial);
+            })
+            .catch((err)=>{
+              Utils.error("In NativeStorage.setItem(INITIAL_INSTALL_TIMESTAMP) for Device {1}; err.code: {0}, err.exception:{2}", err.code, Device.serial, err.exception);
+            })
+            ;
+        }
       })
+      .catch((err)=> {
+        Utils.error("In NativeStorage.getItem(INITIAL_INSTALL_TIMESTAMP) for Device {1}; err.code: {0}, err.exception:{2}", err.code, Device.serial, err.exception);
+      });
   }
 
   static preloadSimpleAll(...paths: string[]): Promise<any> {

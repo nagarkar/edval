@@ -29,7 +29,7 @@ import {Config} from "../../../shared/config";
 
 export class StartWithSurveyOption implements OnInit, OnDestroy {
 
-  private static cycler: ImageCycler;
+  private static imageCycler: ImageCycler;
   private static imageTimerHandle: number;
 
   private static soundCycler: SoundCycler;
@@ -124,7 +124,7 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
 
   private setupImageHandling() {
     this.createImageCyclerIfNecessary();
-    let cycler = StartWithSurveyOption.cycler;
+    let cycler = StartWithSurveyOption.imageCycler;
     let setImage = (next: HTMLImageElement) => {
       let div: HTMLDivElement = this.imgDiv.nativeElement;
       div.removeChild(div.children.item(0));
@@ -171,8 +171,8 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
   }
 
   private createImageCyclerIfNecessary() {
-    if (!StartWithSurveyOption.cycler) {
-      StartWithSurveyOption.cycler = new ImageCycler(
+    if (!StartWithSurveyOption.imageCycler) {
+      StartWithSurveyOption.imageCycler = new ImageCycler(
         503, 650,
         // {webkitTransform: "translate3d(0, 0, 0);", transform: "translate3d(0, 0, 0)", position:"relative", bottom:"-1em"},
         "-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);position:relative; bottom:-1em",

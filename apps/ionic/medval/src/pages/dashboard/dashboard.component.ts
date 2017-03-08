@@ -28,6 +28,8 @@ import {AdminComponent} from "../admin.component";
 import {FollowupPage} from "../followups/followup.page";
 import {Http} from "@angular/http";
 import {HelpPage} from "./help/help.page";
+import {Tips} from "../tips";
+import {DeviceServices} from "../../shared/service/DeviceServices";
 
 declare let AWSCognito:any;
 declare let AWS:any;
@@ -146,59 +148,101 @@ export class DashboardComponent extends AdminComponent {
   }
 
   private dispatchAlertTipForAccountSettings() {
-    setTimeout(()=>{
-      this.accSvc.get(Config.CUSTOMERID)
-        .then((account: Account)=> {
-          let thingsToSay = [];
-          if (!account.properties.configuration.SWEEPSTAKES_SHOW_WHEEL) {
-            thingsToSay.push(`Consider enabling the Wheel of Fortune game. It's a great incentive for patients 
+    let promise: Promise<any> = DeviceServices.getItem(Tips.AccountSettingsTips);
+    promise.then((value)=>{
+      if (!value) {
+        setTimeout(()=>{
+          this.accSvc.get(Config.CUSTOMERID)
+            .then((account: Account)=> {
+              let thingsToSay = [];
+              if (!account.properties.configuration.SWEEPSTAKES_SHOW_WHEEL) {
+                thingsToSay.push(`Consider enabling the Wheel of Fortune game. It's a great incentive for patients 
             to keep coming back and give you more reviews! You can set this up on the Account Settings page.`);
-          }
-          if (!ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_FACEBOOK)) {
-            thingsToSay.push(`Consider adding a valid Facebook page URL on the Account Settings page so we can start helping your happy patients provide Facebook reviews!`);
-          }
-          if (!ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_GOOGLE)) {
-            thingsToSay.push(`Consider adding a valid Google review URL on the Account Settings page so we can start helping your happy patients provide Google reviews!`);
-          }
-          if (!ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_YELP)) {
-            thingsToSay.push(`Consider adding a valid Yelp review URL on the Account Settings page so we can start helping your happy patients provide Yelp reviews!`);
-          }
-          if (thingsToSay.length == 0) {
-            return;
-          }
-          Utils.presentInvalidEntryAlert(
-            this.alertCtrl,
-            "Important Tip!",
-            `Visit the Account Settings page and configure this App and take full advantage of it!
-            <ol>` + thingsToSay.map((item: string)=> {return ['<li>', item, '</li>'].join('')}).join("") + `</ol>`,
-            'bighelp');
-        })
-        .catch((err)=>{
-          Utils.presentTopToast(this.toastCtrl, HelpMessages.get('UNEXPECTED_INTERNAL_ERROR'), 10 * 1000);
-        });
+              }
+              if (!ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_FACEBOOK)) {
+                thingsToSay.push(`Consider adding a valid Facebook page URL on the Account Settings page so we can start helping your happy patients provide Facebook reviews!`);
+              }
+              if (!ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_GOOGLE)) {
+                thingsToSay.push(`Consider adding a valid Google review URL on the Account Settings page so we can start helping your happy patients provide Google reviews!`);
+              }
+              if (!ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_YELP)) {
+                thingsToSay.push(`Consider adding a valid Yelp review URL on the Account Settings page so we can start helping your happy patients provide Yelp reviews!`);
+              }
+              if (thingsToSay.length == 0) {
+                return;
+              }
+              this.presentTip(
+                Tips.AccountSettingsTips,
+                "Important Tip!",
+                `Visit the Account Settings page and configure this App and take full advantage of it!
+                    <ol>` + thingsToSay.map((item: string)=> {return ['<li>', item, '</li>'].join('')}).join("") + `</ol>`);
+            })
+            .catch((err)=>{
+              Utils.presentTopToast(this.toastCtrl, HelpMessages.get('UNEXPECTED_INTERNAL_ERROR'), 10 * 1000);
+            });
 
-    }, 2 * 1000)
+        }, 2 * 1000)
+      }
+    })
+
   }
 
   private dispatchAlertTipForStaffSettings() {
-    setTimeout(()=>{
-      this.staffSvc.list(true/*don't use cache*/)
-        .then((list: Staff[]) => {
-          if (list && list.length > 0) {
-            return;
+    let promise: Promise<any> = DeviceServices.getItem(Tips.StaffSettingsTips)
+    promise.then((value)=> {
+      if (!value) {
+        setTimeout(()=> {
+          this.staffSvc.list(true/*don't use cache*/)
+            .then((list: Staff[]) => {
+              if (list && list.length > 0) {
+                return;
+              }
+              this.presentTip(Tips.StaffSettingsTips, 'Tip: Setup your Staff',
+                `If you setup your staff members, additional screens will show up in the 
+                long term survey and you can access reports on how your staff are evaluated in survey data! 
+                We highly recommend you setup your staff members!`,
+              )
+            })
+            .catch((err)=> {
+              Utils.presentTopToast(this.toastCtrl, HelpMessages.get('UNEXPECTED_INTERNAL_ERROR'), 10 * 1000);
+            })
+        }, 4 * 1000);
+      }
+    })
+  }
+
+  private dispatchAlertTipForGettingStarted() {
+    let promise: Promise<any> = DeviceServices.getItem(Tips.GettingStartedTips)
+    promise.then((value)=> {
+      if (!value) {
+        setTimeout(()=> {
+          this.presentTip(Tips.GettingStartedTips, 'Tip: Visit the Getting Started Page',
+            `Visit the Getting Started Page to find out more about this app and it's capabilities!`,
+          )
+        }, 4 * 1000);
+      }
+    })
+  }
+
+  private presentTip(tipName: string, title: string, message: string) {
+    this.alertCtrl.create({
+      title: title,
+      message: message,
+      buttons: [
+        {
+          text: 'Remind me next time'
+        },
+        {
+          text: "Don't show me this again",
+          handler: ()=>{
+            DeviceServices.setItem(tipName, true)
+              .catch((err)=>{
+                Utils.presentTopToast(this.toastCtrl, "Could not save user setting", 1 * 1000);
+              });
           }
-          Utils.presentInvalidEntryAlert(
-            this.alertCtrl,
-            "Important Tip!",
-            "If you setup your staff members, additional screens will show up in the " +
-            "long term survey and you can access reports on how your staff are evaluated in survey data! " +
-            "We highly recommend you setup your staff members!",
-            "bighelp");
-        })
-        .catch((err)=>{
-          Utils.presentTopToast(this.toastCtrl, HelpMessages.get('UNEXPECTED_INTERNAL_ERROR'), 10 * 1000);
-        })
-    }, 4 * 1000);
+        }
+      ]
+    })
   }
 }
 

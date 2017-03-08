@@ -55,9 +55,6 @@ export class AccountComponent extends AdminComponent {
     this.isEdit = !create;
   }
 
-  @ViewChild('focusField')
-  focusField: TextInput;
-
   account: Account = new Account();
 
   username:string;
@@ -66,7 +63,7 @@ export class AccountComponent extends AdminComponent {
 
   email: string;
 
-  isEdit: boolean = true;
+  isEdit: boolean = false;
 
   verticals= [
     { key: "OrthodonticClinic", value: "Orthodontic Clinic"},
@@ -76,12 +73,6 @@ export class AccountComponent extends AdminComponent {
     { key: "WA", value: "WA"},
     { key: "CA", value:"CA"}
   ];
-
-  ngAfterViewInit() : void {
-    if (!this.isEdit) {
-      this.focusFieldAndPopupKeyboard();
-    }
-  }
 
   ngOnInit(): void {
     try {
@@ -167,9 +158,9 @@ export class AccountComponent extends AdminComponent {
             svc.create(accountSetupObj)
               .then((accountSetup: AccountSetup)=>{
                 created = true;
-                this.dismissLoadingShowAlert("Created Account",`You will receive an emails from 
+                this.dismissLoadingShowAlert("Created Account",`You will receive an email from 
                   no-reply@verificationemail.com with a temporary password.
-                You will need to change your password on first login!`, true);
+                You will be prompted to change your password on first login!`, true);
               })
               .catch((err) => {
                 created = false;
@@ -222,10 +213,6 @@ export class AccountComponent extends AdminComponent {
       return this.getAccountErrorsForCreate();
     }
     return this.getAccountErrorsForUpdate();
-  }
-
-  private focusFieldAndPopupKeyboard() {
-    this.focusField.getElementRef().nativeElement.focus();
   }
 
   private getAccountErrorsForUpdate(): string {

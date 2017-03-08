@@ -11,6 +11,8 @@ import {Utils} from "./stuff/utils";
 @Injectable()
 export class Config {
 
+  static ORIGINAL_LAUNCH_TIME: number = -Infinity;
+
   static PING_INTERVAL: number = 5 * 60 * 1000;
   static LOCALE: string = 'en-US';
   static SOFTWARE_VERSION: string = "v1.0";

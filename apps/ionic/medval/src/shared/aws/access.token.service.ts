@@ -61,9 +61,6 @@ export class AccessTokenService {
     password : string,
     externalCallback: (result: AuthResult, err: any)=> void) {
 
-    if(this.currentlyLoggingIn()) {
-      return;
-    }
     this.tryStartNewSession(username, password, externalCallback);
   }
 
@@ -260,10 +257,6 @@ export class AccessTokenService {
 
   private incrementLoginErrors() {
     this.loginErrors++;
-  }
-
-  private currentlyLoggingIn() : boolean {
-    return this.loginErrors !== undefined;
   }
 
   private initState() {

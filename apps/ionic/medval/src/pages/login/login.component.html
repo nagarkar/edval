@@ -21,6 +21,7 @@
     <div padding>
       <button *ngIf="showNewAccount" small block ion-button color="light" (click)="setupNewAccount()">Create a New Account</button>
       <button *ngIf="showForgotPwd" small block ion-button color="light" (click)="forgotPassword()">Forgot Password</button>
+      <button *ngIf="!isLoggedIn" small block ion-button color="light"  (click)="gotoHelp()">Find out more about this app</button>
     </div>
   </div>
   <mdval-footer [showLastWin]="'true'"></mdval-footer>

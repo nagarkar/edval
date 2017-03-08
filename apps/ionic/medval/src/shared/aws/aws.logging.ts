@@ -79,6 +79,9 @@ export class AWSLogging {
     this.cloudwatch.describeLogStreams(params, (err, data) => {
       if (err) {
         Utils.info("Error in Describing Log Streams: {0}", [err.name, err.message].join(":"))
+        setTimeout(()=> {
+          this.updateNextSequenceToken();
+        }, 3000);
         return;
       }
       if (data.logStreams.length == 0) {

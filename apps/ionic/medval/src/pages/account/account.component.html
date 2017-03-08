@@ -8,7 +8,7 @@
           <ion-label (tap)="showHelp('account.username')" item-left>Username&nbsp;&nbsp;&nbsp;<ion-icon name="help"></ion-icon></ion-label>
         </ion-col>
         <ion-col>
-          <ion-input #focusField item-right [(ngModel)]="username"></ion-input>
+          <ion-input item-right [(ngModel)]="username"></ion-input>
           <div *ngIf="isRequired('account.username')" class="alert">Required (case insensitive, no spaces)</div>
         </ion-col>
       </ion-row>
