@@ -56,6 +56,7 @@ export class DashboardComponent extends AdminComponent {
 
     this.dispatchAlertTipForAccountSettings();
     this.dispatchAlertTipForStaffSettings();
+    this.dispatchAlertTipForGettingStarted();
   }
 
   verifyEmail() {
@@ -248,7 +249,7 @@ export class DashboardComponent extends AdminComponent {
           }
         }
       ]
-    })
+    }).present();
   }
 }
 
