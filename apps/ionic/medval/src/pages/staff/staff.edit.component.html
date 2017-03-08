@@ -1,6 +1,6 @@
 <mdval-header *ngIf="isEdit" title="Edit Staff Member"></mdval-header>
 <mdval-header *ngIf="!isEdit" title="Create New Staff Member"></mdval-header>
-<ion-content class="rev-form" padding text-center>
+<ion-content class="rev-form scrollable" padding text-center>
   <form #form="ngForm" (ngSubmit)="addEdit()">
   <ion-grid padding class="m-t-4">
     <ion-row>

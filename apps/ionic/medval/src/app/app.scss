@@ -29,6 +29,17 @@
   font-size:1.5em;
 }
 
+// Scrolling Default
+.scroll-content{
+  overflow-y: hidden !important;
+}
+
+// Use scrollable class to scroll
+.scrollable .scroll-content {
+  overflow-y: scroll !important;
+}
+
+
 .feedback {
   height:20%;
   max-height:30%;

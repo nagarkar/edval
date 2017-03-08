@@ -18,9 +18,9 @@
       </div>
     </form>
     <div padding>
-      <button *ngIf="showNewAccount" small block ion-button color="light" (click)="setupNewAccount()">Create a New Account</button>
+      <button *ngIf="showNewAccount" small block ion-button color="light" (click)="setupNewAccount()">Create a New Account (Free!)</button>
       <button *ngIf="showForgotPwd" small block ion-button color="light" (click)="forgotPassword()">Forgot Password</button>
-      <button *ngIf="!isLoggedIn" small block ion-button color="light"  (click)="gotoHelp()">Find out more about this app</button>
+      <button *ngIf="!isLoggedIn" small block ion-button color="light"  (click)="gotoHelp()">Tell me more about this App</button>
       <button small clear ion-button color="light"  (click)="gotoSettings()">Error Logs</button>
     </div>
   </div>

@@ -39,7 +39,7 @@ export class AccessTokenService {
   private static authenticatingIntervalTimer : number;
 
   constructor(private alertCtrl: AlertController, private serviceFactory: ServiceFactory) {
-    this.initState();
+    this.clearLoginSignals();
   }
 
   public getUserName() : string {
@@ -49,7 +49,7 @@ export class AccessTokenService {
   public logout() : void {
     AwsClient.flushLogs();
     AwsClient.clearEverything();
-    this.clearLoginSignals();
+    this.clearLoginSignals(true /* Don't clear last login state (time, username/pwd) so we can avoid long logins*/);
   }
 
   public supposedToBeLoggedIn(): boolean {
@@ -79,10 +79,12 @@ export class AccessTokenService {
       Username : username,
       Password : password,
     };
+    username = username.toLowerCase().trim();
 
     if (!this.loginErrors && this.sameUserAuthenticatingWithinShortPeriod(authenticationData) && !this.authTokenIsOld()) {
       Utils.info("Logging in same user");
       this.processUserInitiatedLoginSuccess(externalCallback);
+      this.refreshAtIntervals();
       return;
     }
 
@@ -206,7 +208,7 @@ export class AccessTokenService {
       && this.authenticationDetails['username'] == authenticationData.Username
       && this.authenticationDetails['password'] == authenticationData.Password
       && this.loggedInAtLeastOnceBefore()
-      && this.lastAuthTokenCreationTime + 70 * 60 * 10000 > Date.now();
+      && this.lastAuthTokenCreationTime + 30 * 60 * 10000 > Date.now();
   }
 
   processUserInitiatedLoginSuccess(callback) {
@@ -254,11 +256,6 @@ export class AccessTokenService {
 
   }
 
-  private clearLoginSignals() {
-    this.initState();
-    Config.CUSTOMERID = null;
-  }
-
   public resetLoginErrors() {
     this.loginErrors = undefined;
   }
@@ -271,13 +268,21 @@ export class AccessTokenService {
     return this.loginErrors !== undefined;
   }
 
-  private initState() {
+  private clearLoginSignals(dontResetLastLoginState?: boolean) {
     this.resetLoginErrors();
+    this.clearAuthenticatingIntervalTimerIfValid();
+
+    if (!dontResetLastLoginState) {
+      this.initLastLoginState();
+    }
+  }
+
+  private initLastLoginState() {
+    Config.CUSTOMERID = null;
     this._cognitoUser = null;
+    AccessTokenService.authResult = null;
     this.lastAuthTokenCreationTime = Infinity;
     this.authenticationDetails = null;
-    AccessTokenService.authResult = null;
-    this.clearAuthenticatingIntervalTimerIfValid();
   }
 
   private handleSuccessfullAuthentication(session: any, callback) {
