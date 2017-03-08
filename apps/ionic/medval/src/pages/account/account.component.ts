@@ -129,7 +129,7 @@ export class AccountComponent extends AdminComponent {
 
 
   private tryCreateAccount() {
-    SpinnerDialog.show();
+    SpinnerDialog.show(null, null, true);
     setTimeout(()=>{
       let err: string = this.getAccountErrorsForCreate();
       if (err) {

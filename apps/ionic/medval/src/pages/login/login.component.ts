@@ -79,17 +79,14 @@ export class LoginComponent {
     Utils.push(this.navCtrl, AccountComponent, {create: true});
   }
 
-  gotoHelp() {
-    this.navCtrl.push(HelpPage);
-  }
-
   forgotPassword() {
     var me = this;
     Utils.presentAlertPrompt(this.alertCtrl, ((data)=>{
-      let username = data.username;
+      let username: string = data.username;
       if (Utils.nullOrEmptyString(username)) {
         return false;
       }
+      username = username.trim().toLowerCase();
       let userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(Config.POOL_DATA);
       let cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser({
         Username : username,
@@ -100,23 +97,26 @@ export class LoginComponent {
           Utils.info('Forgotpassword call result: ' + result);
         },
         onFailure: function(err) {
-          Utils.presentTopToast(me.toastCtrl, "Error when calling forgotPassword");
+          Utils.presentTopToast(me.toastCtrl, "Error when calling forgotPassword: " + err);
         },
         inputVerificationCode() {
           Utils.presentAlertPrompt(
             me.alertCtrl,
             ((data)=> {
-              let verificationCode = data.verificationCode;
+              let verificationCode: string = data.verificationCode;
               if (Utils.nullOrEmptyString(verificationCode)) {
                 return false;
               }
+              verificationCode = verificationCode.trim();
               Utils.presentAlertPrompt(
                 me.alertCtrl,
                 ((passwordData)=> {
-                  if (Utils.nullOrEmptyString(passwordData.newPassword)) {
+                  let password: string = passwordData.newPassword;
+                  if (Utils.nullOrEmptyString(password)) {
                     return false;
                   }
-                  me.tryNewPassword(username, cognitoUser, verificationCode.trim(), passwordData.newPassword.trim());
+                  password = password.trim();
+                  me.tryNewPassword(username, cognitoUser, verificationCode, password);
                 }),
                 "Please pick a new password",
                 [{name: "newPassword", type: 'password', label: 'New Password'}]);
@@ -166,7 +166,7 @@ export class LoginComponent {
     var me = this;
     cognitoUser.confirmPassword(verificationCode, newPassword,  {
       onSuccess: function (result) {
-        SpinnerDialog.show();
+        SpinnerDialog.show(null, null, true);
         setTimeout(()=>{
           me.loginWithCreds(username, newPassword);
         }, 50);
@@ -183,7 +183,7 @@ export class LoginComponent {
     let username: string = this.loginForm.controls['username'].value.trim().toLowerCase();
     let password: string = this.loginForm.controls['password'].value.trim();
 
-    SpinnerDialog.show();
+    SpinnerDialog.show(null, null, true);
     setTimeout(()=>{
       this.loginWithCreds(username, password);
     }, 100);
@@ -194,14 +194,14 @@ export class LoginComponent {
     this.authProvider.startNewSession(username, password,
       (token: AuthResult, err: any): void => {
         if(token) {
-          this.navigateToDashboardPage();
           SpinnerDialog.hide();
+          this.navigateToDashboardPage();
           this.logDeviceInfo();
         }
         if(err) {
+          SpinnerDialog.hide();
           Utils.error("LoginComponent.login().startNewSession:" + err);
           Utils.presentTopToast(this.toastCtrl, "Login Failed with error: " + err);
-          SpinnerDialog.hide();
         }
       });
   }
@@ -221,6 +221,11 @@ export class LoginComponent {
   public gotoSettings() {
     Utils.push(this.navCtrl, SettingsComponent);
   }
+
+  gotoHelp() {
+    Utils.push(this.navCtrl, HelpPage);
+  }
+
 
   private setupSoundHandling() {
     this.preloadSoundIfNecessary()

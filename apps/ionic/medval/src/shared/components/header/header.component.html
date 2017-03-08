@@ -3,7 +3,7 @@
     <ion-row>
       <ion-col width-10 *ngIf="leftHome !== 'false' && leftHome !== undefined">
         <ion-buttons>
-          <button ion-button icon-only (tap)="goLeftHome()">
+          <button ion-button (tap)="goLeftHome()">
             <ion-icon style='font-size:1.5em' name="paper"></ion-icon>
           </button>
         </ion-buttons>
@@ -16,7 +16,7 @@
       </ion-col>
       <ion-col width-10 *ngIf="home !== 'false' && home !== undefined">
         <ion-buttons end>
-          <button ion-button icon-only (tap)="goHome()">
+          <button ion-button (tap)="goHome()">
             <ion-icon style='font-size:1.5em' name="build"></ion-icon>
           </button>
         </ion-buttons>
