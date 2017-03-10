@@ -68,3 +68,29 @@ Expect to see some warnings.
     npm install rollup rollup-plugin-node-resolve rollup-plugin-commonjs rollup-plugin-uglify --save-dev
    
     Installed gulp (may not be required in addition to AOT)
+
+
+######
+IOS Project Setup
+
+Project Revvolve
+- Info/ios Deployemnt Target - default
+- Build settings/code signing entity
+-- debug, distribution, release, including any ios sdk: ios distribution
+- development team: HC Tech
+
+Target Revvolve/ bulid settings
+- Strip debug symbols during copy - enabled for debug target only
+- development team = hc tech inc; provisioning profile = automatic, release  = automatic.
+- code signing identity:
+--- debug: iosDistribution, any sdk: iosDeveloer
+--- release: iosDistribution, any sdk: iosDeveloer
+--- provisioning: iosDistribution, any sdk: iosdeveloper
+- product bundle id: com.ionicframework.medval611122
+
+
+target revvolve/general
+- deployment target 8.0, ipad, landscipe left/right, requires full screen
+- signing - automatic, team: hc tech, provisioing profie: xode managed, signing cert: iphone developer
+
+target revvolve/
