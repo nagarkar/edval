@@ -1,0 +1,12 @@
+node_modules
+hooks
+www
+www/*
+.idea
+.editorconfig
+src/*.d.ts
+src/*.js
+.tmp
+plugins
+platforms
+coverage
