@@ -354,10 +354,10 @@ ion-col.regular {
   box-shadow: 0 0 0 0 rgba(85, 57, 130, 0.7);
   border-radius: 50%;
   // http://cubic-bezier.com/#.14,.77,0,.99
-  -webkit-animation: pulse2em 3s 1s 1 cubic-bezier(.14,.77,0,.99);
-  -moz-animation: pulse2em 3s 1s 1 cubic-bezier(.14,.77,0,.99);
-  -ms-animation: pulse2em 3s 1s 1 cubic-bezier(.14,.77,0,.99);
-  animation: pulse2em 3s 1s 1 cubic-bezier(.14,.77,0,.99);
+  -webkit-animation: pulse2em 3s 1s 4 cubic-bezier(.14,.77,0,.99);
+  -moz-animation: pulse2em 3s 1s 4 cubic-bezier(.14,.77,0,.99);
+  -ms-animation: pulse2em 3s 1s 4 cubic-bezier(.14,.77,0,.99);
+  animation: pulse2em 3s 1s 4 cubic-bezier(.14,.77,0,.99);
 
   button {
     width: 7em;

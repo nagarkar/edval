@@ -100,8 +100,8 @@
     <plugin name="cordova-plugin-brightness"/>
     <plugin name="cordova-plugin-battery-status"/>
     <plugin name="cordova-plugin-device"/>
-    <plugin name="cordova-plugin-tts" spec="~0.2.3" />
-    <plugin name="cordova-plugin-nativeaudio" spec="~3.0.9" />
+    <plugin name="cordova-plugin-tts"/>
+    <plugin name="cordova-plugin-nativeaudio"/>
     <plugin name="com.verso.cordova.clipboard" spec="https://github.com/VersoSolutions/CordovaClipboard.git" />
-    <plugin name="cordova-plugin-wkwebview-engine" spec="~1.1.2"/>
+    <plugin name="cordova-plugin-wkwebview-engine"/>
 </widget>

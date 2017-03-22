@@ -14,10 +14,19 @@ import {StartWithSurveyOption} from "./start/start.with.survey.option.component"
 import {SpinnerDialog} from "ionic-native";
 
 export class SurveyNavUtils {
+
+  /**
+   *
+   * @param navigator The surveyNavigator in use
+   * @param navCtrl
+   * @param dontAnimate This is used to disable ionic ease-in animation and page transition delay.
+   * @param terminationMessage
+   * @returns {Promise<any>}
+   */
   public static navigateOrTerminate(navigator: SurveyNavigator, navCtrl: NavController, dontAnimate?: boolean, ...terminationMessage: string[]): Promise<any> {
     SpinnerDialog.show();
     return new Promise<any>((resolve, reject)=> {
-      //setTimeout(()=>{
+      setTimeout(()=>{
         let navigationTarget: NavigationTarget;
         try {
           navigationTarget = navigator.getNavigationTarget();
@@ -46,7 +55,7 @@ export class SurveyNavUtils {
           }
         }
         SpinnerDialog.hide();
-      //}, Config.PAGE_TRANSITION_TIME)
+      }, dontAnimate ? 0 : Config.PAGE_TRANSITION_TIME)
     });
   }
 
