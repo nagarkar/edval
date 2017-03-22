@@ -40,7 +40,7 @@
     <key>NSMainNibFile</key>
     <string/>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string/>
+    <string>Upload your staff photos so customers can pick them out when providing reviews</string>
     <key>UIRequiresFullScreen</key>
     <true/>
     <key>UISupportedInterfaceOrientations</key>
