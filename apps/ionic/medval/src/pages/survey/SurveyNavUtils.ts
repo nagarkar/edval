@@ -14,10 +14,10 @@ import {StartWithSurveyOption} from "./start/start.with.survey.option.component"
 import {SpinnerDialog} from "ionic-native";
 
 export class SurveyNavUtils {
-  public static navigateOrTerminate(navigator: SurveyNavigator, navCtrl: NavController, ...terminationMessage: string[]): Promise<any> {
+  public static navigateOrTerminate(navigator: SurveyNavigator, navCtrl: NavController, dontAnimate?: boolean, ...terminationMessage: string[]): Promise<any> {
     SpinnerDialog.show();
     return new Promise<any>((resolve, reject)=> {
-      setTimeout(()=>{
+      //setTimeout(()=>{
         let navigationTarget: NavigationTarget;
         try {
           navigationTarget = navigator.getNavigationTarget();
@@ -31,7 +31,12 @@ export class SurveyNavUtils {
         let params = component == ThanksComponent ? {message: terminationMessage} : navigationTarget.params;
         if (component) {
           try {
-            let promise = Utils.setRoot(navCtrl, component, params);
+            let promise = null;
+            if (dontAnimate) {
+              promise = Utils.setRootNoAnimation(navCtrl, component, params);
+            } else {
+              promise = Utils.setRoot(navCtrl, component, params);
+            }
             resolve(promise);
           } catch(err) {
             reject(err);
@@ -41,7 +46,7 @@ export class SurveyNavUtils {
           }
         }
         SpinnerDialog.hide();
-      }, Config.PAGE_TRANSITION_TIME)
+      //}, Config.PAGE_TRANSITION_TIME)
     });
   }
 

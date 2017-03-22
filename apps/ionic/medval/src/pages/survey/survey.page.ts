@@ -95,20 +95,14 @@ export class SurveyPage {
     }
   }
 
-  /*
-  ngOnDestroy() {
-    this.stopIdling();
-  }
-  */
-
-  public navigateToNext(forceNavigate?: boolean, ...terminationMessage: string[]) {
+  public navigateToNext(dontAnimate?: boolean, forceNavigate?: boolean, ...terminationMessage: string[]) {
     if (!forceNavigate && SurveyPage.inNavigation === true) {
       return;
     }
     SurveyPage.inNavigation = true;
     let navState = this.sessionSvc.surveyNavigator.navState;
     try {
-      SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl, ...terminationMessage)
+      SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl, dontAnimate, ...terminationMessage)
         .then(()=>{
           SurveyPage.inNavigation = false;
         })

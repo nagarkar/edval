@@ -55,7 +55,7 @@ export class PickStaffComponent extends SurveyPage {
       this.roles = params.get("roles") || this.roles;
       this.message = params.get("message") || this.message;
       if (this.staffSvc.listCached().length == 0) {
-        super.navigateToNext(true /* Force Navigate */);
+        super.navigateToNext(true /* dontAnimate */, true /* Force Navigate */);
         return;
       }
       this.setupSlides();
@@ -98,7 +98,7 @@ export class PickStaffComponent extends SurveyPage {
     }
     if (this.selectedStaff.size >= this.displayCount) {
       setTimeout(() => {
-        this.navigateToNext(true /* ForceNavigate */);
+        this.navigateToNext(false /* dontAnimate */, true /* ForceNavigate */);
       }, 1000)
 
     }
@@ -139,8 +139,8 @@ export class PickStaffComponent extends SurveyPage {
 
   }
 
-  public navigateToNext(forceNavigate?: boolean) {
+  public navigateToNext(dontAnimate?: boolean, forceNavigate?: boolean) {
     this.sessionSvc.getCurrentSession().setStaffUsernames(Staff.getUsernames(this.selectedStaff));
-    super.navigateToNext(forceNavigate);
+    super.navigateToNext(dontAnimate, forceNavigate);
   }
 }

@@ -104,7 +104,7 @@ export class HandleComplaintComponent extends SurveyPage {
         email: this.autoComplete.value, phone: this.phone, message: this.complaintMsg
       }
     }
-    super.navigateToNext(false, /* Force Navigate */
+    super.navigateToNext(false /* dontAnimate */, false, /* Force Navigate */
       "account.properties.customerName + ' wants to do better'", "Your feedback is invaluable");
   }
 

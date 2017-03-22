@@ -67,7 +67,7 @@ export class ToplineForStaffComponent extends SurveyPage {
 
       let staffNames: string[] = sessionSvc.getCurrentSession().properties.selectedStaffUserNames;
       if (staffNames.length == 0) {
-        this.navigateToNext(true /* Force Navigate */);
+        this.navigateToNext(true/* dontAnimate */, true /* Force Navigate */);
       }
 
       this.displayCount = params.get('displayCount') || staffNames.length;

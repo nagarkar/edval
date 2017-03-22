@@ -150,7 +150,7 @@ enableProdMode();
     MetricDetailComponent
   ],
   imports: [
-    IonicModule.forRoot(RevvolveApp),
+    IonicModule.forRoot(RevvolveApp, {pageTransition: 'ios'}),
     HttpModule,
     JsonpModule,
     NgIdleModule.forRoot(),

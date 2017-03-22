@@ -39,7 +39,8 @@ export class Config {
   static CUSTOMERID : string;
 
   static readonly ANIMATE_MODALS = false;
-  static ANIMATE_PAGE_TRANSITIONS: boolean = false;
+  static ANIMATE_PAGE_TRANSITIONS: boolean = true;
+  static ANIMATE_PAGE_TRANSITIONS_DURATION: number = 1000;
   static PAGE_TRANSITION_TIME: number = 0.5 * 1000;
 
   static readonly TIME_PER_JOKE: number = 8 * 1000;

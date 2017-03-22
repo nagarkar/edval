@@ -41,6 +41,10 @@ export class Utils {
               private platform: Platform) {
   }
 
+  static setRootNoAnimation(navCtrl: NavController, component: Function, params?: any): Promise<any> {
+    return navCtrl.setRoot(component, params || {}, { animate: false });
+  }
+
   static setRoot(navCtrl: NavController, component: Function, params?: any): Promise<any> {
     return navCtrl.setRoot(component, params || {}, Utils.forwardAnimation());
   }
@@ -383,8 +387,8 @@ export class Utils {
       return {
         animate: true,
         direction: 'forward',
-        duration: 1000,
-        easing: 'ease-in'
+        duration: Config.ANIMATE_PAGE_TRANSITIONS_DURATION,
+        easing: 'fade-in'
       }
     }
     return {

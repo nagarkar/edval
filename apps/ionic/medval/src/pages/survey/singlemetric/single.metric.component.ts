@@ -61,6 +61,6 @@ export class SingleMetricComponent extends SurveyPage {
   public onSelection(data: string): void {
     this.sessionSvc.getCurrentSession().addMetricValue(
       this.currentMetric.subject, new MetricValue(this.currentMetric.metricId, data));
-    super.navigateToNext(true /* Force Navigate */);
+    super.navigateToNext(false /*dontAnimate */, true /* Force Navigate */);
   }
 }
