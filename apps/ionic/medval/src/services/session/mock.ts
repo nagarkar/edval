@@ -14,7 +14,7 @@ import {AbstractMockService} from "../../shared/service/abstract.mock.service";
 @Injectable()
 export class MockSessionService extends AbstractMockService<Session> {
 
-  private static data: Map<string, Session> = new Map<string, Session>();
+  private data: Map<string, Session>;
 
   constructor(
     utils: Utils,
@@ -24,7 +24,7 @@ export class MockSessionService extends AbstractMockService<Session> {
   }
 
   reset() {
-    MockSessionService.data = new Map<string, Session>();
+    this.data = new Map<string, Session>();
   }
 
   setId(member: Session, id: string): string {
@@ -36,6 +36,6 @@ export class MockSessionService extends AbstractMockService<Session> {
   }
 
   public mockData() : Map<string, Session> {
-    return MockSessionService.data;
+    return this.data;
   }
 }

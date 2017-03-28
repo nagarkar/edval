@@ -19,6 +19,6 @@ export class SurveyService extends DelegatingService<Survey> {
     mockService: MockSurveyService,
     liveService: LiveSurveyService) {
 
-    super(mockService, liveService);
+    super(mockService, liveService, Survey);
   }
 }

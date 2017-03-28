@@ -16,7 +16,7 @@ import {ErrorType} from "../../shared/stuff/error.types";
 @Injectable()
 export class MockSurveyService extends AbstractMockService<Survey> {
 
-  private static surveyMap: Map<string, Survey> = MockSurveyService.mockMap();
+  private surveyMap: Map<string, Survey>;
 
   constructor(
     utils: Utils,
@@ -26,7 +26,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
   }
 
   reset() {
-    MockSurveyService.surveyMap = MockSurveyService.mockMap();
+    this.surveyMap = MockSurveyService.mockMap();
   }
 
   getId(member: Survey) {
@@ -42,7 +42,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
   }
 
   mockData() : Map<string, Survey> {
-    return MockSurveyService.surveyMap;
+    return this.surveyMap;
   }
 
   private static mockMap() : Map<string, Survey> {

@@ -18,7 +18,7 @@ export class MockSessionFollowupService extends AbstractMockService<SessionFollo
   private static TODAY_9AM: number = new Date().setHours(8);
   private static YESTERDAY_12AM: number = new Date(new Date().getTime() - 86400000).setHours(11);
 
-  private static followupMap: Map<string, SessionFollowup> = MockSessionFollowupService.mockMap();
+  private followupMap: Map<string, SessionFollowup>;
 
   constructor(utils: Utils,
               accessProvider: AccessTokenService) {
@@ -27,7 +27,7 @@ export class MockSessionFollowupService extends AbstractMockService<SessionFollo
   }
 
   reset() {
-    MockSessionFollowupService.followupMap = MockSessionFollowupService.mockMap();
+    this.followupMap = MockSessionFollowupService.mockMap();
   }
 
   setId(member: SessionFollowup, id: string): string {
@@ -39,7 +39,7 @@ export class MockSessionFollowupService extends AbstractMockService<SessionFollo
   }
 
   public mockData(): Map<string, SessionFollowup> {
-    return MockSessionFollowupService.followupMap;
+    return this.followupMap;
   }
 
   private static mockMap(): Map<string, SessionFollowup> {

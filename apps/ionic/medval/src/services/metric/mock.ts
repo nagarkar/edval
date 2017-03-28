@@ -15,7 +15,7 @@ import {AbstractMockService} from "../../shared/service/abstract.mock.service";
 @Injectable()
 export class MockMetricService extends AbstractMockService<Metric> {
 
-  private static metricMap: Map<string, Metric> = MockMetricService.mockMap();
+  private metricMap: Map<string, Metric>;
 
   constructor(utils: Utils,
               accessProvider: AccessTokenService) {
@@ -24,7 +24,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
   }
 
   reset() {
-    MockMetricService.metricMap = MockMetricService.mockMap();
+    this.metricMap = MockMetricService.mockMap();
   }
 
   setId(member: Metric, id: string): string {
@@ -36,7 +36,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
   }
 
   public mockData(): Map<string, Metric> {
-    return MockMetricService.metricMap;
+    return this.metricMap;
   }
 
   private static mockMap(): Map<string, Metric> {
