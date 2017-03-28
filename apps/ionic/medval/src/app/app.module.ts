@@ -36,8 +36,6 @@ import {MetricService} from "../services/metric/delegator";
 import {MockMetricService} from "../services/metric/mock";
 import {LiveMetricService} from "../services/metric/live";
 import {SettingsComponent} from "../pages/settings/settings.component";
-import {MetricSummaryComponent} from "../pages/metricsetup/metric.summary.component";
-import {MetricDetailComponent} from "../pages/metricsetup/metric.detail.component";
 import {ServiceFactory} from "../services/service.factory";
 import {SurveyService} from "../services/survey/delegator";
 import {MockSurveyService} from "../services/survey/mock";
@@ -85,12 +83,20 @@ import {RevvolveDatePipe} from "../pipes/date.filters";
 import {FollowupPage} from "../pages/followups/followup.page";
 import {SuggestionComponent} from "../shared/components/suggestions/suggestions.page";
 import {HelpPage} from "../pages/dashboard/help/help.page";
+import {AccountBranding} from "../pages/branding/account.branding";
+import {ColorPicker} from "../shared/components/colorpicker/color.picker";
+import {ColorModal} from "../shared/components/colorpicker/color.modal";
+import { REVVOLVE_DIRECTIVES } from "../shared/directives/revvolve.directives";
 
 enableProdMode();
 
 @NgModule({
   declarations: [
     RevvolveApp,
+
+    /** Directives **/
+    REVVOLVE_DIRECTIVES,
+
 
     /** Pipes **/
     SReplacer,
@@ -111,6 +117,8 @@ enableProdMode();
     CustomerTextEmailComponent,
     SuggestionComponent,
     HelpPage,
+    ColorPicker,
+    ColorModal,
 
     /** Administrative Components */
     DashboardComponent,
@@ -121,6 +129,7 @@ enableProdMode();
     StaffEditComponent,
     SettingsComponent,
     FollowupPage,
+    AccountBranding,
 
     /** Survey Components */
     RatingComponent,
@@ -146,8 +155,6 @@ enableProdMode();
     SubjectDetailComponent,
 
     /** Metric Management */
-    MetricSummaryComponent,
-    MetricDetailComponent
   ],
   imports: [
     IonicModule.forRoot(RevvolveApp, {pageTransition: 'ios'}),
@@ -175,6 +182,8 @@ enableProdMode();
     CustomerTextEmailComponent,
     SuggestionComponent,
     HelpPage,
+    ColorPicker,
+    ColorModal,
 
     /** Administrative Components */
     DashboardComponent,
@@ -185,6 +194,7 @@ enableProdMode();
     StaffEditComponent,
     SettingsComponent,
     FollowupPage,
+    AccountBranding,
 
     /** Survey Components */
     RatingComponent,
@@ -210,8 +220,6 @@ enableProdMode();
     SubjectDetailComponent,
 
     /** Metric Management */
-    MetricSummaryComponent,
-    MetricDetailComponent
   ],
   providers: [
     { provide: Config, useClass: Config},

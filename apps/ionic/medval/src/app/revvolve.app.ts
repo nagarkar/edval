@@ -6,16 +6,7 @@
  * site or application without licensing is strictly prohibited.
  */
 
-import {
-  CodePush,
-  Brightness,
-  BatteryStatus,
-  BatteryStatusResponse,
-  Device,
-  NativeStorage,
-  StatusBar,
-  Splashscreen
-} from "ionic-native";
+import {StatusBar, Splashscreen} from "ionic-native";
 import {Component} from "@angular/core";
 import {Platform, Alert, AlertController} from "ionic-angular";
 import {ServiceFactory} from "../services/service.factory";
@@ -37,7 +28,6 @@ import {Utils} from "../shared/stuff/utils";
 import {Config} from "../shared/config";
 import {GoogleChartsConfig as ChartConfig} from "../pages/reporting/config";
 import {AccessTokenService} from "../shared/aws/access.token.service";
-import {Subscription} from "rxjs";
 import {DeviceServices} from "../shared/service/DeviceServices";
 
 declare let google;
