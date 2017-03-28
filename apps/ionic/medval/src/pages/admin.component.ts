@@ -1,3 +1,4 @@
+/// <reference path="./any.component.ts" />
 /**
  * Created by Chinmay Nagarkar on 9/30/2016.
  * Copyright HC Technology Inc.
@@ -12,14 +13,16 @@ import {Config} from "../shared/config";
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {SpinnerDialog} from "ionic-native";
 import {Http} from "@angular/http";
+import {AnyComponent} from "./any.component";
 
 /**
  * Subclasses should implement ngOnInit() and call super.ngOnInit() before calling the account to load
  * data.
  */
-export abstract class AdminComponent implements OnInit {
+export abstract class AdminComponent extends AnyComponent implements OnInit {
 
   constructor(protected  navCtrl: NavController, private http: Http) {
+    super();
     setTimeout(()=>{
       SpinnerDialog.hide();
     }, Config.SURVEY_PAGE_IDLE_SECONDS/4);

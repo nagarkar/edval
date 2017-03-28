@@ -1,0 +1,123 @@
+<mdval-header title="Account Branding"></mdval-header>
+<ion-content class="scrollable">
+  <div class="m-t-4">
+
+    <ion-grid>
+      <ion-row>
+        <ion-col width-33>
+          <ion-label (tap)="showHelp('account.username')" item-left>Header Logo&nbsp;&nbsp;&nbsp;<ion-icon name="help"></ion-icon></ion-label>
+          <button small tertiary-button ion-button (tap)="revertToDefault('logo483x106')">Revert to Defaults</button>
+        </ion-col>
+        <ion-col>
+          <ion-grid>
+            <ion-row>
+              <ion-col><img class="swatchBox" width="483" height="106" src="{{logo483x106}}"
+                  (tap)="updateImage('logo483x106', '483:106')" /></ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col><button tertiary-button round outline small ion-button
+                 (tap)="updateImage('logo483x106', '483:106')" color="{{primaryColor}}">change</button></ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-col>
+      </ion-row>
+      <ion-row style="background: aliceblue;">
+        <ion-col width-33>
+          <ion-label (tap)="showHelp('account.username')" item-left>
+            Net Promoter Background Image&nbsp;&nbsp;&nbsp;<ion-icon name="help"></ion-icon>
+            <br/>
+            <span style="font-size:.75em">(one half scale)</span>
+          </ion-label>
+          <button small tertiary-button ion-button (tap)="revertToDefault('npsBackgroundImage')">Revert to Defaults</button>
+        </ion-col>
+        <ion-col>
+          <ion-grid>
+            <ion-row>
+              <ion-col><img class="swatchBox" width="512px" src="{{npsBackgroundImage}}" (tap)="revertToDefault('npsBackgroundImage')"/></ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col><button round outline small tertiary-button ion-button
+                   (tap)="updateImage('npsBackgroundImage', '1024:683')" color="{{primaryColor}}">change</button></ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-33>
+          <ion-label item-left>Pick App Colors</ion-label>
+          <button small tertiary-button ion-button (tap)="revertToDefaultColors()">Revert to Defaults</button>
+        </ion-col>
+        <ion-col>
+          <ion-grid style="padding-top:0">
+            <ion-row>
+              <ion-col>
+                <ion-label>Primary</ion-label>
+              </ion-col>
+              <ion-col>
+                <ion-label>Secondary</ion-label>
+              </ion-col>
+              <ion-col>
+                <ion-label>Tertiary</ion-label>
+              </ion-col>
+              <ion-col>
+                <ion-label>Light</ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <div class="swatchBox" (tap)="openColorPicker('primaryColor')" [ngStyle]="{'background': primaryColor}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <ion-input with-boundary type="text" [(ngModel)]="primaryColor"></ion-input>
+              </ion-col>
+              <ion-col>
+                <div class="swatchBox" (tap)="openColorPicker('secondaryColor')" [ngStyle]="{'background': secondaryColor}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <ion-input with-boundary type="text" [(ngModel)]="secondaryColor"></ion-input>
+              </ion-col>
+              <ion-col>
+                <div class="swatchBox" (tap)="openColorPicker('tertiaryColor')" [ngStyle]="{'background': tertiaryColor}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <ion-input with-boundary type="text" [(ngModel)]="tertiaryColor"></ion-input>
+              </ion-col>
+              <ion-col>
+                <div class="swatchBox" (tap)="openColorPicker('lightColor')" [ngStyle]="{'background': lightColor}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <ion-input with-boundary type="text" [(ngModel)]="lightColor"></ion-input>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-label>Icon Color</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label>Button Text Color</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label>&nbsp;</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label>&nbsp;</ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <div class="swatchBox" (tap)="openColorPicker('iconColor')" [ngStyle]="{'background': iconColor}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+              <ion-input with-boundary type="text" [(ngModel)]="iconColor"></ion-input>
+            </ion-col>
+            <ion-col>
+              <div class="swatchBox" (tap)="openColorPicker('buttonTextColor')" [ngStyle]="{'background': buttonTextColor}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+              <ion-input with-boundary type="text" [(ngModel)]="buttonTextColor"></ion-input>
+            </ion-col>
+            <ion-col>
+              &nbsp;
+            </ion-col>
+            <ion-col>
+              &nbsp;
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div padding text-center>
+      <button primary-button ion-button color="{{primaryColor}}" (tap)="save()">Save</button>
+      <button secondary-button ion-button color="{{primaryColor}}" (tap)="cancel()">Cancel</button>
+    </div>
+  </div>
+</ion-content>

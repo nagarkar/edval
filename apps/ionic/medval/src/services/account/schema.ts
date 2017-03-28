@@ -8,6 +8,19 @@
 import {Utils} from "../../shared/stuff/utils";
 import {Config} from "../../shared/config";
 import {ValidationService} from "../../shared/components/validation/validation.service";
+import {Type} from "class-transformer";
+
+export class Branding {
+  primaryColor:string = '#04ad67';
+  secondaryColor:string = '#553982';
+  tertiaryColor:string = '#4b4b4b';
+  lightColor:string = '#f4f4f4';
+  logo483x106:string = "assets/img/header-logo.jpg";
+  logo500x139:string = "assets/img/logo.png";
+  npsBackgroundImage:string = "assets/img/root_OrthodonticClinic.jpg";
+  iconColor:string = "#ffffff";
+  buttonTextColor:string = "#ffffff";
+}
 
 export interface AccountConfiguration {
   STANDARD_ROLES: string;
@@ -24,37 +37,48 @@ export interface AccountConfiguration {
   CHIME_INTERVAL: number;
 }
 
+export interface Address {
+  street1?: string;
+  street2?: string;
+  pobox?:string;
+  zip?: string;
+  city?:string;
+  state?:string;
+  country?: string;
+};
+
+export class AccountProperties {
+  verticalId: string = Account.ORTHODONTIC_CLINIC;
+  customerName: string = '';
+  contactName: string = '';
+  logo: string = '';
+  @Type(() => Branding)
+  branding: Branding = new Branding();
+  address: Address = {};
+  configuration: AccountConfiguration = Account.StandardConfiguration[this.verticalId];
+}
+
 export class Account {
 
+  static DEFAULT_BRANDING = new Branding();
   customerId: string;
   softwareVersion: string = Config.SOFTWARE_VERSION;
-  properties : {
-    verticalId?: string,
-    customerName?: string,
-    contactName?: string,
-    logo?: string,
-    address: {
-      street1?: string;
-      street2?: string;
-      pobox?:string;
-      zip?: string;
-      city?:string;
-      state?:string;
-      country?: string;
-    },
-    configuration?: AccountConfiguration
-  };
+  @Type(() => AccountProperties)
+  properties : AccountProperties = new AccountProperties();
 
-  constructor() {
-    this.properties = {
-      customerName: "",
-      contactName: '',
-      logo: '',
-      address: {},
-      verticalId: Account.ORTHODONTIC_CLINIC
-    };
-    this.properties.configuration = Account.StandardConfiguration[this.properties.verticalId];
-    this.softwareVersion = Config.SOFTWARE_VERSION;
+  constructor() { }
+
+  setBranding(source: Branding) {
+    if (Utils.nou(this.properties.branding)) {
+      this.properties.branding = new Branding();
+    }
+    for (var key in source) {
+      if (source.hasOwnProperty(key) && this.properties.branding.hasOwnProperty(key)) {
+        if (source[key]) {
+          this.properties.branding[key] = source[key];
+        }
+      }
+    }
   }
 
   toString() {
@@ -66,6 +90,18 @@ export class Account {
       this.properties.configuration = Account.StandardConfiguration[this.properties.verticalId];
     }
     return this.properties.configuration.STANDARD_ROLES.split(',');
+  }
+
+  static getBrandingAttribute(attributeName: string, useDefaultsOnly?: boolean): any {
+    Utils.throwIfNNOU(attributeName);
+    if (!Config.CUSTOMER || useDefaultsOnly) {
+      return Account.DEFAULT_BRANDING[attributeName];
+    }
+    let acc: Account = Config.CUSTOMER as Account;
+    if (!acc.properties || !acc.properties.branding || !acc.properties.branding[attributeName]) {
+      return Account.DEFAULT_BRANDING[attributeName];
+    }
+    return acc.properties.branding[attributeName] || Account.DEFAULT_BRANDING[attributeName];
   }
 
   static ORTHODONTIC_CLINIC: string = "OrthodonticClinic";
