@@ -104,4 +104,5 @@
     <plugin name="cordova-plugin-nativeaudio"/>
     <plugin name="com.verso.cordova.clipboard" spec="https://github.com/VersoSolutions/CordovaClipboard.git" />
     <plugin name="cordova-plugin-wkwebview-engine"/>
+    <plugin name="cordova-plugin-datepicker"/>
 </widget>
