@@ -91,16 +91,21 @@ export class SReplacer implements PipeTransform {
     if (expression == null) {
       return SReplacer.EMPTY_STRING_FUNCTION;
     }
-    const cleanExpression = expression.trim();
-    if (fresh) {
-      return this.compileX(cleanExpression);
+    try {
+      const cleanExpression = expression.trim();
+      if (fresh) {
+        return this.compileX(cleanExpression);
+      }
+      let func = SReplacer.expressionMap.get(cleanExpression);
+      if (!func) {
+        func = this.compileX(cleanExpression);
+        SReplacer.expressionMap.set(cleanExpression, func);
+      }
+      return func;
+    } catch (err) {
+      Utils.error("Unexpected Error: " + err)
     }
-    let func = SReplacer.expressionMap.get(cleanExpression);
-    if (!func) {
-      func = this.compileX(cleanExpression);
-      SReplacer.expressionMap.set(cleanExpression, func);
-    }
-    return func;
+    return ()=> {return expression};
   }
 
   private compileX(expression: string) {

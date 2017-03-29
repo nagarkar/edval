@@ -87,7 +87,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           id:'unhappy',
           component:"PickMetricGroups",
           params: {
-            title:[`"What part of your experience " + account.customerName + " was the least satisfying?"`],
+            title:[`"What part of your experience was the least satisfying?"`],
             selectedStyle: {
               fillStyle: "rgba(255, 0, 0, .1)",
               shadowColor: '#C0B'
@@ -148,7 +148,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
               fillStyle: "rgba(0, 255, 0, .1)",
               shadowColor: '#333'
             },
-            title:`"What part of your experience " + account.customerName + " was the most satisfying?"`,
+            title: [`"What part of your experience was the most satisfying?"`],
             graphicalMetricGroupIndicators: {
               imgSrc: "assets/img/journeymap.png",
               metricGroups: [{
@@ -203,7 +203,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           isTerminal:true,
           component:"TopInfluencerComponent",
           params: {
-            title: `"What can " + account.properties.customerName + " improve?"`,
+            title: [`"What can " + account.properties.customerName + " improve?"`],
             valueOrderDesc: false,
             maxMetrics: 4
           }

@@ -46,7 +46,7 @@ export class PickMetricGroups extends SurveyPage {
 
     super(navCtrl, sessionSvc, idle);
     this.params = params.get('graphicalMetricGroupIndicators');
-    this.title = params.get('title') || this.title;
+    this.title = this.extractTitle(params);
   }
 
 
@@ -57,5 +57,22 @@ export class PickMetricGroups extends SurveyPage {
       this.sessionSvc.scratchPad.metricsForTopLineInfluencer = metricIds;
     }
     this.done = true;
+  }
+
+  private extractTitle(params: NavParams) {
+    if (!params) {
+      return this.title;
+    }
+    let titleFromParams = params.get('title');
+    if (Utils.nou(titleFromParams)) {
+      return this.title
+    }
+    if (Utils.isString(titleFromParams)) {
+      return titleFromParams;
+    }
+    if (Array.isArray(titleFromParams) && titleFromParams.length > 0) {
+      return titleFromParams[0];
+    }
+    return this.title;
   }
 }
