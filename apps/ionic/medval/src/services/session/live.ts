@@ -8,7 +8,6 @@
 import {AbstractService} from "../../shared/service/abstract.service";
 import {Session} from "./schema";
 import {Config} from "../../shared/config";
-import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 /**
@@ -18,11 +17,9 @@ import {Http} from "@angular/http";
 @Injectable()
 export class LiveSessionService extends AbstractService<Session> {
 
-  constructor(
-    http: Http,
-    accessProvider: AccessTokenService) {
+  constructor(http: Http) {
 
-    super(accessProvider, http, Session);
+    super(http, Session);
   }
 
   getId(member: Session): string {
@@ -34,8 +31,9 @@ export class LiveSessionService extends AbstractService<Session> {
   }
 
   /** Override default so we don't list all sessions on startup */
-  reset(): void {
+  reset(): Promise<any> {
     this.clearCache();
+    return Promise.resolve();
   }
 
   /** Don't update cache */

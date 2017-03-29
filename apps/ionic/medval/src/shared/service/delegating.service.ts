@@ -55,8 +55,8 @@ export abstract class DelegatingService<T> implements ServiceInterface<T> {
     this.subscribeToEventsFor(this.getDelegate());
   }
 
-  reset() {
-    this.getDelegate().reset();
+  reset(): Promise<any> {
+    return this.getDelegate().reset();
   }
 
   getId(member: T): string {

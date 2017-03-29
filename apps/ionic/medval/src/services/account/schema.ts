@@ -151,5 +151,4 @@ export class Account {
     }
     return errors.join("\n");
   }
-
 }

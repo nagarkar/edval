@@ -7,7 +7,6 @@
  */
 import {Injectable} from "@angular/core";
 import {Account} from "./schema";
-import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {AbstractService} from "../../shared/service/abstract.service";
 import {Http} from "@angular/http";
 import {Config} from "../../shared/config";
@@ -15,11 +14,9 @@ import {Config} from "../../shared/config";
 @Injectable()
 export class LiveAccountService extends AbstractService<Account> {
 
-  constructor(
-    http: Http,
-    accessProvider: AccessTokenService) {
+  constructor(http: Http) {
 
-    super(accessProvider, http, Account);
+    super(http, Account);
   }
 
   getPath(): string {
@@ -30,9 +27,9 @@ export class LiveAccountService extends AbstractService<Account> {
     return member.customerId;
   }
 
-  reset() {
+  reset(): Promise<any> {
     this.clearCache();
-    this.get(Config.CUSTOMERID);
+    return this.get(Config.CUSTOMERID);
   }
 
 }

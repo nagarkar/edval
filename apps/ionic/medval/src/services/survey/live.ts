@@ -6,7 +6,6 @@
  * site or application without licensing is strictly prohibited.
  */
 import {Injectable} from "@angular/core";
-import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {AbstractService} from "../../shared/service/abstract.service";
 import {Config} from "../../shared/config";
 import {Survey} from "./schema";
@@ -16,11 +15,9 @@ import {MockSurveyService} from "./mock";
 @Injectable()
 export class LiveSurveyService extends AbstractService<Survey> {
 
-  constructor(
-    http: Http,
-    accessProvider: AccessTokenService) {
+  constructor(http: Http) {
 
-    super(accessProvider, http, Survey);
+    super(http, Survey);
   }
 
   getId(member: Survey): string {

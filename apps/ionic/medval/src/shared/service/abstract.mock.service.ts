@@ -14,7 +14,7 @@ import {ServiceInterface} from "./interface.service";
 export abstract class AbstractMockService<T> implements ServiceInterface<T> {
 
   abstract mockData() : Map<string, T>;
-  abstract reset(): any;
+  abstract reset(): Promise<any> ;
   abstract getId(member: T) : string;
   abstract setId(member: T, id: string): string;
 
@@ -22,11 +22,7 @@ export abstract class AbstractMockService<T> implements ServiceInterface<T> {
   onUpdate: EventEmitter<T> = new EventEmitter<T>();
   onDelete: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(
-    protected utils : Utils,
-    protected accessProvider: AccessTokenService) {
-
-  }
+  constructor() {}
 
   get(id: string, dontuseCache?: boolean) : Promise<T> {
     return Promise.resolve(this.mockData().get(id));

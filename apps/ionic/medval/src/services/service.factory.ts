@@ -30,17 +30,19 @@ export class ServiceFactory {
     this.serviceMap.set(instance.constructor.name, instance);
   }
 
-  resetRegisteredServices() {
+  resetRegisteredServices(): Promise<any> {
     if (this.serviceMap.size == 0) {
       ServiceFactory.serviceConstructors.forEach((constructor: Function) => {
         this.serviceMap.set(constructor.name, this.injector.get(constructor));
       });
     }
+    let promises: Promise<any>[] = [];
     this.serviceMap.forEach((value: ServiceInterface<any>)=>{
       if (value) {
-        value.reset();
+        promises.push(value.reset());
       }
     })
+    return Promise.all(promises);
     //this.chartSvc.cache.clear();
   }
 

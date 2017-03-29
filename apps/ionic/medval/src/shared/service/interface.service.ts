@@ -32,7 +32,7 @@ export interface ServiceInterface<T> {
    * Reset the service; this should clear and prime the cache if any, or mock data should be 'recomputed' in the current
    * context, etc.
    */
-  reset(): void;
+  reset(): Promise<any>;
 
   validate(members: T[]): Error[];
 }

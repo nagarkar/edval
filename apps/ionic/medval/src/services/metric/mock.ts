@@ -8,8 +8,6 @@
 import {Metric} from "./schema";
 import {Config} from "../../shared/config";
 import {Injectable} from "@angular/core";
-import {Utils} from "../../shared/stuff/utils";
-import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {AbstractMockService} from "../../shared/service/abstract.mock.service";
 
 @Injectable()
@@ -17,14 +15,14 @@ export class MockMetricService extends AbstractMockService<Metric> {
 
   private metricMap: Map<string, Metric>;
 
-  constructor(utils: Utils,
-              accessProvider: AccessTokenService) {
+  constructor() {
 
-    super(utils, accessProvider);
+    super();
   }
 
-  reset() {
+  reset() : Promise<any> {
     this.metricMap = MockMetricService.mockMap();
+    return Promise.resolve();
   }
 
   setId(member: Metric, id: string): string {
@@ -75,7 +73,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "role:Orthodontic Assistant",
       properties: {
-        question: `onlyStaff ? "How would you rate " + onlyStaff.displayName + " as an Orthodontic Assistant?"
+        question: `onlyStaff ? "How would you rate " + onlyStaff.displayName + " as a Dental Assistant?"
           : "How would you rate the Doctor's Assistants at " + account.properties.customerName + "?"`,
         metricName: "Favorability - Assistants",
         definition: {

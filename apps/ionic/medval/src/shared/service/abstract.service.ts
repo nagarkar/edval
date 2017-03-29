@@ -29,10 +29,7 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
   onUpdate: EventEmitter<T> = new EventEmitter<T>();
   onDelete: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(
-    protected accessProvider: AccessTokenService,
-    http: Http,
-    private clazz: ClassType<T>) {
+  constructor(http: Http, private clazz: ClassType<T>) {
 
     this.httpClient = new HttpClient<T>(http, clazz);
   }
@@ -41,15 +38,12 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
     return true;
   }
 
-  reset(): void {
+  reset(): Promise<any>  {
     this.clearCache();
-    this.list(true /* Dont' use cache (prime the cache) */);
+    return this.list(true /* Dont' use cache (prime the cache) */);
   }
 
   get(id: string, dontuseCache?: boolean) : Promise<T> {
-    if (!this.checkGate()) {
-      return Promise.reject("Not Logged In");
-    }
     Utils.throwIfNull(id);
     const tryuseCache = !dontuseCache && !Utils.nou(this.lastCacheClearMillis);
 
@@ -72,10 +66,6 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
   }
 
   list(dontuseCache?: boolean) : Promise<Array<T>> {
-    if (!this.checkGate()) {
-      return Promise.reject("Not Logged In");
-    }
-
     const tryuseCache = !dontuseCache && !Utils.nou(this.lastCacheClearMillis);
 
     if (tryuseCache) {
@@ -108,9 +98,6 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
   }
 
   create(member: T): Promise<T> {
-    if (!this.checkGate()) {
-      return Promise.reject("Not Logged In");
-    }
     Utils.throwIfNull(member);
 
     return this.httpClient.post(this.getPath(), member)
@@ -125,9 +112,6 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
   }
 
   update(member: T): Promise<T> {
-    if (!this.checkGate()) {
-      return Promise.reject("Not Logged In");
-    }
     Utils.throwIfAnyNull([member, this.getId(member)]);
 
     return this.httpClient.put(this.getPath(), this.getId(member), member)
@@ -142,10 +126,6 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
   }
 
   delete(id: string): Promise<void> {
-    if (!this.checkGate()) {
-      return Promise.reject("Not Logged In");
-    }
-
     return this.httpClient.delete(this.getPath(), id)
       .then(() => {
         this.deleteCachedValue(this.getPath(), id);
@@ -165,18 +145,6 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
 
   getInstance(): T {
     return new this.clazz();
-  }
-
-  protected checkGate() : boolean {
-    let supposedToBeLoggedIn = this.accessProvider.supposedToBeLoggedIn();
-    let testMode = AbstractService.TEST_MODE;
-    let mockMode = this.inMockMode();
-    let ret = testMode || mockMode || supposedToBeLoggedIn;
-    if (!ret) {
-      Utils.error("Checkgate failed Test_mode: {0}, mockmode: {1}, supposedToBeLoggedIn: {2}",
-        testMode, mockMode, supposedToBeLoggedIn);
-    }
-    return ret;
   }
 
   private inMockMode() : boolean {

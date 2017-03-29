@@ -7,24 +7,21 @@
  */
 import {Injectable} from "@angular/core";
 import {Session} from "./schema";
-import {Utils} from "../../shared/stuff/utils";
-import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {AbstractMockService} from "../../shared/service/abstract.mock.service";
 
 @Injectable()
 export class MockSessionService extends AbstractMockService<Session> {
 
-  private data: Map<string, Session>;
+  private static data: Map<string, Session> = new Map<string, Session>();
 
-  constructor(
-    utils: Utils,
-    accessProvider: AccessTokenService) {
+  constructor() {
 
-    super(utils, accessProvider);
+    super();
   }
 
-  reset() {
-    this.data = new Map<string, Session>();
+  reset(): Promise<any>  {
+    MockSessionService.data = new Map<string, Session>();
+    return Promise.resolve();
   }
 
   setId(member: Session, id: string): string {
@@ -36,6 +33,6 @@ export class MockSessionService extends AbstractMockService<Session> {
   }
 
   public mockData() : Map<string, Session> {
-    return this.data;
+    return MockSessionService.data;
   }
 }

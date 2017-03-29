@@ -60,7 +60,7 @@ export class DDBSessionService implements ServiceInterface<Session> {
     return Promise.reject("delete not supported for sessions");
   }
 
-  reset(): void { }
+  reset(): Promise<any>  { return Promise.resolve() }
 
   validate(members: Session[]): Error[] {
     return [];

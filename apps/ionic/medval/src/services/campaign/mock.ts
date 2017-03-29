@@ -7,8 +7,6 @@
  */
 import {Injectable} from "@angular/core";
 import {Campaign} from "./schema";
-import {Utils} from "../../shared/stuff/utils";
-import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {AbstractMockService} from "../../shared/service/abstract.mock.service";
 
 @Injectable()
@@ -16,15 +14,13 @@ export class MockCampaignService extends AbstractMockService<Campaign> {
 
   private static data: Map<string, Campaign>;
 
-  constructor(
-    utils: Utils,
-    accessProvider: AccessTokenService) {
-
-    super(utils, accessProvider);
+  constructor() {
+    super();
   }
 
-  reset() {
+  reset(): Promise<any>  {
     MockCampaignService.data = this.mockData();
+    return Promise.resolve();
   }
 
   setId(member: Campaign, id: string): string {

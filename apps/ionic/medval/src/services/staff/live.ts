@@ -6,7 +6,6 @@
  * site or application without licensing is strictly prohibited.
  */
 import {Injectable} from "@angular/core";
-import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {AbstractService} from "../../shared/service/abstract.service";
 import {Config} from "../../shared/config";
 import {Staff} from "./schema";
@@ -15,11 +14,9 @@ import {Http} from "@angular/http";
 @Injectable()
 export class LiveStaffService extends AbstractService<Staff> {
 
-  constructor(
-    http: Http,
-    accessProvider: AccessTokenService) {
+  constructor(http: Http) {
 
-    super(accessProvider, http, Staff);
+    super(http, Staff);
   }
 
   getId(member: Staff): string {

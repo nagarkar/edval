@@ -9,7 +9,6 @@
 import {Injectable} from "@angular/core";
 import {AbstractMockService} from "../../shared/service/abstract.mock.service";
 import {Utils} from "../../shared/stuff/utils";
-import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {Aggregate, DailyDataList, DailyData} from "./schema";
 import {Config} from "../../shared/config";
 
@@ -24,15 +23,14 @@ export class MockDailyDataService extends AbstractMockService<DailyDataList> {
 
   private static data: Map<string, DailyDataList>;
 
-  constructor(
-    utils: Utils,
-    accessProvider: AccessTokenService) {
+  constructor() {
 
-    super(utils, accessProvider);
+    super();
   }
 
-  reset() {
+  reset(): Promise<any>  {
     MockDailyDataService.data = this.mockData();
+    return Promise.resolve();
   }
 
 

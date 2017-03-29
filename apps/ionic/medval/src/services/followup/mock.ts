@@ -8,8 +8,6 @@
 import {SessionFollowup, TaskNames, FollowupTaskState} from "./schema";
 import {Config} from "../../shared/config";
 import {Injectable} from "@angular/core";
-import {Utils} from "../../shared/stuff/utils";
-import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {AbstractMockService} from "../../shared/service/abstract.mock.service";
 
 @Injectable()
@@ -20,14 +18,14 @@ export class MockSessionFollowupService extends AbstractMockService<SessionFollo
 
   private followupMap: Map<string, SessionFollowup>;
 
-  constructor(utils: Utils,
-              accessProvider: AccessTokenService) {
+  constructor() {
 
-    super(utils, accessProvider);
+    super();
   }
 
-  reset() {
+  reset(): Promise<any>  {
     this.followupMap = MockSessionFollowupService.mockMap();
+    return Promise.resolve();
   }
 
   setId(member: SessionFollowup, id: string): string {

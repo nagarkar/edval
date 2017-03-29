@@ -28,9 +28,10 @@ export class MetricService extends DelegatingService<Metric> {
     this.onDelete.subscribe((next: Metric) => this.deleteCached(next));
   }
 
-  public reset() {
-    super.reset();
+  public reset(): Promise<any>  {
+    let promise: Promise<any> = super.reset();
     this.resetRootDrilldownMap();
+    return promise;
   }
 
   public getRootMetricIds(): string[] {

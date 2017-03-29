@@ -20,11 +20,7 @@ export class Survey {
   id: string;
   entityStatus?:string;
   softwareVersion: string = Config.SOFTWARE_VERSION;
-  properties?: {
-    name?: string;
-    purpose?: string;
-    description?: string;
-  };
+  properties?: SurveyProperties;
   workflowProperties: WorkflowProperties;
 
   workflow: WorkflowElement[];
@@ -38,21 +34,55 @@ export class Survey {
   }
 }
 
+export interface SurveyProperties {
+  name?: string;
+  purpose?: string;
+  description?: string;
+}
+
 export interface WorkflowProperties {
   avgSteps: number; // Average steps in the workflow.
   showJokes?: boolean; // Whether or not to show jokes.
+  showWheel?: boolean;
+  award?: number;
+  costPerUse?:number;
 }
 
 export interface WorkflowElement {
   id: string,
   params?: {
     metricId?: string,
+    rootMetricId?: string,
+    allowSkipIfNoSelectionsInMetricSubject?: boolean,
+    valueOrderDesc?: boolean,
     staffId?: string,
     roles?: Array<string>,
     sampleSize?: number,
-    metrics?: Array<string>
+    metrics?: Array<string>,
+    maxMetrics?: number,
+    numSelections?:number,
+    iconName?: string,
+    color?: string,
+    message?: string,
+    displayCount?: number,
+    title:Array<string>,
+    selectedStyle?: {
+      [res: string]: string;
+    },
+    graphicalMetricGroupIndicators
   },
   isTerminal?: boolean
+}
+
+
+export interface MetricGroup {
+  coords: string;
+  metricIds: string;
+}
+
+export interface graphicalMetricGroupIndicators {
+  imgSrc: string;
+  metricGroups: Array<MetricGroup>;
 }
 
 export interface ComponentIf extends WorkflowElement {

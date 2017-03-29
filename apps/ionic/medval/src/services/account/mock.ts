@@ -8,7 +8,6 @@
 import {Injectable} from "@angular/core";
 import {Account} from "./schema";
 import {Utils} from "../../shared/stuff/utils";
-import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {Config} from "../../shared/config";
 import {AbstractMockService} from "../../shared/service/abstract.mock.service";
 
@@ -17,15 +16,13 @@ export class MockAccountService extends AbstractMockService<Account> {
 
   private static MOCK_DATA : Map<string, Account>;
 
-  constructor(
-    utils: Utils,
-    accessProvider: AccessTokenService) {
-
-    super(utils, accessProvider);
+  constructor() {
+    super();
   }
 
-  reset() {
+  reset(): Promise<any>  {
     MockAccountService.MOCK_DATA = MockAccountService.mockMap();
+    return Promise.resolve();
   }
 
   mockData(): Map<string, Account> {

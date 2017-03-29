@@ -9,7 +9,6 @@ import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 import {DailyDataList} from "./schema";
 import {AbstractService} from "../../shared/service/abstract.service";
-import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {Config} from "../../shared/config";
 
 @Injectable()
@@ -23,8 +22,8 @@ export class LiveDailyDataService extends AbstractService<DailyDataList>{
     return member.id;
   }
 
-  constructor(accessProvider: AccessTokenService, http: Http,) {
-    super(accessProvider, http, DailyDataList);
+  constructor(http: Http,) {
+    super(http, DailyDataList);
   }
 
 }

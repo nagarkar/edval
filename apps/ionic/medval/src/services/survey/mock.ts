@@ -8,7 +8,6 @@
 import {Injectable} from "@angular/core";
 import {Survey, WorkflowElement} from "./schema";
 import {Utils} from "../../shared/stuff/utils";
-import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {Config} from "../../shared/config";
 import {AbstractMockService} from "../../shared/service/abstract.mock.service";
 import {ErrorType} from "../../shared/stuff/error.types";
@@ -18,15 +17,14 @@ export class MockSurveyService extends AbstractMockService<Survey> {
 
   private surveyMap: Map<string, Survey>;
 
-  constructor(
-    utils: Utils,
-    accessProvider: AccessTokenService) {
+  constructor() {
 
-    super(utils, accessProvider);
+    super();
   }
 
-  reset() {
+  reset(): Promise<any>  {
     this.surveyMap = MockSurveyService.mockMap();
+    return Promise.resolve();
   }
 
   getId(member: Survey) {
@@ -89,7 +87,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           id:'unhappy',
           component:"PickMetricGroups",
           params: {
-            title:`"What part of your experience " + account.customerName + " was the least satisfying?"`,
+            title:[`"What part of your experience " + account.customerName + " was the least satisfying?"`],
             selectedStyle: {
               fillStyle: "rgba(255, 0, 0, .1)",
               shadowColor: '#C0B'
@@ -227,7 +225,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
         description: `This survey is based on CAHPS and takes about 5 minutes to complete. 
           It includes questions to cover <a href='https://www.ahrq.gov/cahps/surveys-guidance/dental/about/survey-measures.html'>CAHPS</a> requirements but is not
           a replacement for an official CAHPS survey (contact us to learn more about this). Patients could be reasonably expected 
-          to provide this survey every six months to a year. The survey includes questions about doctors, the orthodontic assistants and the Front office. If
+          to provide this survey every six months to a year. The survey includes questions about doctors, their assistants and the Front office. If
           you have configured staff in the Administrative Dashboard, patients are also asked who they worked with and all metrics are tracked by staff member.
           This survey option does not show by default. You see this option if you arrive on this page from the Dashboard. 
           If you are in survey mode, you can tap the 'toolbar' icon on the top right of your screen to see this option.`
@@ -277,7 +275,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           id: 'assistant.metrics',
           component:"MultimetricComponent",
           params: {
-            message:`onlyStaff ? 'Tell us how ' + onlyStaff.displayName + ' is doing as the Orthodontic Assistant'
+            message:`onlyStaff ? 'Tell us how ' + onlyStaff.displayName + ' is doing as the Dental Assistant'
               : 'Tell us how the assistants ' 
                   + (staffSvc.getStaffNamesInListForRole(staff, role)? 
                       '(' + staffSvc.getStaffNamesInListForRole(staff, role) + ')' : ''
