@@ -30,6 +30,7 @@ import {Http} from "@angular/http";
 import {HelpPage} from "./help/help.page";
 import {Tips} from "../tips";
 import {DeviceServices} from "../../shared/service/DeviceServices";
+import {AccountBranding} from "../branding/account.branding";
 
 declare let AWSCognito:any;
 declare let AWS:any;
@@ -132,6 +133,10 @@ export class DashboardComponent extends AdminComponent {
 
   openNavGetHelpPage() {
     this.push(LoginComponent);
+  }
+
+  openNavAccountBranding() {
+    this.push(AccountBranding);
   }
 
   openNavTermsPage() {

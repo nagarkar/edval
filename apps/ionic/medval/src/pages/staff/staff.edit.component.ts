@@ -17,12 +17,13 @@ import {
   ToastController,
   TextInput
 } from "ionic-angular";
+import {AnyComponent} from "../any.component";
 
 @Component({
   templateUrl: "./staff.edit.component.html"
 })
 
-export class StaffEditComponent {
+export class StaffEditComponent extends AnyComponent {
 
   @ViewChild('username')
   usernameField: TextInput;
@@ -39,6 +40,7 @@ export class StaffEditComponent {
     public navCtrl: NavController,
     private alertCtrl: AlertController
   ) {
+      super();
       let staff: Staff = params.get("staffMember");
       if (staff) {
         this.isEdit = true;

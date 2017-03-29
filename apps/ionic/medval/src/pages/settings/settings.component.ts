@@ -17,13 +17,14 @@ import {Utils} from "../../shared/stuff/utils";
 import {SessionService} from "../../services/session/delegator";
 import {Clipboard} from "ionic-native";
 import {ToastController} from "ionic-angular";
+import {AnyComponent} from "../any.component";
 
 @Component({
   selector:'settings',
   templateUrl:'./settings.component.html'
 })
 
-export class SettingsComponent {
+export class SettingsComponent extends AnyComponent {
 
   mockData: {};
   keys: string[] = [];
@@ -42,6 +43,7 @@ export class SettingsComponent {
     private accountsvc: AccountService,
     private sessionsvc: SessionService) {
 
+    super();
     this.mockData = Config.MOCK_DATA;
     this.keys = Object.keys(this.mockData);
 

@@ -3,7 +3,7 @@
   <ion-grid class="has-header">
     <ion-row>
       <ion-col width-75 class="dashboardbutton">
-        <button ion-button block  (tap)="gotoSurveyPage()" color="green"><img src="assets/img/user-stars.png"><span class="button-text">Enter Feedback Mode</span></button>
+        <button primary-button ion-button block  (tap)="gotoSurveyPage()" color="green"><img src="assets/img/user-stars.png"><span class="button-text">Enter Feedback Mode</span></button>
       </ion-col>
       <ion-col width-25 class="dashboardbutton">
         <button ion-button block color="danger" (tap)="logout()" >Sign Out</button>
@@ -14,25 +14,25 @@
     <ion-row>
       <div class="colstyle">
         <ion-col>
-          <div class="box-content" (tap)="openNavAccountPage()">
+          <div primary-box (tap)="openNavAccountPage()">
             <div class="box-inner-content">
-              <img src="assets/img/settings1.png">
+              <img primary-img src="assets/img/settings1.png">
               <span class="button-text rowtext ">Account Settings</span>
             </div>
           </div>
         </ion-col>
         <ion-col>
-          <div class="box-content" (tap)="gotoStaffPage()">
+          <div primary-box class="box-content" (tap)="gotoStaffPage()">
             <div class="box-inner-content">
-              <img src="assets/img/user-icon1.png">
+              <img primary-img src="assets/img/user-icon1.png">
               <span class="button-text rowtext">Your Staff</span>
             </div>
           </div>
         </ion-col>
         <ion-col>
-          <div class="box-content" (tap)="gotoMetricsPage()">
+          <div primary-box class="box-content" (tap)="gotoMetricsPage()">
             <div class="box-inner-content">
-              <img src="assets/img/met.png">
+              <img primary-img src="assets/img/met.png">
               <span class="button-text rowtext">Reports</span>
             </div>
           </div>
@@ -44,17 +44,25 @@
     <ion-row>
       <div class="colstyle">
         <ion-col>
-          <div class="box-content" (tap)="gotoFollowupsPage()">
+          <div primary-box class="box-content" (tap)="openNavAccountBranding()">
             <div class="box-inner-content">
-              <img src="assets/img/user-icon1.png">
+              <img primary-img src="assets/img/settings1.png">
+              <span class="button-text rowtext ">Branding</span>
+            </div>
+          </div>
+        </ion-col>
+        <ion-col>
+          <div primary-box class="box-content" (tap)="gotoFollowupsPage()">
+            <div class="box-inner-content">
+              <img primary-img src="assets/img/user-icon1.png">
               <span class="button-text rowtext">Patient&nbsp;Followups</span>
             </div>
           </div>
         </ion-col>
         <ion-col>
-          <div class="box-content" (tap)="gotoHelp()">
+          <div primary-box class="box-content" (tap)="gotoHelp()">
             <div class="box-inner-content">
-              <img src="assets/img/settings1.png">
+              <img primary-img src="assets/img/settings1.png">
               <span class="button-text rowtext">Getting&nbsp;Started</span>
             </div>
           </div>
@@ -65,13 +73,13 @@
   <ion-grid>
     <ion-row class="colstyle">
       <ion-col>
-        <button ion-button color="green" (tap)="openNavTermsPage()" outline icon-left><ion-icon name="list-box"></ion-icon><span class="button-text">Terms Of Use</span></button>
+        <button ion-button primary-color (tap)="openNavTermsPage()" outline icon-left><ion-icon name="list-box"></ion-icon><span class="button-text">Terms Of Use</span></button>
       </ion-col>
       <ion-col>
-        <button ion-button color="green" (tap)="openNavPrivacyPage()" outline icon-left><ion-icon name="lock"></ion-icon><span class="button-text">Privacy Policy</span></button>
+        <button ion-button primary-color (tap)="openNavPrivacyPage()" outline icon-left><ion-icon name="lock"></ion-icon><span class="button-text">Privacy Policy</span></button>
       </ion-col>
       <ion-col>
-        <button ion-button color="blue" (tap)="verifyEmail()" outline icon-left><ion-icon name="lock"></ion-icon><span class="button-text">Verify Email</span></button>
+        <button ion-button primary-color (tap)="verifyEmail()" outline icon-left><ion-icon name="lock"></ion-icon><span class="button-text">Verify Email</span></button>
       </ion-col>
     </ion-row>
   </ion-grid>
