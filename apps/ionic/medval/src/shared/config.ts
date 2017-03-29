@@ -21,10 +21,10 @@ export class Config {
   static LOG_LENGTH: number = 1000;
   static ERR_LENGTH: number = 1000;
 
-  private static _baseUrl: string = "https://localhost:8091";
+  //private static _baseUrl: string = "https://localhost:8091";
   //private static _baseUrl: string = 'https://prodapi.healthcaretech.io';
   //private static _baseUrl: string = "http://34.197.108.208";
-  //private static _baseUrl: string = "https://testapi.healthcaretech.io";
+  private static _baseUrl: string = "https://testapi.healthcaretech.io";
 
   static DEFAULT_CACHE_AGE: number = Infinity;
 
