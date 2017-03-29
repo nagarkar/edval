@@ -29,17 +29,19 @@ export class AccountBranding extends AdminComponent {
     super(navCtrl, http);
   }
 
-  ngOnInit() { }
-
   updateImage(attr: string, crop: string) {
-    uploadcare.openDialog(null, {
-      crop: crop,
-      imagesOnly: true
-    }).done((file) => {
-      file.promise().done((fileInfo) => {
-        this[attr] = fileInfo.cdnUrl;
+    try {
+      uploadcare.openDialog(null, {
+        crop: crop,
+        imagesOnly: true
+      }).done((file) => {
+        file.promise().done((fileInfo) => {
+          this[attr] = fileInfo.cdnUrl;
+        });
       });
-    });
+    }catch (err) {
+      console.error("Error in updateImage: " + err);
+    }
   }
 
   openColorPicker(attr: string) {

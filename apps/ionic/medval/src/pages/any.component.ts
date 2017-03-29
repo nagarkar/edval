@@ -25,7 +25,7 @@ export abstract class AnyComponent {
     try {
       this.initStyles();
     } catch(err) {
-      console.log("Error in ANycomponent: " + err);
+      console.log("Error in AnyComponent: " + err);
     }
   }
 
