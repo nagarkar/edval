@@ -17,6 +17,7 @@ import {Config} from "../../shared/config";
 import {Validators, FormControl, FormGroup} from "@angular/forms";
 import {SpinnerDialog, NativeAudio, Device} from "ionic-native";
 import {HelpPage} from "../dashboard/help/help.page";
+import {AnyComponent} from "../any.component";
 
 declare let AWSCognito:any;
 declare let AWS:any;
@@ -25,8 +26,7 @@ declare let AWS:any;
 @Component({
   templateUrl: './login.component.html'
 })
-
-export class LoginComponent {
+export class LoginComponent extends AnyComponent {
 
   loginForm = new FormGroup({
     'username': new FormControl('', Validators.required),
@@ -44,6 +44,7 @@ export class LoginComponent {
     private accSetupSvc: AccountSetupService,
     private authProvider: AccessTokenService) {
 
+    super();
     try {
       if (authProvider.supposedToBeLoggedIn()) {
         Utils.info("Login Attempt while already logged in");
@@ -66,9 +67,14 @@ export class LoginComponent {
   static MUSIC_PRELOADED: boolean = false;
 
   ngOnInit() {
+    //this.loginWithCreds('celeron', 'passWord@1');
+    //return;
+
     try {
       this.clearTimerHandles();
       this.setupSoundHandling();
+      let prevUsername = this.authProvider.getUserName();
+      this.loginForm.controls['username'].setValue(prevUsername || '');
     } catch(err){
       Utils.error("Error in LoginComponent.ngOnInit {0}", err);
     }
@@ -134,39 +140,6 @@ export class LoginComponent {
             "The verification code was just sent to your registered email address");
         }
       });
-      /*
-      this.accSetupSvc.forgotPassword(username)
-        .then((result: string) => {
-          // never invoked due to teh bad way backend is implemented.
-        })
-        .catch((err)=> {
-          if (err && Utils.stringify(err).toLowerCase().indexOf("error") >=0){
-            Utils.presentInvalidEntryAlert(me.alertCtrl, "Problems...", err);
-            return;
-          }
-          Utils.presentAlertPrompt(
-            me.alertCtrl,
-            ((data)=> {
-              let verificationCode = data.verificationCode;
-              if (Utils.nullOrEmptyString(verificationCode)) {
-                return false;
-              }
-              Utils.presentAlertPrompt(
-                me.alertCtrl,
-                ((passwordData)=> {
-                  if (Utils.nullOrEmptyString(passwordData.newPassword)) {
-                    return false;
-                  }
-                  me.tryNewPassword(username, cognitoUser, verificationCode.trim(), passwordData.newPassword.trim());
-                }),
-                "Please pick a new password",
-                [{name: "newPassword", type: 'password', label: 'New Password'}]);
-            }),
-            "Provide Verification Code",
-            [{name: "verificationCode", type:'number', label: 'Verification Code'}],
-            "The verification code was just sent to your registered email address");
-        })
-      */
     }), 'What is your username', [{name: "username", label: 'User Name'}]);
   }
 

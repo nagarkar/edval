@@ -1,27 +1,27 @@
 <mdval-header [title]="'Login'" [leftHome]="isLoggedIn ? 'survey' : 'false'" [home]="'false'"></mdval-header>
 <ion-content padding class="login-page">
   <div class="revvolve-logo" text-center style="margin-top:4em">
-    <img src="assets/img/logo.png" alt="">
+    <img src="{{logo500x139}}" alt="">
   </div>
   <div class="form-container">
     <form [formGroup]="loginForm" (ngSubmit)="login()">
       <ion-item>
-        <ion-label color="darkgrey" fixed>Username</ion-label>
+        <ion-label fixed>Username</ion-label>
         <ion-input type="text" formControlName="username"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label color="darkgrey" fixed>Password</ion-label>
+        <ion-label fixed>Password</ion-label>
         <ion-input type="password" formControlName="password"></ion-input>
       </ion-item>
       <div padding>
-        <button ion-button color="revvolve" block type="submit">Sign In</button>
+        <button ion-button primary-button block type="submit">Sign In</button>
       </div>
     </form>
     <div padding>
-      <button *ngIf="showNewAccount" small block ion-button color="light" (click)="setupNewAccount()">Create a New Account (Free!)</button>
-      <button *ngIf="showForgotPwd" small block ion-button color="light" (click)="forgotPassword()">Forgot Password</button>
-      <button *ngIf="!isLoggedIn" small block ion-button color="light"  (click)="gotoHelp()">Tell me more about this App</button>
-      <button small clear ion-button color="light"  (click)="gotoSettings()">Error Logs</button>
+      <button *ngIf="showNewAccount" small block ion-button primary-button (click)="setupNewAccount()">Create a New Account (Free!)</button>
+      <button *ngIf="showForgotPwd" small block ion-button primary-button (click)="forgotPassword()">Forgot Password</button>
+      <button *ngIf="!isLoggedIn" small block ion-button secondary-button (click)="gotoHelp()">Tell me more about this App</button>
+      <button small clear ion-button light-button (click)="gotoSettings()">Error Logs</button>
     </div>
   </div>
   <mdval-footer [showLastWin]="'true'"></mdval-footer>
