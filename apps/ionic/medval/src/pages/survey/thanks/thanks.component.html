@@ -22,7 +22,12 @@
           </ion-row>
         </ion-col>
       </ion-row>
-      <ion-row class="m-t-1" *ngIf="showJokes">
+      <ion-row>
+        <ion-col>
+          <span style="font-size:xx-small;margin: 0;padding: 0;">This page will return to the default survey in 60 seconds</span>
+        </ion-col>
+      </ion-row>
+      <ion-row class="m-t-1" style="margin-top: 0!important;padding-top: 0!important;" *ngIf="showJokes">
         <ion-col width-100 text-center>
           <div #imgDiv>
             <img>

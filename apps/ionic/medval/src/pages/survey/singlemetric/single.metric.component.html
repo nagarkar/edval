@@ -1,7 +1,7 @@
 <mdval-header [home]="'survey'"></mdval-header>
 <ion-content class="card-background-page">
   <ion-card class="nobox" *ngIf="currentMetric.isNpsType()">
-    <img src="assets/img/root_OrthodonticClinic.jpg"/>
+    <img src="{{npsBackgroundImage}}"/>
     <div class="card-conversation-setup">{{currentMetric?.properties?.conversationSetup | sReplacer}}</div>
     <div class="card-title">{{currentMetric?.properties?.question | sReplacer}}</div>
     <p text-center class="card-subtitle">

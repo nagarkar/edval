@@ -17,8 +17,9 @@ import {SurveyNavigator} from "../../services/survey/survey.navigator";
 import {SpinnerDialog} from "ionic-native";
 import {LoginComponent} from "../login/login.component";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
+import {AnyComponent} from "../any.component";
 
-export class SurveyPage {
+export class SurveyPage  extends AnyComponent {
 
   progress: number = 0;
 
@@ -37,6 +38,7 @@ export class SurveyPage {
     protected sessionSvc: SessionService,
     protected idle?: Idle) {
 
+    super();
     try {
       setTimeout(()=>{
         SpinnerDialog.hide();

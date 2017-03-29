@@ -20,7 +20,6 @@ import {AnyDetractors} from "../../../services/survey/survey.functions";
 import {AccountConfiguration} from "../../../services/account/schema";
 import {Subscription} from "rxjs";
 import {DeviceServices} from "../../../shared/service/DeviceServices";
-import {NativeAudio} from "ionic-native";
 
 @Component({
   templateUrl: './thanks.component.html',

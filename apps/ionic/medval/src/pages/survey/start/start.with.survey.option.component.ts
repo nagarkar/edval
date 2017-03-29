@@ -11,23 +11,22 @@ import {LoginComponent} from "../../login/login.component";
 import {Utils} from "../../../shared/stuff/utils";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
 import {SessionService} from "../../../services/session/delegator";
-import {Account} from "../../../services/account/schema";
 import {SurveyService} from "../../../services/survey/delegator";
 import {ThanksComponent} from "../thanks/thanks.component";
 import {ImageCycler, SoundCycler} from "../../../shared/stuff/object.cycler";
 import {SurveyNavUtils} from "../SurveyNavUtils";
 import {Survey} from "../../../services/survey/schema";
-import {Subscription} from "rxjs";
 import {NativeAudio} from "ionic-native";
 import {Http} from "@angular/http";
 import {AccountService} from "../../../services/account/delegator";
 import {Config} from "../../../shared/config";
+import {AnyComponent} from "../../any.component";
 
 @Component({
   templateUrl: './start.with.survey.option.component.html'
 })
 
-export class StartWithSurveyOption implements OnInit, OnDestroy {
+export class StartWithSurveyOption extends AnyComponent implements OnInit, OnDestroy {
 
   private static imageCycler: ImageCycler;
   private static imageTimerHandle: number;
@@ -60,6 +59,7 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
     navParams: NavParams
   ) {
 
+    super();
     this.defaultOnly = navParams.get("defaultOnly") === true || this.defaultOnly;
     this.cancelPreviousSession = navParams.get("cancelPreviousSession") || this.cancelPreviousSession;
   }
@@ -100,26 +100,6 @@ export class StartWithSurveyOption implements OnInit, OnDestroy {
     this.sessionSvc.newCurrentSession(id);
     this.sessionSvc.scratchPad['defaultOnly'] = this.defaultOnly;
     SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl);
-  }
-
-  private setImage(next: HTMLImageElement) {
-    let div: HTMLDivElement = this.imgDiv.nativeElement;
-    if (!div) {
-      Utils.error("No Image Div (nativeElement) found in StartWithSurveyOption");
-      return;
-    }
-    try {
-      if (div.children.item(0)) {
-        div.removeChild(div.children.item(0));
-      }
-    } catch(err) {
-      Utils.error("Could not remove No Image Div (nativeElement) found in StartWithSurveyOption");
-    }
-    try {
-      div.appendChild(next);
-    } catch(err) {
-      Utils.error("Could not append child (nativeElement) found in StartWithSurveyOption");
-    }
   }
 
   private setupImageHandling() {

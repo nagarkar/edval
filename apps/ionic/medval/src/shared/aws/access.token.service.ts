@@ -10,8 +10,9 @@ import {Utils} from "../stuff/utils";
 import {Config} from "../config";
 import {ServiceFactory} from "../../services/service.factory";
 import {AwsClient} from "./aws.client";
-import {AlertController} from "ionic-angular";
+import {AlertController, ToastController} from "ionic-angular";
 import {SpinnerDialog} from "ionic-native";
+import {AccountService} from "../../services/account/delegator";
 declare let AWSCognito:any;
 declare let AWS:any;
 
@@ -39,7 +40,7 @@ export class AccessTokenService {
 
   private static authenticatingIntervalTimer : number;
 
-  constructor(private alertCtrl: AlertController, private serviceFactory: ServiceFactory) {
+  constructor(private alertCtrl: AlertController, private toast: ToastController, private serviceFactory: ServiceFactory, private accSvc: AccountService) {
     this.clearLoginSignals();
   }
 
@@ -217,9 +218,15 @@ export class AccessTokenService {
   processUserInitiatedLoginSuccess(callback) {
     this.lastAuthTokenCreationTime = Date.now();
     this.resetLoginErrors();
-    this.call(callback, AccessTokenService.authResult, undefined);
+    this.serviceFactory.resetRegisteredServices()
+      .then(()=> {
+        Config.CUSTOMER = this.accSvc.getCached(Config.CUSTOMERID);
+        this.call(callback, AccessTokenService.authResult, undefined);
+      })
+      .catch((err)=>{
+        this.toast.create({message: err, duration: 10000}).present();
+      });
     AwsClient.reInitialize();
-    this.serviceFactory.resetRegisteredServices();
     Utils.info("Completed processUserInitiatedLoginSuccess at time: {0}", this.lastAuthTokenCreationTime);
   }
 
