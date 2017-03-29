@@ -19,7 +19,7 @@ import {Utils} from "../../shared/stuff/utils";
       <div *ngFor="let product of products" class="border-around-text">
         <h3>{{product.title}}</h3>
         <h4>{{product.price}}</h4>
-        <button ion-button (click)="purchase(product)">Buy</button>
+        <button ion-button primary-button (click)="purchase(product)">Buy</button>
       </div>
     </ion-content>
   `

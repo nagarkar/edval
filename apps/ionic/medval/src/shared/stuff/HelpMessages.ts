@@ -17,7 +17,7 @@ export class HelpMessages {
         to follow up with satisfied and dissatisfied patients. This is typically one
         of the senior doctors or administrators. This is an important setting, and is used in the surveys. If this field 
         is not set properly, it may leave a bad impression with patients.`],
-    'account.properties.verticalId': ['The type of practice', 'Currently, only Orthodontic Clinics are supported'],
+    'account.properties.verticalId': ['The type of practice', 'Currently, Orthodontic Clinics & Dental Clinics are supported'],
     'account.customerId': ['Your Unique Organization Id', `When you contact us for support, it would be useful to 
         provide this the Organization Id. The Organization Id should not have any whitespace characters.`],
     'account.email': ['Email', `We will send you your temporary password to 

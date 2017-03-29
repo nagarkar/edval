@@ -17,7 +17,7 @@ import {
   AlertInputOptions,
   NavController
 } from "ionic-angular";
-import {CameraOptions, Camera, SpinnerDialog, Device, TextToSpeech} from "ionic-native";
+import {CameraOptions, Camera, SpinnerDialog, Device} from "ionic-native";
 import {ErrorType} from "./error.types";
 import {Config} from "../config";
 import {AwsClient} from "../aws/aws.client";
@@ -35,11 +35,7 @@ export class Utils {
   public static logData: CircularList<string> = new CircularList<string>(Config.LOG_LENGTH);
   public static errData: CircularList<string> = new CircularList<string>(Config.ERR_LENGTH);
 
-  constructor(private alertCtrl: AlertController,
-              private toastCtrl: ToastController,
-              private modalCtrl: ModalController,
-              private platform: Platform) {
-  }
+  constructor() {}
 
   static setRootNoAnimation(navCtrl: NavController, component: Function, params?: any): Promise<any> {
     return navCtrl.setRoot(component, params || {}, { animate: false });

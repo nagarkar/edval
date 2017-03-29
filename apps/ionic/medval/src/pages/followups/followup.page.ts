@@ -11,7 +11,6 @@ import {NavController, AlertController, ToastController, Toggle} from "ionic-ang
 import {SessionFollowupService} from "../../services/followup/delegator";
 import {SessionFollowup, FollowupTaskState, TaskNames} from "../../services/followup/schema";
 import {Utils} from "../../shared/stuff/utils";
-import {HelpMessages} from "../../shared/stuff/HelpMessages";
 import {SessionService} from "../../services/session/delegator";
 import {Session} from "../../services/session/schema";
 import {Http} from "@angular/http";

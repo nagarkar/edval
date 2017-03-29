@@ -7,7 +7,6 @@
  */
 
 import {Component} from "@angular/core";
-import {Chart} from "chart.js";
 import {NavParams} from "ionic-angular";
 import {CampaignService} from "../../services/campaign/delegator";
 import {MetricService} from "../../services/metric/delegator";

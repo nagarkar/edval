@@ -36,7 +36,7 @@ export class QueryUtils {
       ` group by datemonth
       order by datemonth
       limit 2500
-      label datemonth 'Year-Month', sum(detractorCount)/sum(totalCount) 'Percent Detractors', 
+      label datemonth 'Period', sum(detractorCount)/sum(totalCount) 'Percent Detractors', 
           sum(promoterCount)/sum(totalCount) 'Percent Promoters', sum(totalCount) 'Total Surveys'`;
     return {
       queryStr: query,
@@ -58,7 +58,10 @@ export class QueryUtils {
       QueryUtils.pair('metricId', '=', bean.metricName), ' and ',
       QueryUtils.pair('subjecttype', '=', bean.subjectType), ' and ',
       QueryUtils.pair('subjectvalue', '=', bean.subjectValue),
-      ' group by datemonth order by datemonth limit 2500'].join('');
+      ` group by datemonth 
+        order by datemonth 
+        limit 2500 
+        label datemonth 'Period', avg(value) 'Rating'`].join('');
     return {
       queryStr: query,
       reportType: QueryUtils.CHART_DATA_REPORT

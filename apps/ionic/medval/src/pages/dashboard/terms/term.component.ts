@@ -6,11 +6,12 @@
  * site or application without licensing is strictly prohibited.
  */
 import {Component} from "@angular/core";
+import {AnyComponent} from "../../any.component";
 
 @Component({
     templateUrl: './term.component.html'
 })
-export class TermComponent {
+export class TermComponent extends AnyComponent {
 
 }
 

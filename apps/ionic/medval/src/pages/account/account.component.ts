@@ -6,11 +6,8 @@
  * site or application without licensing is strictly prohibited.
  */
 
-import {Component, ViewChild} from "@angular/core";
-import {
-  NavController, ActionSheetController, AlertController, ToastController, NavParams,
-  TextInput
-} from "ionic-angular";
+import {Component} from "@angular/core";
+import {NavController, ActionSheetController, AlertController, ToastController, NavParams} from "ionic-angular";
 import {Account} from "../../services/account/schema";
 import {AccountService} from "../../services/account/delegator";
 import {Utils} from "../../shared/stuff/utils";
@@ -74,13 +71,14 @@ export class AccountComponent extends AdminComponent {
 
   isEdit: boolean = false;
 
-  verticals= [
-    { key: "OrthodonticClinic", value: "Orthodontic Clinic"},
+  verticals = [
+    { key: "OrthodonticClinic", value: "General Dentistry or Orthodontic Clinic" },
   ];
 
   states = [
     { key: "WA", value: "WA"},
-    { key: "CA", value:"CA"}
+    { key: "CA", value:"CA"},
+    { key: "Other", value:"Other"}
   ];
 
   ngOnInit(): void {

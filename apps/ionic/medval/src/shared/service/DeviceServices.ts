@@ -1,10 +1,14 @@
 import {Subscription} from "rxjs";
 import {Utils} from "../stuff/utils";
 import {
-  Brightness, BatteryStatus, BatteryStatusResponse, CodePush, NativeStorage, Device,
-  TextToSpeech, NativeAudio
+  Brightness,
+  BatteryStatus,
+  BatteryStatusResponse,
+  CodePush,
+  NativeStorage,
+  Device,
+  NativeAudio
 } from "ionic-native";
-import {Config} from "../config";
 /**
  * Created by chinmay on 3/6/17.
  * Copyright HC Technology Inc.

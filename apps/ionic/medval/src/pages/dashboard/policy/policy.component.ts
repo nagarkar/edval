@@ -6,11 +6,12 @@
  * site or application without licensing is strictly prohibited.
  */
 import {Component} from "@angular/core";
+import {AnyComponent} from "../../any.component";
 
 @Component({
     templateUrl: './policy.component.html'
 })
-export class PolicyComponent {
+export class PolicyComponent extends AnyComponent {
 
 }
 

@@ -21,7 +21,7 @@ declare let google;
 @Component({
   selector: 'promoterchart',
   template: `
-    <div class="border-around-text" padding>      
+    <div class="border-around-text" style="background-color:aliceblue" padding>      
       <div #dashboard>
         <div #metricSelector></div>
         <div #promoterdetractorchart></div>
@@ -34,17 +34,13 @@ declare let google;
       <button ion-button small (tap)="emailChartDataReportDetails()">Email Details</button>
       <button ion-button small (tap)="drilldown()">View Related Metrics</button>
     </div>
-  
-
   `
 })
-
 export class PromoterDrilldownComponent extends BaseChartComponent {
 
   metricAndSubject: MetricAndSubject;
 
   subjectMetricValues: Array<MetricAndSubject> = [];
-
 
   @ViewChild('metricSelector')
   metricSelectorDivRef: ElementRef;
@@ -82,24 +78,28 @@ export class PromoterDrilldownComponent extends BaseChartComponent {
 
   }
 
-  drilldown() {
-
-  }
-
   private createPromoterDetractorDashboard() {
     let columnsGenerator = Filters.getColumnGeneratorWithDateAsFirstMonthAndRemainingColumns();
 
-    let chartOptionsGenerator = Formatters.getChartOptionsGeneratorFromDefaults(
-      QueryUtils.combineOptions(QueryUtils.RatingVsTimeChartOptions, {
-        title: 'Total Sessions, Promoters & Detractors',
-        legend: 'bottom',
-        vAxis: {
-          0: {title: 'Percentage', format: '#%'},
-          1: {title: 'Count'},
-        },
-        seriesType: 'bars',
-        series: { 2: {type: 'line', curveType: 'function', targetAxisIndex:1}},
-      }));
+    let chartOptionsGenerator = Formatters.getChartOptionsGeneratorFromDefaults({
+      hAxis: {
+        title: 'Time'
+      },
+      // vAxis: {
+      //   title: 'Rating', format: '#', ticks: [0, 1, 2, 3, 4, 5]
+      // },
+      vAxis: {
+        0: {title: 'Percentage', format: 'percent'},
+        1: {title: 'Count'},
+      },
+      pointSize: 30,
+      title: [this.metricAndSubject.getSubHeading(), '# of Sessions, Percentage of Promoters & Detractors'].join(' '),
+      legend: 'bottom',
+      seriesType: 'bars',
+      series: {
+        2: {type: 'line', curveType: 'function', targetAxisIndex:1}
+      },
+    });
 
     let monthYearFilter = Filters.createMonthYearFilter(this.metricSelectorDivRef.nativeElement, 0 /* columnIndex */);
 
@@ -122,7 +122,7 @@ export class PromoterDrilldownComponent extends BaseChartComponent {
     let chartOptionsGenerator = Formatters.getChartOptionsGeneratorFromDefaults(
       QueryUtils.combineOptions(QueryUtils.RatingVsTimeChartOptions, {
         title: [this.metricAndSubject.getHeading(), this.metricAndSubject.getSubHeading()].join(" "),
-        legend: 'none',
+        legend: 'bottom',
         vAxis: {title: 'Rating', format: '#', ticks:[0, 1, 2, 3, 4, 5]},
       }));
 

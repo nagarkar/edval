@@ -5,9 +5,10 @@
  * of this application without permission. Copying and re-posting on another
  * site or application without licensing is strictly prohibited.
  */
-import {Component, Input} from "@angular/core";
-import {NavController} from "ionic-angular";
+import {Component, Input, ViewChild, Renderer} from "@angular/core";
+import {NavController, Navbar} from "ionic-angular";
 import {Utils} from "../../stuff/utils";
+import {AnyComponent} from "../../../pages/any.component";
 
 /**
  * Shows the header, including the account logo. If not logged in, logo is not shown.
@@ -16,7 +17,7 @@ import {Utils} from "../../stuff/utils";
   templateUrl: './header.component.html',
   selector: 'mdval-header'
 })
-export class HeaderComponent {
+export class HeaderComponent extends AnyComponent {
 
   static HOME_MAP = { }
   static DEFAULT_HOME: Function = null;
@@ -29,7 +30,21 @@ export class HeaderComponent {
   /** '' tells this component to show the home icon on left**/
   @Input() leftHome: string;
 
-  constructor(private navCtrl: NavController) { }
+  @ViewChild("navbar")
+  navbar: Navbar;
+
+  constructor(private navCtrl: NavController, private renderer: Renderer) { super() }
+
+  ngOnInit() {
+    let navBar: HTMLElement = this.navbar.getElementRef().nativeElement;
+    let results: NodeListOf<Element> = navBar.getElementsByClassName('toolbar-background');
+    let backgroundEl: HTMLElement = results[0] as HTMLElement;
+    this.renderer.setElementStyle(backgroundEl, 'backgroundColor',this.primaryColor);
+    let backButtons = navBar.getElementsByClassName('back-button');
+    if (backButtons && backButtons.length> 0) {
+      this.renderer.setElementStyle(backButtons[0], 'color', this.iconColor);
+    }
+  }
 
   goHome() {
     Utils.setRoot(this.navCtrl, HeaderComponent.HOME_MAP[this.home] || HeaderComponent.DEFAULT_HOME);

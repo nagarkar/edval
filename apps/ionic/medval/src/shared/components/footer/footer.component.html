@@ -9,15 +9,15 @@
         </div>
       </ion-col>
       <ion-col text-center class="nopadding">
-        <ion-title *ngIf="!reassure && isAuthenticated">Revvolve Metrics is developed by HC Technology Inc.</ion-title>
+        <ion-title *ngIf="!reassure && isAuthenticated">Authentic - Structured Feedback - Analytics - Followups</ion-title>
         <ion-title *ngIf="reassure && isAuthenticated">Your feedback <b>is safe with us</b></ion-title>
         <ion-title *ngIf="!isAuthenticated">
-          Contact <a href="mailto:admin@healthcaretech.io?Subject=Urgent%20Issue">admin@healthcaretech.io</a> for urgent issues
+          Contact <a href="mailto:questions@revvolve.io?Subject=Urgent%20Issue">questions@revvolve.io</a> for urgent issues
         </ion-title>
       </ion-col>
       <ion-col text-right class="nopadding" width-20 *ngIf="showSuggestionBox">
         <div>
-          <button ion-button clear (tap)="displaySuggestionBox()">Suggestions<br/>\&&nbsp;Contact</button>
+          <button ion-button primary-color clear (tap)="displaySuggestionBox()">Suggestions<br/>\&&nbsp;Contact</button>
         </div>
       </ion-col>
     </ion-row>

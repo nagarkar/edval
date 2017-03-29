@@ -17,6 +17,7 @@ import {Config} from "../../shared/config";
 import {Metric} from "../../services/metric/schema";
 import {MetricAndSubject} from "./metric.subject";
 import {AlertController} from "ionic-angular";
+import {AnyComponent} from "../any.component";
 
 declare let google;
 
@@ -37,13 +38,15 @@ export class ChartGenerator {
   }
 }
 
-export abstract class BaseChartComponent {
+export abstract class BaseChartComponent extends AnyComponent {
 
   static INSUFFICIENT_DATA = "Insufficient Data";
 
   static SELECT_UP_TO_LIMIT_ROWS = 'select * limit 2500';
 
-  constructor(protected alertCtrl: AlertController, protected svc: ChartService, protected staffsvc: StaffService, protected accountsvc: AccountService){}
+  constructor(protected alertCtrl: AlertController, protected svc: ChartService, protected staffsvc: StaffService, protected accountsvc: AccountService){
+    super();
+  }
 
   protected getMetricAndSubjectValues(): Promise<Array<MetricAndSubject>> {
     let subjectsAndMetricNames: Array<MetricAndSubject> = [];
