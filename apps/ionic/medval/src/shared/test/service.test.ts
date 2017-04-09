@@ -76,17 +76,17 @@ export class ServiceTest <T> {
     }
 
     inject([AccessTokenService], (tokenSvc: AccessTokenService) => {
-      tokenSvc.startNewSession(ServiceTest.creds.username, ServiceTest.creds.password, (result, err) => {
-        ServiceTest.authResult = result;
-        if (!done) {
-          return;
-        }
-        if (result) {
+      tokenSvc.login(ServiceTest.creds.username, ServiceTest.creds.password)
+        .then((result)=>{
+          ServiceTest.authResult = result;
+          if (!done) {
+            return;
+          }
           done();
-        } else {
+        })
+        .catch((err)=>{
           done.fail(err);
-        }
-      })
+        })
     })();
   }
 

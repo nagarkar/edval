@@ -52,7 +52,6 @@ export class LoginComponent extends AnyComponent {
       if (authProvider.supposedToBeLoggedIn()) {
         Utils.info("Login Attempt while already logged in");
       }
-      authProvider.resetLoginErrors();
     } catch(err) {
       Utils.error("Error in LoginComponent.constructor {0}", err);
     }
@@ -198,18 +197,20 @@ export class LoginComponent extends AnyComponent {
 
   loginWithCreds(username: string, password: string) {
     // Start new session and dismiss loading screen on success/failure (this dismiss step is required for ios/not for web)
-    this.authProvider.startNewSession(username, password,
-      (token: AuthResult, err: any): void => {
-        if(token) {
-          SpinnerDialog.hide();
-          this.navigateToDashboardPage();
-          this.logDeviceInfo();
+    this.authProvider.login(username, password)
+      .then((authResult: Account)=>{
+        SpinnerDialog.hide();
+        this.navigateToDashboardPage();
+        this.logDeviceInfo();
+      })
+      .catch((err)=>{
+        SpinnerDialog.hide();
+        if (DeviceServices.isDeviceOffline) {
+          Utils.presentTopToast(this.toastCtrl, "Oops! Is the network down? It might help if you can verify your network is working and try again. If that doesn't work, please email questions@revvolve.io to get help!");
+          return;
         }
-        if(err) {
-          SpinnerDialog.hide();
-          Utils.error("LoginComponent.login().startNewSession:" + err);
-          Utils.presentTopToast(this.toastCtrl, "Login Failed with error: " + err);
-        }
+        Utils.error("LoginComponent.login().startNewSession:" + err);
+        Utils.presentTopToast(this.toastCtrl, "Login Failed with error: " + err);
       });
   }
 

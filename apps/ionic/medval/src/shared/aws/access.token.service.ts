@@ -30,7 +30,7 @@ export class AccessTokenService {
   private _cognitoUser : any;
   // Tracks state of login. If defined, login process has started. After login process starts, this variable indicates
   // the number of login errors.
-  private loginErrors: number;
+  private loginInProgress: boolean;
   private _username : string = null;
   private authenticationDetails: any = null;
   private userPool: any = null;
@@ -58,23 +58,28 @@ export class AccessTokenService {
     return this._cognitoUser !== null && !this.authTokenIsOld();
   }
 
-  public startNewSession(
-    username : string,
-    password : string,
-    externalCallback: (result: AuthResult, err: any)=> void) {
-
-    if(this.currentlyLoggingIn()) {
+  // externalCallback: (result: AuthResult, err: any)=> void
+  public login(username : string, password : string): Promise<Account> {
+    if (this.loginInProgress) {
       return;
     }
-    this.tryStartNewSession(username, password, externalCallback);
+    this.loginInProgress = true;
+    return this.tryStartNewSession(username, password)
+      .then((result: Account)=> {
+        this.loginInProgress = false;
+        return result;
+      })
+      .catch((err)=> {
+        this.loginInProgress = false
+        throw err;
+      })
   }
 
-  private tryStartNewSession(
-    username : string,
-    password : string,
-    externalCallback: (result: AuthResult, err: any)=> void) {
+  get cognitoUser(): any {
+    return this._cognitoUser;
+  }
 
-    this.loginErrors = this.loginErrors || 0;
+  private tryStartNewSession(username : string, password : string): Promise<Account> {
     Utils.log("Trying to log in {0} ", username);
     this._username = username;
     var authenticationData: {Username: string, Password: string} = {
@@ -83,49 +88,21 @@ export class AccessTokenService {
     };
     username = username.toLowerCase().trim();
 
-    if (!this.loginErrors && this.sameUserAuthenticatingWithinShortPeriod(authenticationData) && !this.authTokenIsOld()) {
+    if (this.sameUserAuthenticatingWithinShortPeriod(authenticationData) && !this.authTokenIsOld()) {
       Utils.info("Logging in same user");
-      this.processUserInitiatedLoginSuccess(externalCallback);
-      this.refreshAtIntervals();
-      return;
+      return this.processUserInitiatedLoginSuccess();
     }
 
-    this.authenticationDetails =
-      new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
+    this.authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
 
-    this.userPool =
-      new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(Config.POOL_DATA);
+    this.userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(Config.POOL_DATA);
 
-    const userData = {
-      Username : username,
-      Pool : this.userPool
-    };
+    const userData = { Username : username, Pool : this.userPool };
 
     this._cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
-    this.startAuthenticatingUser((result?: AuthResult, err?: any)=>{
-      if (err) {
-        this.incrementLoginErrors();
-        Utils.info("Error occurred in login {0}, number of errors:", err, this.loginErrors);
-      }
-      if (err && this.loginErrors > 1) {
-        Utils.info("Too many errors. Number of errors: {0}", this.loginErrors);
-        this.call(externalCallback, null, err);
-        this.resetLoginErrors();
-      } else if (result) {
-        Utils.info("Login Success, calling callback");
-        this.call(externalCallback, result, null);
-        this.resetLoginErrors();
-        this.refreshAtIntervals();
-      } else {
-        setTimeout(()=>{
-          this.tryStartNewSession(username, password, externalCallback);
-        }, Config.ACCESS_TOKEN_RETRY_INTERVAL_INITIAL_LOGIN);
-      }
-    });
-  }
 
-   get cognitoUser(): any {
-    return this._cognitoUser;
+
+    return this.startAuthenticatingUser();
   }
 
   private refreshAtIntervals(_refreshErrors?: number): void {
@@ -150,58 +127,58 @@ export class AccessTokenService {
     }, Config.ACCESS_TOKEN_REFRESH_TIME);
   }
 
-  private startAuthenticatingUser(internalCallback): void {
+  private startAuthenticatingUser(): Promise<Account> {
     var me = this;
-    Utils.info("Starting Authentication");
-    //AWSCognito.config.update({accessKeyId: 'anything', secretAccessKey: 'anything'})
-    this._cognitoUser.authenticateUser(this.authenticationDetails, {
-      onSuccess: (session) => {
-        me.handleSuccessfullAuthentication(session, internalCallback);
-      },
-      onFailure: (err) => {
-        me.call(internalCallback, null, err);
-      },
-      newPasswordRequired: function(userAttributes, requiredAttributes) {
-        // User was signed up by an admin and must provide new
-        // password and required attributes, if any, to complete
-        // authentication.
-        SpinnerDialog.hide();
-        Utils.presentAlertPrompt(
-          me.alertCtrl,
-          (data) => {
-            Utils.showSpinner()
-            me._cognitoUser.completeNewPasswordChallenge(data.password, {}, {
-              onSuccess: function(session) {
-                Utils.hideSpinner();
-                me.handleSuccessfullAuthentication(session, internalCallback);
-              },
-              onFailure: function(error) {
-                Utils.hideSpinner();
-                me.call(internalCallback, null, error);
-              }
-            });
-          },
-          "Choose a new password",
-          [
-            {
-              name: 'password',
-              type: 'password',
-              placeholder: 'New Password'
+    return new Promise<Account>((resolve, reject)=>{
+      Utils.info("Starting Authentication");
+      //AWSCognito.config.update({accessKeyId: 'anything', secretAccessKey: 'anything'})
+      this._cognitoUser.authenticateUser(this.authenticationDetails, {
+        onSuccess: (session) => {
+          resolve(me.getUserAttributesAndCustomerId(session));
+        },
+        onFailure: (err) => {
+          reject(err);
+        },
+        newPasswordRequired: function(userAttributes, requiredAttributes) {
+          // User was signed up by an admin and must provide new
+          // password and required attributes, if any, to complete
+          // authentication.
+          SpinnerDialog.hide();
+          Utils.presentAlertPrompt(
+            me.alertCtrl,
+            (data) => {
+              Utils.showSpinner();
+              me._cognitoUser.completeNewPasswordChallenge(data.password, {}, {
+                onSuccess: function(session) {
+                  Utils.hideSpinner();
+                  resolve(me.getUserAttributesAndCustomerId(session));
+                },
+                onFailure: function(error) {
+                  Utils.hideSpinner();
+                  reject(error);
+                }
+              });
             },
-          ],
-          null /* Message */,
-          (data: any)=>{
-            // Cancel handler
-            Utils.hideSpinner();
-            me.resetLoginErrors();
-          });
-      },
-      mfaRequired: function(codeDeliveryDetails) {
-        // MFA is required to complete user authentication.
-        // Get the code from user and call
-        alert('mfa required');
-      }
-    });
+            "Choose a new password",
+            [
+              {
+                name: 'password',
+                type: 'password',
+                placeholder: 'New Password'
+              },
+            ],
+            null, /* Message */
+            (data: any)=>{
+              Utils.hideSpinner();
+            });
+        },
+        mfaRequired: function(codeDeliveryDetails) {
+          // MFA is required to complete user authentication.
+          // Get the code from user and call
+          alert('mfa required');
+        }
+      });
+    })
   }
 
   private clearAuthenticatingIntervalTimerIfValid() {
@@ -218,19 +195,28 @@ export class AccessTokenService {
       && this.lastAuthTokenCreationTime + Config.ACCESS_TOKEN_REFRESH_TIME > Date.now();
   }
 
-  processUserInitiatedLoginSuccess(callback) {
+  private processUserInitiatedLoginSuccess(): Promise<Account> {
     this.lastAuthTokenCreationTime = Date.now();
-    this.resetLoginErrors();
-    this.serviceFactory.resetRegisteredServices()
+    return this.serviceFactory.resetRegisteredServices()
       .then(()=> {
-        Config.CUSTOMER = this.accSvc.getCached(Config.CUSTOMERID);
-        this.call(callback, AccessTokenService.authResult, undefined);
+        return this.accSvc.get(Config.CUSTOMERID)
+          .then((account)=>{
+            Config.CUSTOMER = account;
+            AwsClient.reInitialize();
+            this.refreshAtIntervals();
+            Utils.info("Completed processUserInitiatedLoginSuccess at time: {0}", this.lastAuthTokenCreationTime);
+            return account;
+          })
+          .catch((err)=>{
+            Utils.error("Error getting account from processUserInitiatedLoginSuccess, Error: {0}", err);
+            throw err;
+          });
       })
       .catch((err)=>{
-        this.toast.create({message: err, duration: 10000}).present();
+        Utils.error("Error getting account from processUserInitiatedLoginSuccess, error: {0}", err);
+        //Utils.presentTopToast(this.toast, err);
+        throw err;
       });
-    AwsClient.reInitialize();
-    Utils.info("Completed processUserInitiatedLoginSuccess at time: {0}", this.lastAuthTokenCreationTime);
   }
 
   private authTokenIsOld(): boolean {
@@ -244,9 +230,7 @@ export class AccessTokenService {
   }
 
   private createNewAuthToken(session: any) {
-
     try {
-
       this.lastAuthTokenCreationTime = Date.now();
 
       AccessTokenService.authResult = new AuthResult(
@@ -265,24 +249,11 @@ export class AccessTokenService {
       });
     } catch(err) {
       Utils.error("Error Occurred while creating new Auth Token: {0}", err);
+      throw err;
     }
-
-  }
-
-  public resetLoginErrors() {
-    this.loginErrors = undefined;
-  }
-
-  private incrementLoginErrors() {
-    this.loginErrors++;
-  }
-
-  private currentlyLoggingIn() : boolean {
-    return this.loginErrors !== undefined;
   }
 
   private clearLoginSignals(dontResetLastLoginState?: boolean) {
-    this.resetLoginErrors();
     this.clearAuthenticatingIntervalTimerIfValid();
 
     if (!dontResetLastLoginState) {
@@ -298,46 +269,40 @@ export class AccessTokenService {
     this.authenticationDetails = null;
   }
 
-  private handleSuccessfullAuthentication(session: any, callback) {
+  private getUserAttributesAndCustomerId(session: any): Promise<Account> {
     Utils.info("AccessTokenSvc.onSuccess");
-    this.createNewAuthToken(session);
+    return new Promise<Account>((resolve, reject)=>{
+      this.createNewAuthToken(session);
 
-    Utils.info("After aws.config.update");
+      Utils.info("After aws.config.update");
 
-    let gotCustomerId = false;
-    this._cognitoUser.getUserAttributes((err, result) => {
-      if (err) {
-        Utils.error(Utils.format("Error while trying to get cognito user attributes for user {0} , error: {1}",
-          this._username, err));
-        this.clearLoginSignals();
-      }
-      if (result) {
-        for (let i = 0; i < result.length; i++) {
-          if (result[i].getName() == "custom:organizationName") {
-            Config.CUSTOMERID = result[i].getValue();
-            if (Config.CUSTOMERID) {
-              gotCustomerId = true;
+      Config.CUSTOMERID = undefined;
+      this._cognitoUser.getUserAttributes((err, result) => {
+        if (err) {
+          Utils.error(Utils.format("Error while trying to get cognito user attributes for user {0} , error: {1}",
+            this._username, err));
+          this.clearLoginSignals();
+          reject(err);
+        }
+        if (result) {
+          for (let i = 0; i < result.length; i++) {
+            if (result[i].getName() != "custom:organizationName") {
+              continue;
             }
-            Utils.info('Got userattrbute customerid {0}', Config.CUSTOMERID);
-            this.processUserInitiatedLoginSuccess(callback);
+            Utils.info('Got userattrbute customerid {0}', result[i].getValue());
+            if (result[i].getValue()) {
+              Config.CUSTOMERID = result[i].getValue();
+              resolve(this.processUserInitiatedLoginSuccess());
+              break;
+            }
+          }
+          if (!Config.CUSTOMERID) {
+            reject("No customer id found in account attributes");
+            this.clearLoginSignals();
           }
         }
-        if (!gotCustomerId) {
-          Utils.errorIf(!gotCustomerId, "No customer id found in account attributes");
-          this.clearLoginSignals();
-        }
-
-      }
-    });
-
-  }
-
-  private call(externalCallback: (result: AuthResult, err: any)=>void, result: any, err: any) {
-    try {
-      externalCallback(result, err);
-    } catch(err) {
-      Utils.error("Error calling external callback {0}", err);
-    }
+      });
+    })
   }
 }
 
