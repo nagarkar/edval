@@ -7,12 +7,16 @@
  */
 import {Component, Input, Output, EventEmitter, ElementRef} from "@angular/core";
 import {SlideItem} from "../carousel/carousel.schema";
+import {Utils} from "../../stuff/utils";
 
 @Component({
   selector: 'rotating-carousel',
   templateUrl: "./rotatingcarousel.component.html"
 })
 export class RotatingCarousel {
+
+  placeHolderImage: string = Utils.PLACE_HOLDER_IMAGE_URL;
+
   private currentDeg: number = 0;
   items: Array<SlideItem> = [];
   tz: number;

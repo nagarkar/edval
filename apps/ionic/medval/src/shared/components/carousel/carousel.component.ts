@@ -15,6 +15,9 @@ import {Utils} from "../../stuff/utils";
   templateUrl: './carousel.component.html'
 })
 export class CarouselComponent implements OnChanges {
+
+  placeHolderImage: string = Utils.PLACE_HOLDER_IMAGE_URL;
+
   items: Array<SlideItem> = [];
 
   @ViewChild('mySlider') slider: Slides;

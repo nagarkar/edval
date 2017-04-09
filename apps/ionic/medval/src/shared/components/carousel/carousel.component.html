@@ -20,7 +20,7 @@
         <div [ngSwitch]="selectedItems.length">
           <div *ngSwitchCase="0">
             <div class="selected-item">
-              <img src="assets/img/placeholder.png" class="image" />
+              <img src="{{placeHolderImage}}" class="image" />
             </div>
           </div>
           <div *ngSwitchDefault>

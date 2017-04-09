@@ -10,7 +10,7 @@
            (swiperight)="onSwipeRight($event);">
 
         <button *ngIf="item.isSelected" class="selected-icon" ion-button color="green"><ion-icon name="checkmark"></ion-icon></button>
-        <img src="{{item.imgUrl || 'assets/img/placeholder.png'}}" (tap)="imageClick(item)"/>
+        <img src="{{item.imgUrl || placeHolderImage}}" (tap)="imageClick(item)"/>
         <span class="name">{{item.heading}}</span>
         <br/>
         <span class='desc'>{{item.subheading}}</span>
@@ -25,13 +25,13 @@
           <div class="selected-item">
             <button ion-button color="danger" (tap)="removeItem(selectedItem)"><ion-icon name="close"></ion-icon>
             </button>
-            <img src="{{selectedItem.imgUrl || 'assets/img/placeholder.png'}}" class="image" />
+            <img src="{{selectedItem.imgUrl || placeHolderImage}}" class="image" />
             <span style="white-space:nowrap;">{{selectedItem.heading}}</span>
           </div>
         </span>
         <span *ngIf="selectedItems.length < 3">
           <div class="selected-item">
-            <img src="assets/img/placeholder.png" class="image" />
+            <img src="{{placeHolderImage}}" class="image" />
             <div style="-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);position: absolute;top: .7em;left: 1em; left: 1em; right: 1em; font-size: 1.5em;">{{selectedItems.length + 1}}</div>
             <span style="white-space:nowrap; font-size:.7em">Anyone&nbsp;Else?</span>
           </div>
