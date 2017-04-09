@@ -7,8 +7,10 @@ import {
   CodePush,
   NativeStorage,
   Device,
-  NativeAudio
+  NativeAudio, Network, Dialogs
 } from "ionic-native";
+import {AlertController} from "ionic-angular";
+import {HelpMessages} from "../stuff/HelpMessages";
 /**
  * Created by chinmay on 3/6/17.
  * Copyright HC Technology Inc.
@@ -20,12 +22,16 @@ export class DeviceServices {
 
   private static BATTERY_SUBSCRIPTION: Subscription;
   private static INITIAL_INSTALL_TIMESTAMP = "INITIAL_INSTALL_TIMESTAMP";
+  private static NETWORK_CONNECTED = false;
+  public static NO_CONNECTION_ID = 'none';
+
 
   static initialize() {
     DeviceServices.setupBatteryCheck();
     DeviceServices.setupCodePush();
     DeviceServices.setupOnPause();
     DeviceServices.storeInitialInstallDate();
+    DeviceServices.trackNetworkConnection();
   }
 
   private static setupBatteryCheck() {
@@ -166,37 +172,44 @@ export class DeviceServices {
       })
   }
 
-  /*
-  static speakAll(rate: number, ...messages: string[]): Promise<any>{
-    if (!messages) {
-      return Promise.resolve();
+  private static trackNetworkConnection() {
+    // watch network for a disconnect
+    Network.onDisconnect().subscribe(() => {
+      DeviceServices.NETWORK_CONNECTED = false;
+      Utils.log('network was disconnected :-(');
+      DeviceServices.warnAboutNetworkConnection();
+    });
+    Network.onConnect().subscribe(() => {
+      DeviceServices.NETWORK_CONNECTED = true;
+      Utils.log('Network connected!');
+      // We just got a connection but we need to wait briefly
+      // before we determine the connection type.  Might need to wait
+      // prior to doing any api requests as well.
+      setTimeout(() => {
+        if (Network.type === 'wifi') {
+          Utils.log('we got a wifi connection, woohoo!');
+        }
+      }, 3000);
+    });
+    if (Network.type == DeviceServices.NO_CONNECTION_ID) {
+      DeviceServices.NETWORK_CONNECTED = false;
+    } else {
+      DeviceServices.NETWORK_CONNECTED = true;
     }
-    return DeviceServices.speak(messages[0], rate)
-      .then(()=>{
-        if (messages.length > 1) {
-          return DeviceServices.speakAll(rate, ...messages.slice(1));
-        }
-      })
-      .catch((err) =>{
-        if (messages.length > 1) {
-          return DeviceServices.speakAll(rate, ...messages.slice(1));
-        }
-      });
   }
 
-  static speak(message: string, rate: number): Promise<any> {
-    if (!Config.ENABLE_TTS) {
-      return Promise.resolve();
-    }
-    return TextToSpeech.speak({text: message, locale: Config.LOCALE, rate:rate})
-      .then((val: any) => {
-        Utils.log('Successfully spoke this message: {0}', message);
-        return val;
-      })
-      .catch((reason: any) => {
-        Utils.log('Failed to speak message: {0}', message);
-        throw reason;
-      });
+  static get isDeviceOnline(): boolean {
+    return DeviceServices.NETWORK_CONNECTED;
   }
-  */
+
+  static get isDeviceOffline(): boolean {
+    return !DeviceServices.isDeviceOnline;
+  }
+
+  static warnAboutNetworkConnection() {
+    if (!DeviceServices.isDeviceOnline) {
+      let titleAndMessage: any = HelpMessages.getMessageFor("NO_NETWORK");
+      Dialogs.alert(titleAndMessage.message, titleAndMessage.title);
+    }
+  }
 }

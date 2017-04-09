@@ -9,7 +9,7 @@ import {Component} from "@angular/core";
 import {Utils} from "../../shared/stuff/utils";
 import {AccessTokenService, AuthResult} from "../../shared/aws/access.token.service";
 import {DashboardComponent} from "../dashboard/dashboard.component";
-import {NavController, ToastController, AlertController} from "ionic-angular";
+import {NavController, ToastController, AlertController, ModalController, Modal} from "ionic-angular";
 import {SettingsComponent} from "../settings/settings.component";
 import {AccountComponent} from "../account/account.component";
 import {AccountSetupService} from "../../services/accountsetup/account.setup.service";
@@ -18,6 +18,7 @@ import {Validators, FormControl, FormGroup} from "@angular/forms";
 import {SpinnerDialog, NativeAudio, Device} from "ionic-native";
 import {HelpPage} from "../dashboard/help/help.page";
 import {AnyComponent} from "../any.component";
+import {DeviceServices} from "../../shared/service/DeviceServices";
 
 declare let AWSCognito:any;
 declare let AWS:any;
@@ -41,6 +42,7 @@ export class LoginComponent extends AnyComponent {
     private navCtrl: NavController,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
+    private modalCtrl: ModalController,
     private accSetupSvc: AccountSetupService,
     private authProvider: AccessTokenService) {
 
@@ -69,7 +71,6 @@ export class LoginComponent extends AnyComponent {
   ngOnInit() {
     //this.loginWithCreds('celeron', 'passWord@1');
     //return;
-
     try {
       this.clearTimerHandles();
       this.setupSoundHandling();
@@ -90,7 +91,13 @@ export class LoginComponent extends AnyComponent {
   //*********************************************
 
   setupNewAccount() {
-    Utils.push(this.navCtrl, AccountComponent, {create: true});
+    let clearUsernamePwd = ()=>{
+      this.loginForm.controls['username'].setValue('');
+      this.loginForm.controls['password'].setValue('');
+    }
+    let modal: Modal = this.modalCtrl.create(AccountComponent, {create: true});
+    modal.onDidDismiss(clearUsernamePwd)
+    modal.present().then(clearUsernamePwd);
   }
 
   forgotPassword() {
@@ -111,7 +118,8 @@ export class LoginComponent extends AnyComponent {
           Utils.info('Forgotpassword call result: ' + result);
         },
         onFailure: function(err) {
-          Utils.presentTopToast(me.toastCtrl, "Error when calling forgotPassword: " + err);
+          Utils.presentTopToast(me.toastCtrl,
+            "Oops! That username was never registered, or... it's possible you've never verified your email (that option is available on the dashboard once you log in). You can create a new account and remember to verify your email, or contact questions@revvolve.io for assistance (" + err.name + ")");
         },
         inputVerificationCode() {
           Utils.presentAlertPrompt(
@@ -133,14 +141,14 @@ export class LoginComponent extends AnyComponent {
                   me.tryNewPassword(username, cognitoUser, verificationCode, password);
                 }),
                 "Please pick a new password",
-                [{name: "newPassword", type: 'password', label: 'New Password'}]);
+                [{name: "newPassword", type: 'password', label: 'New Password', placeholder:'New Password'}]);
             }),
             "Provide Verification Code",
-            [{name: "verificationCode", type:'number', label: 'Verification Code'}],
+            [{name: "verificationCode", type:'number', label: 'Verification Code', placeholder:'Verification Code'}],
             "The verification code was just sent to your registered email address");
         }
       });
-    }), 'What is your username', [{name: "username", label: 'User Name'}]);
+    }), 'What is your username', [{name: "username", label: 'User Name', placeholder:'username'}]);
   }
 
   tryNewPassword(username: string, cognitoUser: any, verificationCode: string, newPassword: string) {
@@ -163,7 +171,10 @@ export class LoginComponent extends AnyComponent {
 
     let username: string = this.loginForm.controls['username'].value.trim().toLowerCase();
     let password: string = this.loginForm.controls['password'].value.trim();
-
+    if (Utils.nullOrEmptyString(password) || Utils.nullOrEmptyString(username)) {
+      Utils.presentInvalidEntryAlert(this.alertCtrl, "Please provide a username and password");
+      return;
+    }
     SpinnerDialog.show(null, null, true);
     setTimeout(()=>{
       this.loginWithCreds(username, password);

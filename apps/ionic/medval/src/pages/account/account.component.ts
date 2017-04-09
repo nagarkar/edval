@@ -18,6 +18,7 @@ import {LoginComponent} from "../login/login.component";
 import {SpinnerDialog} from "ionic-native";
 import {ValidationService} from "../../shared/components/validation/validation.service";
 import {Http} from "@angular/http";
+import {DeviceServices} from "../../shared/service/DeviceServices";
 
 @Component({
   selector:'account',
@@ -26,16 +27,20 @@ import {Http} from "@angular/http";
 
 export class AccountComponent extends AdminComponent {
 
+  private selectOptions = {
+    cssClass: 'fullwidth'
+  }
+
   private requiredForCreate = {
-    'account.properties.customerName': true,
-    'account.properties.contactName': true,
     'account.customerId': true,
     'account.email': true,
     'account.username': true,
   }
   private requiredForEdit = {
-    'account.properties.customerName': true,
-    'account.properties.contactName': true,
+    //'account.properties.customerName': true,
+    //'account.properties.contactName': true,
+    //'account.properties.customerName': true,
+    //'account.properties.contactName': true,
   }
 
   constructor(private actionSheetCtrl: ActionSheetController,
@@ -50,6 +55,11 @@ export class AccountComponent extends AdminComponent {
     super(navCtrl, http);
     let create = navParams.get('create');
     this.isEdit = !create;
+    if (create) {
+      this.account.customerId = Utils.generateCustomerId(5);
+      //this.account.properties.customerName = Account.DEFAULT_CUSTOMER_NAME;
+      //this.account.properties.contactName = Account.DEFAULT_CONTACT_NAME;
+    }
   }
 
   account: Account = new Account();
@@ -118,16 +128,25 @@ export class AccountComponent extends AdminComponent {
     })
   }
 
-  navigate() {
+  save() {
     let errors = this.getValidationErrors();
     if (errors !== "") {
       Utils.presentInvalidEntryAlert(this.alertCtrl, 'Please take another look at the form!', errors);
       return;
     }
+    try { // Best Effort
+      this.account.truncateStringsInAccount();
+    } catch(err) {
+      Utils.error(err);
+    }
     if (this.isEdit) {
       this.update()
         .then(()=>{
+          Utils.presentTopToast(this.toastCtrl, "Saved", 2000);
           this.navCtrl.pop();
+        })
+        .catch((err) => {
+          Utils.presentTopToast(this.toastCtrl, "Oops! We had a problem and could not save your change. Error: " + err);
         });
       return;
     }
@@ -136,6 +155,11 @@ export class AccountComponent extends AdminComponent {
 
 
   private tryCreateAccount() {
+    if (DeviceServices.isDeviceOffline) {
+      DeviceServices.warnAboutNetworkConnection();
+      return;
+    }
+
     SpinnerDialog.show(null, null, true);
     setTimeout(()=>{
       let err: string = this.getAccountErrorsForCreate();
@@ -143,7 +167,6 @@ export class AccountComponent extends AdminComponent {
         this.dismissLoadingShowAlert('Error', err);
         return;
       }
-      let created: boolean;
       let svc: AccountSetupService = this.setupService;
       svc.userexists(this.username).then((userexists)=> {
         if(userexists) {
@@ -154,7 +177,8 @@ export class AccountComponent extends AdminComponent {
         svc.customerexists(this.account.customerId)
           .then((customerexists)=> {
             if(customerexists) {
-              this.dismissLoadingShowAlert('The Organization ID you seleted is not available', '');
+              this.dismissLoadingShowAlert('Oops! We ran into an unexpected problem. Do you mind trying again?', '');
+              this.account.customerId = Utils.generateCustomerId(10);
               return;
             }
             let accountSetupObj = {
@@ -164,13 +188,11 @@ export class AccountComponent extends AdminComponent {
             };
             svc.create(accountSetupObj)
               .then((accountSetup: AccountSetup)=>{
-                created = true;
                 this.dismissLoadingShowAlert("Created Account",`You will receive an email from 
                   no-reply@verificationemail.com with a temporary password.
                 You will be prompted to change your password on first login!`, true);
               })
               .catch((err) => {
-                created = false;
                 err += "Account Creation failed: " + err;
                 this.dismissLoadingShowAlert('Error', err);
               });
@@ -180,6 +202,10 @@ export class AccountComponent extends AdminComponent {
   }
 
   private update(): Promise<any> {
+    if (DeviceServices.isDeviceOffline) {
+      DeviceServices.warnAboutNetworkConnection();
+      return;
+    }
     let errors = this.account.cleanupConfiguration();
     if (errors) {
       Utils.presentInvalidEntryAlert(this.alertCtrl, 'Errors', errors);
@@ -224,12 +250,15 @@ export class AccountComponent extends AdminComponent {
 
   private getAccountErrorsForUpdate(): string {
     let err = "";
-    if (Utils.nullOrEmptyString(this.account.properties.customerName)) {
+    /*
+    if (!this.account.properties.customerName) {
       err += "\nPlease provide an Organization Name";
     }
-    if (Utils.nullOrEmptyString(this.account.properties.contactName)) {
+
+    if (!this.account.properties.contactName) {
       err += "\nPlease provide a Primary Contact Name";
     }
+    */
     return err;
   }
 
@@ -241,14 +270,6 @@ export class AccountComponent extends AdminComponent {
 
     if (!ValidationService.validSingleWordId(this.username)) {
       err += '\nPlease provide a valid username (numbers digits and special charaters are ok, whitespace characters not ok)'
-    }
-
-    if (!this.account.properties.customerName) {
-      err += "\nPlease provide an Organization Name";
-    }
-
-    if (!this.account.properties.contactName) {
-      err += "\nPlease provide a Primary Contact Name";
     }
 
     if (!ValidationService.validEmail(this.email)) {

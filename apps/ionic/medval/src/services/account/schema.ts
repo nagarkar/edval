@@ -49,8 +49,8 @@ export interface Address {
 
 export class AccountProperties {
   verticalId: string = Account.ORTHODONTIC_CLINIC;
-  customerName: string = '';
-  contactName: string = '';
+  customerName: string;
+  contactName: string;
   logo: string = '';
   @Type(() => Branding)
   branding: Branding = new Branding();
@@ -83,6 +83,23 @@ export class Account {
 
   toString() {
     return Utils.stringify(this);
+  }
+
+  truncateStringsInAccount() {
+    this._truncateStringsInObject(this);
+  }
+
+  private _truncateStringsInObject(obj: any) {
+    for (var property in obj) {
+      if (obj.hasOwnProperty(property)) {
+        if (obj[property] && typeof obj[property] == "object") {
+          this._truncateStringsInObject(obj[property]);
+        } else if (Utils.isString(obj[property]) && !Utils.isUrl(obj[property])) {
+          let str: string = obj[property];
+          obj[property] = Utils.truncateString(str, 35);
+        }
+      }
+    }
   }
 
   getStandardRoles(): string[] {

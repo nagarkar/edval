@@ -12,6 +12,7 @@ import {Utils, ClassType} from "../stuff/utils";
 import {ServiceInterface} from "./interface.service";
 import {Http} from "@angular/http";
 import {Config} from "../config";
+import {DeviceServices} from "./DeviceServices";
 
 export abstract class AbstractService<T> implements ServiceInterface<T> {
 
@@ -45,6 +46,10 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
 
   get(id: string, dontuseCache?: boolean) : Promise<T> {
     Utils.throwIfNull(id);
+    if (DeviceServices.isDeviceOffline) {
+      DeviceServices.warnAboutNetworkConnection();
+      return Promise.reject("No Internet Connection");
+    }
     const tryuseCache = !dontuseCache && !Utils.nou(this.lastCacheClearMillis);
 
     if (tryuseCache) {
@@ -75,6 +80,10 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
       }
     }
 
+    if (DeviceServices.isDeviceOffline) {
+      DeviceServices.warnAboutNetworkConnection();
+      return Promise.reject("No Internet Connection");
+    }
     return this.httpClient.list(this.getPath())
       .then((value: Array<T>) => {
         this.clearCache();
@@ -99,6 +108,10 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
 
   create(member: T): Promise<T> {
     Utils.throwIfNull(member);
+    if (DeviceServices.isDeviceOffline) {
+      DeviceServices.warnAboutNetworkConnection();
+      return Promise.reject("No Internet Connection");
+    }
 
     return this.httpClient.post(this.getPath(), member)
       .then((value: T) => {
@@ -114,6 +127,11 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
   update(member: T): Promise<T> {
     Utils.throwIfAnyNull([member, this.getId(member)]);
 
+    if (DeviceServices.isDeviceOffline) {
+      DeviceServices.warnAboutNetworkConnection();
+      return Promise.reject("No Internet Connection");
+    }
+
     return this.httpClient.put(this.getPath(), this.getId(member), member)
       .then((value: T) => {
         this.procesCreatedOrUpdatedValue(value, member);
@@ -126,6 +144,11 @@ export abstract class AbstractService<T> implements ServiceInterface<T> {
   }
 
   delete(id: string): Promise<void> {
+
+    if (DeviceServices.isDeviceOffline) {
+      DeviceServices.warnAboutNetworkConnection();
+      return Promise.reject("No Internet Connection");
+    }
     return this.httpClient.delete(this.getPath(), id)
       .then(() => {
         this.deleteCachedValue(this.getPath(), id);

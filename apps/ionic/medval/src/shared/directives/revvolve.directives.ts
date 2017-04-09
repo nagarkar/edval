@@ -135,7 +135,6 @@ export class PrimaryBox {
     style.borderBottomWidth = "9px";
     style.borderBottomStyle = "solid";
     style.padding = "0px 5px 0 5px";
-    //style.backgroundColor = PrimaryBox.getBackgroundColorFor(primaryColor);
   }
 
   static backgroundColorCache = {};
@@ -162,14 +161,10 @@ export class PrimaryImage {
     let hel: HTMLElement = this.el.nativeElement;
     let hueRotation = targetColor.hue - PrimaryImage.sourceColor.hue;
     let filter = "hue-rotate("+ hueRotation +"deg) " +
-      //"saturate("+ (1 + Math.abs(PrimaryImage.sourceColor.sat - targetColor.sat)) * 100 + "%) " +
-      //"brightness("+ (1 + Math.abs(PrimaryImage.sourceColor.lightness - targetColor.lightness)) * 100 + "%)";
       "saturate("+ (1 - Math.abs(PrimaryImage.sourceColor.sat - targetColor.sat)) * 100 + "%) " +
       "brightness("+ (1 - Math.abs(PrimaryImage.sourceColor.lightness - targetColor.lightness)) * 100 + "%)";
     this.renderer.setElementStyle(hel, 'filter', filter);
     this.renderer.setElementStyle(hel, 'webkitFilter', filter);
-    //hel.style.filter = filter;
-    //hel.style['-webkit-filter'] = filter;
   }
 
   static sourceColor = w3ColorCache.getFromHex('#27AE60');
@@ -182,9 +177,8 @@ export class WithBoundary {
 
   constructor(private el: ElementRef) {}
   ngAfterViewInit(){
-    this.el.nativeElement.children[0].style = "border: 1px solid black;" +
-      "padding: .1em 0 .1em .3em;" +
-      "font-family: monospace;";
+    this.el.nativeElement.children[0].style.border = "1px solid black";
+    this.el.nativeElement.children[0].style.padding = ".1em 0 .1em .3em";
   }
 }
 

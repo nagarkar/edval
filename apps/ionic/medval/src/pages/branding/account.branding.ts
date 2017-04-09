@@ -16,8 +16,6 @@ import {Account, Branding} from "../../services/account/schema";
 import {Utils} from "../../shared/stuff/utils";
 import {ColorModal} from "../../shared/components/colorpicker/color.modal";
 
-declare let uploadcare;
-
 @Component({
   templateUrl:"./account.branding.html",
   selector: 'account-brand'
@@ -30,18 +28,7 @@ export class AccountBranding extends AdminComponent {
   }
 
   updateImage(attr: string, crop: string) {
-    try {
-      uploadcare.openDialog(null, {
-        crop: crop,
-        imagesOnly: true
-      }).done((file) => {
-        file.promise().done((fileInfo) => {
-          this[attr] = fileInfo.cdnUrl;
-        });
-      });
-    }catch (err) {
-      console.error("Error in updateImage: " + err);
-    }
+    Utils.updateImage(this, attr, crop);
   }
 
   openColorPicker(attr: string) {
