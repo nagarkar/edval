@@ -17,7 +17,6 @@ import {RegisterService} from "../service.factory";
 import {LiveSessionService} from "./live";
 import {Config} from "../../shared/config";
 import {SessionScrubber} from "../../shared/scrubberservices/session.scrubber";
-import {Scrubber} from "../../shared/scrubberservices/scrubber";
 import {StaffService} from "../staff/delegator";
 
 @Injectable()
