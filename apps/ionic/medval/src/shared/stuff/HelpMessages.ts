@@ -128,8 +128,8 @@ export class HelpMessages {
     return content;
   }
 
-  static getMessageFor(item: string): string {
-    return HelpMessages.getTitleAndMessage(item).message;
+  static getMessageFor(item: string): any {
+    return HelpMessages.getTitleAndMessage(item);
   }
 
   static getTitleAndMessage(item: string): {title: string, message: string} {

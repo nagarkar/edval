@@ -18,6 +18,7 @@ import {Validators, FormControl, FormGroup} from "@angular/forms";
 import {SpinnerDialog, NativeAudio, Device} from "ionic-native";
 import {HelpPage} from "../dashboard/help/help.page";
 import {AnyComponent} from "../any.component";
+import {DeviceServices} from "../../shared/service/DeviceServices";
 
 declare let AWSCognito:any;
 declare let AWS:any;
@@ -47,6 +48,7 @@ export class LoginComponent extends AnyComponent {
 
     super();
     try {
+      DeviceServices.warnAboutNetworkConnection();
       if (authProvider.supposedToBeLoggedIn()) {
         Utils.info("Login Attempt while already logged in");
       }
@@ -90,6 +92,10 @@ export class LoginComponent extends AnyComponent {
   //*********************************************
 
   setupNewAccount() {
+    if (DeviceServices.isDeviceOffline) {
+      DeviceServices.warnAboutNetworkConnection();
+      return;
+    }
     let clearUsernamePwd = ()=>{
       this.loginForm.controls['username'].setValue('');
       this.loginForm.controls['password'].setValue('');
@@ -100,6 +106,11 @@ export class LoginComponent extends AnyComponent {
   }
 
   forgotPassword() {
+    if (DeviceServices.isDeviceOffline) {
+      DeviceServices.warnAboutNetworkConnection();
+      return;
+    }
+
     var me = this;
     Utils.presentAlertPrompt(this.alertCtrl, ((data)=>{
       let username: string = data.username;
@@ -168,13 +179,18 @@ export class LoginComponent extends AnyComponent {
 
   login() {
 
+    if (DeviceServices.isDeviceOffline) {
+      DeviceServices.warnAboutNetworkConnection();
+      return;
+    }
+
     let username: string = this.loginForm.controls['username'].value.trim().toLowerCase();
     let password: string = this.loginForm.controls['password'].value.trim();
     if (Utils.nullOrEmptyString(password) || Utils.nullOrEmptyString(username)) {
       Utils.presentInvalidEntryAlert(this.alertCtrl, "Please provide a username and password");
       return;
     }
-    SpinnerDialog.show(null, null, true);
+    Utils.showSpinner();
     setTimeout(()=>{
       this.loginWithCreds(username, password);
     }, 100);

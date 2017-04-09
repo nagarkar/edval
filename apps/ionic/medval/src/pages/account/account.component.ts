@@ -160,7 +160,7 @@ export class AccountComponent extends AdminComponent {
       return;
     }
 
-    SpinnerDialog.show(null, null, true);
+    Utils.showSpinner();
     setTimeout(()=>{
       let err: string = this.getAccountErrorsForCreate();
       if (err) {
@@ -232,7 +232,7 @@ export class AccountComponent extends AdminComponent {
   }
 
   private dismissLoadingShowAlert(title: string, msg: string, navigate?: boolean) {
-    SpinnerDialog.hide();
+    Utils.hideSpinner();
     Utils.presentInvalidEntryAlert(this.alertCtrl, title, msg)
       .onDidDismiss(()=>{
         if (navigate) {

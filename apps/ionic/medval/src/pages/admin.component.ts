@@ -14,6 +14,7 @@ import {DashboardComponent} from "./dashboard/dashboard.component";
 import {SpinnerDialog} from "ionic-native";
 import {Http} from "@angular/http";
 import {AnyComponent} from "./any.component";
+import {DeviceServices} from "../shared/service/DeviceServices";
 
 /**
  * Subclasses should implement ngOnInit() and call super.ngOnInit() before calling the account to load
@@ -30,6 +31,7 @@ export abstract class AdminComponent extends AnyComponent implements OnInit {
 
   ngOnInit() {
     try {
+      DeviceServices.warnAboutNetworkConnection();
       Utils.logoutIfNecessary(this.navCtrl, this.http);
     } catch(err) {
       Utils.error("Error in AdminComponent.ngOnInit {0}", err);
