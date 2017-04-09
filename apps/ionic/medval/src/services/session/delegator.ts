@@ -16,21 +16,26 @@ import {MetricService} from "../metric/delegator";
 import {RegisterService} from "../service.factory";
 import {LiveSessionService} from "./live";
 import {Config} from "../../shared/config";
+import {SessionScrubber} from "../../shared/scrubberservices/session.scrubber";
+import {Scrubber} from "../../shared/scrubberservices/scrubber";
+import {StaffService} from "../staff/delegator";
 
 @Injectable()
 @RegisterService
 export class SessionService extends DelegatingService<Session> {
 
+  sessionScrubber: Scrubber<Session>;
   surveyNavigator: SurveyNavigator;
 
   constructor(
     mockService: MockSessionService,
     liveService: LiveSessionService,
-    //liveService: DDBSessionService,
     private surveyService: SurveyService,
-    private metricSvc: MetricService) {
+    private metricSvc: MetricService,
+    private staffSvc: StaffService) {
 
     super(mockService, liveService, Session);
+    this.sessionScrubber = new SessionScrubber(metricSvc, staffSvc);
   }
 
   hasCurrentSession(): boolean {
@@ -53,13 +58,15 @@ export class SessionService extends DelegatingService<Session> {
     if (!this.hasCurrentSession()) {
       return;
     }
-    this.getCurrentSession().readyToSave();
     let session: Session =this.getCurrentSession();
+    session.readyToSave();
+    this.sessionScrubber.scrub(session);
     this.updateWithRetries(session, Config.SESSION_SAVE_RETRY_TIME, Config.SESSION_RETRIES);
     this.surveyNavigator = null;
   }
 
   updateWithRetries(session: Session, delay: number, retries: number): Promise<Session> {
+
     if (retries < 0 || !session || !delay) {
       Utils.errorAndThrow(new Error("Invalid input in updateWithRetries"));
     }

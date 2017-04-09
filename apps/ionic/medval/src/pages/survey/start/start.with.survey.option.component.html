@@ -1,4 +1,4 @@
-<mdval-header></mdval-header>
+<mdval-header [proceedOnRightClick]="warn"></mdval-header>
 <ion-content>
     <ion-grid class="m-t-4" text-center>
     <ion-row>
@@ -9,8 +9,13 @@
         </div>
       </ion-col>
       <ion-col>
-        <h1 style='font-size: 3em;' class="m-b-0 m-t-2"><b>{{'account.properties.customerName' | sReplacer}}</b></h1>
-        <h2><em>appreciates&nbsp;your feedback!</em></h2>
+        <div *ngIf="account?.properties?.customerName">
+          <h1 style='font-size: 3em;' class="m-b-0 m-t-2"><b>{{'account.properties.customerName' | sReplacer}}</b></h1>
+          <h2><em>appreciates&nbsp;your feedback!</em></h2>
+        </div>
+        <div *ngIf="!account?.properties?.customerName">
+          <h1 style='font-size: 3em;' class="m-b-0 m-t-2"><b>We Appreciate Your Feedback!</b></h1>
+        </div>
         <div style="display: inline;background-color: #f4f4f4;width: 90%;padding: 15px;border-radius: 10px;">
           <ion-icon name="lock" style="display: inline-block;font-size: 2em;"></ion-icon>
           <h6 style="display: inline-block;padding: 5px;">Your feedback is <b>safe with us</b></h6>

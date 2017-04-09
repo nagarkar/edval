@@ -11,7 +11,7 @@ import {Utils} from "../../../shared/stuff/utils";
 import {RatingComponent} from "../../../shared/components/rating/rating.component";
 import {StaffService} from "../../../services/staff/delegator";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
-import {NavParams, NavController} from "ionic-angular";
+import {NavParams, NavController, AlertController} from "ionic-angular";
 import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
 import {Idle} from "@ng-idle/core";
@@ -34,13 +34,14 @@ export class SingleMetricComponent extends SurveyPage {
     idle: Idle,
     utils: Utils,
     navCtrl: NavController,
+    alertCtrl: AlertController,
     sessionSvc: SessionService,
     params: NavParams,
     private staffSvc: StaffService,
     private metricSvc: MetricService
   ) {
 
-    super(navCtrl, sessionSvc, idle);
+    super(navCtrl, alertCtrl, sessionSvc, idle);
     try {
       this.getMetricById(params.get("metricId"));
     } catch (err) {

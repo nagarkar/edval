@@ -12,7 +12,7 @@ import {RatingComponent} from "../../../shared/components/rating/rating.componen
 import {Staff} from "../../../services/staff/schema";
 import {StaffService} from "../../../services/staff/delegator";
 import {SurveyNavigator, RegisterComponent} from "../../../services/survey/survey.navigator";
-import {NavParams, NavController} from "ionic-angular";
+import {NavParams, NavController, AlertController} from "ionic-angular";
 import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
 import {SurveyPage} from "../survey.page";
@@ -56,12 +56,13 @@ export class ToplineForStaffComponent extends SurveyPage {
     idle: Idle,
     utils: Utils,
     navCtrl: NavController,
+    alertCtrl: AlertController,
     sessionSvc: SessionService,
     params: NavParams,
     private staffSvc: StaffService,
     private metricSvc: MetricService) {
 
-    super(navCtrl, sessionSvc, idle);
+    super(navCtrl, alertCtrl, sessionSvc, idle);
 
     try {
 
@@ -84,10 +85,12 @@ export class ToplineForStaffComponent extends SurveyPage {
     let navigator: SurveyNavigator = this.sessionSvc.surveyNavigator;
     navigator.session.addMetricValue(data.metric.subject, new MetricValue(data.metric.metricId, value));
 
+    /*
     let staff: Staff = this.staffSvc.getCached(Metric.GetUserNameInSubject(data.metric.subject));
     if (staff) {
       navigator.session.addMetricValue(Metric.createRoleSubject(staff.role), new MetricValue(data.metric.metricId, value));
     }
+    */
 
     if (this.displayData.every((data: SReplacerDataMap) => {return value != null})) {
       this.done = true;

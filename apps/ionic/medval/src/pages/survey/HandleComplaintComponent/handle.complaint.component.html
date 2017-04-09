@@ -13,7 +13,7 @@
       <ion-col text-center>
         <h1 *ngIf="title" class="m-b-1 .m-t-0p5"><b>{{title | sReplacer}}</b></h1>
         <h3 class="m-t-1 font-40">
-          {{"Would it be ok if " + account.properties.contactName + " followed up with you?"}}
+          {{"Would it be ok if " + account.properties.contactName ? account.properties.contactName: 'we' + " followed up with you?"}}
         </h3>
         <ion-row responsive-sm>
           <ion-col width-60>
@@ -42,7 +42,7 @@
     <ion-row>
       <ion-item>
         <ion-label class="m-t-2 cstm-label cstm-label-pdng" stacked>
-          {{'The team at ' + account.properties.customerName + ' would appreciate any other feedback you can provide...'}}
+          {{requestForFeedback | sReplacer}}
         </ion-label>
         <ion-textarea
           class="hc-cstm-textarea"

@@ -6,7 +6,7 @@
  * site or application without licensing is strictly prohibited.
  */
 import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from "@angular/core";
-import {NavController, NavParams, Modal, ModalController} from "ionic-angular";
+import {NavController, NavParams, Modal, ModalController, AlertController} from "ionic-angular";
 import {Config} from "../../../shared/config";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
@@ -17,14 +17,17 @@ import {StartWithSurveyOption} from "../start/start.with.survey.option.component
 import {WheelComponent} from "../../../shared/components/wheel/wheel.component";
 import {SurveyPage} from "../survey.page";
 import {AnyDetractors} from "../../../services/survey/survey.functions";
-import {AccountConfiguration} from "../../../services/account/schema";
+import {AccountConfiguration, Account} from "../../../services/account/schema";
 import {Subscription} from "rxjs";
 import {DeviceServices} from "../../../shared/service/DeviceServices";
+import {SurveyNavigator} from "../../../services/survey/survey.navigator";
 
 @Component({
   templateUrl: './thanks.component.html',
 })
 export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
+
+  surveyNavigator: SurveyNavigator;
 
   showWheel: boolean = false;
   showJokes: boolean = false;
@@ -76,21 +79,20 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
   constructor(
     idle: Idle,
     protected sessionSvc: SessionService,
-    private accountSvc: AccountService,
     protected navCtrl: NavController,
+    alertCtrl: AlertController,
     private modalctrl: ModalController,
     navParams: NavParams) {
 
-    super(navCtrl, sessionSvc, idle);
+    super(navCtrl, alertCtrl, sessionSvc, idle);
 
     try {
+      this.surveyNavigator = this.sessionSvc.surveyNavigator;
       this.message = this.constructMessage(navParams.get('message'));
       this.initializeSoundsIfNecessary();
     } catch(err) {
       Utils.error(err);
     }
-
-
   }
 
   ngOnInit() {
@@ -101,11 +103,8 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
         });
 
       setTimeout(()=>{
-        let svc = this.sessionSvc;
-        if(svc.hasCurrentSession()) {
-          svc.updateWithRetries(svc.getCurrentSession(), Config.SESSION_SAVE_RETRY_TIME, Config.SESSION_RETRIES);
-        }
-      }, 50)
+        this.sessionSvc.closeCurrentSession();
+      }, 100);
     } catch(err) {
       Utils.error(err);
     }
@@ -142,7 +141,7 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
     profileModal.present();
     setTimeout(()=> {
       profileModal.dismiss();
-      this.closeSession();
+      Utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultOnly: true})
     }, Config.TIMEOUT_AFTER_SHOWING_YOU_WON_MESSAGE)
 
   }
@@ -160,16 +159,11 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
     });
   }
 
-  private closeSession() {
-    this.sessionSvc.closeCurrentSession();
-    Utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultOnly: true})
-  }
-
   private constructMessage(input: any): string[] {
     if (!input || !input.length || input.length == 0) {
       return [
         "Thanks for your feedback!",
-        "'Regular feedback from patients helps ' + account.properties.customerName + ' improve!'"
+        this.getFeedbackBenefitString()
       ];
     }
     if (typeof input === 'string'){
@@ -227,7 +221,7 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
   };
 
   private setupAttractions(sounds: string[]) {
-    let config: AccountConfiguration = this.accountSvc.getCached(Config.CUSTOMERID).properties.configuration;
+    let config: AccountConfiguration = this.account.properties.configuration;
     this.showJokes = Utils.isStringBooleanTrue(config.SHOW_JOKES_ON_THANK_YOU_PAGE) || this.showJokes;
     if (this.showJokes) {
       setTimeout(()=>{
@@ -253,7 +247,7 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
   }
 
   private setupMessagesAndAttractions(): Promise<any> {
-    let isPromoterOrMiddle = (new AnyDetractors().execute(this.sessionSvc.surveyNavigator, {}) == "false");
+    let isPromoterOrMiddle = (new AnyDetractors().execute(this.surveyNavigator, {}) == "false");
     let sounds: string[] = [];
     sounds.push(ThanksComponent.thanksSounds[0]/*Utils.randomElement(ThanksComponent.thanksSounds)*/);
 
@@ -261,7 +255,7 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
       this.setupAttractions(sounds);
     }
 
-    let config: AccountConfiguration = this.accountSvc.getCached(Config.CUSTOMERID).properties.configuration;
+    let config: AccountConfiguration = this.account.properties.configuration;
     let speak = Utils.isStringBooleanTrue(config.SPEAK_GREETING)
     if (!speak) {
       return Promise.resolve();
@@ -285,5 +279,9 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
       .catch((err)=>{
         Utils.error("Could not preload audio files: {0}, err: {1}", allPaths.join('   '), err);
       })
+  }
+
+  private getFeedbackBenefitString() {
+    return "Your feedback drives the changes we make everyday!";
   }
 }

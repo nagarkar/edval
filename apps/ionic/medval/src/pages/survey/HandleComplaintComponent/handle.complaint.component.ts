@@ -6,7 +6,7 @@
  * site or application without licensing is strictly prohibited.
  */
 import {Component, ViewChild} from "@angular/core";
-import {NavController, NavParams} from "ionic-angular";
+import {NavController, NavParams, AlertController} from "ionic-angular";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
@@ -44,6 +44,8 @@ export class HandleComplaintComponent extends SurveyPage {
   image: string = this.images[0];
   account: Account = new Account();
 
+  requestForFeedback: string;
+
   // Patient f/b
   email: string;
   phone: string;
@@ -68,17 +70,19 @@ export class HandleComplaintComponent extends SurveyPage {
     idle: Idle,
     utils: Utils,
     navCtrl: NavController,
+    alertCtrl: AlertController,
     navParams: NavParams,
     sessionSvc: SessionService,
     tokenProvider: AccessTokenService,
     accountSvc: AccountService,
     private emailProviderService: EmailProviderService
   ) {
-    super(navCtrl, sessionSvc, idle);
+    super(navCtrl, alertCtrl, sessionSvc, idle);
 
     try {
       this.account = accountSvc.getCached(Config.CUSTOMERID);
       this.title = navParams.get('title') || this.title;
+      this.requestForFeedback = this.createRequestForFeedbackString();
     } catch(err) {
       super.handleErrorAndCancel(err);
     }
@@ -105,7 +109,7 @@ export class HandleComplaintComponent extends SurveyPage {
       }
     }
     super.navigateToNext(false /* dontAnimate */, false, /* Force Navigate */
-      "account.properties.customerName + ' wants to do better'", "Your feedback is invaluable");
+      "account.properties.customerName ? (account.properties.customerName + ' wants to do better') : 'The team will try to do a better job next time!'", "Your feedback is invaluable");
   }
 
 
@@ -141,5 +145,14 @@ export class HandleComplaintComponent extends SurveyPage {
 
   onSelectEmail(value){
     this.email = value;
+  }
+
+  private createRequestForFeedbackString() {
+    let account = this.account;
+    if (account && account.properties && account.properties.customerName) {
+      return 'The team at ' + account.properties.customerName + ' would appreciate any other feedback you can provide...';
+    } else {
+      return 'The team here would appreciate any other feedback you can provide...';
+    }
   }
 }

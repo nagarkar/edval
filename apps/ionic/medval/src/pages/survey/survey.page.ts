@@ -6,7 +6,7 @@
  * site or application without licensing is strictly prohibited.
  */
 import {Utils} from "../../shared/stuff/utils";
-import {NavController} from "ionic-angular";
+import {NavController, Alert, AlertController} from "ionic-angular";
 import {SurveyNavUtils} from "./SurveyNavUtils";
 import {SessionService} from "../../services/session/delegator";
 import {Idle, DEFAULT_INTERRUPTSOURCES} from "@ng-idle/core";
@@ -18,9 +18,11 @@ import {SpinnerDialog} from "ionic-native";
 import {LoginComponent} from "../login/login.component";
 import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {AnyComponent} from "../any.component";
+import {Account} from "../../services/account/schema";
 
 export class SurveyPage  extends AnyComponent {
 
+  account: Account;
   progress: number = 0;
 
   idleSeconds(): number {
@@ -35,11 +37,13 @@ export class SurveyPage  extends AnyComponent {
 
   constructor(
     protected navCtrl: NavController,
+    protected alertCtrl: AlertController,
     protected sessionSvc: SessionService,
     protected idle?: Idle) {
 
     super();
     try {
+      this.account = Config.CUSTOMER;
       setTimeout(()=>{
         SpinnerDialog.hide();
       }, Config.SURVEY_PAGE_IDLE_SECONDS/4);
@@ -117,16 +121,28 @@ export class SurveyPage  extends AnyComponent {
   }
 
   cancelAndRestart() {
-    let sessionSvc = this.sessionSvc;
-    if (sessionSvc.hasCurrentSession()) {
-      Utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultOnly: sessionSvc.scratchPad['defaultOnly'], cancelPreviousSession: true});
-      return;
-    }
-    let navigator: SurveyNavigator = sessionSvc.surveyNavigator;
-    let surveyId = navigator.survey.id;
-    sessionSvc.newCurrentSession(surveyId);
-    navigator = sessionSvc.surveyNavigator; // Refresh the navigator.
-    SurveyNavUtils.navigateOrTerminate(navigator, this.navCtrl);
+    let warningMessage = "This will take you back to the beginning.";
+
+    Utils.presentProceedCancelPrompt(this.alertCtrl, ()=> {
+      let sessionSvc = this.sessionSvc;
+      if (sessionSvc.hasCurrentSession()) {
+        Utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultOnly: sessionSvc.scratchPad['defaultOnly'], cancelPreviousSession: true});
+        return;
+      }
+
+      let navigator: SurveyNavigator = sessionSvc.surveyNavigator;
+      let surveyId = navigator.survey.id;
+      this.createNewSessionAndNavigateToFirstPage(surveyId);
+    }, warningMessage)
+  }
+
+  handleErrorAndCancel(err: any) {
+    let errMsg = Utils.format("Unexpected error: {0}, with stack trace {1}", err, err.stack || new Error().stack);
+    Utils.error(errMsg);
+    alert(errMsg);
+    setTimeout(()=>{
+      this.cancelAndRestart();
+    }, 50)
   }
 
   private stopIdling(subscription?: Subject<number>) {
@@ -140,12 +156,9 @@ export class SurveyPage  extends AnyComponent {
     }
   }
 
-  handleErrorAndCancel(err: any) {
-    let errMsg = Utils.format("Unexpected error: {0}, with stack trace {1}", err, err.stack || new Error().stack);
-    Utils.error(errMsg);
-    alert(errMsg);
-    setTimeout(()=>{
-      this.cancelAndRestart();
-    }, 50)
+
+  private createNewSessionAndNavigateToFirstPage(surveyId: string) {
+    this.sessionSvc.newCurrentSession(surveyId);
+    SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl);
   }
 }

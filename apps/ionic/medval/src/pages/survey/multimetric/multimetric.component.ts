@@ -7,7 +7,7 @@
  */
 
 import {Component, Input} from "@angular/core";
-import {NavController, NavParams} from "ionic-angular";
+import {NavController, NavParams, AlertController} from "ionic-angular";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
@@ -47,6 +47,7 @@ export class MultimetricComponent extends SurveyPage {
     idle: Idle,
     utils: Utils,
     navCtrl: NavController,
+    alertCtrl: AlertController,
     sessionSvc: SessionService,
     navParams: NavParams,
     tokenProvider: AccessTokenService,
@@ -54,7 +55,7 @@ export class MultimetricComponent extends SurveyPage {
     private metricSvc: MetricService,
     ) {
 
-    super(navCtrl, sessionSvc, idle);
+    super(navCtrl, alertCtrl, sessionSvc, idle);
 
     try {
       this.rootMetricId = navParams.get('rootMetricId');
@@ -102,6 +103,7 @@ export class MultimetricComponent extends SurveyPage {
       this.sessionSvc.getCurrentSession().addMetricValue(
         metric.subject, new MetricValue(metric.metricId, '' + value));
 
+      /*
       if (metric.hasRoleSubject()) {
         let roleUsernameMap: Map<string, Set<string>> = this.staffSvc.getRoleUserNameMap();
         this.sessionSvc.getCurrentSession().properties.selectedStaffUserNames.forEach((username:string)=>{
@@ -112,7 +114,7 @@ export class MultimetricComponent extends SurveyPage {
               Metric.createStaffSubject(username), new MetricValue(metric.metricId, '' + value));
           }
         })
-      }
+      }*/
     }
   }
 

@@ -9,7 +9,7 @@ import {Component, ViewChild, ElementRef, Input} from "@angular/core";
 import {Utils} from "../../../shared/stuff/utils";
 import {StaffService} from "../../../services/staff/delegator";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
-import {NavParams, NavController} from "ionic-angular";
+import {NavParams, NavController, AlertController} from "ionic-angular";
 import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
 import {Idle} from "@ng-idle/core";
@@ -38,13 +38,14 @@ export class PickMetricGroups extends SurveyPage {
     idle: Idle,
     utils: Utils,
     navCtrl: NavController,
+    alertCtrl: AlertController,
     sessionSvc: SessionService,
     params: NavParams,
     private staffSvc: StaffService,
     private metricSvc: MetricService
   ) {
 
-    super(navCtrl, sessionSvc, idle);
+    super(navCtrl, alertCtrl, sessionSvc, idle);
     this.params = params.get('graphicalMetricGroupIndicators');
     this.title = this.extractTitle(params);
   }

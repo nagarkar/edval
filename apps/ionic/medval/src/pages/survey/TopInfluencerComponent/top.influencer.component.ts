@@ -6,7 +6,7 @@
  * site or application without licensing is strictly prohibited.
  */
 import {Component} from "@angular/core";
-import {NavController, NavParams} from "ionic-angular";
+import {NavController, NavParams, AlertController} from "ionic-angular";
 import {Config} from "../../../shared/config";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
@@ -59,11 +59,12 @@ export class TopInfluencerComponent extends SurveyPage {
     sessionSvc: SessionService,
     utils: Utils,
     navCtrl: NavController,
+    alertCtrl: AlertController,
     private accountSvc: AccountService,
     private metricSvc: MetricService,
     private sReplacer: SReplacer) {
 
-    super(navCtrl, sessionSvc, idle);
+    super(navCtrl, alertCtrl, sessionSvc, idle);
 
     try {
 
@@ -75,9 +76,9 @@ export class TopInfluencerComponent extends SurveyPage {
       this.promptAfterSelections = def(+navParams.get('numSelections'), 1);
       this.valueOrderDesc = def(navParams.get('valueOrderDesc'), false);
       if (this.valueOrderDesc) {
-        this.textPlaceholder = "account.properties.customerName + ' is doing \<something\> really well...'"
+        this.textPlaceholder = "Here's what being done really well...'"
       } else {
-        this.textPlaceholder = "account.properties.customerName + ' is doing \<something\> poorly...'"
+        this.textPlaceholder = "Here's what's being done poorly...'"
       }
       let messages = def(navParams.get('title'), undefined);
       if (Utils.isString(messages)) {

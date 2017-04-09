@@ -7,7 +7,7 @@
  */
 
 import {Component} from "@angular/core";
-import {NavController, Modal, ModalController} from "ionic-angular";
+import {NavController, Modal, ModalController, AlertController} from "ionic-angular";
 import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
@@ -32,15 +32,17 @@ export class RequestReviewComponent2 extends SurveyPage {
   showGoogle: boolean;
   showFacebook: boolean;
   showYelp: boolean;
+  title: string;
 
   constructor(idle: Idle,
               utils: Utils,
               navCtrl: NavController,
+              alertCtrl: AlertController,
               sessionSvc: SessionService,
               private accountSvc: AccountService,
               private modalCtrl: ModalController) {
 
-    super(navCtrl, sessionSvc, idle);
+    super(navCtrl, alertCtrl, sessionSvc, idle);
     try {
       let account: Account = this.accountSvc.getCached(Config.CUSTOMERID);
       if (account && account.properties) {
@@ -48,6 +50,7 @@ export class RequestReviewComponent2 extends SurveyPage {
         this.showGoogle = ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_GOOGLE);
         this.showYelp = ValidationService.urlValidator.test(account.properties.configuration.REVIEW_URL_YELP);
       }
+      this.title = this.createTitle(account);
     } catch (err) {
       Utils.error(err);
     }
@@ -106,6 +109,14 @@ export class RequestReviewComponent2 extends SurveyPage {
       props.reviewData.preferredReviewSite = [];
     }
     props.reviewData.preferredReviewSite.push(preferredReviewSite);
+  }
+
+  private createTitle(account: Account): string {
+    if (account && account.properties && account.properties.contactName) {
+      return "Sounds like " + account.properties.contactName + "  & team are doing ok!";
+    } else {
+      return "Sounds like we are doing ok!";
+    }
   }
 }
 

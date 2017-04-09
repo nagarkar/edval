@@ -6,7 +6,7 @@
   <ion-grid *ngIf="displayData.length > 0" style="max-height:100%; padding-top:3em">
     <ion-row center *ngFor="let data of displayData; let idx = index">
       <ion-col width-20>
-        <img class="border" [ngStyle]="styles.img" src="{{data.onlyStaff.properties?.photoUrl || 'assets/img/placeholder.png'}}"/>
+        <img class="border" [ngStyle]="styles.img" src="{{data.onlyStaff.properties?.photoUrl || placeHolderImage}}"/>
       </ion-col>
       <ion-col [ngStyle]="styles.text">
           <span>{{data.metric.properties.question | sReplacer:data}}</span>
@@ -18,16 +18,16 @@
           </p>
       </ion-col>
     </ion-row>
-    <ion-row text-center style="-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);padding-left:10em;  display: flex; bottom: 4em; left:5em">
+    <ion-row text-center style="-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);padding-left:10em;">
       <ion-col>
-        <div style="display:block; width:66%">
-          <progress-bar style="display:inline" [progress]="progress">
-          </progress-bar>
-          <button class="progress-bar-side-button" small ion-button (tap)="cancelAndRestart()">Cancel & Restart</button>
-        </div>
       </ion-col>
     </ion-row>
   </ion-grid>
+  <div style="display:block; position:fixed; width:66%; bottom: 4em; left:5em">
+    <progress-bar style="display:inline" [progress]="progress">
+    </progress-bar>
+    <button class="progress-bar-side-button" small ion-button (tap)="cancelAndRestart()">Cancel & Restart</button>
+  </div>
   <ion-label *ngIf="displayData.length == 0">
     Looks like this survey is misconfigured.
     The selected staff or their corresponding roles do not have a numeric top-line metric.

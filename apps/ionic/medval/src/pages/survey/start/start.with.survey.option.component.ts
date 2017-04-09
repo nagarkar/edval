@@ -6,7 +6,7 @@
  * site or application without licensing is strictly prohibited.
  */
 import {Component, Input, OnInit, OnDestroy, ViewChild, ElementRef} from "@angular/core";
-import {NavController, NavParams, ToastController} from "ionic-angular";
+import {NavController, NavParams, ToastController, AlertController, Alert} from "ionic-angular";
 import {LoginComponent} from "../../login/login.component";
 import {Utils} from "../../../shared/stuff/utils";
 import {AccessTokenService} from "../../../shared/aws/access.token.service";
@@ -39,16 +39,14 @@ export class StartWithSurveyOption extends AnyComponent implements OnInit, OnDes
 
   surveys : Survey[] = [];
 
-  cancelPreviousSession: boolean;
-
   @ViewChild("imgDiv")
   imgDiv: ElementRef;
 
-  @Input()
-  defaultOnly: boolean = false; // must default to false in order for logic in constructor to work
+  account: Account;
 
   constructor(
     private http: Http,
+    private alertCtrl: AlertController,
     private navCtrl: NavController,
     private toastCtrl: ToastController,
     utils: Utils,
@@ -60,8 +58,7 @@ export class StartWithSurveyOption extends AnyComponent implements OnInit, OnDes
   ) {
 
     super();
-    this.defaultOnly = navParams.get("defaultOnly") === true || this.defaultOnly;
-    this.cancelPreviousSession = navParams.get("cancelPreviousSession") || this.cancelPreviousSession;
+    this.account = Config.CUSTOMER;
   }
 
   ngOnInit() {
@@ -90,15 +87,22 @@ export class StartWithSurveyOption extends AnyComponent implements OnInit, OnDes
   }
 
   pickSurvey(id: string){
-    if (this.sessionSvc.hasCurrentSession() && !this.cancelPreviousSession) {
-      try {
-        this.sessionSvc.closeCurrentSession();
-      } catch(err) {
-        Utils.presentTopToast(this.toastCtrl, err || err.message);
-      }
-    }
-    this.sessionSvc.newCurrentSession(id);
-    this.sessionSvc.scratchPad['defaultOnly'] = this.defaultOnly;
+    this.createNewSessionAndNavigateToFirstPage(id);
+  }
+
+  warn = (function(): Promise<boolean> {
+    return new Promise((resolve, reject)=> {
+      let alert: Alert = Utils.presentProceedCancelPrompt(this.alertCtrl, (result)=> {
+        resolve(true);
+      }, "You are exiting the Survey Mode. The administrator will have to login again to continue.")
+      alert.onDidDismiss(()=> {
+        resolve(false);
+      })
+    })
+  }).bind(this);
+
+  private createNewSessionAndNavigateToFirstPage(surveyId: string) {
+    this.sessionSvc.newCurrentSession(surveyId);
     SurveyNavUtils.navigateOrTerminate(this.sessionSvc.surveyNavigator, this.navCtrl);
   }
 
@@ -118,7 +122,7 @@ export class StartWithSurveyOption extends AnyComponent implements OnInit, OnDes
   }
 
   private setupSoundHandling() {
-    let account = this.accountSvc.getCached(Config.CUSTOMERID);
+    let account: any = this.account;
     let intervalMinutes = 1;
     if (account && account.properties && account.properties.configuration) {
       intervalMinutes = account.properties.configuration.CHIME_INTERVAL;

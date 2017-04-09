@@ -10,7 +10,7 @@ import {Utils} from "../../../shared/stuff/utils";
 import {StaffService} from "../../../services/staff/delegator";
 import {SlideItem} from "../../../shared/components/carousel/carousel.schema";
 import {Staff} from "../../../services/staff/schema";
-import {NavController, NavParams} from "ionic-angular";
+import {NavController, NavParams, AlertController} from "ionic-angular";
 import {LoginComponent} from "../../login/login.component";
 import {SessionService} from "../../../services/session/delegator";
 import {RegisterComponent} from "../../../services/survey/survey.navigator";
@@ -43,11 +43,12 @@ export class PickStaffComponent extends SurveyPage {
     idle: Idle,
     utils: Utils,
     navCtrl: NavController,
+    alertCtrl: AlertController,
     sessionSvc: SessionService,
     private staffSvc: StaffService,
     params: NavParams) {
 
-    super(navCtrl, sessionSvc, idle);
+    super(navCtrl, alertCtrl, sessionSvc, idle);
 
     try {
 
