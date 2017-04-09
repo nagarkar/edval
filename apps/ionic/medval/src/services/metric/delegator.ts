@@ -45,6 +45,21 @@ export class MetricService extends DelegatingService<Metric> {
       .filter((value: Metric) => {return value.isRoot() && value.subject == subject})
   }
 
+  public getOnlyOrgMetric(): Metric {
+    return this.getOnlyRootMetricForSubject(Metric.ORG_SUBJECT_TYPE);
+  }
+
+  public getOnlyRoleRootMetric(roleSubject: string): Metric {
+    return this.getOnlyRootMetricForSubject(roleSubject);
+  }
+
+  public getOnlyRootMetricForSubject(subj: string) : Metric {
+    let rootMetrics = this.getRootMetricsForSubject(subj);
+    Utils.throwIf((rootMetrics.length != 1), 'Got more than one metric; expected 1');
+    Utils.throwIf((!rootMetrics || rootMetrics.length == 0), 'Got zero metrics; expected 1');
+    return rootMetrics[0];
+  }
+
   public getCachedMatchingRootMetrics(rootMetricId?: string): string[] {
     let result: string[] = [];
     if (rootMetricId){

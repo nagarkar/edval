@@ -6,15 +6,15 @@
     <ion-row>
       <ion-col>
         <ion-item>
-          <ion-label stacked color="primary">Nickname/Username</ion-label>
-          <ion-input disabled="{{isEdit}}" name='username' [(ngModel)]="staffMember.username" required></ion-input>
+          <ion-label stacked color="primary">Nickname/Username&nbsp;&nbsp;<span class="alert">(required)</span></ion-label>
+          <ion-input placeholder="User Name" disabled="{{isEdit}}" name='username' [(ngModel)]="staffMember.username" required></ion-input>
         </ion-item>
       </ion-col>
       <ion-col>
         <ion-item>
-          <ion-label stacked color="primary">Role in the Organization</ion-label>
-          <ion-select name='role' class="rev-select" [(ngModel)]="staffMember.role">
-            <ion-option value="DDS" selected="true">Doctor of Dental Surgery</ion-option>
+          <ion-label stacked color="primary">Role in the Organization&nbsp;&nbsp;<span class="alert">(required)</span></ion-label>
+          <ion-select name='role' class="rev-select" [(ngModel)]="staffMember.role" required>
+            <ion-option value="DDS">Doctor of Dental Surgery</ion-option>
             <ion-option value="FrontOffice">Front office</ion-option>
             <ion-option value="Orthodontic Assistant">Dental Assistant</ion-option>
           </ion-select>
@@ -26,14 +26,14 @@
     <ion-row>
       <ion-col>
         <ion-item>
-          <ion-label stacked color="primary">First Name</ion-label>
-          <ion-input placeholder="First Name" name='fname' [(ngModel)]="staffMember.properties.firstName"></ion-input>
+          <ion-label stacked color="primary">First Name&nbsp;&nbsp;<span class="alert">(required)</span></ion-label>
+          <ion-input placeholder="First Name" name='fname' [(ngModel)]="staffMember.properties.firstName" required></ion-input>
         </ion-item>
       </ion-col>
       <ion-col>
         <ion-item>
-          <ion-label stacked color="primary">Last Name</ion-label>
-          <ion-input placeholder="Last Name" name='lname' [(ngModel)]="staffMember.properties.lastName"></ion-input>
+          <ion-label stacked color="primary">Last Name&nbsp;&nbsp;<span class="alert">(required)</span></ion-label>
+          <ion-input placeholder="Last Name" name='lname' [(ngModel)]="staffMember.properties.lastName" required></ion-input>
         </ion-item>
       </ion-col>
       <ion-col>
@@ -60,14 +60,15 @@
     <ion-row>
       <ion-col offset-10 width-20>
         <ion-label>Profile Photo</ion-label>
-        <ion-card (tap)="collectUrl()">
-          <img src="{{staffMember.properties.photoUrl? staffMember.properties.photoUrl : 'assets/img/placeholder.png'}}">
+        <ion-card (tap)="updateImage()">
+          <img src="{{staffMember.properties.photoUrl? staffMember.properties.photoUrl : placeHolderImage}}">
           <button ion-button clear small style="height:25px">Edit</button>
           <!--<ion-icon name="camera" style="margin-left:45%;height:25px"></ion-icon> -->
         </ion-card>
       </ion-col>
       <ion-col style="margin:5em 0 0 10em;">
         <button type='submit' style="display:inline" ion-button color="primary" large>Done</button>
+        <button style="display:inline" (tap)="cancel()" ion-button color="secondary" large>Cancel</button>
       </ion-col>
     </ion-row>
   </ion-grid>

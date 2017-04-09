@@ -13,6 +13,7 @@ import {StaffService} from "../../services/staff/delegator";
 import {AdminComponent} from "../admin.component";
 import {StaffEditComponent} from "./staff.edit.component";
 import {Http} from "@angular/http";
+import {DeviceServices} from "../../shared/service/DeviceServices";
 
 @Component({
   templateUrl: './staff.component.html'
@@ -62,14 +63,24 @@ export class StaffComponent extends AdminComponent  {
   }
 
   public delete(staffMember: Staff) {
-    Utils.presentProceedCancelPrompt(this.alertCtrl, ()=> {
+    if (DeviceServices.isDeviceOffline) {
+      DeviceServices.warnAboutNetworkConnection();
+      return;
+    }
+
+    Utils.presentProceedCancelPrompt(this.alertCtrl, (proceed)=> {
+      if (!proceed) {
+        return;
+      }
       Utils.showSpinner('Processing', 'Please wait..');
       this.staffSvc.delete(staffMember.username)
         .then(() => {
+          Utils.hideSpinner();
           this.getStaffList();
-          Utils.presentTopToast(this.toastCtrl, "Deleted", 3000)
+          Utils.presentTopToast(this.toastCtrl, "Staff member deleted successfully", 3000);
         })
         .catch((err) => {
+          Utils.hideSpinner();
           Utils.presentTopToast(this.toastCtrl, err || "Could not delete staff member", 3000);
         })
     }, "You can't undo this action")

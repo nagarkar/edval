@@ -48,7 +48,13 @@ export class StaffEditComponent extends AnyComponent {
       } else {
         this.isEdit = false;
         this.staffMember = Staff.newStaffMember();
+        this.staffMember.properties.photoUrl = this.placeHolderImage;
+        this.staffMember.role = "DDS";
       }
+  }
+
+  updateImage() {
+    Utils.updateImage(this.staffMember.properties, 'photoUrl', "4:5");
   }
 
   collectUrl() {
@@ -76,7 +82,7 @@ export class StaffEditComponent extends AnyComponent {
     resultPromise
       .then(() => {
         this.navCtrl.pop();
-        Utils.presentTopToast(this.toastCtrl, "Staff Member Updated");
+        Utils.presentTopToast(this.toastCtrl, "Staff Member Updated", 2*1000);
       })
       .catch((reason) => {
         this.navCtrl.pop();
@@ -93,7 +99,7 @@ export class StaffEditComponent extends AnyComponent {
       s.role && s.role.length > 0;
 
     if (!isValid) {
-      Utils.presentInvalidEntryAlert(this.alertCtrl, "Please provide all values");
+      Utils.presentInvalidEntryAlert(this.alertCtrl, "Please provide role");
     }
     return isValid;
   }

@@ -1,31 +1,35 @@
 <mdval-header [title]="'Setup Staff'"></mdval-header>
 <ion-content class="rev-form scrollable">
-	<ion-grid class="m-t-3">
-		<div class="custom-list-cards">
-			<ion-col class="box" *ngFor="let item of staffList">
-				<div class="box-content">
-					<div class="box-inner-content">
-						<ion-item class="item-clean">
-							<ion-thumbnail item-left>
-								<img src="{{item.properties.photoUrl}}">
-							</ion-thumbnail>
-							<h2>{{[item.properties.title, item.properties.firstName, item.properties.lastName].join(' ')}}</h2>
-							<p class="details" *ngIf="item?.properties.email">Email: {{item?.properties.email}}</p>
-							<p class="details" *ngIf="item?.role">Role : {{item?.role}}</p>
-							<p class="details" *ngIf="item?.properties.phoneNumber">Phone: {{item?.properties.phoneNumber}}</p>
-						</ion-item>
-						<div class="actions">
-							<button ion-button color="grey" clear (tap)="delete(item)">Delete</button>
-							<button ion-button clear (tap)="edit(item)">Edit</button>
-						</div>
-					</div>
-				</div>
-			</ion-col>
+  <ion-grid class="m-t-3">
+    <ion-row padding>
+      <ion-col *ngFor="let item of staffList">
+        <ion-grid style="width:18em; border: 1px solid grey;" nopadding>
+          <ion-row nowrap padding>
+            <ion-col width-33><img src="{{item.properties.photoUrl}}"></ion-col>
+            <ion-col width-66>
+              <span>{{[item.properties.title, item.properties.firstName, item.properties.lastName].join(' ')}}</span>
+              <p class="truncate" *ngIf="item?.role">{{item?.role}}</p>
+              <p class="truncate" *ngIf="item?.properties.email">{{item?.properties.email}}</p>
+              <p class="truncate" *ngIf="item?.properties.phoneNumber">{{item?.properties.phoneNumber}}</p>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <div class="actions">
+                <button ion-button color="grey" clear (tap)="delete(item)">Delete</button>
+                <button ion-button clear (tap)="edit(item)">Edit</button>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+    <ion-row align-items-center justify-content-center>
       <div padding text-center>
         <button ion-button color="green" (tap)="add()" >Add New Staff Member</button>
-        <button ion-button color="green" (tap)="navCtrl.pop()">Done</button>
+        <button ion-button color="green" (tap)="navCtrl.pop()">Cancel</button>
       </div>
-		</div>
-	</ion-grid>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 <mdval-footer [showSuggestionBox]="true"></mdval-footer>

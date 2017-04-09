@@ -56,8 +56,8 @@ export class MockMetricService extends AbstractMockService<Metric> {
       entityStatus: "ACTIVE",
       subject: "org",
       properties: {
-        conversationSetup: "'Your overall rating for ' + account.properties.customerName + ''",
-        question: "'Would you recommend ' + account.properties.customerName + ' to your friends and family?'",
+        conversationSetup: "'Your overall rating for ' + (account.properties.customerName? account.properties.customerName: 'our Team')",
+        question: "'Would you recommend ' + (account.properties.customerName? account.properties.customerName : 'us') + ' to your friends and family?'",
         metricName: "Overall Favorability",
         metricDescription: "Organization Level Metric. This metric is always present by default and cannot be deleted",
         definition: {
@@ -74,7 +74,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:Orthodontic Assistant",
       properties: {
         question: `onlyStaff ? "How would you rate " + onlyStaff.displayName + " as a Dental Assistant?"
-          : "How would you rate the Doctor's Assistants at " + account.properties.customerName + "?"`,
+          : "How would you rate the Doctor's Assistants " + (account.properties.customerName? 'at ' + account.properties.customerName: 'at this clinic') + "?"`,
         metricName: "Favorability - Assistants",
         definition: {
           npsType: {
@@ -167,7 +167,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:DDS",
       properties: {
         question: `'Would you recommend ' 
-          + (onlyStaff ? onlyStaff.displayName : ('the doctors at ' + account.properties.customerName)) 
+          + (onlyStaff ? onlyStaff.displayName : ('the doctors ' + (account.properties.customerName? ('at ' + account.properties.customerName) : 'at this clinic'))) 
           + ' to your friends and family?'`,
         metricName: "Favorability - Doctors",
         definition: {
@@ -204,7 +204,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:DDS",
       properties: {
         metricName: 'Medical Skill - Doctors',
-        question: "'Do you feel the doctor(s) at ' + account.properties.customerName + ' are skillful in providing treatment?'",
+        question: "'Do you feel the doctor(s) ' + (account.properties.customerName ? 'at ' + account.properties.customerName: 'in our team') + ' are skillful in providing treatment?'",
         positiveImpact: `onlyStaff ? onlyStaff.displayName  + " is skilled in providing treatment"
           : "The doctors are skilled in providing treatment"`,
         improvement: "The doctor could be more skillful when treating patients",
@@ -240,7 +240,7 @@ export class MockMetricService extends AbstractMockService<Metric> {
       subject: "role:DDS",
       properties: {
         metricName: 'Interest in Outcomes - Doctors',
-        question: `onlyStaff ? 'Did ' + onlyStaff.displayName + ' address your concerns and questions?'
+        question: `onlyStaff ? ('Did ' + onlyStaff.displayName + ' address your concerns and questions?') : 
             'Did the doctors at Orthodontic Excellence address your concerns and questions?'`,
         positiveImpact: `onlyStaff ? onlyStaff.displayName  + " shows genuine interest in patients"
           : "The doctors show genuine interest in patients"`,

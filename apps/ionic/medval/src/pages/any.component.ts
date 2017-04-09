@@ -8,6 +8,8 @@
 
 
 import {Account} from "../services/account/schema";
+import {DeviceServices} from "../shared/service/DeviceServices";
+import {Utils} from "../shared/stuff/utils";
 
 export abstract class AnyComponent {
 
@@ -20,6 +22,8 @@ export abstract class AnyComponent {
   npsBackgroundImage: string;
   iconColor: string;
   buttonTextColor: string;
+
+  placeHolderImage: string = Utils.PLACE_HOLDER_IMAGE_URL;
 
   constructor() {
     try {
