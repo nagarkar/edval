@@ -10,7 +10,7 @@ import {ChartService} from "../chart.service";
 import {BaseChartComponent} from "../base.chart.component";
 import {NavParams, AlertController} from "ionic-angular";
 import {Filters} from "../filters";
-import {QueryUtils, Query} from "../query.utils";
+import {QueryUtils} from "../query.utils";
 import {AccountService} from "../../../services/account/delegator";
 import {StaffService} from "../../../services/staff/delegator";
 import {MetricAndSubject} from "../metric.subject";

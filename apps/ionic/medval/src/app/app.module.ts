@@ -86,7 +86,7 @@ import {HelpPage} from "../pages/dashboard/help/help.page";
 import {AccountBranding} from "../pages/branding/account.branding";
 import {ColorPicker} from "../shared/components/colorpicker/color.picker";
 import {ColorModal} from "../shared/components/colorpicker/color.modal";
-import { REVVOLVE_DIRECTIVES } from "../shared/directives/revvolve.directives";
+import {REVVOLVE_DIRECTIVES} from "../shared/directives/revvolve.directives";
 
 enableProdMode();
 

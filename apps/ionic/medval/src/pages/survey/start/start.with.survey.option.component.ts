@@ -5,7 +5,7 @@
  * of this application without permission. Copying and re-posting on another
  * site or application without licensing is strictly prohibited.
  */
-import {Component, Input, OnInit, OnDestroy, ViewChild, ElementRef} from "@angular/core";
+import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from "@angular/core";
 import {NavController, NavParams, ToastController, AlertController, Alert} from "ionic-angular";
 import {LoginComponent} from "../../login/login.component";
 import {Utils} from "../../../shared/stuff/utils";

@@ -18,7 +18,6 @@ import {Validators, FormControl, FormGroup} from "@angular/forms";
 import {SpinnerDialog, NativeAudio, Device} from "ionic-native";
 import {HelpPage} from "../dashboard/help/help.page";
 import {AnyComponent} from "../any.component";
-import {DeviceServices} from "../../shared/service/DeviceServices";
 
 declare let AWSCognito:any;
 declare let AWS:any;

@@ -6,7 +6,7 @@
  * site or application without licensing is strictly prohibited.
  */
 
-import {BaseChartComponent, ChartGenerator} from "../base.chart.component";
+import {BaseChartComponent} from "../base.chart.component";
 import {ChartService} from "../chart.service";
 import {Campaign} from "../../../services/campaign/schema";
 import {Input, ElementRef, ViewChild, Component} from "@angular/core";
@@ -16,11 +16,9 @@ import {NavParams, AlertController} from "ionic-angular";
 import {AccountService} from "../../../services/account/delegator";
 import {StaffService} from "../../../services/staff/delegator";
 import {MetricAndSubject} from "../metric.subject";
-import {Filters} from "../filters";
 import {QueryUtils} from "../query.utils";
 import {Metric} from "../../../services/metric/schema";
 import {MetricService} from "../../../services/metric/delegator";
-import {Formatters} from "../formatters";
 
 @Component({
   selector: 'subject-detail',

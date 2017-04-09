@@ -6,7 +6,7 @@
  * site or application without licensing is strictly prohibited.
  */
 import {NavParams, AlertController, ToastController} from "ionic-angular";
-import {Component, ViewChild, ElementRef} from "@angular/core";
+import {Component} from "@angular/core";
 import {ChartService} from "./chart.service";
 import {BaseChartComponent} from "./base.chart.component";
 import {Metric} from "../../services/metric/schema";

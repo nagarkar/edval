@@ -5,7 +5,7 @@
  * of this application without permission. Copying and re-posting on another
  * site or application without licensing is strictly prohibited.
  */
-import {Component, Input, ViewChild, Renderer, Output, EventEmitter} from "@angular/core";
+import {Component, Input, ViewChild, Renderer} from "@angular/core";
 import {NavController, Navbar, NavParams} from "ionic-angular";
 import {Utils} from "../../stuff/utils";
 import {AnyComponent} from "../../../pages/any.component";

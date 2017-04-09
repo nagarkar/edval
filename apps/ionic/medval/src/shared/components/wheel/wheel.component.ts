@@ -8,7 +8,6 @@
 import {Component, Output, EventEmitter, Input} from "@angular/core";
 import {ViewController, AlertController, NavParams} from "ionic-angular";
 import {Config} from "../../config";
-import {SessionService} from "../../../services/session/delegator";
 import {AwsClient} from "../../aws/aws.client";
 
 declare var Winwheel: (options?: any, drawWheel?: boolean) => void;

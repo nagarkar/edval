@@ -17,7 +17,7 @@ import {
   AlertInputOptions,
   NavController
 } from "ionic-angular";
-import {CameraOptions, Camera, SpinnerDialog, Device, Network} from "ionic-native";
+import {CameraOptions, Camera, SpinnerDialog, Device} from "ionic-native";
 import {ErrorType} from "./error.types";
 import {Config} from "../config";
 import {AwsClient} from "../aws/aws.client";

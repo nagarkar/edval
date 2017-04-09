@@ -6,7 +6,6 @@
  * site or application without licensing is strictly prohibited.
  */
 
-import {Injectable} from "@angular/core";
 import {Session} from "../../services/session/schema";
 import {Account} from "../../services/account/schema";
 import {Config} from "../config";

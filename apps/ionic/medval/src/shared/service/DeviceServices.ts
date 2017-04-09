@@ -7,9 +7,10 @@ import {
   CodePush,
   NativeStorage,
   Device,
-  NativeAudio, Network, Dialogs
+  NativeAudio,
+  Network,
+  Dialogs
 } from "ionic-native";
-import {AlertController} from "ionic-angular";
 import {HelpMessages} from "../stuff/HelpMessages";
 /**
  * Created by chinmay on 3/6/17.

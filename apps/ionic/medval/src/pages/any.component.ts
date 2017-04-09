@@ -8,7 +8,6 @@
 
 
 import {Account} from "../services/account/schema";
-import {DeviceServices} from "../shared/service/DeviceServices";
 import {Utils} from "../shared/stuff/utils";
 
 export abstract class AnyComponent {

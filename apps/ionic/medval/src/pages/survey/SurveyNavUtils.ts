@@ -10,7 +10,6 @@ import {ThanksComponent} from "./thanks/thanks.component";
 import {NavController} from "ionic-angular";
 import {Utils} from "../../shared/stuff/utils";
 import {Config} from "../../shared/config";
-import {StartWithSurveyOption} from "./start/start.with.survey.option.component";
 import {SpinnerDialog} from "ionic-native";
 
 export class SurveyNavUtils {
