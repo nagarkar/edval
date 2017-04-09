@@ -23,7 +23,6 @@ export class DeviceServices {
 
   private static BATTERY_SUBSCRIPTION: Subscription;
   private static INITIAL_INSTALL_TIMESTAMP = "INITIAL_INSTALL_TIMESTAMP";
-  private static NETWORK_CONNECTED = false;
   public static NO_CONNECTION_ID = 'none';
 
 
@@ -176,12 +175,10 @@ export class DeviceServices {
   private static trackNetworkConnection() {
     // watch network for a disconnect
     Network.onDisconnect().subscribe(() => {
-      DeviceServices.NETWORK_CONNECTED = false;
       Utils.log('network was disconnected :-(');
       DeviceServices.warnAboutNetworkConnection();
     });
     Network.onConnect().subscribe(() => {
-      DeviceServices.NETWORK_CONNECTED = true;
       Utils.log('Network connected!');
       // We just got a connection but we need to wait briefly
       // before we determine the connection type.  Might need to wait
@@ -192,15 +189,10 @@ export class DeviceServices {
         }
       }, 3000);
     });
-    if (Network.type == DeviceServices.NO_CONNECTION_ID) {
-      DeviceServices.NETWORK_CONNECTED = false;
-    } else {
-      DeviceServices.NETWORK_CONNECTED = true;
-    }
   }
 
   static get isDeviceOnline(): boolean {
-    return DeviceServices.NETWORK_CONNECTED;
+    return Network.type != DeviceServices.NO_CONNECTION_ID;
   }
 
   static get isDeviceOffline(): boolean {
@@ -208,6 +200,7 @@ export class DeviceServices {
   }
 
   static warnAboutNetworkConnection() {
+    Utils.log('Network type: {0}', Network.type);
     if (!DeviceServices.isDeviceOnline) {
       let titleAndMessage: any = HelpMessages.getMessageFor("NO_NETWORK");
       Dialogs.alert(titleAndMessage.message, titleAndMessage.title);
