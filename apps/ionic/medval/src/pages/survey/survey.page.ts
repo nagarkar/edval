@@ -88,7 +88,7 @@ export class SurveyPage  extends AnyComponent {
           return;
         }
         SurveyPage.GOING_TO_ROOT_TEST = true;
-        Utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultOnly: true}).then(()=> {
+        Utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultSurveyOnly: true}).then(()=> {
           SurveyPage.GOING_TO_ROOT_TEST = false;
         }).catch((err)=> {
           SurveyPage.GOING_TO_ROOT_TEST = false;

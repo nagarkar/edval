@@ -75,7 +75,7 @@ export class CampaignDashboard extends BaseChartComponent {
             resolve(false /* Don't navigate away from this page*/);
             this.svc.cache.clear();
             Utils.presentTopToast(this.toastCtrl, "We've refreshed your reports. Exit this screen and come back to it to see your updated data.", 10*1000);
-            //CampaignDashboard.TOO_MANY_REFRESHES = true;
+            CampaignDashboard.TOO_MANY_REFRESHES = true;
             setTimeout(()=>{
               CampaignDashboard.TOO_MANY_REFRESHES = false;
             }, Config.REPORT_REFRESH_INTERVAL * 60 * 1000)

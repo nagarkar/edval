@@ -21,6 +21,9 @@
             <ion-col>
               <div #tableDiv></div>
             </ion-col>
+            <ion-col>
+              <button ion-button small (tap)="emailCampaignMetricsDetails()">Email Source Data</button>
+            </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
@@ -33,7 +36,7 @@
           </ion-row>
           <ion-row padding>
             <ion-col>
-              <button ion-button small (tap)="emailPromoterCountsReportDetails()">Email Details</button>
+              <button ion-button small (tap)="emailPromoterCountsReportDetails()">Email Source Data</button>
             </ion-col>
           </ion-row>
         </ion-grid>

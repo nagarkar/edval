@@ -102,19 +102,6 @@ export class MultimetricComponent extends SurveyPage {
     if (this.sessionSvc.hasCurrentSession()) {
       this.sessionSvc.getCurrentSession().addMetricValue(
         metric.subject, new MetricValue(metric.metricId, '' + value));
-
-      /*
-      if (metric.hasRoleSubject()) {
-        let roleUsernameMap: Map<string, Set<string>> = this.staffSvc.getRoleUserNameMap();
-        this.sessionSvc.getCurrentSession().properties.selectedStaffUserNames.forEach((username:string)=>{
-          let metricRoleSubj: string = metric.getRoleSubject();
-          let usernames: Set<string> = roleUsernameMap.get(metricRoleSubj);
-          if (usernames && usernames.has(username)) {
-            this.sessionSvc.getCurrentSession().addMetricValue(
-              Metric.createStaffSubject(username), new MetricValue(metric.metricId, '' + value));
-          }
-        })
-      }*/
     }
   }
 

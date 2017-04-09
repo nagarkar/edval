@@ -258,19 +258,19 @@ export abstract class BaseChartComponent extends AnyComponent {
   }
 
   protected emailPromoterCountsReportDetails(): Promise<any> {
-    return this.emailData(BaseChartComponent.SELECT_UP_TO_LIMIT_ROWS, QueryUtils.PROMOTER_COUNTS_REPORT,'promoters.csv')
+    return this.emailQuery(QueryUtils.PROMOTER_DETRACTOR_RAW_QUERY());
   }
 
   protected emailCampaignMetricsDetails(): Promise<any> {
-    return this.emailData(BaseChartComponent.SELECT_UP_TO_LIMIT_ROWS, QueryUtils.CAMPAIGN_METRICS_REPORT,'summary.csv')
+    return this.emailQuery(QueryUtils.CAMPAIGN_METRICS_RAW_QUERY());
   }
 
   protected emailChartDataReportDetails(): Promise<any> {
-    return this.emailData(BaseChartComponent.SELECT_UP_TO_LIMIT_ROWS, QueryUtils.CHART_DATA_REPORT,'metricdrilldown.csv')
+    return this.emailQuery(QueryUtils.METRIC_RATING_RAW_QUERY());
   }
 
   protected emailInfluencersReportDetails(): Promise<any> {
-    return this.emailData(BaseChartComponent.SELECT_UP_TO_LIMIT_ROWS, QueryUtils.INFLUENCERS_REPORT,'influencers.csv')
+    return this.emailQuery(QueryUtils.INFLUENCER_METRIC_RAW_QUERY());
   }
 
   protected emailDetails(query: Query, fileName: string): Promise<any> {
@@ -330,10 +330,9 @@ export abstract class BaseChartComponent extends AnyComponent {
       });
   };
 
-  private emailQuery(query: Query, fileName: string): Promise<any> {
-    return this.emailData(query.queryStr, query.reportType, fileName);
+  private emailQuery(query: Query, fileName?: string): Promise<any> {
+    return this.emailData(query.queryStr, query.reportType, fileName ? fileName : query.reportType + '.csv');
   }
-
 
   private emailData(query: string, reportName: string, fileName: string): Promise<any> {
     Utils.showSpinner();

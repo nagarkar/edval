@@ -40,12 +40,30 @@ export class QueryUtils {
       order by datemonth
       limit 2500
       label datemonth 'Period', sum(detractorCount)/sum(totalCount) 'Percent Detractors', 
-          sum(promoterCount)/sum(totalCount) 'Percent Promoters', sum(totalCount) 'Total Surveys'`;
+          sum(promoterCount)/sum(totalCount) 'Percent Promoters', sum(totalCount) 'Total Surveys'
+    `;
     return {
       queryStr: query,
       reportType: QueryUtils.PROMOTER_COUNTS_REPORT
     }
   }
+
+  static PROMOTER_DETRACTOR_RAW_QUERY(): Query {
+    let query = `select metricName, parentMetric, subjecttype, subjectvalue, dateyear, datemonth, totalCount,
+        detractorCount, promoterCount, rating 
+      order by datemonth, metricName, subjecttype 
+      limit 2500 
+      label datemonth 'Month', dateyear 'Year', subjecttype 'Category', subjectvalue 'Sub category', 
+        metricName 'Metric', parentMetric 'Parent Metric', promoterCount 'Number of Detractors', 
+        detractorCount 'Detractor Count', totalCount 'Total Number of Surveys', 
+        rating 'Average Metric Value as ratio from 0 to 1' 
+      format datemonth 'MMM', dateyear 'yyyy'`;
+    return {
+      queryStr: query,
+      reportType: QueryUtils.PROMOTER_COUNTS_REPORT
+    }
+  }
+
 
   /**
    * This query should be updated with filters for subjecttype and role, once the backend report returns data on roles.
@@ -65,6 +83,19 @@ export class QueryUtils {
         order by datemonth 
         limit 2500 
         label datemonth 'Period', avg(value) 'Rating'`].join('');
+    return {
+      queryStr: query,
+      reportType: QueryUtils.CHART_DATA_REPORT
+    }
+  }
+
+  static METRIC_RATING_RAW_QUERY() : Query {
+    let query = `select metricId, parentMetricId, subjecttype, subjectvalue, dateyear, datemonth, surveydate, count, value
+      order by datemonth, metricId, subjecttype
+      limit 2500
+      label datemonth 'Month', dateyear 'Year', subjecttype 'Category', subjectvalue 'Sub category', metricId 'Metric',
+        parentMetricId 'Parent Metric', surveydate 'Survey Date', count 'Number of Surveys', value 'Average Metric Value'
+      format datemonth 'MMM', dateyear 'yyyy'`;
     return {
       queryStr: query,
       reportType: QueryUtils.CHART_DATA_REPORT
@@ -100,6 +131,21 @@ export class QueryUtils {
     }
   }
 
+  static INFLUENCER_METRIC_RAW_QUERY(): Query {
+    let query = `select metricName, influencerMetric, dateyear, datemonth, subjecttype, subjectvalue, promoterOrDetractor, rank
+      order by datemonth, influencerMetric
+      limit 2500
+      label datemonth 'Month', dateyear 'Year', subjecttype 'Category', subjectvalue 'Sub category', 
+        metricName 'Influenced Metric', influencerMetric 'Influencer Metric', rank 'Relative Influence', 
+        promoterOrDetractor 'Influence on Promoters (true) or Detractors (false)'
+      format datemonth 'MMM', dateyear 'yyyy'
+    `;
+    return {
+      queryStr: query,
+      reportType: QueryUtils.INFLUENCERS_REPORT
+    }
+  }
+
   static SELECT_ALL(reportType: string, queryStr?: string): Query {
     return {
       queryStr: queryStr || 'select * ', // TODO: Adjust this based on report type.
@@ -117,6 +163,22 @@ export class QueryUtils {
           sum(sessionsWithTextFeedback) 'Surveys with Text Feedback', sum(positiveReviews) 'Positive Surveys',
           sum(negativeReviews) 'Negative Surveys'
 	      format datemonth 'MMM-yyyy'
+      `,
+      reportType:  QueryUtils.CAMPAIGN_METRICS_REPORT
+    }
+  }
+
+  static CAMPAIGN_METRICS_RAW_QUERY(): Query {
+    return {
+      queryStr: `select campaignId, dateyear, datemonth, completedSessions, abandonedSessions, sessionsWithTextFeedback, 
+              positiveReviews, negativeReviews
+        order by campaignId, datemonth
+        limit 2500
+        label datemonth 'Period', completedSessions 'Completed Surveys', abandonedSessions 'Abandoned Surveys',
+          sessionsWithTextFeedback 'Surveys with Text Feedback', 
+          positiveReviews 'Promoters (Surveys with average rating greater than 81 percent)',
+          negativeReviews 'Detractors (Surveys with average ratings less than 70 percent)'
+	      format datemonth 'MMM', dateyear 'yyyy'
       `,
       reportType:  QueryUtils.CAMPAIGN_METRICS_REPORT
     }

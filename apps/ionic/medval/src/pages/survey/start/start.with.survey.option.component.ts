@@ -44,6 +44,8 @@ export class StartWithSurveyOption extends AnyComponent implements OnInit, OnDes
 
   account: Account;
 
+  defaultSurveyOnly: boolean = false;
+
   constructor(
     private http: Http,
     private alertCtrl: AlertController,
@@ -59,6 +61,7 @@ export class StartWithSurveyOption extends AnyComponent implements OnInit, OnDes
 
     super();
     this.account = Config.CUSTOMER;
+    this.defaultSurveyOnly = navParams.get('defaultSurveyOnly') || this.defaultSurveyOnly;
   }
 
   ngOnInit() {

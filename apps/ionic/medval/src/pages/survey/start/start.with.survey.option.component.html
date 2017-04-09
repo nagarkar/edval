@@ -21,13 +21,13 @@
         </div>
         <br/>
         <br/>
-        <div *ngIf="defaultOnly">
+        <div *ngIf="defaultSurveyOnly">
           <button primary-button ion-button large class='wide-btn' type="button" (tap)="pickSurvey('default');">
             <div class="card-title">Begin!</div>
           </button>
           <div>It just takes a minute!</div>
         </div>
-        <div *ngIf="!defaultOnly">
+        <div *ngIf="!defaultSurveyOnly">
           <button primary-button *ngFor="let survey of surveys; let idx = index;" ion-button medium type="button" (tap)="pickSurvey(survey.id);">
             <div class="card-title">{{survey.properties.name}}</div>
           </button>

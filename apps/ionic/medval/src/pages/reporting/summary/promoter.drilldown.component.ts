@@ -31,7 +31,7 @@ declare let google;
         <div #metricValueChart></div>
       </div>
       <div #errorDiv></div>
-      <button ion-button small (tap)="emailChartDataReportDetails()">Email Details</button>      
+      <button ion-button small (tap)="emailChartDataReportDetails()">Email Source Data</button>      
     </div>
   `
 })
