@@ -71,7 +71,7 @@ export class Session {
     return false;
   }
 
-  public getAllMetricValues(): MetricValue[] {
+  getAllMetricValues(): MetricValue[] {
     let returnValue: MetricValue[] = [];
     this.properties.orgMetricValues.forEach((value: MetricValue[])=> {returnValue.push(...value);});
     this.properties.staffMetricValues.forEach((value: MetricValue[])=> {returnValue.push(...value);});
@@ -79,9 +79,9 @@ export class Session {
     return returnValue;
   }
 
-  public getAllMetricIdsAsSet(): Set<string> {
+  getAllMetricIdsAsSet(): Set<string> {
     let returnValue: Set<string> = new Set<string>();
-    let doForEach = (value: MetricValue[])=> {
+    let doForEach = (value: MetricValue[], subject: string)=> {
       value.forEach((mvalue: MetricValue)=> {
         returnValue.add(mvalue.metricId);
       })
@@ -92,7 +92,35 @@ export class Session {
     return returnValue;
   }
 
-  public addMetricValue(subject: string, value: MetricValue) {
+  getOnlyOrgMetricValueFor(metric: Metric) {
+    return Session.getOnlyMetricValueFor(this.properties.orgMetricValues, metric.subject, metric.metricId);
+  }
+
+  doesNotHaveMetricValueForRoleSubject(roleSubject: string, metricId: string): boolean {
+    return Session.doesNotHaveMetricValueSubjectToCondition(this.properties.roleMetricValues, metricId, (subject: string)=>{
+      return roleSubject == subject;
+    })
+  }
+
+  containsMetricValueForStaffSubject(staffSubject: string, metricId: string): boolean {
+    return !Session.doesNotHaveMetricValueSubjectToCondition(this.properties.staffMetricValues, metricId, (subject: string)=>{
+      return staffSubject == subject;
+    })
+  }
+
+  containsMetricValueForRoleSubject(roleSubject: string, metricId: string): boolean {
+    return !Session.doesNotHaveMetricValueSubjectToCondition(this.properties.roleMetricValues, metricId, (subject: string)=>{
+      return roleSubject == subject;
+    })
+  }
+
+  doesNotHaveMetricValueForAnyRoleSubject(metricId: string): boolean {
+    return Session.doesNotHaveMetricValueSubjectToCondition(this.properties.roleMetricValues, metricId, (subject: string)=>{
+      return Metric.isRoleSubject(subject);
+    })
+  }
+
+  addMetricValue(subject: string, value: MetricValue) {
     if(Metric.isRoleSubject(subject)) {
       this.addMetricValueHelper(this.properties.roleMetricValues, subject, value);
     }
@@ -112,7 +140,7 @@ export class Session {
     this.properties.navigatedLocations.push(location);
   }
 
-  public getMetricValue(subject: string, metricId: string): string {
+  getMetricValue(subject: string, metricId: string): string {
     let returnValue: string = null;
     let mValues: MetricValue[] = this.properties.staffMetricValues.get(subject);
     if (mValues) {
@@ -159,4 +187,54 @@ export class Session {
     subjectMetricValueMap.set(subject, values);
   }
 
+  static doesNotHaveMetricValueSubjectToCondition(
+    map: Map<string, MetricValue[]>,
+    metricId: string,
+    needToPassTest: (subject: string, value?: MetricValue[]) => boolean, ): boolean {
+
+    return Session.getMetricValuesSubjectToCondition(map, metricId, needToPassTest).length == 0;
+  }
+
+  static doesNotHaveMetricValueForSubject(map: Map<string, MetricValue[]>, roleSubject: string, metricId: string): boolean {
+    return Session.doesNotHaveMetricValueSubjectToCondition(map, metricId, (subject: string)=>{
+      return subject == roleSubject;
+    })
+  }
+
+  static getMetricValuesSubjectToCondition(
+    map: Map<string, MetricValue[]>,
+    metricId: string,
+    testPassed: (subject: string, value?: MetricValue[]) => boolean, ): MetricValue[]{
+
+    let foundMetricValues: MetricValue[] = [];
+    let doForEach = (values: MetricValue[], subject: string)=> {
+      if (!testPassed(subject, values)) {
+        return;
+      }
+      values.forEach((value: MetricValue)=>{
+        if(value.metricId == metricId) {
+          foundMetricValues.push(value);
+        }
+      })
+    }
+    map.forEach(doForEach);
+    return foundMetricValues;
+  }
+
+  private static getOnlyMetricValueFor(map: Map<string, MetricValue[]>, subject: string, metricId: string) {
+    let foundMetricValues: MetricValue[] = Session.getMetricValuesSubjectToCondition(
+      map,
+      metricId,
+      (subject: string) => {
+        return subject == subject;
+      }
+    )
+    Utils.throwIf(foundMetricValues.length > 1, "Expected one, found more");
+    if (foundMetricValues.length == 1) {
+      return foundMetricValues[0]
+    } else {
+      return undefined;
+    }
+
+  }
 }
