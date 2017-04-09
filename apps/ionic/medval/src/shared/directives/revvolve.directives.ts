@@ -1,5 +1,6 @@
 import {Directive, ElementRef, Input, Renderer} from "@angular/core";
 import {Account} from "../../services/account/schema";
+import {Utils} from "../stuff/utils";
 /**
  * Created by chinmay on 3/27/17.
  * Copyright HC Technology Inc.
@@ -43,7 +44,11 @@ export class BackgroundColor {
 
   @Input('backgroundColor')
   set color(v:string) {
-    this.el.nativeElement.style.backgroundColor = Account.getBrandingAttribute(v, false);
+    try {
+      this.el.nativeElement.style.backgroundColor = Account.getBrandingAttribute(v, false);
+    } catch(err) {
+      Utils.error("In directive BackgroundColor; Error: {0}", err);
+    }
   }
 
   constructor(private el: ElementRef) { }
@@ -55,10 +60,14 @@ export class BackgroundColor {
 export class PrimaryButton {
 
   constructor(private el: ElementRef) {
-    let primaryColor = Account.getBrandingAttribute('primaryColor');
-    let buttonTextColor = Account.getBrandingAttribute('buttonTextColor');
-    this.el.nativeElement.style.backgroundColor = primaryColor;
-    this.el.nativeElement.style.color = buttonTextColor;
+    try {
+      let primaryColor = Account.getBrandingAttribute('primaryColor');
+      let buttonTextColor = Account.getBrandingAttribute('buttonTextColor');
+      this.el.nativeElement.style.backgroundColor = primaryColor;
+      this.el.nativeElement.style.color = buttonTextColor;
+    } catch(err) {
+      Utils.error("In directive Primary Button; Error: {0}", err);
+    }
   }
 }
 
@@ -68,18 +77,22 @@ export class PrimaryButton {
 export class PrimaryColor {
 
   constructor(private el: ElementRef, renderer: Renderer) {
-    let primaryColor = Account.getBrandingAttribute('primaryColor');
-    let buttonTextColor = Account.getBrandingAttribute('buttonTextColor');
-    let hel: HTMLElement = this.el.nativeElement;
-    let classList = hel.classList;
-    if (classList.contains('button-outline')) {
-      this.el.nativeElement.style.borderColor = primaryColor;
-      this.el.nativeElement.style.color = primaryColor;
-    } else if (classList.contains('button')) {
-      this.el.nativeElement.style.backgroundColor = primaryColor;
-      this.el.nativeElement.style.color = buttonTextColor;
-    } else {
-      this.el.nativeElement.style.color = primaryColor;
+    try {
+      let primaryColor = Account.getBrandingAttribute('primaryColor');
+      let buttonTextColor = Account.getBrandingAttribute('buttonTextColor');
+      let hel: HTMLElement = this.el.nativeElement;
+      let classList = hel.classList;
+      if (classList.contains('button-outline')) {
+        this.el.nativeElement.style.borderColor = primaryColor;
+        this.el.nativeElement.style.color = primaryColor;
+      } else if (classList.contains('button')) {
+        this.el.nativeElement.style.backgroundColor = primaryColor;
+        this.el.nativeElement.style.color = buttonTextColor;
+      } else {
+        this.el.nativeElement.style.color = primaryColor;
+      }
+    } catch(err) {
+      Utils.error("In directive Primary Color; Error: {0}", err);
     }
   }
 }
@@ -90,10 +103,14 @@ export class PrimaryColor {
 export class SecondaryButton {
 
   constructor(private el: ElementRef) {
-    let secondaryColor = Account.getBrandingAttribute('secondaryColor');
-    let buttonTextColor = Account.getBrandingAttribute('buttonTextColor');
-    this.el.nativeElement.style.backgroundColor = secondaryColor;
-    this.el.nativeElement.style.color = buttonTextColor;
+    try {
+      let secondaryColor = Account.getBrandingAttribute('secondaryColor');
+      let buttonTextColor = Account.getBrandingAttribute('buttonTextColor');
+      this.el.nativeElement.style.backgroundColor = secondaryColor;
+      this.el.nativeElement.style.color = buttonTextColor;
+    } catch(err) {
+      Utils.error("In directive SEcondary Button; Error: {0}", err);
+    }
   }
 }
 
@@ -103,10 +120,14 @@ export class SecondaryButton {
 export class TertiaryButton {
 
   constructor(private el: ElementRef) {
-    let tertiaryColor = Account.getBrandingAttribute('tertiaryColor');
-    let buttonTextColor = Account.getBrandingAttribute('buttonTextColor');
-    this.el.nativeElement.style.backgroundColor = tertiaryColor;
-    this.el.nativeElement.style.color = buttonTextColor;
+    try {
+      let tertiaryColor = Account.getBrandingAttribute('tertiaryColor');
+      let buttonTextColor = Account.getBrandingAttribute('buttonTextColor');
+      this.el.nativeElement.style.backgroundColor = tertiaryColor;
+      this.el.nativeElement.style.color = buttonTextColor;
+    } catch(err) {
+      Utils.error("In directive Tertiary Button; Error: {0}", err);
+    }
   }
 }
 
@@ -116,10 +137,14 @@ export class TertiaryButton {
 export class LightButton {
 
   constructor(private el: ElementRef) {
-    let lightColor = Account.getBrandingAttribute('lightColor');
-    let buttonTextColor = Account.getBrandingAttribute('buttonTextColor');
-    this.el.nativeElement.style.backgroundColor = lightColor;
-    this.el.nativeElement.style.color = buttonTextColor;
+    try {
+      let lightColor = Account.getBrandingAttribute('lightColor');
+      let buttonTextColor = Account.getBrandingAttribute('buttonTextColor');
+      this.el.nativeElement.style.backgroundColor = lightColor;
+      this.el.nativeElement.style.color = buttonTextColor;
+    } catch(err) {
+      Utils.error("In directive LightButton; Error: {0}", err);
+    }
   }
 }
 
@@ -129,12 +154,16 @@ export class LightButton {
 export class PrimaryBox {
 
   constructor(private el: ElementRef) {
-    let primaryColor = Account.getBrandingAttribute('primaryColor');
-    let style = this.el.nativeElement.style;
-    style.borderBottomColor = primaryColor;
-    style.borderBottomWidth = "9px";
-    style.borderBottomStyle = "solid";
-    style.padding = "0px 5px 0 5px";
+    try {
+      let primaryColor = Account.getBrandingAttribute('primaryColor');
+      let style = this.el.nativeElement.style;
+      style.borderBottomColor = primaryColor;
+      style.borderBottomWidth = "9px";
+      style.borderBottomStyle = "solid";
+      style.padding = "0px 5px 0 5px";
+    } catch(err) {
+      Utils.error("In directive Primary Box; Error: {0}", err);
+    }
   }
 
   static backgroundColorCache = {};
@@ -155,16 +184,20 @@ export class PrimaryBox {
 export class PrimaryImage {
 
   constructor(private el: ElementRef, private renderer: Renderer) {
-    let primaryColor = Account.getBrandingAttribute('primaryColor');
-    let targetColor = w3ColorCache.getFromHex(primaryColor);
+    try {
+      let primaryColor = Account.getBrandingAttribute('primaryColor');
+      let targetColor = w3ColorCache.getFromHex(primaryColor);
 
-    let hel: HTMLElement = this.el.nativeElement;
-    let hueRotation = targetColor.hue - PrimaryImage.sourceColor.hue;
-    let filter = "hue-rotate("+ hueRotation +"deg) " +
-      "saturate("+ (1 - Math.abs(PrimaryImage.sourceColor.sat - targetColor.sat)) * 100 + "%) " +
-      "brightness("+ (1 - Math.abs(PrimaryImage.sourceColor.lightness - targetColor.lightness)) * 100 + "%)";
-    this.renderer.setElementStyle(hel, 'filter', filter);
-    this.renderer.setElementStyle(hel, 'webkitFilter', filter);
+      let hel: HTMLElement = this.el.nativeElement;
+      let hueRotation = targetColor.hue - PrimaryImage.sourceColor.hue;
+      let filter = "hue-rotate("+ hueRotation +"deg) " +
+        "saturate("+ (1 - Math.abs(PrimaryImage.sourceColor.sat - targetColor.sat)) * 100 + "%) " +
+        "brightness("+ (1 - Math.abs(PrimaryImage.sourceColor.lightness - targetColor.lightness)) * 100 + "%)";
+      this.renderer.setElementStyle(hel, 'filter', filter);
+      this.renderer.setElementStyle(hel, 'webkitFilter', filter);
+    } catch(err) {
+      Utils.error("In directive Primary Image; Error: {0}", err);
+    }
   }
 
   static sourceColor = w3ColorCache.getFromHex('#27AE60');
@@ -177,8 +210,12 @@ export class WithBoundary {
 
   constructor(private el: ElementRef) {}
   ngAfterViewInit(){
-    this.el.nativeElement.children[0].style.border = "1px solid black";
-    this.el.nativeElement.children[0].style.padding = ".1em 0 .1em .3em";
+    try {
+      this.el.nativeElement.children[0].style.border = "1px solid black";
+      this.el.nativeElement.children[0].style.padding = ".1em 0 .1em .3em";
+    } catch(err) {
+      Utils.error("In directive WithBoundary; Error: {0}", err);
+    }
   }
 }
 
