@@ -169,7 +169,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           component:"TopInfluencerComponent",
           params: {
             title: [
-              `"Thanks! " + account.properties.customerName + " would like to build on this strength!"`,
+              `"Thanks! " + (account.properties.customerName ? account.properties.customerName: 'Our Team') + " would like to build on this strength!"`,
               `"Can you rank one or two things that are going exceptionally well?"`
             ],
             valueOrderDesc: true,
@@ -192,7 +192,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           component:"TopInfluencerComponent",
           params: {
             title: [
-              `"What is the " + account.properties.customerName + " team doing well?"`
+              `"What is " + (account.properties.customerName ? account.properties.customerName: 'our Team') + " doing well?"`
             ],
             valueOrderDesc: true,
             maxMetrics: 4
@@ -203,7 +203,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           isTerminal:true,
           component:"TopInfluencerComponent",
           params: {
-            title: [`"What can " + account.properties.customerName + " improve?"`],
+            title: [`"What can " + (account.properties.customerName ? account.properties.customerName: 'our Team') + " improve?"`],
             valueOrderDesc: false,
             maxMetrics: 4
           }
@@ -249,7 +249,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           id:'pick.staff',
           component:"PickStaffComponent",
           params: {
-            message: `'Who have you worked with at ' + account.properties.customerName + '?'`,
+            message: `'Who have you worked with/Who did you see today?'`,
             roles: ["DDS", "Orthodontic Assistant", "FrontOffice"],
             displayCount: 5
           }
@@ -267,7 +267,7 @@ export class MockSurveyService extends AbstractMockService<Survey> {
           component:"MultimetricComponent",
           params: {
             message:`onlyStaff ? 'Tell us more about ' + onlyStaff.displayName
-              : 'About the doctors at ' + account.properties.customerName`,
+              : 'About the doctors ' + (account.properties.customerName? 'at ' + account.properties.customerName : 'in our team')`,
             rootMetricId:'62861045b4984805ae213df729dad97b'
           }
         },

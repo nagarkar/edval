@@ -172,9 +172,11 @@ export class AccessTokenService {
             Utils.showSpinner()
             me._cognitoUser.completeNewPasswordChallenge(data.password, {}, {
               onSuccess: function(session) {
+                Utils.hideSpinner();
                 me.handleSuccessfullAuthentication(session, internalCallback);
               },
               onFailure: function(error) {
+                Utils.hideSpinner();
                 me.call(internalCallback, null, error);
               }
             });
@@ -184,12 +186,13 @@ export class AccessTokenService {
             {
               name: 'password',
               type: 'password',
-              placeholder: 'New Password:'
+              placeholder: 'New Password'
             },
           ],
           null /* Message */,
           (data: any)=>{
             // Cancel handler
+            Utils.hideSpinner();
             me.resetLoginErrors();
           });
       },
@@ -212,7 +215,7 @@ export class AccessTokenService {
       && this.authenticationDetails['username'] == authenticationData.Username
       && this.authenticationDetails['password'] == authenticationData.Password
       && this.loggedInAtLeastOnceBefore()
-      && this.lastAuthTokenCreationTime + 30 * 60 * 10000 > Date.now();
+      && this.lastAuthTokenCreationTime + Config.ACCESS_TOKEN_REFRESH_TIME > Date.now();
   }
 
   processUserInitiatedLoginSuccess(callback) {

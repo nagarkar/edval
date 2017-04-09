@@ -58,8 +58,4 @@ export class SurveyNavUtils {
       }, dontAnimate ? 0 : Config.PAGE_TRANSITION_TIME)
     });
   }
-
-  static goToStart(navCtrl: NavController) {
-    Utils.setRoot(navCtrl, StartWithSurveyOption, {defaultOnly: true});
-  }
 }
