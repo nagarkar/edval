@@ -29,6 +29,12 @@
   font-size:1.5em;
 }
 
+.truncate { // This can be used with fixed width elements
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 // Scrolling Default
 .scroll-content{
   overflow-y: hidden !important;
@@ -37,6 +43,11 @@
 // Use scrollable class to scroll
 .scrollable .scroll-content {
   overflow-y: scroll !important;
+}
+
+
+.fullwidth .alert-wrapper {
+  max-width: 30em;
 }
 
 .swatchBox {
@@ -75,7 +86,7 @@
 
   ion-select.rev-select {
     padding-left: 0px;
-
+    max-width:100%;
     div.select-text {
       display: flex;
     }
@@ -300,6 +311,43 @@ ion-col.regular {
   bottom: 6em !important;
 }
 
+/** Chart classes */
+.googlechart-title-text {
+  text-align:center;
+}
+
+.googlechart-header-row {
+  color: white;
+  font-size: 1.3em;
+  background-color: color($colors, primary);
+}
+
+.googlechart-table-row {
+  font-size: 1.1em;
+  text-align: left;
+}
+.googlechart-odd-table-row {
+  background-color: aliceblue;
+  font-size: 1.1em;
+  text-align: left;
+}
+.googlechart-selected-table-row {
+  font-size: 1.1em;
+  text-align: left;
+}
+.googlechart-hover-table-row {
+
+}
+.googlechart-header-cell {
+
+}
+.googlechart-table-cell {
+
+}
+.googlechart-row-number-cell {
+
+}
+
 /*moved unused classes from start.with.survey.option.component.scss*/
 
 .question {
@@ -346,6 +394,28 @@ ion-col.regular {
   -moz-animation: pulse1em 2s 1 cubic-bezier(0.66, 0, 0, 1);
   -ms-animation: pulse1em 2s 1 cubic-bezier(0.66, 0, 0, 1);
   animation: pulse1em 2s 1 cubic-bezier(0.66, 0, 0, 1);
+}
+
+.keep-pulsing {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
+  box-shadow: 0 0 0 0 rgba(85, 57, 130, 0.7);
+  -webkit-animation: pulse1em 2s infinite cubic-bezier(0.66, 0, 0, 1);
+  -moz-animation: pulse1em 2s infinite cubic-bezier(0.66, 0, 0, 1);
+  -ms-animation: pulse1em 2s infinite cubic-bezier(0.66, 0, 0, 1);
+  animation: pulse1em 2s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+.one-minute-pulse {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
+  box-shadow: 0 0 0 0 rgba(85, 57, 130, 0.7);
+  -webkit-animation: pulse1em 2s 30 cubic-bezier(0.66, 0, 0, 1);
+  -moz-animation: pulse1em 2s 30 cubic-bezier(0.66, 0, 0, 1);
+  -ms-animation: pulse1em 2s 30 cubic-bezier(0.66, 0, 0, 1);
+  animation: pulse1em 2s 30 cubic-bezier(0.66, 0, 0, 1);
 }
 
 .circleicon {

@@ -13,6 +13,7 @@ import {MetricService} from "../../services/metric/delegator";
 import {ChartService} from "./chart.service";
 import {Utils} from "../../shared/stuff/utils";
 import {QueryUtils} from "./query.utils";
+import {Formatters} from "./formatters";
 
 declare var google;
 
@@ -29,18 +30,6 @@ export class ChartComponent {
   ]);
   //private monthFormat = new google.visualization.DateFormat({pattern: 'yyyy-MMMM'});
   private monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
-
-  private standardOptions = {
-    hAxis: {
-      title: 'Time'
-    },
-    vAxis: {
-      title: 'Rating', format: '#', ticks: [0, 1, 2, 3, 4, 5]
-    },
-    trendlines: {
-      0: { type: 'linear', color: 'green', lineWidth: 3, opacity: 0.3, showR2: true, visibleInLegend: true}
-    }
-  }
 
   constructor(private campaignsvc: CampaignService, private metricsvc: MetricService, private svc: ChartService, navParams: NavParams) {
     this.showTable = true;
@@ -174,7 +163,7 @@ export class ChartComponent {
         },
           1];
       },
-      Object.assign(this.standardOptions, {
+      Object.assign(Formatters.standardOptions, {
         title:'Overall Favorability',
         legend:'none',
       })
@@ -212,7 +201,7 @@ export class ChartComponent {
         }
         return columns;
       },
-      Object.assign(this.standardOptions, {
+      Object.assign(Formatters.standardOptions, {
         title:'Metrics by Role',
         legend: {position: 'right', textStyle: {color: 'purple', fontSize: '1em'}}
       })
@@ -249,7 +238,7 @@ export class ChartComponent {
         }
         return columns;
       },
-      Object.assign(this.standardOptions, {
+      Object.assign(Formatters.standardOptions, {
         title:'Metrics by Staff',
         legend: {position: 'right', textStyle: {color: 'purple', fontSize: '1em'}}
       })
@@ -283,7 +272,7 @@ export class ChartComponent {
         }
         return columns;
       },
-      Object.assign(this.standardOptions, {
+      Object.assign(Formatters.standardOptions, {
         title:'Role Favorability',
         legend: {position: 'right', textStyle: {color: 'purple', fontSize: '1em'}}
       })
@@ -316,7 +305,7 @@ export class ChartComponent {
         }
         return columns;
       },
-      Object.assign(this.standardOptions, {
+      Object.assign(Formatters.standardOptions, {
         title:'Staff Favorability',
         legend: {position: 'right', textStyle: {color: 'purple', fontSize: '1em'}}
       })
@@ -390,7 +379,7 @@ export class ChartComponent {
           order by sum(rank) ` + (promoterOrDetractor ? 'desc' : 'asc') + `
           limit 2500`,
       tableDiv,
-      Object.assign(this.standardOptions, {
+      Object.assign(Formatters.standardOptions, {
         title:'Top Influencers on Staff Favorability',
         legend: {position: 'right', textStyle: {color: 'purple', fontSize: '1em'}}
       })

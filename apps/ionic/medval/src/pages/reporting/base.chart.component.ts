@@ -18,6 +18,8 @@ import {Metric} from "../../services/metric/schema";
 import {MetricAndSubject} from "./metric.subject";
 import {AlertController} from "ionic-angular";
 import {AnyComponent} from "../any.component";
+import {Filters} from "./filters";
+import {Formatters} from "./formatters";
 
 declare let google;
 
@@ -142,10 +144,10 @@ export abstract class BaseChartComponent extends AnyComponent {
     Utils.throwIfNNOU(chartGen);
     Utils.throwIfNNOU(errorDiv);
 
-    let timeoutHandle: number = this.prepareShowSpinner();
+    Utils.showSpinner();
     this.svc.getData(queryStr, reportType)
       .then((response) => {
-        this.clearSpinner(timeoutHandle);
+        Utils.hideSpinner();
         if (response.isError()) {
           this.writeToDivAndThrow(errorDiv, response.getReasons().join("\n"));
         }
@@ -169,12 +171,40 @@ export abstract class BaseChartComponent extends AnyComponent {
         }
       })
       .catch((err)=>{
-        this.clearSpinner(timeoutHandle);
+        Utils.hideSpinner();
         Utils.error("In RenderDashboard, query: {0}, for reporttype {1}, with error: {2}", queryStr, reportType, err);
         throw err;
       });
   };
 
+  renderTimeVsRatingDashboard(chartDivNativeEl, dashboardNativeEl, filterNativeEl, errorNativeEl, query: Query, title: string) {
+    let columnsGenerator = Filters.getColumnGeneratorWithDateAsFirstMonthAndRemainingColumns();
+
+    let chartOptionsGenerator = Formatters.getChartOptionsGeneratorFromDefaults({
+      title: title,
+      hAxis: { format:'MMM, y' },
+      vAxis: {title: 'Rating (1 to 5)', format: '#', ticks:[1, 2, 3, 4, 5]},
+      trendlines: {
+        0: { type: 'linear', color: 'green', lineWidth: 3, opacity: 0.3, showR2: true, visibleInLegend: true}
+      },
+      legend: 'none'
+    });
+
+    let monthYearFilter = Filters.createMonthYearFilter(filterNativeEl, 0 /* columnIndex */);
+
+    let chartGen = this.createDefaultChartGenerator(
+      'ColumnChart',
+      chartDivNativeEl,
+      columnsGenerator,
+      chartOptionsGenerator
+    );
+
+    this.renderDashboard(
+      query,
+      chartGen,
+      monthYearFilter,
+      dashboardNativeEl, errorNativeEl);
+  }
   /**
    *
    * @param reportType Pick a report type from ChartService
@@ -188,11 +218,12 @@ export abstract class BaseChartComponent extends AnyComponent {
     dataTableDiv: HTMLDivElement,
     options?: any): Promise<ChartDataResponse> {
 
-    let timeoutHandle: number = this.prepareShowSpinner();
+    Utils.showSpinner();
     let queryStr = query.queryStr;
     let reportType = query.reportType;
     return this.svc.getData(queryStr, reportType)
       .then((response: ChartDataResponse)=> {
+        Utils.hideSpinner();
         if (response.isError()) {
           this.writeToDivAndThrow(dataTableDiv, response.getReasons().join("\n"));
         }
@@ -205,10 +236,10 @@ export abstract class BaseChartComponent extends AnyComponent {
           'options': options || {'title': 'All Data', 'legend': 'none'}
         });
         google.visualization.events.addListener(chart, 'ready', ()=> {
-          this.clearSpinner(timeoutHandle);
+          Utils.hideSpinner();
         });
         google.visualization.events.addListener(chart, 'error', (error)=> {
-          this.clearSpinner(timeoutHandle);
+          Utils.hideSpinner();
           let formattedErr = Utils.format("In renderTable, query: {0}, for reporttype {1}, with error: {2}", queryStr, reportType, [error.id, error.message].join(":"));
           Utils.error(formattedErr);
           this.writeToDivAndThrow(dataTableDiv, QueryUtils.INSUFFICIENT_DATA_MESSAGE);
@@ -216,7 +247,7 @@ export abstract class BaseChartComponent extends AnyComponent {
         chart.draw(dataTableDiv);
       })
       .catch((err)=>{
-        this.clearSpinner(timeoutHandle);
+        Utils.hideSpinner();
         Utils.error("In renderTable, query: {0}, for reporttype {1}, with error: {2}", queryStr, reportType, err);
         throw err;
       });
@@ -249,12 +280,12 @@ export abstract class BaseChartComponent extends AnyComponent {
 
     Utils.throwIfNNOU(dataTableDiv);
 
-    let timeoutHandle: number = this.prepareShowSpinner();
+    Utils.showSpinner();
     let queryStr =  query.queryStr;
     let reportType = query.reportType;
     return this.svc.getData(queryStr, reportType)
       .then((response: ChartDataResponse) => {
-        this.clearSpinner(timeoutHandle);
+        Utils.hideSpinner();
         if (response.isError()){
           Utils.error("In RenderInfluencers, query: {0}, for reporttype {1}, with error: {2}", queryStr, reportType, response.getReasons().join("\n"));
           this.writeToDivAndThrow(dataTableDiv, QueryUtils.INSUFFICIENT_DATA_MESSAGE);
@@ -274,29 +305,26 @@ export abstract class BaseChartComponent extends AnyComponent {
 
         let options = {
           showRowNumber: true,
-          sort: 'disable'
+          sort: 'disable',
+          cssClassNames: {
+            headerRow: 'googlechart-header-row',
+            tableRow: 'googlechart-table-row',
+            oddTableRow: 'googlechart-odd-table-row',
+            selectedTableRow: 'googlechart-selected-table-row',
+            hoverTableRow: 'googlechart-hover-table-row',
+            headerCell: 'googlechart-header-cell',
+            tableCell: 'googlechart-table-cell',
+            rowNumberCell: 'googlechart-row-number-cell'
+          }
         }
         new google.visualization.Table(dataTableDiv).draw(table, options);
       })
       .catch((err)=>{
-        this.clearSpinner(timeoutHandle);
+        Utils.hideSpinner();
         Utils.error("In RenderInfluencers, query: {0}, for reporttype {1}, with error: {2}", queryStr, reportType, err);
         throw err;
       });
   };
-
-  private prepareShowSpinner(): number {
-    let handle = setTimeout(()=>{
-      Utils.killSpinner();
-    }, 30 * 1000);
-    Utils.showSpinner();
-    return handle;
-  }
-
-  private clearSpinner(timeoutHandle: number) {
-    Utils.hideSpinner();
-    clearTimeout(timeoutHandle);
-  }
 
   private emailQuery(query: Query, fileName: string): Promise<any> {
     return this.emailData(query.queryStr, query.reportType, fileName);
@@ -304,12 +332,15 @@ export abstract class BaseChartComponent extends AnyComponent {
 
 
   private emailData(query: string, reportName: string, fileName: string): Promise<any> {
+    Utils.showSpinner();
     return this.svc.postReportEmail(query, reportName, fileName)
       .catch((err)=>{
+        Utils.hideSpinner();
         Dialogs.alert('Error while emailing report:' + err);
         throw err;
       })
       .then((result:any)=>{
+        Utils.hideSpinner();
         Dialogs.alert('Email sent! Give it a few minutes and then check the email address associated with your login username');
         return result;
       })
@@ -317,7 +348,7 @@ export abstract class BaseChartComponent extends AnyComponent {
   }
 
   private writeToDivAndThrow(errorDiv: HTMLDivElement, errMsg: string) {
-    errorDiv.innerHTML = ["<h3>", errMsg, "</h3>"].join("");
+    errorDiv.innerHTML = ["<span style='font-size:.85em'>", errMsg, "</h6>"].join("");
     throw errMsg;
   }
 }

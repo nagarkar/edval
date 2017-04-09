@@ -28,6 +28,10 @@ import {Formatters} from "../formatters";
 })
 export class SubjectDetailComponent extends BaseChartComponent {
 
+  private selectOptions = {
+    cssClass: 'fullwidth'
+  }
+
   private _insufficientData: boolean;
   get insufficientData(): boolean {
     return this._insufficientData;
@@ -101,7 +105,7 @@ export class SubjectDetailComponent extends BaseChartComponent {
   render() {
     if (this.insufficientData) {
       let div: HTMLDivElement = this.dashboard.nativeElement;
-      div.innerHTML = "<h3>You have insufficient data to see reports in this section</h3>";
+      div.innerHTML = "<h6>You have insufficient data to see reports in this section</h6>";
     } else {
       this.renderMetricSeriesChart();
     }
@@ -123,27 +127,39 @@ export class SubjectDetailComponent extends BaseChartComponent {
   emailReportDetails(){
     super.emailDetails(QueryUtils.CHILD_METRIC_QUERY(this.selectedMetricAndSubject), this.selectedMetricAndSubject.getHeading().replace(/ /g,'')+".csv");
   }
+
   private renderMetricSeriesChart() {
-    let columnsGenerator = Filters.getColumnGeneratorWithDateAsFirstMonthAndRemainingColumns();
+    this.renderTimeVsRatingDashboard(
+      this.chart.nativeElement,
+      this.dashboard.nativeElement,
+      this.yearSlider.nativeElement,
+      this.errorDiv.nativeElement,
+      QueryUtils.CHILD_METRIC_QUERY(this.selectedMetricAndSubject),
+      this.selectedMetricAndSubject.getFullHeading(),
+    );
 
-    let chartOptionsGenerator = Formatters.getChartOptionsGeneratorFromDefaults(
-      QueryUtils.combineOptions(QueryUtils.RatingVsTimeChartOptions, {
-        title: this.selectedMetricAndSubject.getFullHeading(),
-        legend: 'bottom',
-        curveType: 'function',
-        vAxis: {
-          title: 'Rating', format: '#', ticks: [0, 1, 2, 3, 4, 5]
-        },
-      }));
+/*    let columnsGenerator = Filters.getColumnGeneratorWithDateAsFirstMonthAndRemainingColumns();
 
-    let monthYearFilter = Filters.createMonthYearFilter(this.yearSlider.nativeElement, 0 /* columnIndex */);
+    let chartOptionsGenerator = Formatters.getChartOptionsGeneratorFromDefaults({
+      title: this.selectedMetricAndSubject.getFullHeading(),
+      hAxis: {
+        title: 'Time', format:'MMM, y'
+      },
+      vAxis: {title: 'Rating (1 to 5)', format: '#', ticks:[1, 2, 3, 4, 5]},
+      legend: 'bottom',
+      pointSize: 20,
+      titleTextStyle:'googlechart-title-text'
+    });
+
+    let monthYearFilter = Filters.createMonthYearFilter(this.yearSlider.nativeElement, 0 /!* columnIndex *!/);
 
     let baseChartGen = super.createDefaultChartGenerator(
-      'LineChart',
+      'ColumnChart',
       this.chart.nativeElement,
       columnsGenerator,
       chartOptionsGenerator);
 
+    /!*
     let chartFn = (dataTable: any): any => {
       if (dataTable.getNumberOfRows() == 0) {
         return BaseChartComponent.INSUFFICIENT_DATA;
@@ -155,13 +171,12 @@ export class SubjectDetailComponent extends BaseChartComponent {
       return baseChart;
     };
     let chartGen: ChartGenerator = ChartGenerator.createFrom(chartFn);
-
+    *!/
     this.renderDashboard(
       QueryUtils.CHILD_METRIC_QUERY(this.selectedMetricAndSubject),
-      chartGen,
+      baseChartGen,
       monthYearFilter,
-      this.dashboard.nativeElement,
-      this.errorDiv.nativeElement)
+      this.dashboard.nativeElement, this.errorDiv.nativeElement)*/
   }
 
 

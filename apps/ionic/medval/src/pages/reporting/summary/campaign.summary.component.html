@@ -2,8 +2,8 @@
   <ion-grid>
     <ion-row wrap>
       <ion-col class="border-around-text">
-        <ion-title>A view into the number of sessions, promoters, detractors and the overall rating for your clinic</ion-title>
-        <ion-label>Visit the Getting Started page to find out more about reports</ion-label>
+        <ion-title>The number of surveys, promoters, detractors and the overall rating for your clinic</ion-title>
+        <ion-label text-center>Visit the Getting Started page to find out more about reports</ion-label>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -17,12 +17,14 @@
             <ion-col width-67><b>Date of Last Feedback</b></ion-col>
             <ion-col>{{campaign?.properties?.lastSessionId  | date}}</ion-col>
           </ion-row>
-          <ion-row>
-            <div #tableDiv></div>
+          <ion-row text-center>
+            <ion-col>
+              <div #tableDiv></div>
+            </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
-              <ion-slides slidesPerView="3" zoom="true">
+              <ion-slides slidesPerView="{{metricAndSubjects.length > 3? 3 : metricAndSubjects.length}}" autoplay="5000" pager>
                 <ion-slide *ngFor="let metricAndSubject of metricAndSubjects">
                   <subject-summary [metricAndSubject]="metricAndSubject"></subject-summary>
                 </ion-slide>

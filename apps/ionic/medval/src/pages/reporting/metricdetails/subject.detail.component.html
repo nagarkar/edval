@@ -1,24 +1,22 @@
-<div padding>
+<div>
   <ion-grid padding>
-    <ion-row padding>
+    <ion-row>
       <ion-col class="border-around-text">
-        <ion-title>Drilldown into metrics across roles and staff!</ion-title>
-        <ion-label>Visit the Getting Started page to find out more about metrics (survey questions), and reports</ion-label>
+        <ion-title>Drilldown into metrics across roles and staff</ion-title>
+        <ion-label text-center>Visit the Getting Started page to find out more about metrics (survey questions), and reports</ion-label>
       </ion-col>
     </ion-row>
-    <ion-row wrap padding>
+    <ion-row class="border-around-text">
       <ion-col>
-        <ion-item item-left>
-          <ion-label stacked>Select top level metric to explore</ion-label>
-          <ion-select [(ngModel)]="selectedMetricAndSubject">
-            <ion-option *ngFor="let metricAndSubject of metricAndSubjects" [value]="metricAndSubject">
-              {{getDisplayValue(metricAndSubject)}}
-            </ion-option>
-          </ion-select>
-        </ion-item>
+        <ion-label>Select metrics to explore:</ion-label>
+        <ion-select [selectOptions]="selectOptions" [(ngModel)]="selectedMetricAndSubject">
+          <ion-option *ngFor="let metricAndSubject of metricAndSubjects" [value]="metricAndSubject">
+            {{getDisplayValue(metricAndSubject)}}
+          </ion-option>
+        </ion-select>
       </ion-col>
     </ion-row>
-    <ion-row padding>
+    <ion-row>
       <ion-col class="border-around-text">
         <div #errorDiv></div>
         <div #dashboard>

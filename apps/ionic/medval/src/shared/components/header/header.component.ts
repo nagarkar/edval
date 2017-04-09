@@ -5,8 +5,8 @@
  * of this application without permission. Copying and re-posting on another
  * site or application without licensing is strictly prohibited.
  */
-import {Component, Input, ViewChild, Renderer} from "@angular/core";
-import {NavController, Navbar} from "ionic-angular";
+import {Component, Input, ViewChild, Renderer, Output, EventEmitter} from "@angular/core";
+import {NavController, Navbar, NavParams} from "ionic-angular";
 import {Utils} from "../../stuff/utils";
 import {AnyComponent} from "../../../pages/any.component";
 
@@ -24,6 +24,12 @@ export class HeaderComponent extends AnyComponent {
 
   @Input() title: string = null;
 
+  @Input() rightIcon: string = 'exit';
+
+  @Input() leftIcon: string = 'build';
+
+  @Input() proceedOnRightClick: ()=>Promise<boolean> = ()=> {return Promise.resolve(true);};
+
   /** '' home tells this component to show the home icon on right **/
   @Input() home: string = null;
 
@@ -33,7 +39,11 @@ export class HeaderComponent extends AnyComponent {
   @ViewChild("navbar")
   navbar: Navbar;
 
-  constructor(private navCtrl: NavController, private renderer: Renderer) { super() }
+  constructor(private navCtrl: NavController, private renderer: Renderer, private navParams: NavParams) {
+    super();
+    this.rightIcon = navParams.get('rightIcon') || this.rightIcon;
+    this.leftIcon = navParams.get('leftIcon') || this.leftIcon;
+  }
 
   ngOnInit() {
     let navBar: HTMLElement = this.navbar.getElementRef().nativeElement;
@@ -47,8 +57,13 @@ export class HeaderComponent extends AnyComponent {
   }
 
   goHome() {
-    Utils.setRoot(this.navCtrl, HeaderComponent.HOME_MAP[this.home] || HeaderComponent.DEFAULT_HOME);
-  }
+    this.proceedOnRightClick()
+      .then((result)=>{
+        if (result) {
+          Utils.setRoot(this.navCtrl, HeaderComponent.HOME_MAP[this.home] || HeaderComponent.DEFAULT_HOME);
+        }
+      });
+    }
 
   goLeftHome() {
     Utils.setRoot(this.navCtrl, HeaderComponent.HOME_MAP[this.leftHome]);

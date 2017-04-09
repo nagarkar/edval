@@ -116,7 +116,8 @@ export class HelpMessages {
         <li>"Completed" state indicates the necessary follow up is complete.</li>
       </ol>`],
     FEEDBACK_TIME: ['Feedback Time',`The approximate or precise time when a patient provided a review/feedback indicating a followup would
-      be useful`]
+      be useful`],
+    NO_NETWORK: ['Network Disconnected','There is no internet connection. Please check the connection state in your Device Settings.']
   }
 
   static get(item: string): string {

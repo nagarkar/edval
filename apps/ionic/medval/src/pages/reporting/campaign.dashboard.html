@@ -1,4 +1,4 @@
-<mdval-header></mdval-header>
+<mdval-header [rightIcon]="rightIcon" [proceedOnRightClick]="refresh"></mdval-header>
 <ion-content class="scrollable">
   <div class="m-t-3" padding>
     <ion-segment [(ngModel)]="section">
@@ -28,13 +28,13 @@
           <ion-row>
             <ion-col class="border-around-text">
               <ion-title>Where are you doing great (and not so well) according to your promoters (and detractors)?</ion-title>
-              <ion-label>Visit the Getting Started page to find out more about reports</ion-label>
+              <ion-label text-center>Visit the Getting Started page to find out more about reports</ion-label>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col class="border-around-text">
               <ion-slides slidesPerView="2">
-                <ion-slide *ngFor="let metricAndSubject of metricAndSubjectsForOrgAndRole">
+                <ion-slide style="align-items: baseline" *ngFor="let metricAndSubject of metricAndSubjectsForOrgAndRole">
                   <topinfluencertable [metricName]="metricAndSubject.metricName" promoterOrDetractor="true"></topinfluencertable>
                 </ion-slide>
               </ion-slides>

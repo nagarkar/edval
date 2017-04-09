@@ -26,10 +26,10 @@ export class QueryUtils {
   static PROMOTER_COUNTS_REPORT: string = 'promotercounts';
   static CAMPAIGN_METRICS_REPORT: string = 'campaignmetrics';
 
-  static INSUFFICIENT_DATA_MESSAGE: string = "Insufficient Data. Once your customers start doing surveys, you will see more data here. We refresh the data daily!";
+  static INSUFFICIENT_DATA_MESSAGE: string = "You haven't created any surveys, or your reports have not been created yet! Create a few surveys with different options, and click on the refresh icon in the top right corner in the header to refresh your reports.";
 
   static PROMOTER_DETRACTOR_QUERY(metricAndSubject: MetricAndSubject): Query {
-    let query = `select datemonth, sum(detractorCount)/sum(totalCount), sum(promoterCount)/sum(totalCount), sum(totalCount)
+    let query = `select datemonth, sum(promoterCount)/sum(totalCount), sum(detractorCount)/sum(totalCount), sum(totalCount)
       where ` + QueryUtils.pair('metricName', '=', metricAndSubject.metricName) +
       " and " + QueryUtils.pair('subjecttype', '=', metricAndSubject.subjectType) +
       " and " + QueryUtils.pair('subjectvalue', '=', metricAndSubject.subjectValue) +
@@ -75,7 +75,9 @@ export class QueryUtils {
           " and " + QueryUtils.pair('subjectvalue', '=', bean.subjectValue) +
         ` group by datemonth
         pivot metricId
-        order by datemonth desc`;
+        order by datemonth
+        limit 2500
+        label datemonth 'Period', avg(value) 'Rating'`;
     return {
       queryStr: query,
       reportType: QueryUtils.CHART_DATA_REPORT
@@ -88,7 +90,9 @@ export class QueryUtils {
         where metricName = '` + metricName + `' and promoterOrDetractor=` + promoterOrDetractor + `
         group by influencerMetric, datemonth
         order by sum(rank) ` + (promoterOrDetractor ? 'desc' : 'asc') + `
-        limit 4`,
+        limit 4
+        label influencerMetric 'Rank Order of Influence'
+      `,
       reportType: QueryUtils.INFLUENCERS_REPORT
     }
   }
@@ -104,19 +108,15 @@ export class QueryUtils {
     return {
       queryStr: `select datemonth, sum(completedSessions), sum(abandonedSessions), sum(sessionsWithTextFeedback), 
               sum(positiveReviews), sum(negativeReviews)
-        group by datemonth`,
+        group by datemonth
+        order by datemonth 
+        label datemonth 'Period', sum(completedSessions) 'Completed Surveys', sum(abandonedSessions) 'Abandoned Surveys',
+          sum(sessionsWithTextFeedback) 'Surveys with Text Feedback', sum(positiveReviews) 'Positive Surveys',
+          sum(negativeReviews) 'Negative Surveys'
+	      format datemonth 'MMM-yyyy'
+      `,
       reportType:  QueryUtils.CAMPAIGN_METRICS_REPORT
     }
-  }
-
-  static RatingVsTimeChartOptions = {
-    hAxis: {
-      title: 'Time'
-    },
-    vAxis: {
-      title: 'Rating', format: '#', ticks: [0, 1, 2, 3, 4, 5]
-    },
-    pointSize: 30,
   }
 
   static combineOptions(...options: Object[]) {

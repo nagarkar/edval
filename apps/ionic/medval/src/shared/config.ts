@@ -21,10 +21,14 @@ export class Config {
   static LOG_LENGTH: number = 1000;
   static ERR_LENGTH: number = 1000;
 
-  //private static _baseUrl: string = "https://localhost:8091";
+  /////////////////REPORTING CONFIGURATION //////////////////
+  static REPORT_REFRESH_INTERVAL: number = 30;
+  ///////////////////////////////////////////////////////////
+
+  private static _baseUrl: string = "https://localhost:8091";
   //private static _baseUrl: string = 'https://prodapi.healthcaretech.io';
   //private static _baseUrl: string = "http://34.197.108.208";
-  private static _baseUrl: string = "https://testapi.healthcaretech.io";
+  //private static _baseUrl: string = "https://testapi.healthcaretech.io";
 
   static DEFAULT_CACHE_AGE: number = Infinity;
 
@@ -82,12 +86,12 @@ export class Config {
 
   static MOCK_DATA : {[key: string]: boolean} = {
     "Session": false,
-    "Metric": false,
+    "Metric": true,
     "Account": false,
     "Staff": false,
     "Campaign": false,
     "SessionFollowup": false,
-    "Survey": false,
+    "Survey": true,
     "DailyDataList": true,
   };
 

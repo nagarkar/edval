@@ -17,7 +17,7 @@ import {
   AlertInputOptions,
   NavController
 } from "ionic-angular";
-import {CameraOptions, Camera, SpinnerDialog, Device} from "ionic-native";
+import {CameraOptions, Camera, SpinnerDialog, Device, Network} from "ionic-native";
 import {ErrorType} from "./error.types";
 import {Config} from "../config";
 import {AwsClient} from "../aws/aws.client";
@@ -27,6 +27,8 @@ import {LoginComponent} from "../../pages/login/login.component";
 import {HelpMessages} from "./HelpMessages";
 import {HttpClient} from "./http.client";
 import {Http} from "@angular/http";
+
+declare let uploadcare;
 
 @Injectable()
 export class Utils {
@@ -51,6 +53,22 @@ export class Utils {
 
   static getPrefix(type: string) {
     return ["[", type, " ", (new Date).toLocaleTimeString(), ":", Device.uuid, "] "].join("");
+  }
+
+  static capitalizedString: Map<string, string> = new Map<string, string>();
+  static capitalize(value: string) {
+    if (Utils.nullOrEmptyString(value)) {
+      return "";
+    }
+    let found = Utils.capitalizedString.get(value);
+    if (!found) {
+      if (value.length == 1) {
+        Utils.capitalizedString.set(value, value.toUpperCase());
+      } else {
+        Utils.capitalizedString.set(value, value.substring(0, 1).toUpperCase() + value.substr(1));
+      }
+    }
+    return Utils.capitalizedString.get(value);
   }
 
   static info(message: string, ...args: any[]) : void {
@@ -223,7 +241,7 @@ export class Utils {
   static presentTopToast(toastCtrl: ToastController, message: string, duration?: number) {
     let toast = toastCtrl.create({
       message: message || 'Success!',
-      duration: duration || 10 * 1000,
+      duration: duration || 5 * 1000,
       position: 'top'
     });
     toast.present();
@@ -298,7 +316,7 @@ export class Utils {
     return alert;
   }
 
-  static presentProceedCancelPrompt(alertCtrl: AlertController, onselect: (result: string | any) => void, subtitle: string) {
+  static presentProceedCancelPrompt(alertCtrl: AlertController, onselect: (result: string | any) => void, subtitle: string): Alert {
     let alert = alertCtrl.create({
       title: 'Are you sure?',
       subTitle: subtitle,
@@ -316,6 +334,7 @@ export class Utils {
       ]
     });
     alert.present();
+    return alert;
   }
 
   static presentAlertPrompt (
@@ -519,22 +538,12 @@ export class Utils {
     return value && !Utils.isNumeric(value) && value.constructor.name === "Date";
   }
 
-  private static spinnerCount = 0;
-  static killSpinner() {
-    Utils.spinnerCount = 0;
-    SpinnerDialog.hide();
-  }
-
   static showSpinner(title?: string, message?: string) {
-    Utils.spinnerCount++;
     SpinnerDialog.show(title, message);
   }
 
   static hideSpinner() {
-    Utils.spinnerCount--;
-    if (Utils.spinnerCount == 0) {
-      SpinnerDialog.hide();
-    }
+    SpinnerDialog.hide();
   }
 
   static isStringBooleanTrue(someBool: any): boolean {
@@ -555,6 +564,50 @@ export class Utils {
       return arr[maxIndex];
     }
     return arr[random];
+  }
+
+  static PLACE_HOLDER_IMAGE_URL: string = "https://ucarecdn.com/2881f184-4c6a-4b33-83e4-e68d0a415433/";
+  static updateImage(thisObj: any, attr: string, crop: string, url?: string) {
+    try {
+      let file = null;
+      if (thisObj[attr]) {
+        file = uploadcare.fileFrom('url', thisObj[attr]);
+      }
+      uploadcare.openDialog(file, {
+        crop: crop,
+        imagesOnly: true
+      }).done((file) => {
+        file.promise().done((fileInfo) => {
+          thisObj[attr] = fileInfo.cdnUrl;
+        });
+      });
+    }catch (err) {
+      console.error("Error in updateImage: " + err);
+    }
+  }
+
+  static LETTERS = ['A', 'B', 'C', 'D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O','P', 'Q', 'R','S', 'T', 'U','V', 'W', 'X','Y', 'Z', '1','2', '3','4','5', '6','7','8', '9'];
+  static generateCustomerId(len: number) {
+    let id = [];
+    let range = Utils.LETTERS.length;
+    for (let i = 0; i < len; i++) {
+      id.push(Utils.LETTERS[Math.floor(Math.random()*range)]);
+    }
+    return id.join('');
+  }
+
+  static truncateString(str: string, len: number): string {
+    if (Utils.nullOrEmptyString(str)) {
+      return str;
+    }
+    if (str.length <= len) {
+      return str;
+    }
+    return str.substr(0, len);
+  }
+
+  static isUrl(maybeUrl: any): boolean {
+    return Utils.isString(maybeUrl) && (maybeUrl as string).startsWith("http");
   }
 }
 

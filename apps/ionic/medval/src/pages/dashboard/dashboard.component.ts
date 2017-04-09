@@ -70,14 +70,18 @@ export class DashboardComponent extends AdminComponent {
   verifyEmail() {
     var me = this;
     var cognitoUser = this.accessTokenProvider.cognitoUser;
+    Utils.showSpinner();
     cognitoUser.getAttributeVerificationCode('email', {
       onSuccess: function (result) {
+        Utils.hideSpinner();
         Utils.log('Get Attribute Verification Code completed');
       },
       onFailure: function(err) {
+        Utils.hideSpinner();
         Utils.presentTopToast(me.toastCtrl, "Internal Error: " + err, 10*1000);
       },
       inputVerificationCode: function() {
+        Utils.hideSpinner();
         Utils.presentAlertPrompt(
           me.alertCtrl,
           ((data)=> {
@@ -93,8 +97,7 @@ export class DashboardComponent extends AdminComponent {
             });
           }),
           "Please check your registered email address and input the verification code we just sent to you!",
-          [{name: "verificationCode", label: 'Verification Code'}]);
-
+          [{name: "verificationCode", label: 'Verification Code', placeholder:'Verification Code'}]);
       }
     });
   }
@@ -168,6 +171,16 @@ export class DashboardComponent extends AdminComponent {
           this.accSvc.get(Config.CUSTOMERID)
             .then((account: Account)=> {
               let thingsToSay = [];
+              if (!account.properties.configuration.SWEEPSTAKES_SHOW_WHEEL) {
+                thingsToSay.push(`Consider enabling the Wheel of Fortune game. It's a great incentive for patients 
+            to keep coming back and give you more reviews! You can set this up on the Account Settings page.`);
+              }
+              if (!account.properties.customerName) {
+                thingsToSay.push(`To get the most out of this app, please setup the name of your organization (e.g.: 'Acme Clinic') on the Account Settings page.`);
+              }
+              if (!account.properties.contactName) {
+                thingsToSay.push(`To get the most out of this app, please setup the name of your primary contact for customer feedback on the Account Settings page.`);
+              }
               if (!account.properties.configuration.SWEEPSTAKES_SHOW_WHEEL) {
                 thingsToSay.push(`Consider enabling the Wheel of Fortune game. It's a great incentive for patients 
             to keep coming back and give you more reviews! You can set this up on the Account Settings page.`);

@@ -15,7 +15,7 @@
           <span><b>{{currentRatingAsPercentage}}%</b></span>
         </button>
         <span class="avgratingmsg">Average Rating</span>
-        <button class="meantrendbutton" ion-button>
+        <button [ngStyle]="{'background-color': meanTrendingUp() ? 'green' : 'red'}" class="meantrendbutton" ion-button>
           <ion-icon [name]="meanTrendingUp() ? 'trending-up' : 'trending-down'"></ion-icon>
         </button>
       </div>

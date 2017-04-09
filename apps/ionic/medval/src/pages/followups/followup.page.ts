@@ -36,12 +36,30 @@ export class FollowupPage extends AdminComponent {
     super(navCtrl, http);
   }
 
+  get pendingStandardFollowups() {
+    return this.standardFollowups.filter((followup: SessionFollowup)=>{
+      return followup.taskState == FollowupTaskState.NOT_INITIATED;
+    })
+  }
+
   get standardFollowups() {
     return this.followupsByTaskName.get(TaskNames.STANDARD_FOLLOWUP) || [];
   }
 
+  get pendingTargetedFollowups() {
+    return this.targetedFollowups.filter((followup: SessionFollowup)=>{
+      return followup.taskState == FollowupTaskState.NOT_INITIATED;
+    })
+  }
+
   get targetedFollowups() {
     return this.followupsByTaskName.get(TaskNames.TARGETED_FOLLOWUP) || [];
+  }
+
+  get pendingAutomaticFollowups() {
+    return this.automaticFollowups.filter((followup: SessionFollowup)=>{
+      return followup.taskState == FollowupTaskState.NOT_INITIATED;
+    })
   }
 
   get automaticFollowups() {

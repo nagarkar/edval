@@ -20,7 +20,7 @@ declare let google;
 @Component({
   selector: 'topinfluencertable',
   template: `
-    <h3>Ranked order of metrics that affect {{metricName}}</h3>
+    <span style="padding:0.75em">How your patients rank factors affecting in '{{metricName}}' (high to low)</span>
     <div class="border-around-text" #tableDiv></div>
     <div #errorDiv></div>
   `
@@ -51,7 +51,7 @@ export class TopInfluencersTable extends BaseChartComponent {
 
       .catch((err)=>{
         let htmlEl: HTMLDivElement = this.errorDiv.nativeElement;
-        htmlEl.innerHTML = "<h5>"+ err + "</h5>";
+        //htmlEl.innerHTML = "<h6>"+ err + "</h6>";
       });
   }
 

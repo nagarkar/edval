@@ -36,15 +36,13 @@ export class Formatters {
 
   static standardOptions = {
     hAxis: {
-      title: 'Time'
+      title: 'Time', format:'MMM, y'
     },
-    vAxis: {
-      title: 'Rating', format: '#', ticks: [0, 1, 2, 3, 4, 5]
-    },
+    vAxis: {title: 'Rating (1 to 5)', format: '#', ticks:[1, 2, 3, 4, 5]},
     trendlines: {
       0: { type: 'linear', color: 'green', lineWidth: 3, opacity: 0.3, showR2: true, visibleInLegend: true}
     },
-    pointSize: 30,
+    pointSize: 20,
   }
 
   static getChartOptionsGeneratorFromDefaults(combineOptions: {}): (table) => {} {

@@ -4,20 +4,20 @@
       <ion-col width-10 *ngIf="leftHome !== 'false' && leftHome !== undefined">
         <ion-buttons>
           <button ion-button (tap)="goLeftHome()">
-            <ion-icon [ngStyle]="{'color':iconColor}" style='font-size:1.5em' name="paper"></ion-icon>
+            <ion-icon [ngStyle]="{'color':iconColor}" style='font-size:1.5em' name="{{leftIcon}}"></ion-icon>
           </button>
         </ion-buttons>
       </ion-col>
       <ion-col class="nopadding">
-        <ion-title *ngIf="title" text-center>{{title}}</ion-title>
-        <ion-title *ngIf="!title" text-center>
+        <ion-title style="position: fixed;" *ngIf="title" text-center>{{title}}</ion-title>
+        <ion-title style="position: fixed;" *ngIf="!title" text-center>
           <img src="{{logo483x106}}" style="height:3.3rem" alt="">
         </ion-title>
       </ion-col>
       <ion-col width-10 *ngIf="home !== 'false' && home !== undefined">
         <ion-buttons end>
           <button ion-button (click)="goHome()">
-            <ion-icon [ngStyle]="{'color':iconColor}" style='font-size:1.5em' name="build"></ion-icon>
+            <ion-icon [ngStyle]="{'color':iconColor}" style='font-size:1.5em' name="{{rightIcon}}"></ion-icon>
           </button>
         </ion-buttons>
       </ion-col>

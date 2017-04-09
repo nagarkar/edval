@@ -10,7 +10,7 @@ import {ChartService} from "../chart.service";
 import {BaseChartComponent} from "../base.chart.component";
 import {NavParams, AlertController} from "ionic-angular";
 import {Filters} from "../filters";
-import {QueryUtils} from "../query.utils";
+import {QueryUtils, Query} from "../query.utils";
 import {AccountService} from "../../../services/account/delegator";
 import {StaffService} from "../../../services/staff/delegator";
 import {MetricAndSubject} from "../metric.subject";
@@ -31,8 +31,7 @@ declare let google;
         <div #metricValueChart></div>
       </div>
       <div #errorDiv></div>
-      <button ion-button small (tap)="emailChartDataReportDetails()">Email Details</button>
-      <button ion-button small (tap)="drilldown()">View Related Metrics</button>
+      <button ion-button small (tap)="emailChartDataReportDetails()">Email Details</button>      
     </div>
   `
 })
@@ -82,23 +81,17 @@ export class PromoterDrilldownComponent extends BaseChartComponent {
     let columnsGenerator = Filters.getColumnGeneratorWithDateAsFirstMonthAndRemainingColumns();
 
     let chartOptionsGenerator = Formatters.getChartOptionsGeneratorFromDefaults({
-      hAxis: {
-        title: 'Time'
-      },
-      // vAxis: {
-      //   title: 'Rating', format: '#', ticks: [0, 1, 2, 3, 4, 5]
-      // },
-      vAxis: {
+      vAxes: {
         0: {title: 'Percentage', format: 'percent'},
-        1: {title: 'Count'},
+        1: {title: 'Survey Count', format:'#'},
       },
-      pointSize: 30,
-      title: [this.metricAndSubject.getSubHeading(), '# of Sessions, Percentage of Promoters & Detractors'].join(' '),
+      title: ['# of Surveys, Percentage of Promoters & Detractors'].join(' '),
       legend: 'bottom',
       seriesType: 'bars',
       series: {
         2: {type: 'line', curveType: 'function', targetAxisIndex:1}
       },
+      pointSize: 20,
     });
 
     let monthYearFilter = Filters.createMonthYearFilter(this.metricSelectorDivRef.nativeElement, 0 /* columnIndex */);
@@ -117,29 +110,13 @@ export class PromoterDrilldownComponent extends BaseChartComponent {
   }
 
   private createRatingDashboard() {
-    let columnsGenerator = Filters.getColumnGeneratorWithDateAsFirstMonthAndRemainingColumns();
-
-    let chartOptionsGenerator = Formatters.getChartOptionsGeneratorFromDefaults(
-      QueryUtils.combineOptions(QueryUtils.RatingVsTimeChartOptions, {
-        title: [this.metricAndSubject.getHeading(), this.metricAndSubject.getSubHeading()].join(" "),
-        legend: 'bottom',
-        vAxis: {title: 'Rating', format: '#', ticks:[0, 1, 2, 3, 4, 5]},
-      }));
-
-    let monthYearFilter = Filters.createMonthYearFilter(this.metricSelectorDivRef2.nativeElement, 0 /* columnIndex */);
-
-    let chartGen = super.createDefaultChartGenerator(
-      'ColumnChart',
+    this.renderTimeVsRatingDashboard(
       this.chartDivRef2.nativeElement,
-      columnsGenerator,
-      chartOptionsGenerator
-    );
-
-    this.renderDashboard(
+      this.dashboardDivRef2.nativeElement,
+      this.metricSelectorDivRef2.nativeElement,
+      this.errorDiv.nativeElement,
       QueryUtils.METRIC_RATING_QUERY(this.metricAndSubject),
-      chartGen,
-      monthYearFilter,
-      this.dashboardDivRef2.nativeElement, this.errorDiv.nativeElement);
-
+      [this.metricAndSubject.getHeading(), this.metricAndSubject.getSubHeading()].join(" "), // Title
+    );
   }
 }
