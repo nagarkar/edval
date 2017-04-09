@@ -140,14 +140,14 @@ export class Metric {
 
   getRoleSubject() {
     if(this.hasRoleSubject()){
-      return Metric.getRoleInSubject(this.subject);
+      return Metric.GetRoleInSubject(this.subject);
     }
     return null;
   }
 
   getStaffSubject() {
     if(this.hasStaffSubject()){
-      return Metric.getStaffInSubject(this.subject);
+      return Metric.GetUserNameInSubject(this.subject);
     }
     return null;
   }
@@ -156,11 +156,11 @@ export class Metric {
     this.subject = "staff:" + username;
   }
 
-  static getRoleInSubject(subject: string) {
+  static GetRoleInSubject(subject: string) {
     return Metric.rolePattern.exec(subject)[1];
   }
 
-  static getStaffInSubject(subject: string) {
+  static GetUserNameInSubject(subject: string) {
     return Metric.staffPattern.exec(subject)[1];
   }
 

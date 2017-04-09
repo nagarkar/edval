@@ -84,7 +84,7 @@ export class ToplineForStaffComponent extends SurveyPage {
     let navigator: SurveyNavigator = this.sessionSvc.surveyNavigator;
     navigator.session.addMetricValue(data.metric.subject, new MetricValue(data.metric.metricId, value));
 
-    let staff: Staff = this.staffSvc.getCached(Metric.getStaffInSubject(data.metric.subject));
+    let staff: Staff = this.staffSvc.getCached(Metric.GetUserNameInSubject(data.metric.subject));
     if (staff) {
       navigator.session.addMetricValue(Metric.createRoleSubject(staff.role), new MetricValue(data.metric.metricId, value));
     }
