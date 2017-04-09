@@ -20,7 +20,7 @@ declare let google;
 @Component({
   selector: 'topinfluencertable',
   template: `
-    <span style="padding:0.75em">How your patients rank factors affecting in '{{metricName}}' (high to low)</span>
+    <span style="padding:0.75em">How your patients rank factors (high to low) that affect '{{metricName}}'</span>
     <div class="border-around-text" #tableDiv></div>
     <div #errorDiv></div>
   `

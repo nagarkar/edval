@@ -96,7 +96,7 @@ export class Account {
           this._truncateStringsInObject(obj[property]);
         } else if (Utils.isString(obj[property]) && !Utils.isUrl(obj[property])) {
           let str: string = obj[property];
-          obj[property] = Utils.truncateString(str, 35);
+          obj[property] = Utils.truncateString(str, 1000);
         }
       }
     }

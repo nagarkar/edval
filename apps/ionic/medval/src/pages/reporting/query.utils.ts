@@ -26,7 +26,10 @@ export class QueryUtils {
   static PROMOTER_COUNTS_REPORT: string = 'promotercounts';
   static CAMPAIGN_METRICS_REPORT: string = 'campaignmetrics';
 
-  static INSUFFICIENT_DATA_MESSAGE: string = "You haven't created any surveys, or your reports have not been created yet! Create a few surveys with different options, and click on the refresh icon in the top right corner in the header to refresh your reports.";
+  static INSUFFICIENT_DATA_MESSAGE = "Insufficient data. Either there have been no surveys, or your reports have not " +
+    "been generated yet! Once surveys are created, you can click the icon in the top right corner to refresh your reports.";
+  static REPORT_REFRESH_POLICY_MESSAGE= "Reports are refreshed daily or weekly, or you can refresh them manually " +
+    "(once every 30 minutes)";
 
   static PROMOTER_DETRACTOR_QUERY(metricAndSubject: MetricAndSubject): Query {
     let query = `select datemonth, sum(promoterCount)/sum(totalCount), sum(detractorCount)/sum(totalCount), sum(totalCount)

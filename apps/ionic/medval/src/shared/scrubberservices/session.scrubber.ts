@@ -13,26 +13,26 @@ import {SessionOrthoScrubber} from "./session.ortho.scrubber";
 import {Scrubber} from "./scrubber";
 import {MetricService} from "../../services/metric/delegator";
 import {StaffService} from "../../services/staff/delegator";
+import {Injectable} from "@angular/core";
 
+@Injectable()
 export class SessionScrubber implements Scrubber<Session>{
-
-  account: Account;
 
   scrubbers : {[key: string]: Scrubber<Session>};
 
-  constructor(private metricSvc: MetricService, private staffSvc: StaffService){
-    this.account = Config.CUSTOMER;
+  constructor(private sessionOrthoScrubber: SessionOrthoScrubber){
     this.scrubbers = this.createScrubberMap();
   }
 
   scrub(session: Session) {
-    let scrubber : Scrubber<Session> = this.scrubbers[this.account.properties.verticalId];
+    let account: Account = Config.CUSTOMER;
+    let scrubber : Scrubber<Session> = this.scrubbers[account.properties.verticalId];
     scrubber.scrub(session);
   }
 
   private createScrubberMap(): {[key: string]: Scrubber<Session>} {
     return {
-      'OrthodonticClinic' : new SessionOrthoScrubber(this.metricSvc, this.staffSvc)
+      'OrthodonticClinic' : this.sessionOrthoScrubber
     }
   }
 }

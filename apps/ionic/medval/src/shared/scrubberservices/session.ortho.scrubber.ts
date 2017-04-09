@@ -11,41 +11,46 @@ import {Metric, MetricValue} from "../../services/metric/schema";
 import {Scrubber} from "./scrubber";
 import {Staff} from "../../services/staff/schema";
 import {StaffService} from "../../services/staff/delegator";
+import {Injectable} from "@angular/core";
 
+@Injectable()
 export class SessionOrthoScrubber implements Scrubber<Session> {
 
   constructor(private metricSvc: MetricService, private staffSvc: StaffService) {}
 
   scrub(session: Session) {
-    let orgMetric: Metric = this.metricSvc.getOnlyOrgMetric();
-    let orgMetricValue: MetricValue = session.getOnlyOrgMetricValueFor(orgMetric);
-    if (orgMetricValue) {
-      this.copyMetricValueForOverallFavorabilityToRolesEvaluatedInSession(session, orgMetricValue.metricValue);
-    }
+
     session.properties.staffMetricValues.forEach((metricValues: MetricValue[], staffSubject: string) => {
       metricValues.forEach((metricValue: MetricValue)=>{
         this.copyMetricValuesFromStaffSubjectsToCorreponspondingRoles(session, staffSubject, metricValue);
       })
     });
+
     session.properties.roleMetricValues.forEach((metricValues: MetricValue[], roleSubject: string) => {
       metricValues.forEach((metricValue: MetricValue)=>{
         this.copyMetricValuesWithRoleSubjectToStaffEvaluatedInSession(session, roleSubject, metricValue);
       })
     });
 
+    let orgMetric: Metric = this.metricSvc.getOnlyOrgMetric();
+    let orgMetricValue: MetricValue = session.getOnlyOrgMetricValueFor(orgMetric);
+    if (orgMetricValue) {
+      this.copyMetricValueForOverallFavorabilityToRolesEvaluatedInSession(session, orgMetricValue.metricValue);
+    }
   }
 
   copyMetricValuesFromStaffSubjectsToCorreponspondingRoles(session: Session, staffSubject: string, metricValue: MetricValue) {
     let metric = this.metricSvc.getMetricById(metricValue.metricId);
-    if (!Metric.isRoleSubject(staffSubject)) {
-        return;
-    }
     if (session.containsMetricValueForRoleSubject(staffSubject, metricValue.metricId)) {
       return;
     }
     let staff: Staff = this.staffSvc.getCached(Metric.GetUserNameInSubject(staffSubject));
     if (staff) {
-      session.addMetricValue(Metric.createRoleSubject(staff.role), new MetricValue(metric.metricId, '' + metricValue.metricValue));
+      let roleSubject: string = Metric.createRoleSubject(staff.role);
+      if (session.containsMetricValueForRoleSubject(roleSubject, metricValue.metricId)) {
+        return;
+      }
+      session.addMetricValue(roleSubject, new MetricValue(metric.metricId, '' + metricValue.metricValue));
     }
   }
 
@@ -61,7 +66,7 @@ export class SessionOrthoScrubber implements Scrubber<Session> {
         return;
       }
       let staffSubject: string = Metric.createStaffSubject(username);
-      if (!session.containsMetricValueForStaffSubject(staffSubject, metricValue.metricId)) {
+      if (session.containsMetricValueForStaffSubject(staffSubject, metricValue.metricId)) {
         return;
       }
       session.addMetricValue(staffSubject, new MetricValue(metric.metricId, '' + metricValue.metricValue));

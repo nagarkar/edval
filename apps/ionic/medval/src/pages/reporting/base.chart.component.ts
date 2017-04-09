@@ -46,6 +46,10 @@ export abstract class BaseChartComponent extends AnyComponent {
 
   static SELECT_UP_TO_LIMIT_ROWS = 'select * limit 2500';
 
+  insufficientDataMessage = QueryUtils.INSUFFICIENT_DATA_MESSAGE;
+
+  reportRefreshPolicyMessage = QueryUtils.REPORT_REFRESH_POLICY_MESSAGE;
+
   constructor(protected alertCtrl: AlertController, protected svc: ChartService, protected staffsvc: StaffService, protected accountsvc: AccountService){
     super();
   }

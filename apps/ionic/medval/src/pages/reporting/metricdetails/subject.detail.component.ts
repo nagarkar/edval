@@ -135,46 +135,6 @@ export class SubjectDetailComponent extends BaseChartComponent {
       QueryUtils.CHILD_METRIC_QUERY(this.selectedMetricAndSubject),
       this.selectedMetricAndSubject.getFullHeading(),
     );
-
-/*    let columnsGenerator = Filters.getColumnGeneratorWithDateAsFirstMonthAndRemainingColumns();
-
-    let chartOptionsGenerator = Formatters.getChartOptionsGeneratorFromDefaults({
-      title: this.selectedMetricAndSubject.getFullHeading(),
-      hAxis: {
-        title: 'Time', format:'MMM, y'
-      },
-      vAxis: {title: 'Rating (1 to 5)', format: '#', ticks:[1, 2, 3, 4, 5]},
-      legend: 'bottom',
-      pointSize: 20,
-      titleTextStyle:'googlechart-title-text'
-    });
-
-    let monthYearFilter = Filters.createMonthYearFilter(this.yearSlider.nativeElement, 0 /!* columnIndex *!/);
-
-    let baseChartGen = super.createDefaultChartGenerator(
-      'ColumnChart',
-      this.chart.nativeElement,
-      columnsGenerator,
-      chartOptionsGenerator);
-
-    /!*
-    let chartFn = (dataTable: any): any => {
-      if (dataTable.getNumberOfRows() == 0) {
-        return BaseChartComponent.INSUFFICIENT_DATA;
-      }
-      let baseChart = baseChartGen.createChart(dataTable);
-      if (dataTable.getNumberOfRows() == 1) {
-        baseChart.setChartType('ColumnChart');
-      }
-      return baseChart;
-    };
-    let chartGen: ChartGenerator = ChartGenerator.createFrom(chartFn);
-    *!/
-    this.renderDashboard(
-      QueryUtils.CHILD_METRIC_QUERY(this.selectedMetricAndSubject),
-      baseChartGen,
-      monthYearFilter,
-      this.dashboard.nativeElement, this.errorDiv.nativeElement)*/
   }
 
 

@@ -24,7 +24,6 @@ import {StaffService} from "../staff/delegator";
 @RegisterService
 export class SessionService extends DelegatingService<Session> {
 
-  sessionScrubber: Scrubber<Session>;
   surveyNavigator: SurveyNavigator;
 
   constructor(
@@ -32,10 +31,10 @@ export class SessionService extends DelegatingService<Session> {
     liveService: LiveSessionService,
     private surveyService: SurveyService,
     private metricSvc: MetricService,
-    private staffSvc: StaffService) {
+    private staffSvc: StaffService,
+    private sessionScrubber: SessionScrubber) {
 
     super(mockService, liveService, Session);
-    this.sessionScrubber = new SessionScrubber(metricSvc, staffSvc);
   }
 
   hasCurrentSession(): boolean {

@@ -87,6 +87,8 @@ import {AccountBranding} from "../pages/branding/account.branding";
 import {ColorPicker} from "../shared/components/colorpicker/color.picker";
 import {ColorModal} from "../shared/components/colorpicker/color.modal";
 import {REVVOLVE_DIRECTIVES} from "../shared/directives/revvolve.directives";
+import {SessionScrubber} from "../shared/scrubberservices/session.scrubber";
+import {SessionOrthoScrubber} from "../shared/scrubberservices/session.ortho.scrubber";
 
 enableProdMode();
 
@@ -241,6 +243,7 @@ enableProdMode();
     LiveDailyDataService, MockDailyDataService, DailyDataService,
     SessionFollowupService, MockSessionFollowupService, LiveSessionFollowupService,
     Idle,
+    SessionScrubber, SessionOrthoScrubber
     //ChartService
   ]
 })
