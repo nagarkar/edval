@@ -48,10 +48,8 @@ export class SettingsComponent extends AnyComponent {
     this.keys = Object.keys(this.mockData);
 
     this.metrics = metricsvc.listCached();
-    this.replacerDataWithHardcodedStaff = this.constructSReplacerMap();
-    this.replacerDataWithoutHardcodedStaff = this.constructSessionReplacerMap();
-
-    this.setupSessionAndSelectedUsers();
+    this.replacerDataWithHardcodedStaff = this.constructSReplacerMap(true);
+    this.replacerDataWithoutHardcodedStaff = this.constructSReplacerMap();
   }
 
   copyToClipboard() {
@@ -67,31 +65,27 @@ export class SettingsComponent extends AnyComponent {
       .catch(()=>Utils.presentTopToast(this.toastCtrl, "Could not copy text to Clipboard", 4 * 1000));
   }
 
-  private constructSessionReplacerMap(): {[key: string] : SReplacerDataMap} {
-    let replacerMap: {[key: string] : SReplacerDataMap} = this.constructSReplacerMap();
-    this.metrics.forEach((metric: Metric) => {
-      delete replacerMap[metric.metricId].staff;
-      delete replacerMap[metric.metricId].role;
-    })
-    return replacerMap;
-  }
-
-  private constructSReplacerMap(): {[key: string] : SReplacerDataMap} {
+  private constructSReplacerMap(setupOnlyStaff?: boolean): {[key: string] : SReplacerDataMap} {
 
     // Helper to construct one object (per metric) in the map.
     let constructReplacerData = (metric: Metric, staffList: Staff[]): SReplacerDataMap =>{
       let replacerData: SReplacerDataMap = {};
       replacerData.metric = metric;
+      if (!setupOnlyStaff) {
+        return replacerData;
+      }
       if (metric.hasRoleSubject()) {
         replacerData.role = metric.getRoleSubject();
       } else if (metric.hasStaffSubject()) {
         let username = metric.getStaffSubject();
-        let staffListForUsername: Staff[] = staffList.filter((staff: Staff) => {return staff.username == username;})
-        Utils.throwIf(staffListForUsername.length != 1,
-          'Missing staff for Metric {0} with missing staff username {1} in subject', metric.metricId, username);
-        replacerData.staff = staffListForUsername;
+        let staffListForUsername: Staff[] = staffList.filter((staff: Staff) => {
+          return staff.username == username;
+        })
+        Utils.throwIf(staffListForUsername.length != 1, 'Missing staff for Metric {0} with missing staff username {1} in subject', metric.metricId, username);
+        replacerData.onlyStaff = staffListForUsername[0];
       }
       return replacerData;
+
     }
 
     let replacerMap: {[key: string] : SReplacerDataMap} = {};
@@ -99,20 +93,5 @@ export class SettingsComponent extends AnyComponent {
       replacerMap[metric.metricId] = constructReplacerData(metric, this.staffsvc.listCached());
     })
     return replacerMap;
-  }
-
-  private setupSessionAndSelectedUsers() {
-    let staffList: Staff[] = this.staffsvc.listCached();
-    this.sessionsvc.newCurrentSession('default');
-    let account = this.accountsvc.getCached(Config.CUSTOMERID);
-    let roles: string[] = account ? account.getStandardRoles() : [];
-    let usernames = [];
-    roles.forEach((role: string)=>{
-      let staffInRole: Staff = this.staffsvc.getOnly(role);
-      if (staffInRole) {
-        usernames.push(staffInRole.username);
-      };
-    });
-    this.sessionsvc.getCurrentSession().properties.selectedStaffUserNames = usernames;
   }
 }
