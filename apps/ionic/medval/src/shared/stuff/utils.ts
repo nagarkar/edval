@@ -107,14 +107,25 @@ export class Utils {
   }
 
   static error(message: string, ...args: any[]) : void {
+    Utils.errorInternal(true, message, ...args);
+  }
+
+  static errorWithoutAWS(message: string, ...args: any[]) : void {
+    Utils.errorInternal(false, message, ...args);
+  }
+
+  private static errorInternal(logAws: boolean, message: string, ...args: any[]): void {
     let fmsg = Utils.format(Utils.getPrefix('ERROR') + message, ...args);
     if (console) {
       console.error("Courtsey of Utils.error():" + fmsg);
     }
-    AwsClient.logEvent(fmsg);
+    if (logAws) {
+      AwsClient.logEvent(fmsg);
+    }
     try {
       Utils.errData.add(fmsg);
     }catch(err) {console.log('Could not log in errData: ' + err)};
+
   }
 
   static assert(object: any) {

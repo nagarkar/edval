@@ -53,7 +53,7 @@
         <ion-col>
           <ion-input
             placeholder="Please provide the name of your organization (e.g. Acme Inc.)"
-            [ngClass]="{'one-minute-pulse': !account.properties.customerName}"
+            [ngClass]="{'five-second-pulse': !account.properties.customerName}"
             [(ngModel)]="account.properties.customerName"></ion-input>
           <div class="alert">Highly Recommended!</div>
         </ion-col>
@@ -65,7 +65,7 @@
         <ion-col>
           <ion-input
             placeholder="The person responsible for responding to customer feedback."
-            [ngClass]="{'one-minute-pulse': !account.properties.contactName}"
+            [ngClass]="{'five-second-pulse': !account.properties.contactName}"
             [(ngModel)]="account.properties.contactName"></ion-input>
           <div class="alert">Highly Recommended!</div>
         </ion-col>

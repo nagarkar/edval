@@ -36,6 +36,8 @@ export class SettingsComponent extends AnyComponent {
 
   errors: string[] = [];
 
+  showMetrics = false;
+
   constructor(
     private toastCtrl: ToastController,
     private metricsvc: MetricService,
@@ -44,22 +46,31 @@ export class SettingsComponent extends AnyComponent {
     private sessionsvc: SessionService) {
 
     super();
-    this.mockData = Config.MOCK_DATA;
-    this.keys = Object.keys(this.mockData);
+    try {
+      this.mockData = Config.MOCK_DATA;
+      this.keys = Object.keys(this.mockData);
 
-    this.metrics = metricsvc.listCached();
-    this.replacerDataWithHardcodedStaff = this.constructSReplacerMap(true);
-    this.replacerDataWithoutHardcodedStaff = this.constructSReplacerMap();
-    Utils.errData.forEach((value)=>{
-      if (value) {
-        this.logs.push(value);
-      }
-    })
-    Utils.logData.forEach((value)=>{
-      if (value) {
-        this.errors.push(value);
-      }
-    })
+      this.metrics = metricsvc.listCached();
+      this.replacerDataWithHardcodedStaff = this.constructSReplacerMap(true);
+      this.replacerDataWithoutHardcodedStaff = this.constructSReplacerMap();
+      this.showMetrics = true;
+    } catch(err) {
+      Utils.error(err);
+    }
+    try {
+      Utils.errData.forEach((value)=>{
+        if (value) {
+          this.logs.push(value);
+        }
+      })
+      Utils.logData.forEach((value)=>{
+        if (value) {
+          this.errors.push(value);
+        }
+      })
+    } catch(err) {
+      Utils.error(err);
+    }
   }
 
   copyToClipboard() {

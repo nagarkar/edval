@@ -6,7 +6,7 @@
  * site or application without licensing is strictly prohibited.
  */
 
-import {StatusBar, Splashscreen} from "ionic-native";
+import {StatusBar, Splashscreen, Device} from "ionic-native";
 import {Component} from "@angular/core";
 import {Platform, Alert, AlertController} from "ionic-angular";
 import {StartWithSurveyOption} from "../pages/survey/start/start.with.survey.option.component";
@@ -27,6 +27,9 @@ import {Utils} from "../shared/stuff/utils";
 import {Config} from "../shared/config";
 import {GoogleChartsConfig as ChartConfig} from "../pages/reporting/config";
 import {AccessTokenService} from "../shared/aws/access.token.service";
+import {DeviceServices} from "../shared/service/DeviceServices";
+import {AppVersion} from "@ionic-native/app-version";
+import {CodePush} from "@ionic-native/code-push";
 
 declare let google;
 
@@ -44,6 +47,8 @@ export class RevvolveApp {
   constructor(
     platform: Platform,
     http: Http,
+    appVersion: AppVersion,
+    codePush: CodePush,
     private alertCtrl: AlertController,
     private tokenSvc: AccessTokenService) {
 
@@ -70,10 +75,9 @@ export class RevvolveApp {
 
       this.initiateConnectionCheck(http);
       this.initializeGoogleCharts();
+      DeviceServices.initialize(appVersion, codePush);
     });
   }
-
-
 
   private initiateConnectionCheck(http: Http) {
     let client: HttpClient<string> = new HttpClient<string>(http);

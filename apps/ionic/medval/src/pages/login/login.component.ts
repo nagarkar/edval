@@ -48,8 +48,6 @@ export class LoginComponent extends AnyComponent {
     private toastCtrl: ToastController,
     private modalCtrl: ModalController,
     private serviceFactory: ServiceFactory,
-    private appVersion: AppVersion,
-    private codePush: CodePush,
     private authProvider: AccessTokenService) {
 
     super();
@@ -211,7 +209,6 @@ export class LoginComponent extends AnyComponent {
           .then(()=> {
             SpinnerDialog.hide();
             AwsClient.reInitialize();
-            DeviceServices.initialize(this.appVersion, this.codePush);
             this.navigateToDashboardPage();
           })
           .catch((err)=>{
