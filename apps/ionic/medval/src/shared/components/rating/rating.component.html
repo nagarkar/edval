@@ -7,7 +7,7 @@
   <span *ngFor=" let rating of ratingRange; let idx = index;" class="active">
     <ion-icon item-left #icon large
       style="border-radius: 50%"
-      (tap)="setRating(idx + 1)"
+      (click)="setRating(idx + 1)"
       [name]="idx < ratingValue? 'star': 'star-outline'"
       color="{{(idx < ratingValue) ? color : 'darkgrey'}}">
     </ion-icon>
