@@ -9,6 +9,8 @@ import {Component, Input} from "@angular/core";
 import {ModalController} from "ionic-angular";
 import {SuggestionComponent} from "../suggestions/suggestions.page";
 import {Config} from "../../config";
+import {AppVersion} from "@ionic-native/app-version";
+import {Utils} from "../../stuff/utils";
 
 @Component({
   templateUrl: './footer.component.html',
@@ -16,7 +18,20 @@ import {Config} from "../../config";
 })
 export class FooterComponent {
 
-  constructor(private modalCtrl: ModalController) {}
+  appVersionNumber: string = "";
+  constructor(private modalCtrl: ModalController, private appVersion: AppVersion) {
+    try {
+      appVersion.getVersionNumber()
+        .then((versionNumber: string)=>{
+          this.appVersionNumber = versionNumber;
+        })
+        .catch((err)=>{
+          Utils.error(err);
+        })
+    } catch (err) {
+      Utils.error(err);
+    }
+  }
 
   @Input() reassure: boolean;
 
