@@ -54,9 +54,12 @@ export class DashboardComponent extends AdminComponent {
     super(navCtrl, http);
   }
 
+  ngAfterContentChecked() {
+    this.account = this.accSvc.getCached(Config.CUSTOMERID);
+  }
+
   ngOnInit() {
     super.ngOnInit();
-    this.account = this.accSvc.getCached(Config.CUSTOMERID);
     try {
       if (Math.random() > 0.5) {
         this.dispatchAlertTipForAccountSettings();
