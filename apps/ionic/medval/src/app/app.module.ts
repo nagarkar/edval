@@ -90,6 +90,7 @@ import {REVVOLVE_DIRECTIVES} from "../shared/directives/revvolve.directives";
 import {SessionScrubber} from "../shared/scrubberservices/session.scrubber";
 import {SessionOrthoScrubber} from "../shared/scrubberservices/session.ortho.scrubber";
 import {AppVersion} from "@ionic-native/app-version";
+import {CodePush} from "@ionic-native/code-push";
 
 enableProdMode();
 
@@ -245,7 +246,7 @@ enableProdMode();
     SessionFollowupService, MockSessionFollowupService, LiveSessionFollowupService,
     Idle,
     SessionScrubber, SessionOrthoScrubber,
-    AppVersion
+    AppVersion, CodePush
     //ChartService
   ]
 })

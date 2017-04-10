@@ -4,7 +4,6 @@ import {
   Brightness,
   BatteryStatus,
   BatteryStatusResponse,
-  CodePush,
   NativeStorage,
   Device,
   NativeAudio,
@@ -14,6 +13,7 @@ import {
 import {HelpMessages} from "../stuff/HelpMessages";
 import {AppVersion} from "@ionic-native/app-version";
 import {Config} from "../config";
+import {CodePush} from "@ionic-native/code-push";
 /**
  * Created by chinmay on 3/6/17.
  * Copyright HC Technology Inc.
@@ -30,10 +30,10 @@ export class DeviceServices {
   public static UNKNOWN_CONNECTION_ID = 'unknown';
 
 
-  static initialize(appVersion: AppVersion) {
+  static initialize(appVersion: AppVersion, codePush: CodePush) {
     DeviceServices.logDeviceInfo(appVersion);
     DeviceServices.setupBatteryCheck();
-    DeviceServices.setupCodePush();
+    DeviceServices.setupCodePush(codePush);
     DeviceServices.setupOnPause();
     DeviceServices.storeInitialInstallDate();
     DeviceServices.trackNetworkConnection();
@@ -69,9 +69,9 @@ export class DeviceServices {
     );
   }
 
-  private static setupCodePush() {
+  private static setupCodePush(codePush: CodePush) {
     Utils.log("Setup Code Push");
-    CodePush.sync({}, (progress) => {
+    codePush.sync({}, (progress) => {
         Utils.log("Downloaded {0} bytes of {1} bytes", progress.receivedBytes, progress.totalBytes);
       })
       .subscribe((syncStatus) => {
