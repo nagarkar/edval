@@ -24,6 +24,8 @@ export class DeviceServices {
   private static BATTERY_SUBSCRIPTION: Subscription;
   private static INITIAL_INSTALL_TIMESTAMP = "INITIAL_INSTALL_TIMESTAMP";
   public static NO_CONNECTION_ID = 'none';
+  public static CELLULAR_CONNECTION_ID = 'cellular';
+  public static UNKNOWN_CONNECTION_ID = 'unknown';
 
 
   static initialize() {
@@ -192,7 +194,9 @@ export class DeviceServices {
   }
 
   static get isDeviceOnline(): boolean {
-    return Network.type != DeviceServices.NO_CONNECTION_ID;
+    return Network.type != DeviceServices.NO_CONNECTION_ID
+      && Network.type != DeviceServices.CELLULAR_CONNECTION_ID
+      && Network.type != DeviceServices.UNKNOWN_CONNECTION_ID;
   }
 
   static get isDeviceOffline(): boolean {
