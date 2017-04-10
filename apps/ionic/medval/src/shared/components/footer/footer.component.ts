@@ -24,6 +24,8 @@ export class FooterComponent {
 
   @Input() showSuggestionBox: boolean;
 
+  customerId = Config.CUSTOMERID;
+
   displaySuggestionBox() {
     this.modalCtrl.create(SuggestionComponent).present();
   }

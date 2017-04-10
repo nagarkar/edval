@@ -89,6 +89,7 @@ import {ColorModal} from "../shared/components/colorpicker/color.modal";
 import {REVVOLVE_DIRECTIVES} from "../shared/directives/revvolve.directives";
 import {SessionScrubber} from "../shared/scrubberservices/session.scrubber";
 import {SessionOrthoScrubber} from "../shared/scrubberservices/session.ortho.scrubber";
+import {AppVersion} from "@ionic-native/app-version";
 
 enableProdMode();
 
@@ -243,7 +244,8 @@ enableProdMode();
     LiveDailyDataService, MockDailyDataService, DailyDataService,
     SessionFollowupService, MockSessionFollowupService, LiveSessionFollowupService,
     Idle,
-    SessionScrubber, SessionOrthoScrubber
+    SessionScrubber, SessionOrthoScrubber,
+    AppVersion
     //ChartService
   ]
 })

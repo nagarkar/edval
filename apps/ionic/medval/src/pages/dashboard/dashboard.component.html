@@ -14,7 +14,7 @@
     <ion-row>
       <div class="colstyle">
         <ion-col>
-          <div primary-box (tap)="openNavAccountPage()">
+          <div [ngClass]="{'one-minute-pulse': !account.properties.customerName || !account.properties.contactName}" primary-box (tap)="openNavAccountPage()">
             <div class="box-inner-content">
               <img primary-img src="assets/img/settings1.png">
               <span class="button-text rowtext ">Account Settings</span>

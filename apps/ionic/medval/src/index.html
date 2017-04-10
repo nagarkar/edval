@@ -2,7 +2,9 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src https://codepush.azurewebsites.net 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *" />
+  <!--meta http-equiv="Content-Security-Policy"
+        content="img-src data: ; default-src filesystem localhost:* https://prodapi.healthcaretech.io https://testapi.healthcaretech.io https://cognito-idp.us-east-1.amazonaws.com https://logs.us-east-1.amazonaws.com s3.amazonaws.com:* www.gstatic.com:* https://cdnjs.cloudflare.com https://codepush.azurewebsites.net 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; script-src 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *" /-->
+  <meta http-equiv="content-security-policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; img-src * data: 'unsafe-inline'; connect-src * 'unsafe-inline'; frame-src *"/>
   <title>Ionic App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="format-detection" content="telephone=no">

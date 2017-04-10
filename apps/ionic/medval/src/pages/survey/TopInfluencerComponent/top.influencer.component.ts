@@ -76,9 +76,9 @@ export class TopInfluencerComponent extends SurveyPage {
       this.promptAfterSelections = def(+navParams.get('numSelections'), 1);
       this.valueOrderDesc = def(navParams.get('valueOrderDesc'), false);
       if (this.valueOrderDesc) {
-        this.textPlaceholder = "Here's what being done really well...'"
+        this.textPlaceholder = "You're doing something really well!"
       } else {
-        this.textPlaceholder = "Here's what's being done poorly...'"
+        this.textPlaceholder = "You could do something a lot better!"
       }
       let messages = def(navParams.get('title'), undefined);
       if (Utils.isString(messages)) {

@@ -12,6 +12,8 @@ import {
   Dialogs
 } from "ionic-native";
 import {HelpMessages} from "../stuff/HelpMessages";
+import {AppVersion} from "@ionic-native/app-version";
+import {Config} from "../config";
 /**
  * Created by chinmay on 3/6/17.
  * Copyright HC Technology Inc.
@@ -28,7 +30,8 @@ export class DeviceServices {
   public static UNKNOWN_CONNECTION_ID = 'unknown';
 
 
-  static initialize() {
+  static initialize(appVersion: AppVersion) {
+    DeviceServices.logDeviceInfo(appVersion);
     DeviceServices.setupBatteryCheck();
     DeviceServices.setupCodePush();
     DeviceServices.setupOnPause();
@@ -68,7 +71,12 @@ export class DeviceServices {
 
   private static setupCodePush() {
     Utils.log("Setup Code Push");
-    CodePush.sync();
+    CodePush.sync({}, (progress) => {
+        Utils.log("Downloaded {0} bytes of {1} bytes", progress.receivedBytes, progress.totalBytes);
+      })
+      .subscribe((syncStatus) => {
+        Utils.log("Code Push Status: {0}", syncStatus);
+      });
   }
 
   private static setupOnPause() {
@@ -195,8 +203,7 @@ export class DeviceServices {
 
   static get isDeviceOnline(): boolean {
     return Network.type != DeviceServices.NO_CONNECTION_ID
-      && Network.type != DeviceServices.CELLULAR_CONNECTION_ID
-      && Network.type != DeviceServices.UNKNOWN_CONNECTION_ID;
+      && Network.type != DeviceServices.CELLULAR_CONNECTION_ID;
   }
 
   static get isDeviceOffline(): boolean {
@@ -209,5 +216,32 @@ export class DeviceServices {
       let titleAndMessage: any = HelpMessages.getMessageFor("NO_NETWORK");
       Dialogs.alert(titleAndMessage.message, titleAndMessage.title);
     }
+  }
+
+  private static logDeviceInfo(appVersion: AppVersion) {
+    Utils.log(["Device Information;",
+      "uuid:", Device.uuid, "\n",
+      "cordova version:", Device.cordova, "\n",
+      "model:", Device.model, "\n",
+      "os name:", Device.platform, "\n",
+      "os version:", Device.version, "\n",
+      "manufacturer:", Device.manufacturer, "\n",
+      "is running on a simulator:", Device.isVirtual, "\n",
+      "device hardware serial number:", Device.serial, "\n",
+      "device Revvolve version:", Config.SOFTWARE_VERSION, "\n"
+    ].join(''));
+    let promises: Promise<any>[] = [appVersion.getAppName(), appVersion.getPackageName(), appVersion.getVersionCode(), appVersion.getVersionNumber()];
+    Promise.all(promises)
+      .then((results: any[])=>{
+        Utils.log([
+          "App Name (Config.xml):", results[0], "\n",
+          "Package Name (Config.xml):", results[1], "\n",
+          "Version Code (Config.xml):", results[2], "\n",
+          "Version Number (Config.xml):", results[3], "\n"
+        ].join(''));
+      })
+      .catch((err)=>{
+        Utils.error("Error getting appversion information: {0}", err);
+      })
   }
 }

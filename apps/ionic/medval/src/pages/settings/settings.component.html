@@ -47,9 +47,9 @@
     <button ion-button (tap)="copyToClipboard()">Copy Errors and Logs to Clipboard (you can paste them into your email)</button>
     <ion-list>
       <ion-item-divider>Errors:</ion-item-divider>
-      <div *ngFor="let err of errData">{{err}}</div>
+      <div *ngFor="let err of errors">{{err}}</div>
       <ion-item-divider>Logs:</ion-item-divider>
-      <div *ngFor="let err of logData">{{err}}</div>
+      <div *ngFor="let err of logs">{{err}}</div>
     </ion-list>
   </div>
 </ion-content>

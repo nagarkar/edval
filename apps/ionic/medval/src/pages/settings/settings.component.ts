@@ -32,9 +32,9 @@ export class SettingsComponent extends AnyComponent {
   replacerDataWithHardcodedStaff: {[key: string] : SReplacerDataMap} = {};
   replacerDataWithoutHardcodedStaff: {[key: string] : SReplacerDataMap} = {};
 
-  logData: Iterable<string> = Utils.logData;
+  logs: string[] = [];
 
-  errData: Iterable<string> = Utils.errData;
+  errors: string[] = [];
 
   constructor(
     private toastCtrl: ToastController,
@@ -50,17 +50,21 @@ export class SettingsComponent extends AnyComponent {
     this.metrics = metricsvc.listCached();
     this.replacerDataWithHardcodedStaff = this.constructSReplacerMap(true);
     this.replacerDataWithoutHardcodedStaff = this.constructSReplacerMap();
+    Utils.errData.forEach((value)=>{
+      if (value) {
+        this.logs.push(value);
+      }
+    })
+    Utils.logData.forEach((value)=>{
+      if (value) {
+        this.errors.push(value);
+      }
+    })
   }
 
   copyToClipboard() {
-    let text = [];
-    Utils.errData.forEach((value)=>{
-      text.push(value);
-    })
-    Utils.logData.forEach((value)=>{
-      text.push(value);
-    })
-    Clipboard.copy(text.join('\n'))
+    let allLogs = this.errors.concat(...this.logs).join('\n');
+    Clipboard.copy(allLogs)
       .then(()=>Utils.presentTopToast(this.toastCtrl, "Copied text to Clipboard", 4 * 1000))
       .catch(()=>Utils.presentTopToast(this.toastCtrl, "Could not copy text to Clipboard", 4 * 1000));
   }

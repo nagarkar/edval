@@ -40,6 +40,8 @@ declare let AWS:any;
 })
 export class DashboardComponent extends AdminComponent {
 
+  account: Account;
+
   constructor(
     navCtrl: NavController,
     http: Http,
@@ -50,6 +52,7 @@ export class DashboardComponent extends AdminComponent {
     private accSvc: AccountService) {
 
     super(navCtrl, http);
+    this.account = Config.CUSTOMER;
   }
 
   ngOnInit() {

@@ -19,6 +19,9 @@ import {SpinnerDialog, NativeAudio, Device} from "ionic-native";
 import {HelpPage} from "../dashboard/help/help.page";
 import {AnyComponent} from "../any.component";
 import {DeviceServices} from "../../shared/service/DeviceServices";
+import {AwsClient} from "../../shared/aws/aws.client";
+import {Account} from "../../services/account/schema";
+import {ServiceFactory} from "../../services/service.factory";
 
 declare let AWSCognito:any;
 declare let AWS:any;
@@ -43,7 +46,7 @@ export class LoginComponent extends AnyComponent {
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
     private modalCtrl: ModalController,
-    private accSetupSvc: AccountSetupService,
+    private serviceFactory: ServiceFactory,
     private authProvider: AccessTokenService) {
 
     super();
@@ -198,10 +201,21 @@ export class LoginComponent extends AnyComponent {
   loginWithCreds(username: string, password: string) {
     // Start new session and dismiss loading screen on success/failure (this dismiss step is required for ios/not for web)
     this.authProvider.login(username, password)
-      .then((authResult: Account)=>{
-        SpinnerDialog.hide();
-        this.navigateToDashboardPage();
-        this.logDeviceInfo();
+      .then((account: Account)=>{
+        Config.CUSTOMER = account;
+        Config.CUSTOMERID = account.customerId;
+        this.serviceFactory.resetRegisteredServices()
+          .then(()=> {
+            SpinnerDialog.hide();
+            AwsClient.reInitialize();
+            this.navigateToDashboardPage();
+          })
+          .catch((err)=>{
+            SpinnerDialog.hide();
+            let errorMsg = "Ooops! There was some problem reaching our backend servers. Please contact questions@revvolve.io if this issue persists! Error: {0}";
+            Utils.error(errorMsg, err);
+            Utils.presentTopToast(this.toastCtrl, Utils.format(errorMsg, err));
+          });
       })
       .catch((err)=>{
         SpinnerDialog.hide();
@@ -267,17 +281,4 @@ export class LoginComponent extends AnyComponent {
       });
   }
 
-  private logDeviceInfo() {
-    Utils.log(["Device Information;",
-      "uuid:", Device.uuid, ";",
-      "cordova version:", Device.cordova, ";",
-      "model:", Device.model, ";",
-      "os name:", Device.platform, ";",
-      "os version:", Device.version, ";",
-      "manufacturer:", Device.manufacturer, ";",
-      "is running on a simulator:", Device.isVirtual, ";",
-      "device hardware serial number:", Device.serial, ";",
-      "device Revvolve version:", Config.SOFTWARE_VERSION
-    ].join(''));
-  }
 }

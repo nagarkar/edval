@@ -40,7 +40,7 @@ export class AccessTokenService {
 
   private static authenticatingIntervalTimer : number;
 
-  constructor(private alertCtrl: AlertController, private toast: ToastController, private serviceFactory: ServiceFactory, private accSvc: AccountService) {
+  constructor(private alertCtrl: AlertController, private accSvc: AccountService) {
     this.clearLoginSignals();
   }
 
@@ -88,9 +88,9 @@ export class AccessTokenService {
     };
     username = username.toLowerCase().trim();
 
-    if (this.sameUserAuthenticatingWithinShortPeriod(authenticationData) && !this.authTokenIsOld()) {
+    if (Config.CUSTOMERID && this.sameUserAuthenticatingWithinShortPeriod(authenticationData) && !this.authTokenIsOld()) {
       Utils.info("Logging in same user");
-      return this.processUserInitiatedLoginSuccess();
+      return this.processUserInitiatedLoginSuccess(Config.CUSTOMERID);
     }
 
     this.authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
@@ -195,26 +195,17 @@ export class AccessTokenService {
       && this.lastAuthTokenCreationTime + Config.ACCESS_TOKEN_REFRESH_TIME > Date.now();
   }
 
-  private processUserInitiatedLoginSuccess(): Promise<Account> {
+  private processUserInitiatedLoginSuccess(customerId: string): Promise<Account> {
     this.lastAuthTokenCreationTime = Date.now();
-    return this.serviceFactory.resetRegisteredServices()
-      .then(()=> {
-        return this.accSvc.get(Config.CUSTOMERID)
-          .then((account)=>{
-            Config.CUSTOMER = account;
-            AwsClient.reInitialize();
-            this.refreshAtIntervals();
-            Utils.info("Completed processUserInitiatedLoginSuccess at time: {0}", this.lastAuthTokenCreationTime);
-            return account;
-          })
-          .catch((err)=>{
-            Utils.error("Error getting account from processUserInitiatedLoginSuccess, Error: {0}", err);
-            throw err;
-          });
+
+    return this.accSvc.get(customerId)
+      .then((account)=>{
+        this.refreshAtIntervals();
+        Utils.info("Completed processUserInitiatedLoginSuccess at time: {0}", this.lastAuthTokenCreationTime);
+        return account;
       })
       .catch((err)=>{
-        Utils.error("Error getting account from processUserInitiatedLoginSuccess, error: {0}", err);
-        //Utils.presentTopToast(this.toast, err);
+        Utils.error("Error getting account from processUserInitiatedLoginSuccess, Error: {0}", err);
         throw err;
       });
   }
@@ -262,7 +253,6 @@ export class AccessTokenService {
   }
 
   private initLastLoginState() {
-    Config.CUSTOMERID = null;
     this._cognitoUser = null;
     AccessTokenService.authResult = null;
     this.lastAuthTokenCreationTime = Infinity;
@@ -276,7 +266,6 @@ export class AccessTokenService {
 
       Utils.info("After aws.config.update");
 
-      Config.CUSTOMERID = undefined;
       this._cognitoUser.getUserAttributes((err, result) => {
         if (err) {
           Utils.error(Utils.format("Error while trying to get cognito user attributes for user {0} , error: {1}",
@@ -285,18 +274,19 @@ export class AccessTokenService {
           reject(err);
         }
         if (result) {
+          let customerId = undefined;
           for (let i = 0; i < result.length; i++) {
             if (result[i].getName() != "custom:organizationName") {
               continue;
             }
-            Utils.info('Got userattrbute customerid {0}', result[i].getValue());
-            if (result[i].getValue()) {
-              Config.CUSTOMERID = result[i].getValue();
-              resolve(this.processUserInitiatedLoginSuccess());
+            customerId = result[i].getValue();
+            if (customerId) {
+              Utils.info('Got userattrbute customerid {0}', result[i].getValue());
+              resolve(this.processUserInitiatedLoginSuccess(customerId));
               break;
             }
           }
-          if (!Config.CUSTOMERID) {
+          if (!customerId) {
             reject("No customer id found in account attributes");
             this.clearLoginSignals();
           }

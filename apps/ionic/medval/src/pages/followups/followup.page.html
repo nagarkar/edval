@@ -2,13 +2,13 @@
 <ion-content class="scrollable">
   <div class="m-t-3" padding>
     <ion-segment [(ngModel)]="section">
-      <ion-segment-button [ngClass]="{'keep-pulsing': pendingAutomaticFollowups.length > 0}" value="automatic">
+      <ion-segment-button [ngClass]="{'one-minute-pulse': pendingAutomaticFollowups.length > 0}" value="automatic">
         Online Review Followups
       </ion-segment-button>
-      <ion-segment-button [ngClass]="{'keep-pulsing': pendingStandardFollowups.length > 0}" value="standard">
+      <ion-segment-button [ngClass]="{'one-minute-pulse': pendingStandardFollowups.length > 0}" value="standard">
         Service-hour Followups (Dissatisfied Patients)
       </ion-segment-button>
-      <ion-segment-button [ngClass]="{'keep-pulsing': pendingTargetedFollowups.length > 0}" value="targeted">
+      <ion-segment-button [ngClass]="{'one-minute-pulse': pendingTargetedFollowups.length > 0}" value="targeted">
         Individual Followups (Dissatisfied Patients)
       </ion-segment-button>
     </ion-segment>

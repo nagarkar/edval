@@ -29,6 +29,7 @@ import {Config} from "../shared/config";
 import {GoogleChartsConfig as ChartConfig} from "../pages/reporting/config";
 import {AccessTokenService} from "../shared/aws/access.token.service";
 import {DeviceServices} from "../shared/service/DeviceServices";
+import {AppVersion} from "@ionic-native/app-version";
 
 declare let google;
 
@@ -45,7 +46,7 @@ export class RevvolveApp {
 
   constructor(
     platform: Platform,
-    serviceFactory: ServiceFactory,
+    private appVersion: AppVersion,
     http: Http,
     private alertCtrl: AlertController,
     private tokenSvc: AccessTokenService) {
@@ -73,7 +74,7 @@ export class RevvolveApp {
 
       this.initiateConnectionCheck(http);
       this.initializeGoogleCharts();
-      DeviceServices.initialize();
+      DeviceServices.initialize(appVersion);
     });
   }
 

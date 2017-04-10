@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ionicframework.medval611122" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.ionicframework.medval611122" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Revvolve</name>
     <description>Measure customer feedback</description>
     <author email="chinmay@healthcaretech.io" href="http://revvolve.io/">Revvolve Team</author>
@@ -111,4 +111,5 @@
     <plugin name="cordova-plugin-datepicker" />
     <plugin name="cordova-plugin-geolocation" spec="~2.4.2" />
     <plugin name="cordova-plugin-network-information" spec="~1.3.2" />
+    <plugin name="cordova-plugin-app-version" spec="~0.1.9" />
 </widget>
