@@ -7,21 +7,22 @@
  */
 import {Component} from "@angular/core";
 import {Utils} from "../../shared/stuff/utils";
-import {AccessTokenService, AuthResult} from "../../shared/aws/access.token.service";
+import {AccessTokenService} from "../../shared/aws/access.token.service";
 import {DashboardComponent} from "../dashboard/dashboard.component";
 import {NavController, ToastController, AlertController, ModalController, Modal} from "ionic-angular";
 import {SettingsComponent} from "../settings/settings.component";
 import {AccountComponent} from "../account/account.component";
-import {AccountSetupService} from "../../services/accountsetup/account.setup.service";
 import {Config} from "../../shared/config";
 import {Validators, FormControl, FormGroup} from "@angular/forms";
-import {SpinnerDialog, NativeAudio, Device} from "ionic-native";
+import {SpinnerDialog, NativeAudio} from "ionic-native";
 import {HelpPage} from "../dashboard/help/help.page";
 import {AnyComponent} from "../any.component";
 import {DeviceServices} from "../../shared/service/DeviceServices";
 import {AwsClient} from "../../shared/aws/aws.client";
 import {Account} from "../../services/account/schema";
 import {ServiceFactory} from "../../services/service.factory";
+import {AppVersion} from "@ionic-native/app-version";
+import {CodePush} from "@ionic-native/code-push";
 
 declare let AWSCognito:any;
 declare let AWS:any;
@@ -47,6 +48,8 @@ export class LoginComponent extends AnyComponent {
     private toastCtrl: ToastController,
     private modalCtrl: ModalController,
     private serviceFactory: ServiceFactory,
+    private appVersion: AppVersion,
+    private codePush: CodePush,
     private authProvider: AccessTokenService) {
 
     super();
@@ -208,11 +211,12 @@ export class LoginComponent extends AnyComponent {
           .then(()=> {
             SpinnerDialog.hide();
             AwsClient.reInitialize();
+            DeviceServices.initialize(this.appVersion, this.codePush);
             this.navigateToDashboardPage();
           })
           .catch((err)=>{
             SpinnerDialog.hide();
-            let errorMsg = "Ooops! There was some problem reaching our backend servers. Please contact questions@revvolve.io if this issue persists! Error: {0}";
+            let errorMsg = "Ooops! There was a problem reaching our backend servers. Please contact questions@revvolve.io if this issue persists! Error: {0}";
             Utils.error(errorMsg, err);
             Utils.presentTopToast(this.toastCtrl, Utils.format(errorMsg, err));
           });

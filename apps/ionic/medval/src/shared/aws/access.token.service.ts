@@ -8,9 +8,8 @@
 import {Injectable} from "@angular/core";
 import {Utils} from "../stuff/utils";
 import {Config} from "../config";
-import {ServiceFactory} from "../../services/service.factory";
 import {AwsClient} from "./aws.client";
-import {AlertController, ToastController} from "ionic-angular";
+import {AlertController} from "ionic-angular";
 import {SpinnerDialog} from "ionic-native";
 import {AccountService} from "../../services/account/delegator";
 declare let AWSCognito:any;

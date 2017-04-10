@@ -15,7 +15,6 @@ import {AdminComponent} from "../admin.component";
 import {Config} from "../../shared/config";
 import {AccountSetupService, AccountSetup} from "../../services/accountsetup/account.setup.service";
 import {LoginComponent} from "../login/login.component";
-import {SpinnerDialog} from "ionic-native";
 import {ValidationService} from "../../shared/components/validation/validation.service";
 import {Http} from "@angular/http";
 import {DeviceServices} from "../../shared/service/DeviceServices";

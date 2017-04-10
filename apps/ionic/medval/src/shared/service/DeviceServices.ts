@@ -28,9 +28,14 @@ export class DeviceServices {
   public static NO_CONNECTION_ID = 'none';
   public static CELLULAR_CONNECTION_ID = 'cellular';
   public static UNKNOWN_CONNECTION_ID = 'unknown';
+  private static INITIALIZED = false;
 
 
   static initialize(appVersion: AppVersion, codePush: CodePush) {
+    if (DeviceServices.INITIALIZED) {
+      return;
+    }
+    DeviceServices.INITIALIZED = true;
     DeviceServices.logDeviceInfo(appVersion);
     DeviceServices.setupBatteryCheck();
     DeviceServices.setupCodePush(codePush);
