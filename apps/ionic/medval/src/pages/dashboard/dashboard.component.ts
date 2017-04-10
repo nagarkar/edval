@@ -40,7 +40,7 @@ declare let AWS:any;
 })
 export class DashboardComponent extends AdminComponent {
 
-  account: Account;
+  account: Account = new Account();
 
   constructor(
     navCtrl: NavController,
@@ -52,11 +52,11 @@ export class DashboardComponent extends AdminComponent {
     private accSvc: AccountService) {
 
     super(navCtrl, http);
-    this.account = Config.CUSTOMER;
   }
 
   ngOnInit() {
     super.ngOnInit();
+    this.account = this.accSvc.getCached(Config.CUSTOMERID);
     try {
       if (Math.random() > 0.5) {
         this.dispatchAlertTipForAccountSettings();

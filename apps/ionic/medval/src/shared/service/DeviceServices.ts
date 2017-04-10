@@ -76,12 +76,16 @@ export class DeviceServices {
 
   private static setupCodePush(codePush: CodePush) {
     Utils.log("Setup Code Push");
-    codePush.sync({}, (progress) => {
+    try {
+      codePush.sync({}, (progress) => {
         Utils.log("Downloaded {0} bytes of {1} bytes", progress.receivedBytes, progress.totalBytes);
       })
-      .subscribe((syncStatus) => {
-        Utils.log("Code Push Status: {0}", syncStatus);
-      });
+        .subscribe((syncStatus) => {
+          Utils.log("Code Push Status: {0}", syncStatus);
+        });
+    } catch (err) {
+      Utils.error("In Setup Code Push, Error: {0}", err);
+    }
   }
 
   private static setupOnPause() {
