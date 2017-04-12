@@ -5,10 +5,8 @@
  * of this application without permission. Copying and re-posting on another
  * site or application without licensing is strictly prohibited.
  */
-import {Component, ViewChild} from "@angular/core";
+import {Component} from "@angular/core";
 import {Metric, MetricValue} from "../../../services/metric/schema";
-import {Utils} from "../../../shared/stuff/utils";
-import {RatingComponent} from "../../../shared/components/rating/rating.component";
 import {Staff} from "../../../services/staff/schema";
 import {StaffService} from "../../../services/staff/delegator";
 import {SurveyNavigator, RegisterComponent} from "../../../services/survey/survey.navigator";
@@ -20,11 +18,8 @@ import {Idle} from "@ng-idle/core";
 import {SReplacerDataMap} from "../../../pipes/sreplacer";
 
 @Component({
-  selector: 'topline-for-staff',
   templateUrl: './topline.for.staff.component.html',
-  //providers: [Idle]
 })
-
 @RegisterComponent
 export class ToplineForStaffComponent extends SurveyPage {
 
@@ -50,11 +45,8 @@ export class ToplineForStaffComponent extends SurveyPage {
     5:'1.5em'
   };
 
-  @ViewChild(RatingComponent) inputComponent: RatingComponent;
-
   constructor(
     idle: Idle,
-    utils: Utils,
     navCtrl: NavController,
     alertCtrl: AlertController,
     sessionSvc: SessionService,
@@ -82,9 +74,9 @@ export class ToplineForStaffComponent extends SurveyPage {
   }
 
   public onSelection(data: SReplacerDataMap, value: string) {
-    let navigator: SurveyNavigator = this.sessionSvc.surveyNavigator;
-    navigator.session.addMetricValue(data.metric.subject, new MetricValue(data.metric.metricId, value));
-
+    if (this.sessionSvc.hasCurrentSession()){
+      this.sessionSvc.getCurrentSession().addMetricValue(data.metric.subject, new MetricValue(data.metric.metricId, value));
+    }
     if (this.displayData.every((data: SReplacerDataMap) => {return value != null})) {
       this.done = true;
     }

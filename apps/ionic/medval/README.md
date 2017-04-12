@@ -80,17 +80,61 @@ Project Revvolve
 - development team: HC Tech
 
 Target Revvolve/ bulid settings
-- Strip debug symbols during copy - enabled for debug target only
+- Strip debug symbols during copy - disabled for debug target only
 - development team = hc tech inc; provisioning profile = automatic, release  = automatic.
 - code signing identity:
 --- debug: iosDistribution, any sdk: iosDeveloer
 --- release: iosDistribution, any sdk: iosDeveloer
 --- provisioning: iosDistribution, any sdk: iosdeveloper
 - product bundle id: com.ionicframework.medval611122
-
+-- In Info, setup Private photo library usage description AND Camera Usage Description - "Upload photos to customize branding and setup staff profiles."
 
 target revvolve/general
 - deployment target 8.0, ipad, landscipe left/right, requires full screen
 - signing - automatic, team: hc tech, provisioing profie: xode managed, signing cert: iphone developer
 
-target revvolve/
+
+######
+Releasing changes using code-push
+
+Command reference: https://microsoft.github.io/code-push/docs/cli.html#link-4
+
+Install Commands:
+npm install --save @ionic-native/code-push
+ionic plugin add cordova-plugin-code-push --save
+npm install -g code-push-cli
+
+Startup commands:
+code-push login
+code-push whoami
+code-push app ls
+
+ 
+USE MAC for IOS
+0. Mapping of code push targets to our deployment types
+ Production   Not Used
+ Staging      Production
+ Test         For Testing
+1. Check current latest code-push version in staging
+code-push deployment ls Revvolve -k
+
+Typical output:
+┌────────────┬───────────────────────────────────────┬─────────────────────────────────────────┬──────────────────────┐
+│ Name       │ Deployment Key                        │ Update Metadata                         │ Install Metrics      │
+├────────────┼───────────────────────────────────────┼─────────────────────────────────────────┼──────────────────────┤
+│ Production │ 3KIS2HnZjVp-BL0MyLJyYgIZKycqNy3W0WG9M │ No updates released                     │ No installs recorded │
+├────────────┼───────────────────────────────────────┼─────────────────────────────────────────┼──────────────────────┤
+│ Staging    │ I7batrN30myLfl0PX5d6qsjocHmBNy3W0WG9M │ Label: v6                               │ Active: 0% (0 of 4)  │
+│            │                                       │ App Version: 0.0.4                      │ Total: 1 (2 pending) │
+│            │                                       │ Mandatory: No                           │                      │
+│            │                                       │ Release Time: a day ago                 │                      │
+│            │                                       │ Released By: chinmay.nagarkar@gmail.com │                      │
+└────────────┴───────────────────────────────────────┴─────────────────────────────────────────┴──────────────────────┘
+
+2. Increase the version to something higher than the max of {version in config.xml, and version from the command in previous step)
+3. Push a new version to Test iPad
+Test iPad should have the test key in config.xml. Be very careful here as you don't want to deploy something to Apple app store with the test keys.
+4. Push a new version to Staging
+code-push release-cordova Revvolve ios
+
+

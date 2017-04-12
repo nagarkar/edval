@@ -22,7 +22,6 @@ import {StaffService} from "../../../services/staff/delegator";
 @Component({
   templateUrl: './multimetric.component.html',
 })
-
 @RegisterComponent
 export class MultimetricComponent extends SurveyPage {
 
