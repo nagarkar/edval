@@ -360,6 +360,7 @@ export class Utils {
       title: title || '',
       message: message,
       inputs: inputs,
+      enableBackdropDismiss: false,
       buttons: [
         {
           text: 'Cancel',

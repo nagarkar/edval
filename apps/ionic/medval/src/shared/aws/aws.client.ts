@@ -12,8 +12,8 @@ import {Utils} from "../stuff/utils";
 
 export class AwsClient {
 
-  private static SERVER: AWSLogging;
-  private static DDB: DynamoDB;
+  static SERVER: AWSLogging;
+  static DDB: DynamoDB;
 
   static periodicLoggingTimer: number;
 

@@ -142,7 +142,7 @@ export class AccessTokenService {
           // User was signed up by an admin and must provide new
           // password and required attributes, if any, to complete
           // authentication.
-          SpinnerDialog.hide();
+          Utils.hideSpinner();
           Utils.presentAlertPrompt(
             me.alertCtrl,
             (data) => {

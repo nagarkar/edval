@@ -16,11 +16,12 @@ import {ThanksComponent} from "../thanks/thanks.component";
 import {ImageCycler, SoundCycler} from "../../../shared/stuff/object.cycler";
 import {SurveyNavUtils} from "../SurveyNavUtils";
 import {Survey} from "../../../services/survey/schema";
-import {NativeAudio} from "ionic-native";
+import {NativeAudio, Dialogs} from "ionic-native";
 import {Http} from "@angular/http";
 import {AccountService} from "../../../services/account/delegator";
 import {Config} from "../../../shared/config";
 import {AnyComponent} from "../../any.component";
+import {Idle} from "@ng-idle/core";
 
 @Component({
   templateUrl: './start.with.survey.option.component.html'
@@ -48,6 +49,7 @@ export class StartWithSurveyOption extends AnyComponent implements OnInit, OnDes
 
   constructor(
     private http: Http,
+    private idle: Idle,
     private alertCtrl: AlertController,
     private navCtrl: NavController,
     private toastCtrl: ToastController,
@@ -65,16 +67,22 @@ export class StartWithSurveyOption extends AnyComponent implements OnInit, OnDes
   }
 
   ngOnInit() {
-    Utils.logoutIfNecessary(this.navCtrl, this.http);
-    this.surveySvc.list().then((surveys: Survey[]) => {
-      this.surveys = surveys;
-      this.surveys.filter((survey: Survey)=> {
-        return survey.id == 'default';
-      })
-    });
-    this.clearTimerHandles();
-    this.setupImageHandling();
-    this.setupSoundHandling();
+    try {
+      this.stopIdling();
+      Utils.logoutIfNecessary(this.navCtrl, this.http);
+      this.surveySvc.list().then((surveys: Survey[]) => {
+        this.surveys = surveys;
+        this.surveys.filter((survey: Survey)=> {
+          return survey.id == 'default';
+        })
+      });
+      this.clearTimerHandles();
+      this.setupImageHandling();
+      this.setupSoundHandling();
+    } catch (err) {
+      Utils.error("Unexpected error in ngOnInit {0}, ", err);
+      Dialogs.alert("Error : " + err);
+    }
   }
 
   ngOnDestroy(){
@@ -96,6 +104,7 @@ export class StartWithSurveyOption extends AnyComponent implements OnInit, OnDes
   warn = (function(): Promise<boolean> {
     return new Promise((resolve, reject)=> {
       let alert: Alert = Utils.presentProceedCancelPrompt(this.alertCtrl, (result)=> {
+        this.stopIdling();
         resolve(true);
       }, "You are exiting the Survey Mode. The administrator will have to login again to continue.")
       alert.onDidDismiss(()=> {
@@ -183,5 +192,13 @@ export class StartWithSurveyOption extends AnyComponent implements OnInit, OnDes
     if (StartWithSurveyOption.soundTimerHandle) {
       clearInterval(StartWithSurveyOption.soundTimerHandle);
     }
+  }
+
+  private stopIdling() {
+    if (!this.idle) {
+      return;
+    }
+    this.idle.stop();
+    this.idle.clearInterrupts();
   }
 }

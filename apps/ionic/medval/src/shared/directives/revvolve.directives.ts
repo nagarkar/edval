@@ -38,6 +38,20 @@ export class w3ColorCache {
 }
 
 @Directive({
+  selector: '[normalwhitespace]'
+})
+export class NormalWhitespace {
+
+  constructor(private el: ElementRef) {
+    try {
+      this.el.nativeElement.style.whiteSpace = 'normal';
+    } catch(err) {
+      Utils.error("In directive Normal Whitespace; Error: {0}", err);
+    }
+  }
+}
+
+@Directive({
   selector: '[backgroundColor]'
 })
 export class BackgroundColor {
@@ -229,4 +243,5 @@ export const REVVOLVE_DIRECTIVES: any[] = [
   PrimaryBox,
   PrimaryImage,
   WithBoundary,
+  NormalWhitespace
 ];

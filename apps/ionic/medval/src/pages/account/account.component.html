@@ -9,7 +9,7 @@
         </ion-col>
         <ion-col>
           <ion-input item-right [(ngModel)]="username"></ion-input>
-          <div *ngIf="isRequired('account.username')" class="alert">Required (case insensitive, no spaces)</div>
+          <div *ngIf="isRequired('account.username')" class="alert">Required (lowercase, no spaces)</div>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -193,3 +193,4 @@
             (tap)="save()">{{isEdit? 'Done' : 'Create Account'}}</button>
   </div>
 </ion-content>
+<mdval-footer *ngIf="isEdit" [showSuggestionBox]="true"></mdval-footer>

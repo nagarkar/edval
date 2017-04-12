@@ -16,7 +16,7 @@ import {Http} from "@angular/http";
 @Component({
   template: `
     <ion-content padding>
-      <ion-list>
+      <ion-list *ngIf="enableSuggestions">
         <ion-item>
           <ion-label stacked>Your suggestion or comments</ion-label>
           <ion-textarea [(ngModel)]="suggestion.suggestion" rows="3" class="feedback-text"></ion-textarea>
@@ -29,19 +29,24 @@ import {Http} from "@angular/http";
           <button padding (tap)="submit()" ion-button>Submit</button>
         </ion-item>
         <ion-item>
-          <ion-label>For urgent issues, contact <a href="mailto:questions@revvolve.io?Subject=Urgent%20Issue">questions@revvolve.io</a></ion-label> 
+          <ion-label>For urgent issues, contact <a id="1929993" href="mailto:questions@revvolve.io?Subject=Urgent%20Issue">questions@revvolve.io</a></ion-label> 
         </ion-item>
       </ion-list>
+      <ion-label text-center normalwhitespace *ngIf="!enableSuggestions">
+        Please contact <a id="1929993" href="mailto:questions@revvolve.io?Subject=Urgent%20Issue">questions@revvolve.io</a> if you have a suggestion, question or issue and we'll get back to you shortly.
+      </ion-label>
     </ion-content>
   `,
   selector: 'suggestion'
 })
-export class SuggestionComponent extends AdminComponent {
+export class SuggestionComponent  {
 
   suggestion: Suggestion = new Suggestion();
 
-  constructor(navCtrl: NavController, http: Http, private toastCtrl: ToastController, private viewCtrl: ViewController){
-    super(navCtrl, http)
+  enableSuggestions: boolean = false;
+
+  constructor(private toastCtrl: ToastController, private viewCtrl: ViewController){
+    this.enableSuggestions = !Utils.nou(AwsClient.DDB);
   }
 
   submit() {

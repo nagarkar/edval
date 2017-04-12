@@ -15,11 +15,8 @@
         </div>
       </ion-col>
       <ion-col text-center class="nopadding">
-        <ion-title style="position:fixed" *ngIf="!reassure && isAuthenticated">Personal Feedback - Analytics - Followups</ion-title>
-        <ion-title style="position:fixed" *ngIf="reassure && isAuthenticated">Your feedback <b>is safe with us</b></ion-title>
-        <ion-title style="position:fixed" *ngIf="!isAuthenticated">
-          Contact <a href="mailto:questions@revvolve.io?Subject=Urgent%20Issue">questions@revvolve.io</a> for urgent issues
-        </ion-title>
+        <ion-title style="position:fixed" *ngIf="!reassure">Personal Feedback - Analytics - Followups</ion-title>
+        <ion-title style="position:fixed" *ngIf="reassure">Your feedback <b>is safe with us</b></ion-title>
       </ion-col>
       <ion-col text-right class="nopadding" width-20 *ngIf="showSuggestionBox">
         <div>
