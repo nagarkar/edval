@@ -77,8 +77,8 @@ export class Config {
 
   static MAX_TOKEN_REFRESH_ERRORS_BEFORE_STOP: number = 2;
 
-  static SURVEY_PAGE_IDLE_SECONDS: number = 60;
-  static SURVEY_PAGE_TIMEOUT_SECONDS: number = 60;
+  static PAGE_IDLE_SECONDS: number = 60;
+  static PAGE_TIMEOUT_SECONDS: number = 60;
   static SESSION_SAVE_RETRY_TIME: number = 2 * 60 * 1000;
 
   static BACKOFF_MULTIPLIER: number = 2;
@@ -86,12 +86,12 @@ export class Config {
 
   static MOCK_DATA : {[key: string]: boolean} = {
     "Session": false,
-    "Metric": true,
+    "Metric": false,
     "Account": false,
     "Staff": false,
     "Campaign": false,
     "SessionFollowup": false,
-    "Survey": true,
+    "Survey": false,
     "DailyDataList": true,
   };
 

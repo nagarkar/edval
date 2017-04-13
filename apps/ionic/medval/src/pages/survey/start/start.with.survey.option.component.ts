@@ -22,6 +22,7 @@ import {AccountService} from "../../../services/account/delegator";
 import {Config} from "../../../shared/config";
 import {AnyComponent} from "../../any.component";
 import {Idle} from "@ng-idle/core";
+import {SurveyPage} from "../survey.page";
 
 @Component({
   templateUrl: './start.with.survey.option.component.html'
@@ -195,10 +196,6 @@ export class StartWithSurveyOption extends AnyComponent implements OnInit, OnDes
   }
 
   private stopIdling() {
-    if (!this.idle) {
-      return;
-    }
-    this.idle.stop();
-    this.idle.clearInterrupts();
+    SurveyPage.stopIdling();
   }
 }

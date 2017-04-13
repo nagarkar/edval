@@ -131,18 +131,12 @@ export class ThanksComponent extends SurveyPage implements OnInit, OnDestroy {
       return;
     }
     Config.LAST_SWEEPSTAKE_MILLIS = Date.now();
-    this.idle.stop();
+    this.startIdling(60, 60); // reset the clock, double it.
     let profileModal : Modal = this.modalctrl.create(WheelComponent, {options: this.wheelOptions});
     profileModal.onWillDismiss((data) => {
       this.showWheel = false;
-      this.idle.watch();
     });
     profileModal.present();
-    setTimeout(()=> {
-      profileModal.dismiss();
-      Utils.setRoot(this.navCtrl, StartWithSurveyOption, {defaultOnly: true})
-    }, Config.TIMEOUT_AFTER_SHOWING_YOU_WON_MESSAGE)
-
   }
 
   private setupImageHandling() {

@@ -9,6 +9,7 @@ import {Component, Output, EventEmitter, Input} from "@angular/core";
 import {ViewController, AlertController, NavParams} from "ionic-angular";
 import {Config} from "../../config";
 import {AwsClient} from "../../aws/aws.client";
+import {Utils} from "../../stuff/utils";
 
 declare var Winwheel: (options?: any, drawWheel?: boolean) => void;
 
@@ -72,6 +73,7 @@ export class WheelComponent {
     let data = { 'segment': segment};
     setTimeout(() => {
       if (segment.win) {
+        Config.LAST_WIN_TIME = Date.now();
         this.presentAlertPrompt(()=>{
             this.viewctrl.dismiss(data);
           },

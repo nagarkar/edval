@@ -7,7 +7,7 @@
  */
 
 import {StatusBar, Splashscreen, Device} from "ionic-native";
-import {Component} from "@angular/core";
+import {Component, Injector} from "@angular/core";
 import {Platform, Alert, AlertController} from "ionic-angular";
 import {StartWithSurveyOption} from "../pages/survey/start/start.with.survey.option.component";
 import {
@@ -30,6 +30,7 @@ import {AccessTokenService} from "../shared/aws/access.token.service";
 import {DeviceServices} from "../shared/service/DeviceServices";
 import {AppVersion} from "@ionic-native/app-version";
 import {CodePush} from "@ionic-native/code-push";
+import {Idle} from "@ng-idle/core";
 
 declare let google;
 
@@ -38,7 +39,9 @@ declare let google;
 })
 export class RevvolveApp {
 
+  static GlobalInjector: Injector;
   private static CONNECTION_CHECK_HANDLE: number;
+
 
   rootPage = LoginComponent;
   rootParams = {defaultOnly: true}
@@ -49,10 +52,15 @@ export class RevvolveApp {
     http: Http,
     appVersion: AppVersion,
     codePush: CodePush,
+    private injector:Injector,
     private alertCtrl: AlertController,
     private tokenSvc: AccessTokenService) {
 
     this.resetConnectionRetries();
+    if (!RevvolveApp.GlobalInjector) {
+      RevvolveApp.GlobalInjector = injector;
+    }
+
     platform.ready().then(() => {
       // The platform is ready and our plugins are available.
       StatusBar.styleDefault();

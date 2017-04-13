@@ -15,24 +15,27 @@ import {SpinnerDialog} from "ionic-native";
 import {Http} from "@angular/http";
 import {AnyComponent} from "./any.component";
 import {DeviceServices} from "../shared/service/DeviceServices";
+import {RevvolvePage} from "./revvolve.page";
+import {StartWithSurveyOption} from "./survey/start/start.with.survey.option.component";
 
 /**
  * Subclasses should implement ngOnInit() and call super.ngOnInit() before calling the account to load
  * data.
  */
-export abstract class AdminComponent extends AnyComponent implements OnInit {
+export abstract class AdminComponent extends RevvolvePage implements OnInit {
 
-  constructor(protected  navCtrl: NavController, private http: Http) {
-    super();
+  constructor(navCtrl: NavController, private http: Http) {
+    super(navCtrl);
     setTimeout(()=>{
       SpinnerDialog.hide();
-    }, Config.SURVEY_PAGE_IDLE_SECONDS/4);
+    }, Config.PAGE_IDLE_SECONDS/4);
   }
 
   ngOnInit() {
     try {
       DeviceServices.warnAboutNetworkConnection();
       Utils.logoutIfNecessary(this.navCtrl, this.http);
+      super.ngOnInit();
     } catch(err) {
       Utils.error("Error in AdminComponent.ngOnInit {0}", err);
     }
