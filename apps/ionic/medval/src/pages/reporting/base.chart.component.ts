@@ -181,7 +181,7 @@ export abstract class BaseChartComponent extends AnyComponent {
       });
   };
 
-  renderTimeVsRatingDashboard(chartDivNativeEl, dashboardNativeEl, filterNativeEl, errorNativeEl, query: Query, title: string) {
+  renderTimeVsRatingDashboard(chartDivNativeEl, dashboardNativeEl, filterNativeEl, errorNativeEl, query: Query, title: string, legend?: string) {
     let columnsGenerator = Filters.getColumnGeneratorWithDateAsFirstMonthAndRemainingColumns();
 
     let chartOptionsGenerator = Formatters.getChartOptionsGeneratorFromDefaults({
@@ -191,7 +191,7 @@ export abstract class BaseChartComponent extends AnyComponent {
       trendlines: {
         0: { type: 'linear', color: 'green', lineWidth: 3, opacity: 0.3, showR2: true, visibleInLegend: true}
       },
-      legend: 'none'
+      legend: legend || 'none'
     });
 
     let monthYearFilter = Filters.createMonthYearFilter(filterNativeEl, 0 /* columnIndex */);

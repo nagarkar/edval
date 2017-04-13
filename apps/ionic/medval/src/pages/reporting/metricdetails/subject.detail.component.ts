@@ -134,6 +134,7 @@ export class SubjectDetailComponent extends BaseChartComponent {
       this.errorDiv.nativeElement,
       QueryUtils.CHILD_METRIC_QUERY(this.selectedMetricAndSubject),
       this.selectedMetricAndSubject.getFullHeading(),
+      'bottom'
     );
   }
 

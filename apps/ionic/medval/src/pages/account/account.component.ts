@@ -43,7 +43,7 @@ export class AccountComponent extends AdminComponent {
   }
 
   constructor(private actionSheetCtrl: ActionSheetController,
-              private alertCtrl: AlertController,
+              alertCtrl: AlertController,
               private toastCtrl: ToastController,
               navCtrl: NavController,
               http: Http,
@@ -51,7 +51,7 @@ export class AccountComponent extends AdminComponent {
               private setupService: AccountSetupService,
               navParams: NavParams
   ) {
-    super(navCtrl, http);
+    super(navCtrl, alertCtrl, http);
     let create = navParams.get('create');
     this.isEdit = !create;
     if (create) {

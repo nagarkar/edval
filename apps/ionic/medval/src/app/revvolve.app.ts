@@ -6,7 +6,7 @@
  * site or application without licensing is strictly prohibited.
  */
 
-import {StatusBar, Splashscreen, Device} from "ionic-native";
+import {StatusBar, Splashscreen} from "ionic-native";
 import {Component, Injector} from "@angular/core";
 import {Platform, Alert, AlertController} from "ionic-angular";
 import {StartWithSurveyOption} from "../pages/survey/start/start.with.survey.option.component";
@@ -30,7 +30,6 @@ import {AccessTokenService} from "../shared/aws/access.token.service";
 import {DeviceServices} from "../shared/service/DeviceServices";
 import {AppVersion} from "@ionic-native/app-version";
 import {CodePush} from "@ionic-native/code-push";
-import {Idle} from "@ng-idle/core";
 
 declare let google;
 

@@ -25,8 +25,8 @@ export class Config {
   static REPORT_REFRESH_INTERVAL: number = 30;
   ///////////////////////////////////////////////////////////
 
-  //private static _baseUrl: string = "https://localhost:8091";
-  private static _baseUrl: string = 'https://prodapi.healthcaretech.io';
+  private static _baseUrl: string = "https://localhost:8091";
+  //private static _baseUrl: string = 'https://prodapi.healthcaretech.io';
   //private static _baseUrl: string = "http://34.197.108.208";
   //private static _baseUrl: string = "https://testapi.healthcaretech.io";
 
@@ -79,6 +79,10 @@ export class Config {
 
   static PAGE_IDLE_SECONDS: number = 60;
   static PAGE_TIMEOUT_SECONDS: number = 60;
+
+  static ADMIN_PAGE_IDLE_SECONDS: number = 120;
+  static ADMIN_PAGE_TIMEOUT_SECONDS: number = 120;
+
   static SESSION_SAVE_RETRY_TIME: number = 2 * 60 * 1000;
 
   static BACKOFF_MULTIPLIER: number = 2;

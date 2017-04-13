@@ -14,7 +14,8 @@ import {Idle, DEFAULT_INTERRUPTSOURCES} from "@ng-idle/core";
 import {Utils} from "../shared/stuff/utils";
 import {Config} from "../shared/config";
 import {StartWithSurveyOption} from "./survey/start/start.with.survey.option.component";
-import {NavController} from "ionic-angular";
+import {NavController, ViewController} from "ionic-angular";
+import {Keyboard} from "ionic-native";
 
 
 export abstract class RevvolvePage extends AnyComponent {
@@ -25,6 +26,12 @@ export abstract class RevvolvePage extends AnyComponent {
 
   constructor(protected navCtrl: NavController) {
     super();
+    try {
+      Keyboard.close();
+      Keyboard.disableScroll(false);
+    } catch(err) {
+      Utils.error(err);
+    }
     if (!RevvolvePage.Idler) {
       RevvolvePage.Idler = RevvolveApp.GlobalInjector.get(Idle);
     }

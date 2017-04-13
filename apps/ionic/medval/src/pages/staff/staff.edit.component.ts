@@ -54,7 +54,11 @@ export class StaffEditComponent extends AnyComponent {
   }
 
   updateImage() {
-    Utils.updateImage(this.staffMember.properties, 'photoUrl', "4:5");
+    Utils.updateImage(this.staffMember.properties, 'photoUrl', "4:5").then((result:boolean)=>{
+      if (result) {
+        Utils.presentTopToast(this.toastCtrl, 'Updated Image');
+      }
+    })
   }
 
   collectUrl() {
@@ -92,15 +96,21 @@ export class StaffEditComponent extends AnyComponent {
 
   private validateNewStaff() : boolean {
     let s = this.staffMember;
-    let isValid : boolean =
-      s.username && s.username.length > 0 &&
-      s.properties.firstName && s.properties.firstName.length > 0 &&
-      //s.properties.photoUrl && s.properties.photoUrl.length > 0 &&
-      s.role && s.role.length > 0;
-
-    if (!isValid) {
-      Utils.presentInvalidEntryAlert(this.alertCtrl, "Please provide role");
+    let msg = "";
+    if (Utils.nullOrEmptyString(s.username)) {
+      msg += "Please provide a non-empty username\n"
     }
-    return isValid;
+    if (Utils.nullOrEmptyString(s.properties.firstName)) {
+      msg += "Please provide a non-empty first name\n"
+    }
+    if (Utils.nullOrEmptyString(s.role)) {
+      msg += "Please provide a role\n"
+    }
+
+    if (!Utils.nullOrEmptyString(msg)) {
+      Utils.presentInvalidEntryAlert(this.alertCtrl, msg);
+      return false;
+    }
+    return true;
   }
 }

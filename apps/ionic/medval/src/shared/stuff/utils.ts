@@ -15,7 +15,7 @@ import {
   Modal,
   Platform,
   AlertInputOptions,
-  NavController
+  NavController, ViewController
 } from "ionic-angular";
 import {CameraOptions, Camera, SpinnerDialog, Device} from "ionic-native";
 import {ErrorType} from "./error.types";
@@ -243,21 +243,6 @@ export class Utils {
     })
   }
 
-  static presentProfileModal(modalCtrl: ModalController, component: any, parameters: {}, opts?: {}) : Modal {
-    let profileModal : Modal = modalCtrl.create(component, parameters, opts);
-    profileModal.present(); //profileModal.
-    return profileModal;
-  }
-
-  static presentTopToast(toastCtrl: ToastController, message: string, duration?: number) {
-    let toast = toastCtrl.create({
-      message: message || 'Success!',
-      duration: duration || 5 * 1000,
-      position: 'top'
-    });
-    toast.present();
-  }
-
   static uploadImage(_options?: CameraOptions) : Promise<string> {
     return new Promise((resolve, reject) => {
       let options: CameraOptions = _options || {
@@ -309,6 +294,7 @@ export class Utils {
     });
 
     actionSheet.present();
+    Utils.clearViewIfNoAction(actionSheet);
   }
 
   static showHelp(alertCtrl: AlertController, item: string, cssClass) {
@@ -324,6 +310,56 @@ export class Utils {
       cssClass: cssClass
     });
     alert.present();
+    Utils.clearViewIfNoAction(alert);
+    return alert;
+  }
+
+  static presentProfileModal(modalCtrl: ModalController, component: any, parameters: {}, opts?: {}) : Modal {
+    let profileModal : Modal = modalCtrl.create(component, parameters, opts);
+    profileModal.present(); //profileModal.
+    Utils.clearViewIfNoAction(profileModal);
+    return profileModal;
+  }
+
+  static presentTopToast(toastCtrl: ToastController, message: string, duration?: number) {
+    let toast = toastCtrl.create({
+      message: message || 'Success!',
+      duration: duration || 5 * 1000,
+      position: 'top'
+    });
+    toast.present();
+    Utils.clearViewIfNoAction(toast);
+    return toast;
+  }
+
+  private static presentURLPrompt(alertCtrl, onselect: (result: string | any) => void,): Alert {
+    let alert = alertCtrl.create({
+      title: 'Provide a URL!',
+      inputs: [
+        {
+          name: 'url',
+          placeholder: 'Type in or copy/paste a url, like: http://somesite.com/yourimage.jpg'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: (data: any) => {
+          }
+        },
+        {
+          text: 'Save',
+          handler: (data: any) => {
+            //if (data.url.startsWith("http://") || data.url.startsWith("https://")) {
+            onselect(data.url);
+            //}
+          }
+        }
+      ]
+    });
+    alert.present();
+    Utils.clearViewIfNoAction(alert);
     return alert;
   }
 
@@ -345,6 +381,7 @@ export class Utils {
       ]
     });
     alert.present();
+    Utils.clearViewIfNoAction(alert);
     return alert;
   }
 
@@ -382,6 +419,7 @@ export class Utils {
       ]
     });
     alert.present();
+    Utils.clearViewIfNoAction(alert);
     return alert;
   }
 
@@ -421,35 +459,6 @@ export class Utils {
     return {
       animate: false
     };
-  }
-
-  private static presentURLPrompt(alertCtrl, onselect: (result: string | any) => void,) {
-    let alert = alertCtrl.create({
-      title: 'Provide a URL!',
-      inputs: [
-        {
-          name: 'url',
-          placeholder: 'Type in or copy/paste a url, like: http://somesite.com/yourimage.jpg'
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: (data: any) => {
-          }
-        },
-        {
-          text: 'Save',
-          handler: (data: any) => {
-            //if (data.url.startsWith("http://") || data.url.startsWith("https://")) {
-              onselect(data.url);
-            //}
-          }
-        }
-      ]
-    });
-    alert.present();
   }
 
   private static itemFunction(message: string) {
@@ -579,23 +588,29 @@ export class Utils {
   }
 
   static PLACE_HOLDER_IMAGE_URL: string = "https://ucarecdn.com/2881f184-4c6a-4b33-83e4-e68d0a415433/";
-  static updateImage(thisObj: any, attr: string, crop: string, url?: string) {
-    try {
-      let file = null;
-      if (thisObj[attr]) {
-        file = uploadcare.fileFrom('url', thisObj[attr]);
-      }
-      uploadcare.openDialog(file, {
-        crop: crop,
-        imagesOnly: true
-      }).done((file) => {
-        file.promise().done((fileInfo) => {
-          thisObj[attr] = fileInfo.cdnUrl;
-        });
-      });
-    }catch (err) {
-      console.error("Error in updateImage: " + err);
-    }
+  static updateImage(thisObj: any, attr: string, crop: string, url?: string): Promise<boolean> {
+      return new Promise((resolve, reject)=>{
+        try {
+          let file = null;
+          if (thisObj[attr]) {
+            file = uploadcare.fileFrom('url', thisObj[attr]);
+          }
+          uploadcare.openDialog(file, {
+            crop: crop,
+            imagesOnly: true
+          }).done((file) => {
+            file.promise().done((fileInfo) => {
+              thisObj[attr] = fileInfo.cdnUrl;
+            });
+            resolve(true);
+          }).fail((res:any)=>{
+            resolve(false);
+          });
+        } catch (err) {
+          Utils.error("Error in updateImage: " + err);
+          reject(err);
+        }
+      })
   }
 
   static LETTERS = ['A', 'B', 'C', 'D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O','P', 'Q', 'R','S', 'T', 'U','V', 'W', 'X','Y', 'Z', '1','2', '3','4','5', '6','7','8', '9'];
@@ -620,6 +635,12 @@ export class Utils {
 
   static isUrl(maybeUrl: any): boolean {
     return Utils.isString(maybeUrl) && (maybeUrl as string).startsWith("http");
+  }
+
+  private static clearViewIfNoAction(view: ViewController) {
+    setTimeout(()=> {
+      view.dismiss();
+    }, 1000 * (Config.PAGE_IDLE_SECONDS + Config.PAGE_TIMEOUT_SECONDS));
   }
 }
 

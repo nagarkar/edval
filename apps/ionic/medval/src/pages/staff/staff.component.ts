@@ -6,7 +6,7 @@
  * site or application without licensing is strictly prohibited.
  */
 import {Component} from "@angular/core";
-import {NavController, ModalController, ToastController, AlertController} from "ionic-angular";
+import {NavController, ModalController, ToastController, AlertController, Alert} from "ionic-angular";
 import {Staff} from "../../services/staff/schema";
 import {Utils} from "../../shared/stuff/utils";
 import {StaffService} from "../../services/staff/delegator";
@@ -28,10 +28,10 @@ export class StaffComponent extends AdminComponent  {
     http: Http,
     private toastCtrl: ToastController,
     private modalCtrl: ModalController,
-    private alertCtrl: AlertController,
+    alertCtrl: AlertController,
     private staffSvc : StaffService) {
 
-    super(navCtrl, http);
+    super(navCtrl, alertCtrl, http);
   }
 
   ngOnInit(): void {
@@ -68,7 +68,7 @@ export class StaffComponent extends AdminComponent  {
       return;
     }
 
-    Utils.presentProceedCancelPrompt(this.alertCtrl, (proceed)=> {
+    let alert: Alert = Utils.presentProceedCancelPrompt(this.alertCtrl, (proceed)=> {
       if (!proceed) {
         return;
       }
@@ -83,8 +83,7 @@ export class StaffComponent extends AdminComponent  {
           Utils.hideSpinner();
           Utils.presentTopToast(this.toastCtrl, err || "Could not delete staff member", 3000);
         })
-    }, "You can't undo this action")
-
+    }, "You are deleting staff member (username:" + staffMember.username + ") . You can't undo this action!")
   }
 
   private listenToUpdatesAndRefresh() {

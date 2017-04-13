@@ -7,16 +7,14 @@
  * site or application without licensing is strictly prohibited.
  */
 import {OnInit} from "@angular/core";
-import {NavController} from "ionic-angular";
+import {NavController, Alert, AlertController} from "ionic-angular";
 import {Utils} from "../shared/stuff/utils";
 import {Config} from "../shared/config";
 import {DashboardComponent} from "./dashboard/dashboard.component";
-import {SpinnerDialog} from "ionic-native";
+import {SpinnerDialog, Dialogs} from "ionic-native";
 import {Http} from "@angular/http";
-import {AnyComponent} from "./any.component";
 import {DeviceServices} from "../shared/service/DeviceServices";
 import {RevvolvePage} from "./revvolve.page";
-import {StartWithSurveyOption} from "./survey/start/start.with.survey.option.component";
 
 /**
  * Subclasses should implement ngOnInit() and call super.ngOnInit() before calling the account to load
@@ -24,7 +22,7 @@ import {StartWithSurveyOption} from "./survey/start/start.with.survey.option.com
  */
 export abstract class AdminComponent extends RevvolvePage implements OnInit {
 
-  constructor(navCtrl: NavController, private http: Http) {
+  constructor(navCtrl: NavController, protected alertCtrl: AlertController, private http: Http) {
     super(navCtrl);
     setTimeout(()=>{
       SpinnerDialog.hide();
@@ -50,4 +48,23 @@ export abstract class AdminComponent extends RevvolvePage implements OnInit {
     }, 50)
   }
 
+  protected idleSeconds(): number {
+    return Config.ADMIN_PAGE_IDLE_SECONDS;
+  }
+
+  protected timeoutSeconds(): number {
+    return Config.ADMIN_PAGE_TIMEOUT_SECONDS;
+  }
+
+  warn = (function(): Promise<boolean> {
+    return new Promise((resolve, reject)=> {
+      let alert: Alert = Utils.presentProceedCancelPrompt(this.alertCtrl, (result)=> {
+        RevvolvePage.stopIdling();
+        resolve(true);
+      }, "Are you sure you wan to log out?")
+      alert.onDidDismiss(()=> {
+        resolve(false);
+      })
+    })
+  }).bind(this);
 }

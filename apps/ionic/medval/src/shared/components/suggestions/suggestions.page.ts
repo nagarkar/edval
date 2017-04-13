@@ -1,10 +1,8 @@
 import {Component} from "@angular/core";
-import {NavController, ToastController, ViewController} from "ionic-angular";
-import {AdminComponent} from "../../../pages/admin.component";
+import {ToastController, ViewController} from "ionic-angular";
 import {Suggestion} from "../../aws/dynamodb";
 import {AwsClient} from "../../aws/aws.client";
 import {Utils} from "../../stuff/utils";
-import {Http} from "@angular/http";
 /**
  * Created by chinmay on 3/5/17.
  * Copyright HC Technology Inc.

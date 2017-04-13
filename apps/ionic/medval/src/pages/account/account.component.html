@@ -1,4 +1,4 @@
-<mdval-header *ngIf="isEdit" title="Account Information"></mdval-header>
+<mdval-header *ngIf="isEdit" title="Account Information" [proceedOnRightClick]="warn"></mdval-header>
 <mdval-header *ngIf="!isEdit" title="Setup New Account"></mdval-header>
 <ion-content class="rev-form scrollable" padding>
   <div class="m-t-4" *ngIf="!isEdit">

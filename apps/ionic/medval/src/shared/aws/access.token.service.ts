@@ -10,7 +10,6 @@ import {Utils} from "../stuff/utils";
 import {Config} from "../config";
 import {AwsClient} from "./aws.client";
 import {AlertController} from "ionic-angular";
-import {SpinnerDialog} from "ionic-native";
 import {AccountService} from "../../services/account/delegator";
 declare let AWSCognito:any;
 declare let AWS:any;

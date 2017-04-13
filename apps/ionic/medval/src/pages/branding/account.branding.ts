@@ -23,12 +23,18 @@ import {ColorModal} from "../../shared/components/colorpicker/color.modal";
 export class AccountBranding extends AdminComponent {
 
   constructor(http:Http, navCtrl: NavController, private accSvc: AccountService,
-      private toastCtrl: ToastController, private modalCtrl: ModalController, private alertCtrl: AlertController) {
-    super(navCtrl, http);
+      private toastCtrl: ToastController, private modalCtrl: ModalController, alertCtrl: AlertController) {
+    super(navCtrl, alertCtrl, http);
   }
 
   updateImage(attr: string, crop: string) {
-    Utils.updateImage(this, attr, crop);
+    Utils.updateImage(this, attr, crop)
+      .then((result:boolean)=>{
+        if (result) {
+          Utils.presentTopToast(this.toastCtrl, 'Updated Image');
+        }
+        //location.reload();
+      });
   }
 
   openColorPicker(attr: string) {

@@ -1,4 +1,4 @@
-<mdval-header title="Account Branding"></mdval-header>
+<mdval-header title="Account Branding" [proceedOnRightClick]="warn"></mdval-header>
 <ion-content class="scrollable">
   <div class="m-t-4">
 
@@ -6,13 +6,12 @@
       <ion-row>
         <ion-col width-33>
           <ion-label (tap)="showHelp('account.username')" item-left>Header Logo&nbsp;&nbsp;&nbsp;<ion-icon name="help"></ion-icon></ion-label>
-          <button small tertiary-button ion-button (tap)="revertToDefault('logo483x106')">Revert to Defaults</button>
+          <button small tertiary-button ion-button (tap)="revertToDefault('logo483x106')">Revert to Default</button>
         </ion-col>
         <ion-col>
           <ion-grid>
             <ion-row>
-              <ion-col><img class="swatchBox" width="483" height="106" src="{{logo483x106}}"
-                  (tap)="updateImage('logo483x106', '483:106')" /></ion-col>
+              <ion-col><img class="swatchBox" width="483" height="106" src="{{logo483x106}}"/></ion-col>
             </ion-row>
             <ion-row>
               <ion-col><button tertiary-button round outline small ion-button
@@ -28,12 +27,12 @@
             <br/>
             <span style="font-size:.75em">(one half scale)</span>
           </ion-label>
-          <button small tertiary-button ion-button (tap)="revertToDefault('npsBackgroundImage')">Revert to Defaults</button>
+          <button small tertiary-button ion-button (tap)="revertToDefault('npsBackgroundImage')">Revert to Default</button>
         </ion-col>
         <ion-col>
           <ion-grid>
             <ion-row>
-              <ion-col><img class="swatchBox" width="512px" src="{{npsBackgroundImage}}" (tap)="revertToDefault('npsBackgroundImage')"/></ion-col>
+              <ion-col><img class="swatchBox" width="512px" src="{{npsBackgroundImage}}"/></ion-col>
             </ion-row>
             <ion-row>
               <ion-col><button round outline small tertiary-button ion-button

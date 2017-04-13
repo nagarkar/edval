@@ -30,10 +30,10 @@ export class FollowupPage extends AdminComponent {
     http: Http,
     private toastCtrl: ToastController,
     private svc: SessionFollowupService,
-    private alertCtrl: AlertController,
+    alertCtrl: AlertController,
     private sessionsvc: SessionService) {
 
-    super(navCtrl, http);
+    super(navCtrl, alertCtrl, http);
   }
 
   get pendingStandardFollowups() {

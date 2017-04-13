@@ -21,8 +21,6 @@ import {DeviceServices} from "../../shared/service/DeviceServices";
 import {AwsClient} from "../../shared/aws/aws.client";
 import {Account} from "../../services/account/schema";
 import {ServiceFactory} from "../../services/service.factory";
-import {AppVersion} from "@ionic-native/app-version";
-import {CodePush} from "@ionic-native/code-push";
 
 declare let AWSCognito:any;
 declare let AWS:any;

@@ -69,7 +69,7 @@ export class StartWithSurveyOption extends AnyComponent implements OnInit, OnDes
 
   ngOnInit() {
     try {
-      this.stopIdling();
+      SurveyPage.stopIdling();
       Utils.logoutIfNecessary(this.navCtrl, this.http);
       this.surveySvc.list().then((surveys: Survey[]) => {
         this.surveys = surveys;
@@ -105,7 +105,7 @@ export class StartWithSurveyOption extends AnyComponent implements OnInit, OnDes
   warn = (function(): Promise<boolean> {
     return new Promise((resolve, reject)=> {
       let alert: Alert = Utils.presentProceedCancelPrompt(this.alertCtrl, (result)=> {
-        this.stopIdling();
+        SurveyPage.stopIdling();
         resolve(true);
       }, "You are exiting the Survey Mode. The administrator will have to login again to continue.")
       alert.onDidDismiss(()=> {
@@ -193,9 +193,5 @@ export class StartWithSurveyOption extends AnyComponent implements OnInit, OnDes
     if (StartWithSurveyOption.soundTimerHandle) {
       clearInterval(StartWithSurveyOption.soundTimerHandle);
     }
-  }
-
-  private stopIdling() {
-    SurveyPage.stopIdling();
   }
 }

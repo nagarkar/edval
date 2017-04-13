@@ -12,7 +12,6 @@ import {Utils} from "../../../shared/stuff/utils";
 import {SessionService} from "../../../services/session/delegator";
 import {ImageCycler} from "../../../shared/stuff/object.cycler";
 import {Idle} from "@ng-idle/core";
-import {StartWithSurveyOption} from "../start/start.with.survey.option.component";
 import {WheelComponent} from "../../../shared/components/wheel/wheel.component";
 import {SurveyPage} from "../survey.page";
 import {AnyDetractors} from "../../../services/survey/survey.functions";

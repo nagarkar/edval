@@ -45,13 +45,13 @@ export class DashboardComponent extends AdminComponent {
   constructor(
     navCtrl: NavController,
     http: Http,
-    private alertCtrl: AlertController,
+    alertCtrl: AlertController,
     private toastCtrl: ToastController,
     private accessTokenProvider: AccessTokenService,
     private staffSvc: StaffService,
     private accSvc: AccountService) {
 
-    super(navCtrl, http);
+    super(navCtrl, alertCtrl, http);
   }
 
   ngAfterContentChecked() {

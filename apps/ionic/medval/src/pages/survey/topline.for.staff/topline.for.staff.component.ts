@@ -9,7 +9,7 @@ import {Component} from "@angular/core";
 import {Metric, MetricValue} from "../../../services/metric/schema";
 import {Staff} from "../../../services/staff/schema";
 import {StaffService} from "../../../services/staff/delegator";
-import {SurveyNavigator, RegisterComponent} from "../../../services/survey/survey.navigator";
+import {RegisterComponent} from "../../../services/survey/survey.navigator";
 import {NavParams, NavController, AlertController} from "ionic-angular";
 import {MetricService} from "../../../services/metric/delegator";
 import {SessionService} from "../../../services/session/delegator";
