@@ -23,7 +23,7 @@
       </ion-row>
     </ion-grid>
   </div>
-  <div [ngClass]="{'m-t-4': isEdit}">
+  <div [ngClass]="{'m-t-4': isEdit, 'm-b-3': isEdit}">
     <ion-grid>
       <ion-row *ngIf="isEdit">
         <ion-col width-33>
@@ -187,10 +187,10 @@
         </ion-row>
       </div>
     </ion-grid>
-  </div>
-  <div padding text-center>
-    <button ion-button primary-button type="submit"
-            (tap)="save()">{{isEdit? 'Done' : 'Create Account'}}</button>
+    <div padding text-center>
+      <button ion-button primary-button type="submit"
+              (tap)="save()">{{isEdit? 'Done' : 'Create Account'}}</button>
+    </div>
   </div>
 </ion-content>
 <mdval-footer *ngIf="isEdit" [showSuggestionBox]="true"></mdval-footer>

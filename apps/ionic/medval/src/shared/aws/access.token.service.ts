@@ -135,6 +135,7 @@ export class AccessTokenService {
           resolve(me.getUserAttributesAndCustomerId(session));
         },
         onFailure: (err) => {
+          me.clearLoginSignals();
           reject(err);
         },
         newPasswordRequired: function(userAttributes, requiredAttributes) {
@@ -167,6 +168,7 @@ export class AccessTokenService {
             ],
             null, /* Message */
             (data: any)=>{
+              me.clearLoginSignals();
               Utils.hideSpinner();
             });
         },

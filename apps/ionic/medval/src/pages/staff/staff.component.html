@@ -1,35 +1,37 @@
 <mdval-header [title]="'Setup Staff'" [proceedOnRightClick]="warn"></mdval-header>
 <ion-content class="rev-form scrollable">
-  <ion-grid class="m-t-3">
-    <ion-row padding>
-      <ion-col *ngFor="let item of staffList">
-        <ion-grid style="width:18em; border: 1px solid grey;" nopadding>
-          <ion-row nowrap padding>
-            <ion-col width-33><img src="{{item.properties.photoUrl}}"></ion-col>
-            <ion-col width-66>
-              <span>{{[item.properties.title, item.properties.firstName, item.properties.lastName].join(' ')}}</span>
-              <p class="truncate" *ngIf="item?.role">{{item?.role}}</p>
-              <p class="truncate" *ngIf="item?.properties.email">{{item?.properties.email}}</p>
-              <p class="truncate" *ngIf="item?.properties.phoneNumber">{{item?.properties.phoneNumber}}</p>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <div class="actions">
-                <button ion-button color="grey" clear (tap)="delete(item)">Delete</button>
-                <button ion-button clear (tap)="edit(item)">Edit</button>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-col>
-    </ion-row>
-    <ion-row align-items-center justify-content-center>
-      <div padding text-center>
-        <button ion-button color="green" (tap)="add()" >Add New Staff Member</button>
-        <button ion-button color="green" (tap)="navCtrl.pop()">Cancel</button>
-      </div>
-    </ion-row>
-  </ion-grid>
+  <div class="m-t-3 m-b-3">
+    <ion-grid>
+      <ion-row padding>
+        <ion-col *ngFor="let item of staffList">
+          <ion-grid style="width:18em; border: 1px solid grey;" nopadding>
+            <ion-row nowrap padding>
+              <ion-col width-33><img src="{{item.properties.photoUrl}}"></ion-col>
+              <ion-col width-66>
+                <span class="truncate">{{[item.properties.title, item.properties.firstName, item.properties.lastName].join(' ')}}</span>
+                <p class="truncate" *ngIf="item?.role">{{item?.role}}</p>
+                <p class="truncate" *ngIf="item?.properties.email">{{item?.properties.email}}</p>
+                <p class="truncate" *ngIf="item?.properties.phoneNumber">{{item?.properties.phoneNumber}}</p>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <div class="actions">
+                  <button ion-button color="grey" clear (tap)="delete(item)">Delete</button>
+                  <button ion-button clear (tap)="edit(item)">Edit</button>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-col>
+      </ion-row>
+      <ion-row align-items-center justify-content-center>
+        <div padding text-center>
+          <button ion-button primary-button (tap)="add()" >Add New Staff Member</button>
+          <button ion-button secondary-button (tap)="navCtrl.pop()">Cancel</button>
+        </div>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>
 <mdval-footer [showSuggestionBox]="true"></mdval-footer>

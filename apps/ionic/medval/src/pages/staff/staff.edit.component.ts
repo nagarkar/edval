@@ -18,6 +18,7 @@ import {
   TextInput
 } from "ionic-angular";
 import {AnyComponent} from "../any.component";
+import {DeviceServices} from "../../shared/service/DeviceServices";
 
 @Component({
   templateUrl: "./staff.edit.component.html"
@@ -54,6 +55,10 @@ export class StaffEditComponent extends AnyComponent {
   }
 
   updateImage() {
+    if (DeviceServices.isDeviceOffline) {
+      Utils.presentTopToast(this.toastCtrl, "Oops! Is the network down? It might help if you can verify your network is working and try again. If that doesn't work, please email questions@revvolve.io to get help!");
+      return;
+    }
     Utils.updateImage(this.staffMember.properties, 'photoUrl', "4:5").then((result:boolean)=>{
       if (result) {
         Utils.presentTopToast(this.toastCtrl, 'Updated Image');
@@ -73,6 +78,10 @@ export class StaffEditComponent extends AnyComponent {
 
   addEdit() {
     if (!this.validateNewStaff()) {
+      return;
+    }
+    if (DeviceServices.isDeviceOffline) {
+      Utils.presentTopToast(this.toastCtrl, "Oops! Is the network down? It might help if you can verify your network is working and try again. If that doesn't work, please email questions@revvolve.io to get help!");
       return;
     }
     let resultPromise : Promise<Staff>;

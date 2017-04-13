@@ -17,6 +17,7 @@ import {HttpClient} from "../../shared/stuff/http.client";
 import {Http} from "@angular/http";
 import {Config} from "../../shared/config";
 import {Utils} from "../../shared/stuff/utils";
+import {DeviceServices} from "../../shared/service/DeviceServices";
 
 @Component({
   selector: 'campaigndashboard',
@@ -61,6 +62,10 @@ export class CampaignDashboard extends BaseChartComponent {
 
   private static TOO_MANY_REFRESHES = false;
   refresh = (function(): Promise<boolean> {
+    if (DeviceServices.isDeviceOffline) {
+      Utils.presentTopToast(this.toastCtrl, "Oops! Is the network down? It might help if you can verify your network is working and try again. If that doesn't work, please email questions@revvolve.io to get help!");
+      return Promise.resolve(false /* No navigation desired */);
+    }
     if (CampaignDashboard.TOO_MANY_REFRESHES) {
       return new Promise((resolve, reject)=> {
         Utils.presentTopToast(this.toastCtrl, "You'll have to wait for 30 minutes before you can refresh your data again.");

@@ -1,11 +1,10 @@
 <mdval-header title="Account Branding" [proceedOnRightClick]="warn"></mdval-header>
-<ion-content class="scrollable">
-  <div class="m-t-4">
-
+<ion-content (ionScroll)="onscroll()" class="scrollable">
+  <div class="m-t-4 m-b-4">
     <ion-grid>
       <ion-row>
         <ion-col width-33>
-          <ion-label (tap)="showHelp('account.username')" item-left>Header Logo&nbsp;&nbsp;&nbsp;<ion-icon name="help"></ion-icon></ion-label>
+          <ion-label (click)="showHelp('account.username')" item-left>Header Logo&nbsp;&nbsp;&nbsp;<ion-icon name="help"></ion-icon></ion-label>
           <button small tertiary-button ion-button (tap)="revertToDefault('logo483x106')">Revert to Default</button>
         </ion-col>
         <ion-col>
@@ -15,14 +14,14 @@
             </ion-row>
             <ion-row>
               <ion-col><button tertiary-button round outline small ion-button
-                 (tap)="updateImage('logo483x106', '483:106')" primary-button="">change</button></ion-col>
+                 (click)="updateImage('logo483x106', '483:106')" primary-button="">change</button></ion-col>
             </ion-row>
           </ion-grid>
         </ion-col>
       </ion-row>
       <ion-row style="background: aliceblue;">
         <ion-col width-33>
-          <ion-label (tap)="showHelp('account.username')" item-left>
+          <ion-label (click)="showHelp('account.username')" item-left>
             Net Promoter Background Image&nbsp;&nbsp;&nbsp;<ion-icon name="help"></ion-icon>
             <br/>
             <span style="font-size:.75em">(one half scale)</span>
@@ -113,11 +112,15 @@
           </ion-row>
         </ion-col>
       </ion-row>
+      <ion-row style="justify-content: center">
+        <ion-col class="m-w-8">
+          <button primary-button ion-button (click)="save()">Save</button>
+        </ion-col>
+        <ion-col class="m-w-8">
+          <button secondary-button ion-button (click)="cancel()">Cancel</button>
+        </ion-col>
+      </ion-row>
     </ion-grid>
-    <div padding text-center>
-      <button primary-button ion-button color="{{primaryColor}}" (tap)="save()">Save</button>
-      <button secondary-button ion-button color="{{primaryColor}}" (tap)="cancel()">Cancel</button>
-    </div>
   </div>
 </ion-content>
 <mdval-footer [showSuggestionBox]="true"></mdval-footer>

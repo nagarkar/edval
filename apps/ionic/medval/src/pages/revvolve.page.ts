@@ -26,12 +26,6 @@ export abstract class RevvolvePage extends AnyComponent {
 
   constructor(protected navCtrl: NavController) {
     super();
-    try {
-      Keyboard.close();
-      Keyboard.disableScroll(false);
-    } catch(err) {
-      Utils.error(err);
-    }
     if (!RevvolvePage.Idler) {
       RevvolvePage.Idler = RevvolveApp.GlobalInjector.get(Idle);
     }
