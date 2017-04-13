@@ -1,6 +1,6 @@
 <mdval-header title="Account Branding" [proceedOnRightClick]="warn"></mdval-header>
-<ion-content (ionScroll)="onscroll()" class="scrollable">
-  <div class="m-t-4 m-b-4">
+<ion-content class="scrollable">
+  <div (touchend)="swiped()" class="m-t-4 m-b-4">
     <ion-grid>
       <ion-row>
         <ion-col width-33>
@@ -121,6 +121,7 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+    <ion-label>{{count}}</ion-label>
   </div>
 </ion-content>
 <mdval-footer [showSuggestionBox]="true"></mdval-footer>
