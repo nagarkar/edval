@@ -321,11 +321,12 @@ export class Utils {
     return profileModal;
   }
 
-  static presentTopToast(toastCtrl: ToastController, message: string, duration?: number) {
+  static presentTopToast(toastCtrl: ToastController, message: string, duration?: number, cssClass?:string) {
     let toast = toastCtrl.create({
       message: message || 'Success!',
       duration: duration || 5 * 1000,
-      position: 'top'
+      position: 'top',
+      cssClass: cssClass
     });
     toast.present();
     Utils.clearViewIfNoAction(toast);

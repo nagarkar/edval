@@ -25,8 +25,8 @@ export class Config {
   static REPORT_REFRESH_INTERVAL: number = 30;
   ///////////////////////////////////////////////////////////
 
-  private static _baseUrl: string = "https://localhost:8091";
-  //private static _baseUrl: string = 'https://prodapi.healthcaretech.io';
+  //private static _baseUrl: string = "https://localhost:8091";
+  private static _baseUrl: string = 'https://prodapi.healthcaretech.io';
   //private static _baseUrl: string = "http://34.197.108.208";
   //private static _baseUrl: string = "https://testapi.healthcaretech.io";
 

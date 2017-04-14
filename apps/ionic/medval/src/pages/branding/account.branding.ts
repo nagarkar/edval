@@ -22,8 +22,6 @@ import {ColorModal} from "../../shared/components/colorpicker/color.modal";
 })
 export class AccountBranding extends AdminComponent {
 
-  count = 0;
-
   constructor(http:Http, navCtrl: NavController, private accSvc: AccountService,
       private toastCtrl: ToastController, private modalCtrl: ModalController, alertCtrl: AlertController) {
     super(navCtrl, alertCtrl, http);
@@ -35,25 +33,11 @@ export class AccountBranding extends AdminComponent {
         if (result) {
           Utils.presentTopToast(this.toastCtrl, 'Updated Image');
         }
-        //location.reload();
       });
   }
 
-  /*
-  clicked() {
-    Utils.log("Clicked");
-    this.count = (this.count + 1) % 10;
-  }
-
-  tapped() {
-    Utils.log("Tapped");
-    this.count = (this.count + 1) % 10;
-  }
-  */
-
   swiped() {
-    Utils.log("Swiped");
-    this.count = (this.count + 1) % 10;
+    Utils.presentTopToast(this.toastCtrl, 'a', 50, "invisible").dismiss();
   }
 
   openColorPicker(attr: string) {
